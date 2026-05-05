@@ -32,33 +32,36 @@
         if (!nama) { alert("Isi nama tamu dulu!"); return; }
 
         // MENGAMBIL URL UTAMA OTOMATIS
-        // Bagian ini mendeteksi link website Anda agar link undangannya benar
         const currentUrl = window.location.href;
         const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/") + 1);
-        const linkUndangan = baseUrl + "?to=" + encodeURIComponent(nama);
+        
+        // Pastikan link utama adalah index.html
+        const linkFix = baseUrl + "index.html?to=" + encodeURIComponent(nama);
 
-        // FORMAT PESAN PERSIS SESUAI PERMINTAAN ANDA
-        const teks = 
-            "Kepada Yth.%0A" +
-            "Bapak/Ibu/Saudara/i%0A" +
-            "*" + nama + "*%0A" + 
-            "_______%0A%0A" +
-            "Assalamualaikum Warahmatullahi Wabarakatuh%0A%0A" +
-            "Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat, untuk menghadiri acara pernikahan kami.%0A%0A" +
-            linkUndangan + "%0A" +
-            "NB: Hasil maksimal buka lewat browser chrome/safari%0A%0A" +
-            "Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.%0A%0A" +
-            "Wassalamualaikum Warahmatullahi Wabarakatuh%0A%0A" +
-            "Terima Kasih%0A%0A" +
-            "Hormat kami,%0A" +
-            "Latif & Erna %0A" + // GANTI NAMA MEMPELAI DI SINI
-            "________%0A%0A" +
+        // SUSUN TEKS MENTAH
+        const pesanMentah = 
+            "Kepada Yth.\n" +
+            "Bapak/Ibu/Saudara/i\n" +
+            "*" + nama + "*\n" + 
+            "_______\n\n" +
+            "Assalamualaikum Warahmatullahi Wabarakatuh\n\n" +
+            "Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat, untuk menghadiri acara pernikahan kami.\n\n" +
+            linkFix + "\n" +
+            "NB: Hasil maksimal buka lewat browser chrome/safari\n\n" +
+            "Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.\n\n" +
+            "Wassalamualaikum Warahmatullahi Wabarakatuh\n\n" +
+            "Terima Kasih\n\n" +
+            "Hormat kami,\n" +
+            "Latif & Erna\n" + 
+            "________\n\n" +
             "Mohon maaf jika ada kesalahan penulisan nama atau gelar";
 
+        // ENCODE SELURUH PESAN AGAR TERKIRIM FULL
+        const pesanFull = encodeURIComponent(pesanMentah);
+
         // Membuka WhatsApp
-        window.open("https://api.whatsapp.com/send?text=" + teks, '_blank');
+        window.open("https://api.whatsapp.com/send?text=" + pesanFull, '_blank');
     }
 </script>
-
 </body>
 </html>
