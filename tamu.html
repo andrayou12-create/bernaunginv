@@ -37,7 +37,9 @@
         
         // Pastikan link utama adalah index.html
         const linkFix = baseUrl + "index.html?to=" + encodeURIComponent(nama);
-
+        // Kode ini otomatis mendeteksi apakah Anda sedang di bernaunginv.my.id
+        const currentUrl = window.location.origin + window.location.pathname;
+        const linkUndangan = currentUrl.replace('tamu.html', 'index.html') + "?to=" + encodeURIComponent(nama); 
         // SUSUN TEKS MENTAH
         const pesanMentah = 
             "Kepada Yth.\n" +
