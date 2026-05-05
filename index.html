@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bernaung Invitation | Jasa Undangan Digital</title>
+    
+    <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/andrayou12-create/bernaungid1/main/assets.bernaung.id/loading-bernaung.jpeg">
+    
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,18 +18,28 @@
         }
         header {
             background-color: #fff;
-            padding: 50px 20px;
+            padding: 40px 20px;
             border-bottom: 1px solid #eee;
         }
-        h1 { margin: 0; color: #2c3e50; }
-        p { color: #7f8c8d; }
+        
+        /* Gaya untuk Logo */
+        .logo-main {
+            width: 120px; /* Ukuran bisa disesuaikan */
+            height: auto;
+            border-radius: 50%; /* Membuat logo bulat jika kotak */
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; color: #2c3e50; font-size: 2.2em; }
+        .sub-title { color: #7f8c8d; font-size: 1.1em; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto; }
 
         .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             padding: 40px 20px;
-            gap: 20px;
+            gap: 25px;
         }
 
         .card {
@@ -36,7 +49,6 @@
             width: 300px;
             overflow: hidden;
             transition: transform 0.3s ease;
-            cursor: pointer;
         }
 
         .card:hover {
@@ -46,7 +58,7 @@
         .card-image {
             width: 100%;
             height: 180px;
-            background-color: #ddd;
+            background-color: #e0e0e0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -56,11 +68,6 @@
 
         .card-content {
             padding: 20px;
-        }
-
-        .card-content h3 {
-            margin: 0 0 10px 0;
-            color: #2c3e50;
         }
 
         .btn {
@@ -76,51 +83,79 @@
 
         .btn:hover { background-color: #2980b9; }
 
+        .custom-info {
+            background-color: #ebf5fb;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px auto;
+            max-width: 800px;
+            border-left: 5px solid #3498db;
+            font-size: 0.95em;
+        }
+
         footer {
-            padding: 30px;
-            font-size: 14px;
-            color: #95a5a6;
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-links a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
     <header>
+        <img src="https://raw.githubusercontent.com/andrayou12-create/bernaungid1/main/assets.bernaung.id/loading-bernaung.jpeg" alt="Logo Bernaung Invitation" class="logo-main">
+        
         <h1>Bernaung Invitation</h1>
-        <p>Pilih tema undangan digital terbaik untuk hari bahagia Anda</p>
+        <p class="sub-title">Abadikan momen bahagia Anda dengan undangan digital yang elegan, modern, dan mudah dibagikan.</p>
+        
+        <div class="custom-info">
+            <strong>Custom Request:</strong> Punya referensi tema dari penjual lain? Kami sangat terbuka untuk membantu Anda melakukan custom tema sesuai keinginan agar undangan Anda tampil beda dan personal!
+        </div>
     </header>
 
     <div class="container">
         <div class="card">
-            <div class="card-image">Cover Tema 1</div>
+            <div class="card-image">Cover Tema Adat</div>
             <div class="card-content">
-                <h3>Tema Rustic Premium</h3>
-                <p>Sentuhan alam yang hangat dan elegan.</p>
+                <h3>Tema Adat Jawa</h3>
+                <p>Sentuhan budaya tradisional yang hangat dan elegan.</p>
                 <a href="latif-erna/index.html" class="btn">Lihat Demo</a>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-image">Cover Tema 2</div>
+            <div class="card-image">Cover Tema Netflix</div>
             <div class="card-content">
-                <h3>Tema Modern Clean</h3>
-                <p>Desain minimalis dengan nuansa putih bersih.</p>
-                <a href="tema-02/index.html" class="btn">Lihat Demo</a>
+                <h3>Tema Netflix</h3>
+                <p>Tampilan unik bagi pasangan pecinta film.</p>
+                <a href="tema-netflix/index.html" class="btn">Lihat Demo</a>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-image">Cover Tema 3</div>
+            <div class="card-image">Cover Tema Spotify</div>
             <div class="card-content">
-                <h3>Tema Dark Elegant</h3>
-                <p>Kesan mewah dengan perpaduan warna gelap dan emas.</p>
-                <a href="tema-03/index.html" class="btn">Lihat Demo</a>
+                <h3>Tema Spotify</h3>
+                <p>Nuansa musik asik dengan perpaduan warna dark.</p>
+                <a href="tema-spotify/index.html" class="btn">Lihat Demo</a>
             </div>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 Bernaung Invitation. All Rights Reserved.
+        <div class="footer-links">
+            <a href="https://www.instagram.com/bernaung.inv" target="_blank">Instagram: @bernaung.inv</a>
+            <a href="https://wa.me/6282324137816?text=Halo%20Bernaung%20Invitation,%20saya%20ingin%20tanya%20harga%20dan%20pesan%20undangan%20digitalnya" target="_blank">WhatsApp: Hubungi Kami</a>
+        </div>
+        <p style="margin-top: 20px; font-size: 0.8em; color: #bdc3c7;">&copy; 2026 Bernaung Invitation. All Rights Reserved.</p>
     </footer>
 
 </body>
