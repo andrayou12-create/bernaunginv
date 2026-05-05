@@ -2941,38 +2941,7 @@ function muatUcapan() {
     display: none !important;
 }
 </style>
-<div style="padding: 20px; background: #fdfaf6; border: 1px dashed #5A0000; border-radius: 10px; margin: 20px; text-align: center;">
-    <h4 class="playball" style="color: #5A0000; font-size: 24px;">Generator Link WhatsApp</h4>
-    <p style="font-family: sans-serif; font-size: 13px; color: #666;">Masukkan nama tamu di bawah untuk membuat link otomatis:</p>
-    
-    <input type="text" id="inputNamaTamu" placeholder="Contoh: Budi Santoso" 
-           style="width: 80%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 10px;">
-    
-    <button onclick="bagikanWA()" 
-            style="background: #25D366; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer;">
-        <i class="fab fa-whatsapp"></i> Kirim ke WhatsApp
-    </button>
-</div>
 
-<script>
-function bagikanWA() {
-    const nama = document.getElementById('inputNamaTamu').value;
-    if (!nama) {
-        alert("Silakan masukkan nama tamu dulu ya!");
-        return;
-    }
-    
-    // GANTI URL DI BAWAH INI DENGAN URL ASLI UNDANGAN ANDA
-    const baseUrl = "https://andrayou12-create.github.io/jawa1/"; 
-    const linkUndangan = baseUrl + "?to=" + encodeURIComponent(nama);
-    
-    const teksPesan = "Halo " + nama + ", kami mengundang Anda untuk hadir di acara pernikahan kami. Silakan buka undangan digital kami di sini: " + linkUndangan;
-    
-    const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(teksPesan);
-    
-    window.open(waUrl, '_blank');
-}
-</script>
 	<style id="e-addons-template-dynamic-f864b3a-inline">.elementor:is(.e-post-538931,.e-loop-item-538931) .elementor-element.elementor-element-f864b3a:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap, .elementor:is(.e-post-538931,.e-loop-item-538931) .elementor-element.elementor-element-f864b3a > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image: url("https://raw.githubusercontent.com/andrayou12-create/jawa1/main/images/Foto%201.jpeg");--e-bg-lazyload:url("https://raw.githubusercontent.com/andrayou12-create/jawa1/main/images/Foto%201.jpeg");background-position: center center;background-size: cover;}</style><style id="e-addons-template-dynamic-8211d57-inline">.elementor:is(.e-post-538931,.e-loop-item-538931) .elementor-element.elementor-element-8211d57:not(.elementor-motion-effects-element-type-background), .elementor:is(.e-post-538931,.e-loop-item-538931) .elementor-element.elementor-element-8211d57 > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image: url("https://raw.githubusercontent.com/andrayou12-create/jawa1/main/images/Foto%201.jpeg");--e-bg-lazyload:url("https://raw.githubusercontent.com/andrayou12-create/jawa1/main/images/Foto%201.jpeg");background-position: center center;background-size: cover;}</style>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"8c176fcb44334ee084dc23a91c928a72","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
