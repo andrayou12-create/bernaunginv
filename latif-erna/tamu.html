@@ -27,17 +27,17 @@
 </div>
 
 <script>
-    function kirimWA() {
-        const nama = document.getElementById('namaTamu').value;
-        if (!nama) { 
-            alert("Isi nama tamu dulu!"); 
-            return; 
+    function sendWhatsApp() {
+        const name = document.getElementById('nameInput').value;
+        if (name === "") {
+            alert("Silakan masukkan nama tamu terlebih dahulu!");
+            return;
         }
 
-        // 1. MENGAMBIL URL DASAR OTOMATIS
-        // Mengambil URL folder saat ini (misal: .../latif-erna/)
-        const currentUrl = window.location.origin + window.location.pathname;
-        const linkUndangan = currentUrl.replace('tamu.html', 'index.html') + "?to=" + encodeURIComponent(nama);
+        // 1. Buat link undangan (Sesuaikan dengan nama folder Anda)
+        const baseUrl = "https://www.bernaunginv.my.id/latif-erna/";
+        const encodedName = encodeURIComponent(name);
+        const finalLink = baseUrl + "?to=" + encodedName;
         // SUSUN TEKS MENTAH
         const pesanMentah = 
             "Kepada Yth.\n" +
