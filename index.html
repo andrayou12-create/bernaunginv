@@ -1,114 +1,205 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bernaung Invitation | Jasa Undangan Digital</title>
-    
-    <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/andrayou12-create/bernaungid1/main/assets.bernaung.id/loading-bernaung.jpeg">
-    
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-            text-align: center;
-        }
-        header {
-            background-color: #fff;
-            padding: 40px 20px;
-            border-bottom: 1px solid #eee;
-        }
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bernaung Invitation | Jasa Undangan Digital</title>
         
-        /* Gaya untuk Logo */
-        .logo-main {
-            width: 120px; /* Ukuran bisa disesuaikan */
-            height: auto;
-            border-radius: 50%; /* Membuat logo bulat jika kotak */
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+        <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/andrayou12-create/bernaungid1/main/assets.bernaung.id/loading-bernaung.jpeg">
+        
+        <style>
+            /* === SKEMA WARNA BARU ===
+            Utama (Teks/Header): #2C3E50 (Biru Gelap/Navy)
+            Aksen/Tombol: #C19A6B (Emas Gurun / Desert Gold)
+            Background: #FDFDFD (Putih Bersih)
+            Card: #FFFFFF (Putih Tulen)
+            Sub-title/Text: #7F8C8D (Abu-abu)
+            ======================== */
 
-        h1 { margin: 0; color: #2c3e50; font-size: 2.2em; }
-        .sub-title { color: #7f8c8d; font-size: 1.1em; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto; }
+            body {
+                font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Menggunakan font Poppins agar lebih modern */
+                margin: 0;
+                padding: 0;
+                background-color: #FDFDFD;
+                color: #333;
+                text-align: center;
+            }
 
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 40px 20px;
-            gap: 25px;
-        }
+            header {
+                background-color: #FFFFFF;
+                padding: 60px 20px;
+                border-bottom: 1px solid #F0F0F0;
+            }
+            
+            /* Gaya untuk Logo */
+            .logo-main {
+                width: 110px;
+                height: auto;
+                border-radius: 50%;
+                margin-bottom: 25px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+                border: 3px solid #FFF; /* Memberi bingkai putih pada logo */
+            }
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 300px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
+            h1 { 
+                margin: 0; 
+                color: #2C3E50; /* Warna Navy */
+                font-size: 2.5em; 
+                font-weight: 700;
+            }
 
-        .card:hover {
-            transform: translateY(-10px);
-        }
+            .sub-title { 
+                color: #7F8C8D; /* Warna Abu-abu */
+                font-size: 1.1em; 
+                margin-top: 12px; 
+                max-width: 650px; 
+                margin-left: auto; 
+                margin-right: auto; 
+                line-height: 1.6;
+            }
 
-        .card-image {
-            width: 100%;
-            height: 180px;
-            background-color: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #888;
-        }
+            .custom-info {
+                background-color: #FDF8F3; /* Warna krem sangat muda */
+                padding: 20px;
+                border-radius: 12px;
+                margin: 30px auto 0 auto;
+                max-width: 750px;
+                border-left: 5px solid #C19A6B; /* Aksen Gold */
+                font-size: 0.95em;
+                color: #5D4037; /* Coklat Tua */
+                box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            }
 
-        .card-content {
-            padding: 20px;
-        }
+            .custom-info strong {
+                color: #C19A6B; /* Teks Custom Request jadi Gold */
+            }
 
-        .btn {
-            display: inline-block;
-            background-color: #3498db;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
+            /* === CONTAINER & CARDS === */
+            .container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 60px 20px;
+                gap: 30px;
+            }
 
-        .btn:hover { background-color: #2980b9; }
+            .card {
+                background: #FFFFFF;
+                border-radius: 18px;
+                box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+                width: 320px;
+                overflow: hidden;
+                transition: transform 0.4s ease, box-shadow 0.4s ease;
+                border: 1px solid #F0F0F0;
+            }
 
-        .custom-info {
-            background-color: #ebf5fb;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 25px auto;
-            max-width: 800px;
-            border-left: 5px solid #3498db;
-            font-size: 0.95em;
-        }
+            .card:hover {
+                transform: translateY(-12px);
+                box-shadow: 0 12px 30px rgba(193, 154, 107, 0.15); /* Shadow hover warna gold tipis */
+            }
 
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 40px 20px;
-            margin-top: 50px;
-        }
+            /* === GAYA BARU UNTUK COVER TEMA === */
+            .card-image-container {
+                width: 100%;
+                height: 200px;
+                overflow: hidden;
+                background-color: #F0F0F0; /* Warna loading sebelum gambar muncul */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
 
-        .footer-links a {
-            color: #3498db;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
+            .card-image-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* Gambar akan memenuhi kotak tanpa gepeng */
+                transition: transform 0.5s ease;
+            }
+
+            .card:hover .card-image-container img {
+                transform: scale(1.08); /* Efek zoom tipis saat card di-hover */
+            }
+
+            .card-content {
+                padding: 25px;
+                text-align: left; /* Teks konten rata kiri agar rapi */
+            }
+
+            .card-content h3 {
+                margin: 0 0 10px 0;
+                color: #2C3E50;
+                font-size: 1.4em;
+            }
+
+            .card-content p {
+                color: #7F8C8D;
+                font-size: 0.95em;
+                margin-bottom: 20px;
+                line-height: 1.5;
+                height: 4.5em; /* Membatasi tinggi teks agar tombol sejajar */
+                overflow: hidden;
+            }
+
+            /* === TOMBOL WARNA BARU (GOLD) === */
+            .btn {
+                display: block; /* Tombol memenuhi lebar card */
+                background-color: #C19A6B; /* Warna Desert Gold */
+                color: white;
+                padding: 12px 20px;
+                text-decoration: none;
+                border-radius: 8px;
+                font-weight: 600;
+                transition: background-color 0.3s, box-shadow 0.3s;
+                text-align: center;
+            }
+
+            .btn:hover { 
+                background-color: #A67C52; /* Warna Gold lebih tua saat hover */
+                box-shadow: 0 4px 12px rgba(193, 154, 107, 0.3);
+            }
+
+            /* === FOOTER === */
+            footer {
+                background-color: #2C3E50; /* Navy Gelap */
+                color: white;
+                padding: 50px 20px;
+                margin-top: 60px;
+            }
+
+            .footer-links {
+                margin-bottom: 25px;
+            }
+
+            .footer-links a {
+                color: #FDFDFD; /* Putih tipis */
+                text-decoration: none;
+                margin: 0 18px;
+                font-weight: 500;
+                font-size: 1em;
+                transition: color 0.3s;
+            }
+
+            .footer-links a:hover {
+                color: #C19A6B; /* Gold saat hover */
+            }
+
+            .whatsapp-btn-footer {
+                border: 2px solid #C19A6B;
+                padding: 8px 15px;
+                border-radius: 20px;
+            }
+
+            .whatsapp-btn-footer:hover {
+                background-color: #C19A6B;
+                color: #2C3E50 !important;
+            }
+        </style>
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
 
     <header>
         <img src="https://raw.githubusercontent.com/andrayou12-create/bernaungid1/main/assets.bernaung.id/loading-bernaung.jpeg" alt="Logo Bernaung Invitation" class="logo-main">
@@ -120,7 +211,9 @@
             <strong>Custom Request:</strong> Punya referensi tema dari penjual lain? Kami sangat terbuka untuk membantu Anda melakukan custom tema sesuai keinginan agar undangan Anda tampil beda dan personal!
         </div>
     </header>
-
+        <div class="card-image-container">
+        <img src="images/cover-adat.jpg" alt="Cover Tema Adat">
+    </div>
     <div class="container">
         <div class="card">
             <div class="card-image">Cover Tema Adat</div>
@@ -130,22 +223,26 @@
                 <a href="latif-erna/index.html" class="btn">Lihat Demo</a>
             </div>
         </div>
-
+                <div class="card-image-container">
+            <img src="images/cover-netflix.jpg" alt="Cover Tema Netflix">
+        </div>
         <div class="card">
             <div class="card-image">Cover Tema Netflix</div>
             <div class="card-content">
                 <h3>Tema Netflix</h3>
                 <p>Tampilan unik bagi pasangan pecinta film.</p>
-                <a href="https://raw.githubusercontent.com/andrayou12-create/bernaungid/index.html" class="btn">Lihat Demo</a>
+                <a href="https://raw.githubusercontent.com/andrayou12-create/bernaungid/main/index.html" class="btn">Lihat Demo</a>
             </div>
         </div>
-
+        <div class="card-image-container">
+            <img src="images/cover-spotify.jpg" alt="Cover Tema Spotify">
+        </div>
         <div class="card">
             <div class="card-image">Cover Tema Spotify</div>
             <div class="card-content">
                 <h3>Tema Spotify</h3>
                 <p>Nuansa musik asik dengan perpaduan warna dark.</p>
-                <a href="https://raw.githubusercontent.com/andrayou12-create/bernaung-isot/index.html" class="btn">Lihat Demo</a>
+                <a href="https://raw.githubusercontent.com/andrayou12-create/bernaung-ispot/main/index.html" class="btn">Lihat Demo</a>
             </div>
         </div>
     </div>
