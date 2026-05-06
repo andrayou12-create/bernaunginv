@@ -74,30 +74,30 @@
                 color: #C19A6B; /* Teks Custom Request jadi Gold */
             }
 
-            /* === CONTAINER & CARDS === */
+                        /* === CONTAINER & CARDS === */
+                    /* Container utama untuk membungkus semua kartu */
             .container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
+                display: flex;          /* Mengaktifkan mode sejajar menyamping */
+                flex-wrap: wrap;       /* Jika layar sempit (HP), kartu otomatis turun ke bawah */
+                justify-content: center; /* Membuat kartu berada di tengah halaman */
                 padding: 60px 20px;
-                gap: 30px;
+                gap: 30px;              /* Jarak antar kartu */
             }
 
+            /* Pengaturan masing-masing kartu */
             .card {
                 background: #FFFFFF;
                 border-radius: 18px;
-                box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-                width: 320px;
+                width: 320px;           /* Lebar tetap agar kartu seragam */
                 overflow: hidden;
-                transition: transform 0.4s ease, box-shadow 0.4s ease;
-                border: 1px solid #F0F0F0;
+                box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+                transition: transform 0.4s ease; /* Efek halus saat kartu bergerak */
             }
 
+            /* Efek saat kursor menyentuh kartu */
             .card:hover {
-                transform: translateY(-12px);
-                box-shadow: 0 12px 30px rgba(193, 154, 107, 0.15); /* Shadow hover warna gold tipis */
+                transform: translateY(-12px); /* Kartu sedikit naik ke atas */
             }
-
             /* === GAYA BARU UNTUK COVER TEMA === */
             .card-image-container {
                 width: 100%;
