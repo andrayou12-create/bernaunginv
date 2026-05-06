@@ -77,130 +77,80 @@
                         /* === CONTAINER & CARDS === */
                     /* Container utama untuk membungkus semua kartu */
             .container {
-                display: flex;          /* Mengaktifkan mode sejajar menyamping */
-                flex-wrap: wrap;       /* Jika layar sempit (HP), kartu otomatis turun ke bawah */
-                justify-content: center; /* Membuat kartu berada di tengah halaman */
-                padding: 60px 20px;
-                gap: 30px;              /* Jarak antar kartu */
-            }
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        padding: 40px 20px;
+                        gap: 25px;
+                    }
 
-            /* Pengaturan masing-masing kartu */
-            .card {
-                background: #FFFFFF;
-                border-radius: 18px;
-                width: 320px;           /* Lebar tetap agar kartu seragam */
-                overflow: hidden;
-                box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-                transition: transform 0.4s ease; /* Efek halus saat kartu bergerak */
-            }
+                    .card {
+                        background: white;
+                        border-radius: 15px;
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                        width: 300px;
+                        overflow: hidden;
+                        transition: transform 0.3s ease;
+                    }
 
-            /* Efek saat kursor menyentuh kartu */
-            .card:hover {
-                transform: translateY(-12px); /* Kartu sedikit naik ke atas */
-            }
-            /* === GAYA BARU UNTUK COVER TEMA === */
-            .card-image-container {
-                width: 100%;
-                height: 200px;
-                overflow: hidden;
-                background-color: #F0F0F0; /* Warna loading sebelum gambar muncul */
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+                    .card:hover {
+                        transform: translateY(-10px);
+                    }
 
-            .card-image-container img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover; /* Gambar akan memenuhi kotak tanpa gepeng */
-                transition: transform 0.5s ease;
-            }
+                    .card-image {
+                        width: 100%;
+                        height: 180px;
+                        background-color: #e0e0e0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 14px;
+                        color: #888;
+                    }
 
-            .card:hover .card-image-container img {
-                transform: scale(1.08); /* Efek zoom tipis saat card di-hover */
-            }
+                    .card-content {
+                        padding: 20px;
+                    }
 
-            .card-content {
-                padding: 25px;
-                text-align: left; /* Teks konten rata kiri agar rapi */
-            }
+                    .btn {
+                        display: inline-block;
+                        background-color: #3498db;
+                        color: white;
+                        padding: 10px 20px;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        margin-top: 10px;
+                        transition: background 0.3s;
+                    }
 
-            .card-content h3 {
-                margin: 0 0 10px 0;
-                color: #2C3E50;
-                font-size: 1.4em;
-            }
+                    .btn:hover { background-color: #2980b9; }
 
-            .card-content p {
-                color: #7F8C8D;
-                font-size: 0.95em;
-                margin-bottom: 20px;
-                line-height: 1.5;
-                height: 4.5em; /* Membatasi tinggi teks agar tombol sejajar */
-                overflow: hidden;
-            }
+                    .custom-info {
+                        background-color: #ebf5fb;
+                        padding: 20px;
+                        border-radius: 10px;
+                        margin: 25px auto;
+                        max-width: 800px;
+                        border-left: 5px solid #3498db;
+                        font-size: 0.95em;
+                    }
 
-            /* === TOMBOL WARNA BARU (GOLD) === */
-            .btn {
-                display: block; /* Tombol memenuhi lebar card */
-                background-color: #C19A6B; /* Warna Desert Gold */
-                color: white;
-                padding: 12px 20px;
-                text-decoration: none;
-                border-radius: 8px;
-                font-weight: 600;
-                transition: background-color 0.3s, box-shadow 0.3s;
-                text-align: center;
-            }
+                    footer {
+                        background-color: #2c3e50;
+                        color: white;
+                        padding: 40px 20px;
+                        margin-top: 50px;
+                    }
 
-            .btn:hover { 
-                background-color: #A67C52; /* Warna Gold lebih tua saat hover */
-                box-shadow: 0 4px 12px rgba(193, 154, 107, 0.3);
-            }
-
-            /* === FOOTER === */
-            footer {
-                background-color: #2C3E50; /* Navy Gelap */
-                color: white;
-                padding: 50px 20px;
-                margin-top: 60px;
-            }
-
-            .footer-links {
-                margin-bottom: 25px;
-            }
-
-            .footer-links a {
-                color: #FDFDFD; /* Putih tipis */
-                text-decoration: none;
-                margin: 0 18px;
-                font-weight: 500;
-                font-size: 1em;
-                transition: color 0.3s;
-            }
-
-            .footer-links a:hover {
-                color: #C19A6B; /* Gold saat hover */
-            }
-
-            .whatsapp-btn-footer {
-                border: 2px solid #C19A6B;
-                padding: 8px 15px;
-                border-radius: 20px;
-            }
-
-            .whatsapp-btn-footer:hover {
-                background-color: #C19A6B;
-                color: #2C3E50 !important;
-            }
-        </style>
-        
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    </head>
-    <body>
-
+                    .footer-links a {
+                        color: #3498db;
+                        text-decoration: none;
+                        margin: 0 15px;
+                        font-weight: bold;
+                    }
+                </style>
+            </head>
+            <body>
     <header>
         <img src="https://raw.githubusercontent.com/andrayou12-create/bernaungid1/main/assets.bernaung.id/loading-bernaung.jpeg" alt="Logo Bernaung Invitation" class="logo-main">
         
