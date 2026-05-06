@@ -27,18 +27,19 @@
 </div>
 
 <script>
-    function sendWhatsApp() {
-        const name = document.getElementById('nameInput').value;
-        if (name === "") {
+    function kirimWA() {
+        const nama = document.getElementById('namaTamu').value;
+        if (nama === "") {
             alert("Silakan masukkan nama tamu terlebih dahulu!");
             return;
         }
 
-        // 1. Buat link undangan (Sesuaikan dengan nama folder Anda)
-        const baseUrl = "https://www.bernaunginv.my.id/latif-erna/";
-        const encodedName = encodeURIComponent(name);
-        const finalLink = baseUrl + "?to=" + encodedName;
-        // SUSUN TEKS MENTAH
+        // 1. MENGAMBIL URL DASAR SECARA OTOMATIS
+        // Kode ini akan otomatis mengambil domain dan folder (latif-erna)
+        const currentUrl = window.location.origin + window.location.pathname;
+        const linkFix = currentUrl.replace('tamu.html', 'index.html') + "?to=" + encodeURIComponent(nama);
+
+        // 2. SUSUN TEKS PESAN
         const pesanMentah = 
             "Kepada Yth.\n" +
             "Bapak/Ibu/Saudara/i\n" +
@@ -46,7 +47,7 @@
             "_______\n\n" +
             "Assalamualaikum Warahmatullahi Wabarakatuh\n\n" +
             "Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat, untuk menghadiri acara pernikahan kami.\n\n" +
-            linkFix + "\n" +
+            linkFix + "\n\n" +
             "NB: Hasil maksimal buka lewat browser chrome/safari\n\n" +
             "Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.\n\n" +
             "Wassalamualaikum Warahmatullahi Wabarakatuh\n\n" +
@@ -56,10 +57,8 @@
             "________\n\n" +
             "Mohon maaf jika ada kesalahan penulisan nama atau gelar";
 
-        // ENCODE SELURUH PESAN AGAR TERKIRIM FULL
+        // 3. ENCODE & BUKA WHATSAPP
         const pesanFull = encodeURIComponent(pesanMentah);
-
-        // Membuka WhatsApp
         window.open("https://api.whatsapp.com/send?text=" + pesanFull, '_blank');
     }
 </script>
