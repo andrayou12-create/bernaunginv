@@ -1348,8 +1348,7 @@ Soropadan, Pringsurat, Temanggung, Jawa Tengah</span> 								</div>
 <input id="author" name="author" type="text" aria-required="true" class="cui-input" placeholder="Nama" value="" required nofocus />
 											<span class=" cui-error-info-name" style="color: #FFF;font-family: inherit;font-size: 0.7em;font-weight:bold;text-align: center;background:#C85951;border-radius: 3px;height: 20px;padding: 1px 10px 0 10px;line-height: 1.6;">Mohon maaf! Khusus untuk tamu undangan</span>
 											<div class="cui-wrap-textarea">
-												<textarea id="cui-textarea-3952" class="waci_comment cui-textarea autosize-textarea" name="comment" aria-required="true" placeholder="Ucapan" rows="2">
-												</textarea>
+												<textarea id="cui-textarea-3952" class="waci_comment cui-textarea autosize-textarea" name="comment" aria-required="true" placeholder="Ucapan" rows="2"></textarea>
 												<span class="cui-required">*
 												</span>
 												<span class="cui-error-info cui-error-info-text">2 characters minimum.</span>
@@ -1443,61 +1442,72 @@ document.addEventListener("DOMContentLoaded", function () {
     muatDaftarUcapan();
 
     // ==========================================
-    // 2. FUNGSI KIRIM UCAPAN & RSVP (POST)
-    // ==========================================
-    if (form) {
-        // Buka paksa proteksi readonly bawaan template jika ada
-        const inputNama = document.getElementById('author');
-        if (inputNama) inputNama.removeAttribute('readonly');
+   // 2. FUNGSI KIRIM DATA RSVP & UCAPAN (POST)
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
+                // Mengambil elemen secara akurat berdasarkan tag name / id bawaan html Anda
+                const inputNama = document.getElementById('author') || form.querySelector('input[name="author"]');
+                const inputUcapan = document.getElementById('cui-textarea-3952') || form.querySelector('textarea[name="comment"]');
+                const inputKonfirmasi = document.getElementById('konfirmasi') || form.querySelector('select[name="konfirmasi"]');
 
-            const namaValue = document.getElementById('author').value;
-            const ucapanValue = document.getElementById('cui-textarea-3952').value;
-            const konfirmasiValue = document.getElementById('konfirmasi').value;
+                const namaInput = inputNama ? inputNama.value.trim() : "";
+                const ucapanInput = inputUcapan ? inputUcapan.value.trim() : "";
+                const konfirmasiInput = inputKonfirmasi ? inputKonfirmasi.value : "Hadir";
 
-            const dataForm = {
-                nama: namaValue,
-                ucapan: ucapanValue,
-                kehadiran: konfirmasiValue
-            };
-
-            const tombolSubmit = document.getElementById('submit-3952');
-            const teksAsli = tombolSubmit.value;
-            tombolSubmit.value = "Mengirim...";
-            tombolSubmit.disabled = true;
-
-            fetch(endpointPost, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8' // Menggunakan text/plain mencegah CORS preflight error di Apps Script
-                },
-                body: JSON.stringify(dataForm)
-            })
-            .then(res => res.json())
-            .then(result => {
-                if (result.status === "success") {
-                    alert("Terima kasih! Ucapan & konfirmasi Anda berhasil disimpan.");
-                    form.reset();
-                    muatDaftarUcapan(); // Refresh daftar ucapan secara otomatis tanpa reload halaman
-                } else {
-                    alert("Gagal: " + result.message);
+                if (!namaInput || !ucapanInput) {
+                    alert("Mohon isi nama dan ucapan Anda.");
+                    return;
                 }
-            })
-            .catch(error => {
-                // Siasat untuk mode 'no-cors' atau fallback Apps Script
-                alert("Terima kasih! Ucapan Anda sedang diproses.");
-                form.reset();
-                setTimeout(muatDaftarUcapan, 2000); // Tarik data ulang setelah jeda 2 detik
-            })
-            .finally(() => {
-                tombolSubmit.value = teksAsli;
-                tombolSubmit.disabled = false;
+
+                // FORMAT JSON YANG DIKIRIM (Harus huruf kecil semua agar dibaca script universal)
+                const dataForm = {
+                    nama: namaInput,
+                    ucapan: ucapanInput,
+                    kehadiran: konfirmasiInput
+                };
+
+                const tombolSubmit = document.getElementById('submit-3952');
+                const teksAsli = tombolSubmit.value;
+                tombolSubmit.value = "Mengirim...";
+                tombolSubmit.disabled = true;
+
+                // Menggunakan form-urlencoded agar 100% kompatibel dengan blok ketiga doPost Apps Script Anda
+                const formBody = Object.keys(dataForm)
+                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(dataForm[key]))
+                    .join('&');
+
+                fetch(endpointPost, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    body: formBody
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.status === "success") {
+                        alert("Terima kasih! Ucapan & konfirmasi kehadiran Anda berhasil disimpan.");
+                        form.reset();
+                        muatDaftarUcapan(); // Refresh live data
+                    } else {
+                        alert("Gagal mengirim: " + result.message);
+                    }
+                })
+                .catch(error => {
+                    // Fallback jika respons lambat
+                    alert("Terima kasih! Ucapan Anda sedang diproses.");
+                    form.reset();
+                    setTimeout(muatDaftarUcapan, 2500);
+                })
+                .finally(() => {
+                    tombolSubmit.value = teksAsli;
+                    tombolSubmit.disabled = false;
+                });
             });
-        });
-    }
-});
+        }	
+    });	
 </script>
         
         				</div>
