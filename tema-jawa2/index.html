@@ -1382,74 +1382,127 @@ Soropadan, Pringsurat, Temanggung, Jawa Tengah</span> 								</div>
             
         
                     <style>.cui-comment-content{margin-left: 0!important;}.cui-comment-avatar{display:none !important;}</style>
-            		<script>
-
-			var txt=document.getElementById('cui-link-3952').innerHTML;
-			var pos = txt
-			.replace(/Comments/g, "Comments")
-			document.getElementById('cui-link-3952').innerHTML = pos;
-			
-			var txt1=document.getElementById('invitation-count-3952').innerHTML;
-			var pos1 = txt1
-			.replace(/Hadir/g, "Hadir")
-			.replace(/Tidak hadir/g, "Tidak Hadir")
-			.replace(/Masih Ragu/g, "Masih Ragu");
-			document.getElementById('invitation-count-3952').innerHTML = pos1;
-
-			var txt2=document.getElementById('commentform-3952').innerHTML;
-			var pos2 = txt2
-			.replace(/Nama/g, "Nama")
-			.replace(/Ucapan/g, "Ucapan")
-			.replace(/Konfirmasi Kehadiran/g, "Konfirmasi Kehadiran")
-			.replace(/Datang/g, "Hadir")
-			.replace(/Absen/g, "Tidak Hadir")
-			.replace(/Mungkin/g, "Masih Ragu")
-			.replace(/Kirim/g, "Kirim");
-			document.getElementById('commentform-3952').innerHTML = pos2;
-
-		</script>
-		<script>
-document.getElementById('commentform-3952').addEventListener('submit', function(e) {
-    e.preventDefault(); // Mengunci agar halaman tidak reload atau pindah website
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // ==========================================
+    // CONFIGURATION BERNAUNG INVITATION
+    // ==========================================
+    // Ganti dengan URL Web App Apps Script universal kamu
+    const urlAppsScript = "https://script.google.com/macros/s/AKfycbwzMgauahg1xN9ZYvJU2fQSrna6D3tQsvPldYL32f9ZBSN6s7B76mClrpsB9_hAoHGZ/exec"; 
     
-    // 1. GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT KAMU
-    const urlAppsScript = "AKfycbwzMgauahg1xN9ZYvJU2fQSrna6D3tQsvPldYL32f9ZBSN6s7B76mClrpsB9_hAoHGZ"; 
-    
-    // 2. Mengambil data dari element bawaan template WeddingPress
-    const dataForm = {
-        nama: document.getElementById('author').value,
-        ucapan: document.getElementById('cui-textarea-3952').value,
-        kehadiran: document.getElementById('konfirmasi').value
-    };
-    
-    // Mengubah teks tombol kirim saat proses loading
-    const tombolSubmit = document.getElementById('submit-3952');
-    const teksTombolAsli = tombolSubmit.value;
-    tombolSubmit.value = "Mengirim...";
-    tombolSubmit.disabled = true;
+    // ID Spreadsheet khusus klien ini (Andra & Khusna / Rofif & Aniq)
+    const sheetIdKlien = "1fUCfenQcbesODRA_mYophtfCxrYJfmP3n7dJdWXYTZ4"; 
 
-    // 3. Proses pengiriman data ke Google Sheets
-    fetch(urlAppsScript, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataForm)
-    })
-    .then(() => {
-        alert("Terima kasih! Ucapan dan konfirmasi kehadiran Anda berhasil dikirim.");
-        document.getElementById('commentform-3952').reset(); // Mengosongkan form kembali
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("Mohon maaf, terjadi gangguan teknis. Coba kirim ulang beberapa saat lagi.");
-    })
-    .finally(() => {
-        // Mengembalikan tombol ke kondisi awal
-        tombolSubmit.value = teksTombolAsli;
-        tombolSubmit.disabled = false;
-    });
+    const endpointGet = `${urlAppsScript}?sheetId=${sheetIdKlien}`;
+    const endpointPost = `${urlAppsScript}?sheetId=${sheetIdKlien}`;
+
+    const form = document.getElementById('commentform-3952');
+    const containerUcapan = document.getElementById('cui-container-comment-3952');
+
+    // ==========================================
+    // 1. FUNGSI AMBIL & TAMPILKAN UCAPAN (GET)
+    // ==========================================
+    function muatDaftarUcapan() {
+        if (!containerUcapan) return;
+        
+        // Berikan loading text sementara
+        containerUcapan.innerHTML = "<li class='cui-comment' style='text-align:center; padding:10px;'>Memuat ucapan...</li>";
+
+        fetch(endpointGet)
+            .then(response => response.json())
+            .then(rows => {
+                containerUcapan.innerHTML = ""; // Bersihkan ucapan bawaan WordPress
+
+                if (rows.status === "error" || rows.length === 0) {
+                    containerUcapan.innerHTML = "<li class='cui-comment' style='text-align:center; color:#999; padding:10px;'>Belum ada ucapan. Jadilah yang pertama!</li>";
+                    return;
+                }
+
+                // Susun dan tampilkan data ucapan dari Spreadsheet
+                rows.forEach(item => {
+                    if (!item.nama || !item.ucapan) return; // Lewati jika kosong
+
+                    const badgeKehadiran = item.kehadiran === "Hadir" || item.kehadiran === "Datang"
+                        ? "<span class='cui-label-status-hadir' style='background:#e6f4ea; color:#137333; padding:2px 8px; border-radius:4px; font-size:0.8em; margin-left:10px;'>Hadir</span>"
+                        : "<span class='cui-label-status-absen' style='background:#fce8e6; color:#c5221f; padding:2px 8px; border-radius:4px; font-size:0.8em; margin-left:10px;'>Absen</span>";
+
+                    const htmlUcapan = `
+                        <li class="cui-comment" style="border-bottom: 1px dashed #eee; padding: 12px 0; list-style:none;">
+                            <div class="cui-comment-header" style="font-weight: bold; color: #333;">
+                                ${item.nama} ${badgeKehadiran}
+                            </div>
+                            <div class="cui-comment-content" style="margin-top: 5px; color: #555; font-style: italic;">
+                                "${item.ucapan}"
+                            </div>
+                        </li>
+                    `;
+                    containerUcapan.insertAdjacentHTML('beforeend', htmlUcapan);
+                });
+            })
+            .catch(err => {
+                console.error("Gagal memuat ucapan:", err);
+                containerUcapan.innerHTML = "<li class='cui-comment' style='text-align:center; color:red;'>Gagal memuat daftar ucapan.</li>";
+            });
+    }
+
+    // Jalankan penjemputan data saat halaman pertama kali dibuka
+    muatDaftarUcapan();
+
+    // ==========================================
+    // 2. FUNGSI KIRIM UCAPAN & RSVP (POST)
+    // ==========================================
+    if (form) {
+        // Buka paksa proteksi readonly bawaan template jika ada
+        const inputNama = document.getElementById('author');
+        if (inputNama) inputNama.removeAttribute('readonly');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const namaValue = document.getElementById('author').value;
+            const ucapanValue = document.getElementById('cui-textarea-3952').value;
+            const konfirmasiValue = document.getElementById('konfirmasi').value;
+
+            const dataForm = {
+                nama: namaValue,
+                ucapan: ucapanValue,
+                kehadiran: konfirmasiValue
+            };
+
+            const tombolSubmit = document.getElementById('submit-3952');
+            const teksAsli = tombolSubmit.value;
+            tombolSubmit.value = "Mengirim...";
+            tombolSubmit.disabled = true;
+
+            fetch(endpointPost, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8' // Menggunakan text/plain mencegah CORS preflight error di Apps Script
+                },
+                body: JSON.stringify(dataForm)
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (result.status === "success") {
+                    alert("Terima kasih! Ucapan & konfirmasi Anda berhasil disimpan.");
+                    form.reset();
+                    muatDaftarUcapan(); // Refresh daftar ucapan secara otomatis tanpa reload halaman
+                } else {
+                    alert("Gagal: " + result.message);
+                }
+            })
+            .catch(error => {
+                // Siasat untuk mode 'no-cors' atau fallback Apps Script
+                alert("Terima kasih! Ucapan Anda sedang diproses.");
+                form.reset();
+                setTimeout(muatDaftarUcapan, 2000); // Tarik data ulang setelah jeda 2 detik
+            })
+            .finally(() => {
+                tombolSubmit.value = teksAsli;
+                tombolSubmit.disabled = false;
+            });
+        });
+    }
 });
 </script>
         
