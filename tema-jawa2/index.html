@@ -1376,140 +1376,130 @@ Soropadan, Pringsurat, Temanggung, Jawa Tengah</span> 								</div>
         
                     <style>.cui-comment-content{margin-left: 0!important;}.cui-comment-avatar{display:none !important;}</style>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // ==========================================
-    // CONFIGURATION BERNAUNG INVITATION
-    // ==========================================
-    // Ganti dengan URL Web App Apps Script universal kamu
-    const urlAppsScript = "https://script.google.com/macros/s/AKfycbyzpWgWxG1DdQfB2WLDlowTTNw6fateo2qxOR-FiR1r_i4KovL1OWevg0P-hlTiS_Ab/exec"; 
-    
-    // ID Spreadsheet khusus klien ini (Andra & Khusna / Rofif & Aniq)
-    const sheetIdKlien = "1fUCfenQcbesODRA_mYophtfCxrYJfmP3n7dJdWXYTZ4"; 
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlAppsScript = "https://script.google.com/macros/s/AKfycbz86d5eDl5Ypn0UqNUpeze-PM_SHdRCiu875prMnlWBlBXkOwEzeKkHUx4KUrJ4SO2A/exec"; // Masukkan URL Web App hasil deploy baru
+        const sheetIdKlien = "1fUCfenQcbesODRA_mYophtfCxrYJfmP3n7dJdWXYTZ4"; 
 
-    const endpointGet = `${urlAppsScript}?sheetId=${sheetIdKlien}`;
-    const endpointPost = `${urlAppsScript}?sheetId=${sheetIdKlien}`;
+        const endpointGet = `${urlAppsScript}?sheetId=${sheetIdKlien}`;
+        const endpointPost = `${urlAppsScript}?sheetId=${sheetIdKlien}`;
 
-    const form = document.getElementById('commentform-3952');
-    const containerUcapan = document.getElementById('cui-container-comment-3952');
+        const form = document.getElementById('commentform-3952');
+        const containerUcapan = document.getElementById('cui-container-comment-3952');
 
-    // ==========================================
-    // 1. FUNGSI AMBIL & TAMPILKAN UCAPAN (GET)
-    // ==========================================
-    function muatDaftarUcapan() {
-        if (!containerUcapan) return;
-        
-        // Berikan loading text sementara
-        containerUcapan.innerHTML = "<li class='cui-comment' style='text-align:center; padding:10px;'>Memuat ucapan...</li>";
+        function muatDaftarUcapan() {
+            if (!containerUcapan) return;
+            
+            fetch(endpointGet)
+                .then(response => response.json())
+                .then(rows => {
+                    // Cek jika data kosong atau ada error response
+                    if (rows.status === "error" || !Array.isArray(rows) || rows.length === 0) {
+                        containerUcapan.innerHTML = "<li style='text-align:center; list-style:none; color:#999; padding:10px;'>Belum ada ucapan. Jadilah yang pertama!</li>";
+                        updateAngkaUI(0, 0, 0);
+                        return;
+                    }
 
-        fetch(endpointGet)
-            .then(response => response.json())
-            .then(rows => {
-                containerUcapan.innerHTML = ""; // Bersihkan ucapan bawaan WordPress
+                    containerUcapan.innerHTML = ""; // Bersihkan ucapan lama bawaan template
 
-                if (rows.status === "error" || rows.length === 0) {
-                    containerUcapan.innerHTML = "<li class='cui-comment' style='text-align:center; color:#999; padding:10px;'>Belum ada ucapan. Jadilah yang pertama!</li>";
-                    return;
-                }
+                    let jumlahHadir = 0;
+                    let jumlahAbsen = 0;
+                    let totalUcapanValid = 0;
 
-                // Susun dan tampilkan data ucapan dari Spreadsheet
-                rows.forEach(item => {
-                    if (!item.nama || !item.ucapan) return; // Lewati jika kosong
+                    // Mengurai data baris demi baris dari Google Sheets
+                    rows.reverse().forEach(item => {
+                        if (!item.nama || !item.ucapan) return;
+                        totalUcapanValid++;
 
-                    const badgeKehadiran = item.kehadiran === "Hadir" || item.kehadiran === "Datang"
-                        ? "<span class='cui-label-status-hadir' style='background:#e6f4ea; color:#137333; padding:2px 8px; border-radius:4px; font-size:0.8em; margin-left:10px;'>Hadir</span>"
-                        : "<span class='cui-label-status-absen' style='background:#fce8e6; color:#c5221f; padding:2px 8px; border-radius:4px; font-size:0.8em; margin-left:10px;'>Absen</span>";
+                        const statusStatus = (item.kehadiran || "").trim().toLowerCase();
+                        let isHadir = statusStatus === "hadir" || statusStatus === "datang";
+                        let isAbsen = statusStatus === "tidak hadir" || statusStatus === "absen";
 
-                    const htmlUcapan = `
-                        <li class="cui-comment" style="border-bottom: 1px dashed #eee; padding: 12px 0; list-style:none;">
-                            <div class="cui-comment-header" style="font-weight: bold; color: #333;">
-                                ${item.nama} ${badgeKehadiran}
-                            </div>
-                            <div class="cui-comment-content" style="margin-top: 5px; color: #555; font-style: italic;">
-                                "${item.ucapan}"
-                            </div>
-                        </li>
-                    `;
-                    containerUcapan.insertAdjacentHTML('beforeend', htmlUcapan);
+                        if (isHadir) jumlahHadir++;
+                        if (isAbsen) jumlahAbsen++;
+
+                        const bgBadge = isHadir ? "#e6f4ea" : "#fce8e6";
+                        const colorBadge = isHadir ? "#137333" : "#c5221f";
+                        const teksStatus = isHadir ? "Hadir" : "Absen";
+
+                        const htmlUcapan = `
+                            <li class="cui-comment" style="border-bottom: 1px dashed #ddd; padding: 15px 0; list-style:none; display:block !important;">
+                                <div style="font-weight: bold; color: #333; display: flex; align-items: center; gap: 10px;">
+                                    <span>${item.nama}</span>
+                                    <span style="background:${bgBadge}; color:${colorBadge}; padding:2px 8px; border-radius:4px; font-size:0.75em;">${teksStatus}</span>
+                                </div>
+                                <div style="margin-top: 6px; color: #555; font-style: italic; font-size: 0.95em; line-height: 1.5; margin-left: 0 !important;">
+                                    "${item.ucapan}"
+                                </div>
+                            </li>
+                        `;
+                        containerUcapan.insertAdjacentHTML('beforeend', htmlUcapan);
+                    });
+
+                    updateAngkaUI(jumlahHadir, jumlahAbsen, totalUcapanValid);
+                })
+                .catch(err => {
+                    console.error("Gagal membaca database:", err);
                 });
-            })
-            .catch(err => {
-                console.error("Gagal memuat ucapan:", err);
-                containerUcapan.innerHTML = "<li class='cui-comment' style='text-align:center; color:red;'>Gagal memuat daftar ucapan.</li>";
-            });
-    }
+        }
 
-    // Jalankan penjemputan data saat halaman pertama kali dibuka
-    muatDaftarUcapan();
+        function updateAngkaUI(hadir, absen, total) {
+            // Target selector dinamis untuk mengganti angka di kotak WeddingPress Anda secara paksa
+            const kotakHadir = document.querySelector('.cui_card-hadir span:first-child') || document.querySelector('.cui_card-hadir span');
+            const kotakTidakHadir = document.querySelector('.cui_card-tidak_hadir span:first-child') || document.querySelector('.cui_card-tidak_hadir span');
+            const totalKomentarTeks = document.querySelector('#cui-link-3952 span');
 
-    // ==========================================
-   // 2. FUNGSI KIRIM DATA RSVP & UCAPAN (POST)
+            if(kotakHadir) kotakHadir.innerText = hadir;
+            if(kotakTidakHadir) kotakTidakHadir.innerText = absen;
+            if(totalKomentarTeks) totalKomentarTeks.innerText = total;
+        }
+
+        // Jalankan pengambilan data secara berkala
+        muatDaftarUcapan();
+
         if (form) {
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
 
-                // Mengambil elemen secara akurat berdasarkan tag name / id bawaan html Anda
-                const inputNama = document.getElementById('author') || form.querySelector('input[name="author"]');
-                const inputUcapan = document.getElementById('cui-textarea-3952') || form.querySelector('textarea[name="comment"]');
-                const inputKonfirmasi = document.getElementById('konfirmasi') || form.querySelector('select[name="konfirmasi"]');
+                const namaValue = document.getElementById('author').value.trim();
+                const ucapanValue = document.getElementById('cui-textarea-3952').value.trim();
+                const konfirmasiValue = document.getElementById('konfirmasi').value;
 
-                const namaInput = inputNama ? inputNama.value.trim() : "";
-                const ucapanInput = inputUcapan ? inputUcapan.value.trim() : "";
-                const konfirmasiInput = inputKonfirmasi ? inputKonfirmasi.value : "Hadir";
+                if (!namaValue || !ucapanValue) return;
 
-                if (!namaInput || !ucapanInput) {
-                    alert("Mohon isi nama dan ucapan Anda.");
-                    return;
-                }
-
-                // FORMAT JSON YANG DIKIRIM (Harus huruf kecil semua agar dibaca script universal)
-                const dataForm = {
-                    nama: namaInput,
-                    ucapan: ucapanInput,
-                    kehadiran: konfirmasiInput
-                };
+                const URLData = new URLSearchParams();
+                URLData.append('nama', namaValue);
+                URLData.append('ucapan', ucapanValue);
+                URLData.append('kehadiran', konfirmasiValue || "Hadir");
 
                 const tombolSubmit = document.getElementById('submit-3952');
                 const teksAsli = tombolSubmit.value;
                 tombolSubmit.value = "Mengirim...";
                 tombolSubmit.disabled = true;
 
-                // Menggunakan form-urlencoded agar 100% kompatibel dengan blok ketiga doPost Apps Script Anda
-                const formBody = Object.keys(dataForm)
-                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(dataForm[key]))
-                    .join('&');
-
                 fetch(endpointPost, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                    },
-                    body: formBody
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
+                    body: URLData.toString()
                 })
                 .then(res => res.json())
                 .then(result => {
-                    if (result.status === "success") {
-                        alert("Terima kasih! Ucapan & konfirmasi kehadiran Anda berhasil disimpan.");
-                        form.reset();
-                        muatDaftarUcapan(); // Refresh live data
-                    } else {
-                        alert("Gagal mengirim: " + result.message);
-                    }
+                    alert("Terima kasih atas ucapannya!");
+                    form.reset();
+                    muatDaftarUcapan();
                 })
                 .catch(error => {
-                    // Fallback jika respons lambat
-                    alert("Terima kasih! Ucapan Anda sedang diproses.");
+                    // Pengaman jika server Google lambat merespons balik nilai JSON
                     form.reset();
-                    setTimeout(muatDaftarUcapan, 2500);
+                    setTimeout(muatDaftarUcapan, 1500);
                 })
                 .finally(() => {
-                    tombolSubmit.value = teksAsli;
+                    tombolSubmit.value = "Kirim";
                     tombolSubmit.disabled = false;
                 });
             });
-        }	
-    });	
-</script>
-        
+        }
+    });
+    </script>
         				</div>
 				</div>
 				<div class="elementor-element elementor-element-2d719455 elementor-widget elementor-widget-spacer" data-id="2d719455" data-element_type="widget" data-widget_type="spacer.default">
