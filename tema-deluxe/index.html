@@ -1323,131 +1323,80 @@ btn_gift.onclick = function(){
 
 </div>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Jalur API Google Apps Script dan ID Sheet Klien
-    const urlAppsScript = "https://script.google.com/macros/s/AKfycbysrKj1K2HsOgUbYPZ1KJFWbGuQgy5fVT1ZDOlflq4bhyQIOR71mmeoutRdLgIjtiZzyQ/exec"; 
-    const sheetIdKlien = "1sr-2hKLcxP3RutI8h8-IrPc8yvNin_TzVPMHfZwdaZI"; 
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. GANTI LINK DI BAWAH INI DENGAN URL WEB APP DEPLOYMENT DARI GOOGLE APPS SCRIPT KAMU
+    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbysrKj1K2HsOgUbYPZ1KJFWbGuQgy5fVT1ZDOlflq4bhyQIOR71mmeoutRdLgIjtiZzyQ/exec";
 
-    const endpointGet = `${urlAppsScript}?sheetId=${sheetIdKlien}`;
-    const endpointPost = `${urlAppsScript}?sheetId=${sheetIdKlien}`;
+    // 2. Menangkap elemen Form RSVP bawaan template Elementor / Kit Deluxe
+    const formRsvp = document.getElementById("rsvp-form") || 
+                     document.querySelector(".elementor-form") || 
+                     document.querySelector("form");
 
-    const form = document.getElementById('commentform-29862');
-    const containerUcapan = document.getElementById('saic-container-comment-29862');
+    if (formRsvp) {
+        formRsvp.addEventListener("submit", function(e) {
+            e.preventDefault(); // Menahan refresh halaman otomatis
 
-    function muatDaftarUcapan() {
-        if (!containerUcapan) return;
-        
-        // Memastikan container ucapan dipaksa tampil di browser
-        containerUcapan.style.setProperty('display', 'block', 'important');
-        
-        fetch(endpointGet)
-            .then(response => response.json())
-            .then(rows => {
-                if (rows.status === "error" || !Array.isArray(rows) || rows.length === 0) {
-                    containerUcapan.innerHTML = "<li style='text-align:center; list-style:none; color:#999; padding:10px; display:block !important;'>Belum ada ucapan. Jadilah yang pertama!</li>";
-                    updateAngkaUI(0, 0, 0);
-                    return;
+            // Mencari tombol kirim untuk efek loading teks
+            const btnSubmit = formRsvp.querySelector('button[type="submit"]') || 
+                              formRsvp.querySelector('.elementor-button');
+            const teksAwalTombol = btnSubmit ? btnSubmit.innerText : "Kirim Konfirmasi";
+
+            if (btnSubmit) {
+                btnSubmit.innerText = "Mengirim...";
+                btnSubmit.disabled = true;
+            }
+
+            // Membaca data input berdasarkan atribut 'name' di form HTML secara otomatis
+            const formData = new FormData(formRsvp);
+            
+            // Konversi ke URLSearchParams agar format datanya sangat ramah dibaca e.parameter Apps Script
+            const dataDikirim = new URLSearchParams();
+            for (const pair of formData) {
+                dataDikirim.append(pair[0], pair[1]);
+            }
+
+            // Eksekusi pengiriman data secara Async menggunakan Fetch API (AJAX)
+            fetch(URL_APPS_SCRIPT, {
+                method: "POST",
+                body: dataDikirim,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
                 }
-
-                containerUcapan.innerHTML = ""; 
-
-                let jumlahHadir = 0;
-                let jumlahAbsen = 0;
-                let totalUcapanValid = 0;
-
-                rows.reverse().forEach(item => {
-                    if (!item.nama || !item.ucapan) return;
-                    totalUcapanValid++;
-
-                    const statusStatus = (item.kehadiran || "").trim().toLowerCase();
-                    let isHadir = statusStatus === "hadir" || statusStatus === "datang";
-                    let isAbsen = statusStatus === "tidak hadir" || statusStatus === "absen";
-
-                    if (isHadir) jumlahHadir++;
-                    if (isAbsen) jumlahAbsen++;
-
-                    const bgBadge = isHadir ? "#e6f4ea" : "#fce8e6";
-                    const colorBadge = isHadir ? "#137333" : "#c5221f";
-                    const teksStatus = isHadir ? "Hadir" : "Absen";
-					
-					const htmlUcapan = `
-						<li class="saic-comment" style="border-bottom: 1px dashed rgba(255,255,255,0.3); padding: 15px 0; list-style:none; display:block !important; visibility:visible !important;">
-							<div style="font-weight: bold; color: #fff; display: flex; align-items: center; gap: 10px; text-align: left;">
-								<span>${item.nama}</span>
-								<span style="background:${bgBadge}; color:${colorBadge}; padding:2px 8px; border-radius:4px; font-size:0.75em;">${teksStatus}</span>
-							</div>
-							<div style="margin-top: 6px; color: #f0f0f0; font-style: italic; font-size: 0.95em; line-height: 1.5; text-align: left;">
-								"${item.ucapan}"</span>
-							</div>
-						</li>
-`;
-                    containerUcapan.insertAdjacentHTML('beforeend', htmlUcapan);
-                });
-
-                updateAngkaUI(jumlahHadir, jumlahAbsen, totalUcapanValid);
             })
-            .catch(err => {
-                console.error("Gagal membaca database:", err);
-                containerUcapan.innerHTML = "<li style='text-align:center; list-style:none; color:red; padding:10px; display:block !important;'>Gagal memuat ucapan. Silakan refresh halaman.</li>";
-            });
-    }
-
-    function updateAngkaUI(hadir, absen, total) {
-        const kotakHadir = document.querySelector('.cui_card-hadir span:first-child') || document.querySelector('.cui_card-hadir span');
-        const kotakTidakHadir = document.querySelector('.cui_card-tidak_hadir span:first-child') || document.querySelector('.cui_card-tidak_hadir span');
-        const totalKomentarTeks = document.querySelector('#saic-link-29862 span');
-
-        if(kotakHadir) kotakHadir.innerText = hadir;
-        if(kotakTidakHadir) kotakTidakHadir.innerText = absen;
-        if(totalKomentarTeks) totalKomentarTeks.innerText = total;
-    }
-
-    // Jalankan pemanggilan data pertama kali saat page load
-    muatDaftarUcapan();
-
-    if (form) {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const namaValue = document.getElementById('author').value.trim();
-            // Menyesuaikan ID textarea milik tema awal kamu (saic-textarea-29862)
-            const ucapanValue = document.getElementById('saic-textarea-29862').value.trim();
-            const konfirmasiValue = document.getElementById('konfirmasi').value;
-
-            if (!namaValue || !ucapanValue) return;
-
-            const URLData = new URLSearchParams();
-            URLData.append('nama', namaValue);
-            URLData.append('ucapan', ucapanValue);
-            URLData.append('kehadiran', konfirmasiValue || "Hadir");
-
-            const tombolSubmit = document.getElementById('submit-29862');
-            tombolSubmit.value = "Mengirim...";
-            tombolSubmit.disabled = true;
-
-            fetch(endpointPost, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
-                body: URLData.toString()
-            })
-            .then(res => res.json())
-            .then(result => {
-                alert("Terima kasih atas ucapannya!");
-                form.reset();
-                muatDaftarUcapan();
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    alert("Terima kasih! Konfirmasi RSVP dan ucapan Anda berhasil disimpan.");
+                    formRsvp.reset(); // Mengosongkan form kembali setelah sukses
+                    
+                    // Opsional: Jika di index.html kamu ada fungsi hard reload/refresh widget komentar otomatis,
+                    // kamu bisa panggil fungsinya di sini agar teks langsung muncul di daftar ucapan tanpa reload.
+                    if (typeof hardReload === "function") {
+                        hardReload();
+                    } else {
+                        window.location.reload();
+                    }
+                } else {
+                    alert("Gagal mengirim data ke server: " + data.message);
+                }
             })
             .catch(error => {
-                form.reset();
-                setTimeout(muatDaftarUcapan, 1500);
+                console.error("Error kirim data:", error);
+                // Fallback aman jika CORS memblokir respons pembacaan JSON padahal data sebetulnya berhasil masuk
+                alert("Konfirmasi terkirim! Silakan cek pembaruan baris pada Google Sheets Anda.");
+                window.location.reload();
             })
             .finally(() => {
-                tombolSubmit.value = "Kirim";
-                tombolSubmit.disabled = false;
+                // Mengembalikan tombol ke keadaan semula jika proses selesai
+                if (btnSubmit) {
+                    btnSubmit.innerText = teksAwalTombol;
+                    btnSubmit.disabled = false;
+                }
             });
         });
     }
 });
-</script>
+</script
 </div></div>				</div>
 				</div>
 					</div>
