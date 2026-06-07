@@ -1479,18 +1479,7 @@ btn_gift.onclick = function(){
 				<div class="elementor-widget-container">
 					<style>.saic-comment-content {margin-left: 0 !important;}.saic-comment-avatar {display: none !important;}</style><div class="saic-wrapper"><div class="saic-wrapper saic-default saic-border saic-full " style="overflow: hidden;">
 
-	<div class="saic-wrap-link" style="display: none;">
-    <a href="?post_id=29862&#038;comments=32&#038;get=500&#038;order=DESC" id="saic-link-29862" class="saic-link saic-icon-link saic-icon-link-true auto-load-true">
-        <i class="saico-comment"></i>
-        <span>32</span> Ucapan
-    </a>
-</div>
-
-<div id="saic-wrap-comment-29862" class="saic-wrap-comments" style="display: block;">
-    <ul id="saic-container-comment-29862" class="saic-container-comments saic-order-DESC" 
-    style="display: block !important; visibility: visible !important; opacity: 1 !important; padding-left: 0; margin-top: 20px; min-height: 50px; clear: both;">
-</ul>
-    <!-- Tambahan Box Counter Kehadiran tanpa merusak tema awal -->
+	 <!-- Tambahan Box Counter Kehadiran tanpa merusak tema awal -->
     <div class="cui-comment-attendence" style="margin-bottom: 20px;">
         <div id="invitation-count-29862" class="cui_comment_count_card_wrap">
             <div class="cui_comment_count_card_row_2" style="display: flex; gap: 10px; justify-content: center; margin-bottom: 15px;">
@@ -1505,7 +1494,21 @@ btn_gift.onclick = function(){
             </div>
         </div>
     </div>
+	
+    <div id="saic-comment-status-29862" class="saic-comment-status"></div>
 
+    <!-- Container list ucapan tetap menggunakan ID bawaan tema -->
+    <ul id="saic-container-comment-29862" class="saic-container-comments saic-order-DESC" style="padding-left: 0;"></ul>
+
+    <div class="saic-holder-29862 saic-holder">
+
+	</div>
+						<div class="saic-wrap-link" style="display: none;">
+    <a href="?post_id=29862&#038;comments=32&#038;get=500&#038;order=DESC" id="saic-link-29862" class="saic-link saic-icon-link saic-icon-link-true auto-load-true">
+        <i class="saico-comment"></i>
+        <span>32</span> Ucapan
+    </a>
+</div>
     <div id="saic-wrap-form-29862" class="saic-wrap-form saic-clearfix">
         <div id="saic-container-form-29862" class="saic-container-form">
             <div id="respond-29862" class="respond saic-clearfix">
@@ -1547,14 +1550,6 @@ btn_gift.onclick = function(){
         </div>
     </div>
 
-    <div id="saic-comment-status-29862" class="saic-comment-status"></div>
-
-    <!-- Container list ucapan tetap menggunakan ID bawaan tema -->
-    <ul id="saic-container-comment-29862" class="saic-container-comments saic-order-DESC" style="padding-left: 0;"></ul>
-
-    <div class="saic-holder-29862 saic-holder">
-
-	</div>
 
 </div>
 <script>
@@ -1605,17 +1600,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     const colorBadge = isHadir ? "#137333" : "#c5221f";
                     const teksStatus = isHadir ? "Hadir" : "Absen";
 					
-                    const htmlUcapan = `
-                        <li class="saic-comment" style="border-bottom: 1px dashed #ddd; padding: 15px 0; list-style:none; display:block !important; visibility:visible !important;">
-                            <div style="font-weight: bold; color: #333; display: flex; align-items: center; gap: 10px; text-align: left;">
-                                <span>${item.nama}</span>
-                                <span style="background:${bgBadge}; color:${colorBadge}; padding:2px 8px; border-radius:4px; font-size:0.75em;">${teksStatus}</span>
-                            </div>
-                            <div style="margin-top: 6px; color: #555; font-style: italic; font-size: 0.95em; line-height: 1.5; text-align: left;">
-                                "${item.ucapan}"
-                            </div>
-                        </li>
-                    `;
+					const htmlUcapan = `
+						<li class="saic-comment" style="border-bottom: 1px dashed rgba(255,255,255,0.3); padding: 15px 0; list-style:none; display:block !important; visibility:visible !important;">
+							<div style="font-weight: bold; color: #fff; display: flex; align-items: center; gap: 10px; text-align: left;">
+								<span>${item.nama}</span>
+								<span style="background:${bgBadge}; color:${colorBadge}; padding:2px 8px; border-radius:4px; font-size:0.75em;">${teksStatus}</span>
+							</div>
+							<div style="margin-top: 6px; color: #f0f0f0; font-style: italic; font-size: 0.95em; line-height: 1.5; text-align: left;">
+								"${item.ucapan}"
+							</div>
+						</li>
+`;
                     containerUcapan.insertAdjacentHTML('beforeend', htmlUcapan);
                 });
 
