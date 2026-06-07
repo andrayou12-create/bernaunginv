@@ -2472,5 +2472,25 @@ const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(
 //# sourceURL=https://bernaunginv.my.id/wp-includes/js/wp-emoji-loader.min.js
 </script>
 	<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"8c176fcb44334ee084dc23a91c928a72","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Sesuaikan ID selector di bawah ini dengan ID tombol player dan audio bawaan template Anda
+    const tombolMusik = document.getElementById('music-player') || document.querySelector('.music-player-icon');
+    const audioUndangan = document.getElementById('audio') || document.getElementById('myAudio');
+
+    if (tombolMusik && audioUndangan) {
+        tombolMusik.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (audioUndangan.paused) {
+                audioUndangan.play();
+                tombolMusik.classList.add('playing'); // Efek berputar jika ada di CSS
+            } else {
+                audioUndangan.pause();
+                tombolMusik.classList.remove('playing');
+            }
+        });
+    }
+});
+</script>
 </body>
 </html>
