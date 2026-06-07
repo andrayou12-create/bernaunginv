@@ -2473,6 +2473,24 @@ const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(
 //# sourceURL=https://bernaunginv.my.id/wp-includes/js/wp-emoji-loader.min.js
 </script>
 	<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"8c176fcb44334ee084dc23a91c928a72","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 1. Ambil parameter "to" dari URL link (misal: index.html?to=Andi)
+        const urlParams = new URLSearchParams(window.location.search);
+        let namaTamu = urlParams.get('to');
 
+        // 2. Jika parameter "to" ada di link, ganti teks di website
+        if (namaTamu) {
+            // Mengganti tanda plus (+) atau %20 menjadi spasi biasa
+            namaTamu = decodeURIComponent(namaTamu);
+            
+            // Cari elemen HTML tempat nama tamu ditampilkan
+            const elemenNama = document.getElementById('nama-tamu');
+            if (elemenNama) {
+                elemenNama.innerText = namaTamu;
+            }
+        }
+    });
+</script>
 </body>
 </html>
