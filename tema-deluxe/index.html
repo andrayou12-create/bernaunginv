@@ -1487,7 +1487,9 @@ btn_gift.onclick = function(){
 </div>
 
 <div id="saic-wrap-comment-29862" class="saic-wrap-comments" style="display: block;">
-    
+    <ul id="saic-container-comment-29862" class="saic-container-comments saic-order-DESC" 
+    style="display: block !important; visibility: visible !important; opacity: 1 !important; padding-left: 0; margin-top: 20px; min-height: 50px; clear: both;">
+</ul>
     <!-- Tambahan Box Counter Kehadiran tanpa merusak tema awal -->
     <div class="cui-comment-attendence" style="margin-bottom: 20px;">
         <div id="invitation-count-29862" class="cui_comment_count_card_wrap">
@@ -1550,13 +1552,14 @@ btn_gift.onclick = function(){
     <!-- Container list ucapan tetap menggunakan ID bawaan tema -->
     <ul id="saic-container-comment-29862" class="saic-container-comments saic-order-DESC" style="padding-left: 0;"></ul>
 
-    <div class="saic-holder-29862 saic-holder"></div>
+    <div class="saic-holder-29862 saic-holder">
+
+	</div>
 
 </div>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // Jalur API Google Apps Script kamu
+    // Jalur API Google Apps Script dan ID Sheet Klien
     const urlAppsScript = "https://script.google.com/macros/s/AKfycbz86d5eDl5Ypn0UqNUpeze-PM_SHdRCiu875prMnlWBlBXkOwEzeKkHUx4KUrJ4SO2A/exec"; 
     const sheetIdKlien = "1fUCfenQcbesODRA_mYophtfCxrYJfmP3n7dJdWXYTZ4"; 
 
@@ -1569,11 +1572,14 @@ document.addEventListener("DOMContentLoaded", function () {
     function muatDaftarUcapan() {
         if (!containerUcapan) return;
         
+        // Memastikan container ucapan dipaksa tampil di browser
+        containerUcapan.style.setProperty('display', 'block', 'important');
+        
         fetch(endpointGet)
             .then(response => response.json())
             .then(rows => {
                 if (rows.status === "error" || !Array.isArray(rows) || rows.length === 0) {
-                    containerUcapan.innerHTML = "<li style='text-align:center; list-style:none; color:#999; padding:10px;'>Belum ada ucapan. Jadilah yang pertama!</li>";
+                    containerUcapan.innerHTML = "<li style='text-align:center; list-style:none; color:#999; padding:10px; display:block !important;'>Belum ada ucapan. Jadilah yang pertama!</li>";
                     updateAngkaUI(0, 0, 0);
                     return;
                 }
@@ -1598,15 +1604,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     const bgBadge = isHadir ? "#e6f4ea" : "#fce8e6";
                     const colorBadge = isHadir ? "#137333" : "#c5221f";
                     const teksStatus = isHadir ? "Hadir" : "Absen";
-
-                    // Inject list ucapan baru menggunakan style bawaan agar serasi
+					
                     const htmlUcapan = `
-                        <li class="saic-comment" style="border-bottom: 1px dashed #ddd; padding: 15px 0; list-style:none; display:block !important;">
-                            <div style="font-weight: bold; color: #333; display: flex; align-items: center; gap: 10px;">
+                        <li class="saic-comment" style="border-bottom: 1px dashed #ddd; padding: 15px 0; list-style:none; display:block !important; visibility:visible !important;">
+                            <div style="font-weight: bold; color: #333; display: flex; align-items: center; gap: 10px; text-align: left;">
                                 <span>${item.nama}</span>
                                 <span style="background:${bgBadge}; color:${colorBadge}; padding:2px 8px; border-radius:4px; font-size:0.75em;">${teksStatus}</span>
                             </div>
-                            <div style="margin-top: 6px; color: #555; font-style: italic; font-size: 0.95em; line-height: 1.5;">
+                            <div style="margin-top: 6px; color: #555; font-style: italic; font-size: 0.95em; line-height: 1.5; text-align: left;">
                                 "${item.ucapan}"
                             </div>
                         </li>
@@ -1618,12 +1623,13 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(err => {
                 console.error("Gagal membaca database:", err);
+                containerUcapan.innerHTML = "<li style='text-align:center; list-style:none; color:red; padding:10px; display:block !important;'>Gagal memuat ucapan. Silakan refresh halaman.</li>";
             });
     }
 
     function updateAngkaUI(hadir, absen, total) {
-        const kotakHadir = document.querySelector('.cui_card-hadir span:first-child');
-        const kotakTidakHadir = document.querySelector('.cui_card-tidak_hadir span:first-child');
+        const kotakHadir = document.querySelector('.cui_card-hadir span:first-child') || document.querySelector('.cui_card-hadir span');
+        const kotakTidakHadir = document.querySelector('.cui_card-tidak_hadir span:first-child') || document.querySelector('.cui_card-tidak_hadir span');
         const totalKomentarTeks = document.querySelector('#saic-link-29862 span');
 
         if(kotakHadir) kotakHadir.innerText = hadir;
@@ -1631,6 +1637,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if(totalKomentarTeks) totalKomentarTeks.innerText = total;
     }
 
+    // Jalankan pemanggilan data pertama kali saat page load
     muatDaftarUcapan();
 
     if (form) {
@@ -1638,6 +1645,7 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
 
             const namaValue = document.getElementById('author').value.trim();
+            // Menyesuaikan ID textarea milik tema awal kamu (saic-textarea-29862)
             const ucapanValue = document.getElementById('saic-textarea-29862').value.trim();
             const konfirmasiValue = document.getElementById('konfirmasi').value;
 
@@ -1675,7 +1683,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 </script>
-
 </div></div>				</div>
 				</div>
 					</div>
