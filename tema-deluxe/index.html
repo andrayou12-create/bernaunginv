@@ -698,13 +698,6 @@ Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah 
 			<div class="elementor-widget-wrap elementor-element-populated">
 					<div class="elementor-background-overlay"></div>
 					<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 10px;">
-    <iframe 
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-        src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1&autoplay=0"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-    </iframe>
 </div>
 						<section class="elementor-section elementor-inner-section elementor-element elementor-element-5557df3 wdsdv-enabled--yes inv-zoom-out elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="5557df3" data-element_type="section" data-e-type="section" data-settings="{&quot;jet_parallax_layout_list&quot;:[]}">
 						<div class="elementor-container elementor-column-gap-default">
@@ -890,6 +883,14 @@ Jl. Swadaya No.65, Kekalik Jaya, Kec. Sekarbela, Kota Mataram</p>				</div>
 		</div>
 					</div>
 		</section>
+				<section data-dce-background-overlay-color="#101010" class="elementor-section elementor-inner-section elementor-element elementor-element-f7af679 elementor-section-full_width elementor-section-content-middle wdsdv-enabled--yes elementor-section-height-default elementor-section-height-default" data-id="f7af679" data-element_type="section" data-e-type="section" data-settings="{&quot;jet_parallax_layout_list&quot;:[],&quot;background_background&quot;:&quot;classic&quot;}"><div class="elementor-background-overlay"></div><div class="elementor-container elementor-column-gap-no"><div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-a6a87ca" data-id="a6a87ca" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;slideshow&quot;,&quot;background_slideshow_slide_duration&quot;:1000,&quot;background_slideshow_transition_duration&quot;:3000,&quot;background_slideshow_ken_burns&quot;:&quot;yes&quot;,&quot;background_slideshow_gallery&quot;:[],&quot;background_slideshow_slide_transition&quot;:&quot;fade&quot;,&quot;background_slideshow_ken_burns_zoom_direction&quot;:&quot;in&quot;}"><div class="elementor-widget-wrap elementor-element-populated"><div class="elementor-background-overlay"></div><div class="elementor-element elementor-element-4d522e3 elementor-widget elementor-widget-ams-video" data-id="4d522e3" data-element_type="widget" data-e-type="widget" data-widget_type="ams-video.default"><div class="elementor-widget-container"><style>.videoWrapper{position:relative;padding-bottom:56.25%;padding-top:0;height:0}.videoWrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%}</style> <script data-optimized="1" src="https://the.invisimple.id/wp-content/litespeed/js/e16fc868b425493343f7a724127ac6ba.js?ver=ac6ba"></script> <div class="videoWrapper"><div id="video-yt"></div></div> <script>var player,playing=!1;function onYouTubeIframeAPIReady(){var url="https://youtu.be/9EcH4_cmFRM";if(isGoogleDrive(url)){var driveEmbed=getDriveEmbed(url);document.getElementById("video-yt").innerHTML='<iframe src="'+driveEmbed+'" '+'style="width:100%;height:100%;border:0;" allow="autoplay" allowfullscreen></iframe>';return}
+var videoId=extractVideoId(url);player=new YT.Player('video-yt',{height:'360',width:'640',videoId:videoId,playerVars:{'autoplay':1,'mute':1,'loop':1,'playlist':videoId},events:{'onStateChange':onPlayerStateChange}});let muteBtn=document.getElementById('mute-button');if(muteBtn){muteBtn.addEventListener('click',function(){toggleMute()})}}
+function isGoogleDrive(url){return url.includes("youtube.com")}
+function getDriveEmbed(url){let match=url.match(/\/d\/([a-zA-Z0-9_-]+)/);if(match&&match[1]){return"https://www.youtube.com/mnnuySs5kN4"+match[1]+"/preview"}
+return url}
+function extractVideoId(url){let watch=url.match(/v=([^&]+)/);if(watch&&watch[1])return watch[1];let shortUrl=url.match(/youtu\.be\/([^?&]+)/);if(shortUrl&&shortUrl[1])return shortUrl[1];let embed=url.match(/embed\/([^?&]+)/);if(embed&&embed[1])return embed[1];let shorts=url.match(/shorts\/([^?&]+)/);if(shorts&&shorts[1])return shorts[1];return url}
+function onPlayerStateChange(event){var isMuted=player.isMuted();if(event.data==YT.PlayerState.PLAYING&&!isMuted){pauseAudio();audioInactive();playing=!0}else if(event.data==YT.PlayerState.PAUSED&&!isMuted){playAudio();audioActive();playing=!1}else if(event.data==YT.PlayerState.ENDED){player.seekTo(0);player.playVideo()}}
+function toggleMute(){if(!player)return;if(player.isMuted()){player.unMute();playAudio();audioActive()}else{player.mute();pauseAudio();audioInactive()}}</script>
 				<section data-dce-background-overlay-color="#101010" class="elementor-section elementor-inner-section elementor-element elementor-element-88dcdd wdsdv-enabled--yes elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="88dcdd" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;video&quot;,&quot;jet_parallax_layout_list&quot;:[]}">
 							<div class="elementor-background-overlay"></div>
 							<div class="elementor-container elementor-column-gap-default">
