@@ -698,38 +698,13 @@ Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah 
 			<div class="elementor-widget-wrap elementor-element-populated">
 					<div class="elementor-background-overlay"></div>
 					<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 10px;">
- <div id="youtube-player-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-    <div id="yt-player" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
-</div>
-
-<script>
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-var ytPlayer;
-function onYouTubeIframeAPIReady() {
-    ytPlayer = new YT.Player('yt-player', {
-        videoId: 'jfNKKeo1vSk', // <-- GANTI ID VIDEO DI SINI
-        playerVars: { 'playsinline': 1, 'controls': 1, 'rel': 0, 'modestbranding': 1 },
-        events: { 'onReady': onPlayerReady }
-    });
-}
-
-function onPlayerReady(event) {
-    event.target.mute(); // Mute default agar tidak diblokir browser
-    
-    // Sinkronisasi dengan tombol Audio Bawaan Tema
-    const btnUnmute = document.querySelector('#unmute-sound');
-    const btnMute = document.querySelector('#mute-sound');
-    const btnOpen = document.querySelector('#btn_open');
-
-    if(btnOpen) btnOpen.addEventListener('click', () => { if(ytPlayer) ytPlayer.playVideo(); });
-    if(btnUnmute) btnUnmute.addEventListener('click', () => { if(ytPlayer) { ytPlayer.unMute(); ytPlayer.playVideo(); } });
-    if(btnMute) btnMute.addEventListener('click', () => { if(ytPlayer) { ytPlayer.mute(); ytPlayer.pauseVideo(); } });
-}
-</script>
+    <iframe 
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+        src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1&autoplay=0"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+    </iframe>
 </div>
 						<section class="elementor-section elementor-inner-section elementor-element elementor-element-5557df3 wdsdv-enabled--yes inv-zoom-out elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="5557df3" data-element_type="section" data-e-type="section" data-settings="{&quot;jet_parallax_layout_list&quot;:[]}">
 						<div class="elementor-container elementor-column-gap-default">
@@ -1224,207 +1199,189 @@ btn_gift.onclick = function(){
 		</div>
 					</div>
 		</section>
-<style>
-/* ===== WRAPPER DAFTAR UCAPAN (GLASSMORPHISM) ===== */
-#daftar-ucapan-baru { 
-    list-style: none; 
-    padding: 0; 
-    margin: 20px 0; 
-    max-height: 400px; 
-    overflow-y: auto; 
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.2) transparent;
-}
-#daftar-ucapan-baru::-webkit-scrollbar { width: 6px; }
-#daftar-ucapan-baru::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+				<section data-dce-background-overlay-color="#101010" class="elementor-section elementor-inner-section elementor-element elementor-element-30e164e9 wdsdv-enabled--yes elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="30e164e9" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;jet_parallax_layout_list&quot;:[]}">
+							<div class="elementor-background-overlay"></div>
+							<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-1933b9b3" data-id="1933b9b3" data-element_type="column" data-e-type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+						<div data-dce-title-color="#DDDDDD" class="elementor-element elementor-element-7913746 inv-zoom-out elementor-widget elementor-widget-heading" data-id="7913746" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<h2 class="elementor-heading-title elementor-size-default">Ucapan &amp; RSVP</h2>				</div>
+				</div>
+				<div data-dce-title-color="#DDDDDD" class="elementor-element elementor-element-b13170b inv-zoom-out elementor-widget elementor-widget-heading" data-id="b13170b" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+				<div class="elementor-widget-container">
+					<p class="elementor-heading-title elementor-size-default">Berikan doa dan ucapan terbaik untuk kami.</p>				</div>
+				</div>
+				<div class="elementor-element elementor-element-f07b76a inv-zoom-out elementor-widget elementor-widget-wds_rsvp" data-id="f07b76a" data-element_type="widget" data-e-type="widget" data-settings="{&quot;show_avatar&quot;:&quot;yes&quot;}" data-widget_type="wds_rsvp.default">
+				<div class="elementor-widget-container">
+					<style>.saic-comment-content {margin-left: 0 !important;}.saic-comment-avatar {display: none !important;}</style><div class="saic-wrapper"><div class="saic-wrapper saic-default saic-border saic-full " style="overflow: hidden;">
 
-#daftar-ucapan-baru li { 
-    background: rgba(255,255,255,0.05); 
-    backdrop-filter: blur(8px); 
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.1); 
-    border-radius: 12px; 
-    padding: 15px; 
-    margin-bottom: 10px; 
-    color: #fff; 
-    animation: fadeIn 0.5s ease;
-}
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-#daftar-ucapan-baru li .ucapan-nama { 
-    font-weight: bold; 
-    color: #fff; 
-    margin-bottom: 5px; 
+	 <!-- Tambahan Box Counter Kehadiran tanpa merusak tema awal -->
+   <style>
+/* =========================================
+   OVERRIDE TAMPILAN COUNTER RSVP (GLASSMORPHISM)
+   ========================================= */
+.cui-comment-attendence .cui_comment_count_card_row_2 {
     display: flex; 
-    justify-content: space-between; 
-    align-items: center;
+    gap: 15px; 
+    justify-content: center; 
+    margin-bottom: 20px;
+    flex-wrap: wrap;
 }
-#daftar-ucapan-baru li .badge-hadir { 
-    font-size: 10px; 
-    background: #00E676; 
-    color: #000; 
-    padding: 2px 8px; 
-    border-radius: 4px; 
-    font-weight: 600; 
-    text-transform: uppercase;
-}
-#daftar-ucapan-baru li .badge-tidak { 
-    font-size: 10px; 
-    background: #FF5252; 
-    color: #fff; 
-    padding: 2px 8px; 
-    border-radius: 4px; 
-    font-weight: 600; 
-    text-transform: uppercase;
-}
-#daftar-ucapan-baru li .ucapan-teks { 
-    font-size: 14px; 
-    color: #ddd; 
-    line-height: 1.5; 
-    margin-top: 8px;
-    word-wrap: break-word;
-}
-#daftar-ucapan-baru li .ucapan-waktu { 
-    font-size: 11px; 
-    color: #888; 
-    margin-top: 8px; 
-    display: block;
-}
-.ucapan-loading, .ucapan-kosong, .ucapan-error {
+
+.cui-comment-attendence .cui_comment_count_card {
+    /* Efek Glassmorphism: Transparan & Blur */
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 15px 25px !important;
     text-align: center;
-    color: #888;
-    padding: 20px;
-    font-size: 13px;
+    min-width: 130px;
+    color: #ffffff !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.ucapan-error { color: #FF5252; }
+
+.cui-comment-attendence .cui_comment_count_card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Style Angka */
+.cui_comment_count_card span:first-child {
+    display: block; 
+    font-size: 36px !important; 
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 5px;
+    font-family: 'Lexend', 'Poppins', sans-serif;
+}
+
+/* Warna Hijau Elegan HANYA untuk Angka Hadir */
+.cui_card-hadir span:first-child {
+    color: #00E676 !important; 
+    text-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
+}
+
+/* Warna Merah Elegan HANYA untuk Angka Tidak Hadir */
+.cui_card-tidak_hadir span:first-child {
+    color: #FF5252 !important; 
+    text-shadow: 0 0 15px rgba(255, 82, 82, 0.5);
+}
+
+/* Style Label Teks (Hadir / Tidak Hadir) */
+.cui_comment_count_card span:last-child {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #cccccc !important;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
 </style>
 
-<!-- HTML Daftar Ucapan -->
-<ul id="daftar-ucapan-baru">
-    <li class="ucapan-loading">Memuat ucapan...</li>
-</ul>
-
-<!-- HTML Form RSVP -->
-<form action="" method="POST" id="commentform-29862">
-    <p class="comment-form-author saic-field-1">
-        <input type="text" name="author" id="author" class="saic-input" aria-required="true" placeholder="Nama" value="" required />
-        <span class="saic-required">*</span>
-    </p>
-
-    <div class="saic-wrap-textarea">
-        <textarea name="comment" id="saic-textarea-29862" class="waci_comment saic-textarea autosize-textarea" aria-required="true" placeholder="Ucapan" rows="2" required></textarea>
-        <span class="saic-required">*</span>
-    </div>
-
-    <div class="saic-wrap-container-attendance" style="margin-top: 15px;">
-        <select class="saic-input waci_comment" name="konfirmasi" id="konfirmasi" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: rgba(255,255,255,0.1); color: #fff;" required>
-            <option value="" disabled selected>Konfirmasi Kehadiran</option>
-            <option value="Hadir">Datang / Hadir</option>
-            <option value="Tidak hadir">Absen / Tidak Hadir</option>
-        </select>
-    </div>
-
-    <div class="saic-wrap-submit saic-clearfix" style="margin-top: 15px;">
-        <p class="form-submit">
-            <input type='hidden' name='comment_post_ID' value='29862' id='comment_post_ID' />
-            <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
-            <input type="hidden" name="commentpress" value="true" />
-            <input type="submit" id="submit-29862" value="Kirim" class="saic-button" style="cursor:pointer;" />
-        </p>
-    </div>
-</form>
-
 <script>
-(function() {
-    // ⚠️ GANTI URL INI DENGAN URL APPS SCRIPT BARU YANG SUDAH DI-DEPLOY DENGAN BENAR
+document.addEventListener("DOMContentLoaded", function() {
+    // URL Apps Script Baru Anda
+    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzQvQbR6w5MbWlcXOUxofoVIQr3ndYSXI4kQxl1GfDwk33qUQAPxfHvsIlL-JrF0jI0/exec";
+    
+    // Fungsi untuk mengambil data counter dari Spreadsheet
+    function fetchCounter() {
+        fetch(URL_APPS_SCRIPT, { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    const elHadir = document.querySelector('.cui_card-hadir span:first-child');
+                    const elTidakHadir = document.querySelector('.cui_card-tidak_hadir span:first-child');
+                    
+                    // Update angka secara otomatis
+                    if (elHadir) elHadir.innerText = data.hadir || 0;
+                    if (elTidakHadir) elTidakHadir.innerText = data.tidak_hadir || 0;
+                }
+            })
+            .catch(err => console.log("Auto-fetch counter berjalan di background.", err));
+    }
+
+    // Panggil saat halaman pertama kali dimuat
+    fetchCounter();
+    
+    // Panggil ulang setiap 15 detik agar real-time tanpa perlu reload halaman
+    setInterval(fetchCounter, 15000);
+});
+</script>
+
+    <!-- Container list ucapan tetap menggunakan ID bawaan tema -->
+    <ul id="saic-container-comment-29862" class="saic-container-comments saic-order-DESC" style="padding-left: 0;"></ul>
+
+    <div class="saic-holder-29862 saic-holder">
+
+	</div>
+						<div class="saic-wrap-link" style="display: none;">
+    <a href="?post_id=29862&#038;comments=32&#038;get=500&#038;order=DESC" id="saic-link-29862" class="saic-link saic-icon-link saic-icon-link-true auto-load-true">
+        <i class="saico-comment"></i>
+        <span>32</span> Ucapan
+    </a>
+</div>
+    <div id="saic-wrap-form-29862" class="saic-wrap-form saic-clearfix">
+        <div id="saic-container-form-29862" class="saic-container-form">
+            <div id="respond-29862" class="respond saic-clearfix">
+
+                <!-- Form tetap menggunakan ID lama agar CSS tema mengikat sempurna -->
+                <form action="" method="POST" id="commentform-29862">
+                    
+                    <p class="comment-form-author saic-field-1">
+                        <input type="text" name="author" id="author" class="saic-input" aria-required="true" placeholder="Nama" value="" required />
+                        <span class="saic-required">*</span>
+                    </p>
+
+                    <div class="saic-wrap-textarea">
+                        <textarea name="comment" id="saic-textarea-29862" class="waci_comment saic-textarea autosize-textarea" aria-required="true" placeholder="Ucapan" rows="2" required></textarea>
+                        <span class="saic-required">*</span>
+                    </div>
+
+                    <!-- Modifikasi Dropdown Kehadiran agar rapi mengikuti gaya input tema awal -->
+                    <div class="saic-wrap-container-attendance" style="margin-top: 15px;">
+                        <select class="saic-input waci_comment" name="konfirmasi" id="konfirmasi" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
+                            <option value="" disabled selected>Konfirmasi Kehadiran</option>
+                            <option value="Hadir">Datang / Hadir</option>
+                            <option value="Tidak hadir">Absen / Tidak Hadir</option>
+                        </select>
+                    </div>
+
+                    <div class="saic-wrap-submit saic-clearfix" style="margin-top: 15px;">
+                        <p class="form-submit">
+                            <input type='hidden' name='comment_post_ID' value='29862' id='comment_post_ID' />
+                            <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+                            <input type="hidden" name="commentpress" value="true" />
+                            <input type="submit" id="submit-29862" value="Kirim" class="saic-button" style="cursor:pointer;" />
+                        </p>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. URL APPS SCRIPT BARU
     const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzWaawIvIlzNsRPh7THMirQYLZOCDjq3davmiUkBYWXydnjQj-bHQOgNyreu8CiUY4ZVg/exec";
     
-    const formRsvp = document.getElementById("commentform-29862");
-    const ulUcapan = document.getElementById('daftar-ucapan-baru');
-    let fetchInterval = null;
-    let isFetching = false;
-
-    function escapeHtml(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    function showError(message) {
-        ulUcapan.innerHTML = `<li class="ucapan-error">⚠️ ${message}</li>`;
-    }
-
-    function showLoading() {
-        ulUcapan.innerHTML = '<li class="ucapan-loading">Memuat ucapan...</li>';
-    }
-
-    // Fungsi Fetch & Render Daftar Ucapan
-    function fetchUcapan(showLoadingState = false) {
-        if (isFetching) return; // Prevent multiple simultaneous fetches
-        isFetching = true;
-        
-        if (showLoadingState) showLoading();
-
-        fetch(URL_APPS_SCRIPT, { 
-            method: 'GET', 
-            redirect: 'follow',
-            cache: 'no-cache'
-        })
-        .then(res => {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            return res.text();
-        })
-        .then(text => {
-            try {
-                const data = JSON.parse(text);
-                
-                if (data.result === "success") {
-                    ulUcapan.innerHTML = '';
-                    
-                    if (data.ucapan && data.ucapan.length > 0) {
-                        data.ucapan.forEach(item => {
-                            const li = document.createElement('li');
-                            const badgeClass = item.status === 'Hadir' ? 'badge-hadir' : 'badge-tidak';
-                            const badgeText = item.status === 'Hadir' ? 'Hadir' : 'Tidak Hadir';
-                            
-                            li.innerHTML = `
-                                <div class="ucapan-nama">
-                                    <span>${escapeHtml(item.nama)}</span>
-                                    <span class="${badgeClass}">${badgeText}</span>
-                                </div>
-                                <div class="ucapan-teks">${escapeHtml(item.pesan)}</div>
-                                <span class="ucapan-waktu">${item.waktu || ''}</span>
-                            `;
-                            ulUcapan.appendChild(li);
-                        });
-                    } else {
-                        ulUcapan.innerHTML = '<li class="ucapan-kosong">Belum ada ucapan. Jadilah yang pertama!</li>';
-                    }
-                } else {
-                    showError(data.message || 'Gagal memuat data');
-                }
-            } catch(e) {
-                console.error('Parse JSON error:', e);
-                showError('Format data tidak valid');
-            }
-        })
-        .catch(err => {
-            console.error("Gagal fetch RSVP:", err);
-            showError('Gagal terhubung ke server. Periksa koneksi Anda.');
-        })
-        .finally(() => {
-            isFetching = false;
-        });
-    }
-
-    // Handle Form Submit
+    // 2. Menangkap elemen Form RSVP
+    const formRsvp = document.getElementById("commentform-29862") || 
+                     document.querySelector("form");
+    
     if (formRsvp) {
         formRsvp.addEventListener("submit", function(e) {
             e.preventDefault();
-            e.stopPropagation();
             
-            const btnSubmit = formRsvp.querySelector('input[type="submit"]');
+            const btnSubmit = formRsvp.querySelector('input[type="submit"]') || 
+                            formRsvp.querySelector('.saic-button');
             const teksAwalTombol = btnSubmit ? btnSubmit.value : "Kirim";
             
             if (btnSubmit) {
@@ -1435,40 +1392,39 @@ btn_gift.onclick = function(){
             const formData = new FormData(formRsvp);
             const dataDikirim = new URLSearchParams();
             
+            // Tambahkan parameter nama tamu dari URL jika ada
+            const urlParams = new URLSearchParams(window.location.search);
+            const namaTamu = urlParams.get('to');
+            if (namaTamu) {
+                dataDikirim.append('nama_tamu_undangan', decodeURIComponent(namaTamu));
+            }
+            
             for (const pair of formData) {
                 dataDikirim.append(pair[0], pair[1]);
             }
             
+            // Kirim data ke Apps Script
             fetch(URL_APPS_SCRIPT, {
                 method: "POST",
                 body: dataDikirim,
-                redirect: 'follow'
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
             })
-            .then(res => {
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                return res.text();
-            })
-            .then(text => {
-                try {
-                    const data = JSON.parse(text);
-                    if (data.result === "success") {
-                        alert("Terima kasih! Konfirmasi RSVP dan ucapan Anda berhasil disimpan.");
-                        formRsvp.reset();
-                        setTimeout(() => fetchUcapan(true), 1000);
-                    } else {
-                        alert("Gagal mengirim data: " + (data.message || "Unknown error"));
-                    }
-                } catch(e) {
-                    alert("Ucapan terkirim! Silakan cek Google Sheets Anda.");
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    alert("Terima kasih! Konfirmasi RSVP dan ucapan Anda berhasil disimpan.");
                     formRsvp.reset();
-                    setTimeout(() => fetchUcapan(true), 1000);
+                    window.location.reload();
+                } else {
+                    alert("Gagal mengirim data: " + (data.message || "Unknown error"));
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
                 alert("Konfirmasi terkirim! Silakan cek Google Sheets Anda.");
-                formRsvp.reset();
-                setTimeout(() => fetchUcapan(true), 1000);
+                window.location.reload();
             })
             .finally(() => {
                 if (btnSubmit) {
@@ -1478,25 +1434,7 @@ btn_gift.onclick = function(){
             });
         });
     }
-
-    // Init - Hanya fetch sekali saat load, lalu interval
-    function initUcapan() {
-        fetchUcapan(true);
-        
-        // Clear existing interval if any
-        if (fetchInterval) clearInterval(fetchInterval);
-        
-        // Set interval untuk auto-refresh (tanpa loading state agar tidak mengganggu user)
-        fetchInterval = setInterval(() => fetchUcapan(false), 15000);
-    }
-
-    // Pastikan hanya init sekali
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initUcapan);
-    } else {
-        initUcapan();
-    }
-})();
+});
 </script></div></div>				</div>
 				</div>
 					</div>
