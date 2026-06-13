@@ -1290,12 +1290,13 @@ btn_gift.onclick = function(){
     margin-top: 8px; 
     display: block;
 }
-.ucapan-loading, .ucapan-kosong {
+.ucapan-loading, .ucapan-kosong, .ucapan-error {
     text-align: center;
     color: #888;
     padding: 20px;
     font-size: 13px;
 }
+.ucapan-error { color: #FF5252; }
 </style>
 
 <!-- HTML Daftar Ucapan -->
@@ -1303,7 +1304,7 @@ btn_gift.onclick = function(){
     <li class="ucapan-loading">Memuat ucapan...</li>
 </ul>
 
-<!-- HTML Form RSVP (Menggunakan ID Bawaan Tema) -->
+<!-- HTML Form RSVP -->
 <form action="" method="POST" id="commentform-29862">
     <p class="comment-form-author saic-field-1">
         <input type="text" name="author" id="author" class="saic-input" aria-required="true" placeholder="Nama" value="" required />
@@ -1335,12 +1336,13 @@ btn_gift.onclick = function(){
 
 <script>
 (function() {
-    // URL Apps Script TERBARU Anda
+    // ⚠️ GANTI URL INI DENGAN URL APPS SCRIPT BARU YANG SUDAH DI-DEPLOY DENGAN BENAR
     const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzWaawIvIlzNsRPh7THMirQYLZOCDjq3davmiUkBYWXydnjQj-bHQOgNyreu8CiUY4ZVg/exec";
     
-    // Selector spesifik ke ID bawaan tema (TIDAK akan membajak form lain)
     const formRsvp = document.getElementById("commentform-29862");
     const ulUcapan = document.getElementById('daftar-ucapan-baru');
+    let fetchInterval = null;
+    let isFetching = false;
 
     function escapeHtml(text) {
         if (!text) return '';
@@ -1349,40 +1351,71 @@ btn_gift.onclick = function(){
         return div.innerHTML;
     }
 
+    function showError(message) {
+        ulUcapan.innerHTML = `<li class="ucapan-error">⚠️ ${message}</li>`;
+    }
+
+    function showLoading() {
+        ulUcapan.innerHTML = '<li class="ucapan-loading">Memuat ucapan...</li>';
+    }
+
     // Fungsi Fetch & Render Daftar Ucapan
-    function fetchUcapan() {
-        fetch(URL_APPS_SCRIPT, { method: 'GET', redirect: 'follow' })
-            .then(res => res.text()) // Menggunakan .text() untuk antisipasi CORS redirect
-            .then(text => {
-                try {
-                    const data = JSON.parse(text);
-                    if (data.result === "success") {
-                        ulUcapan.innerHTML = '';
-                        if (data.ucapan && data.ucapan.length > 0) {
-                            data.ucapan.forEach(item => {
-                                const li = document.createElement('li');
-                                const badgeClass = item.status === 'Hadir' ? 'badge-hadir' : 'badge-tidak';
-                                const badgeText = item.status === 'Hadir' ? 'Hadir' : 'Tidak Hadir';
-                                
-                                li.innerHTML = `
-                                    <div class="ucapan-nama">
-                                        <span>${escapeHtml(item.nama)}</span>
-                                        <span class="${badgeClass}">${badgeText}</span>
-                                    </div>
-                                    <div class="ucapan-teks">${escapeHtml(item.pesan)}</div>
-                                    <span class="ucapan-waktu">${item.waktu || ''}</span>
-                                `;
-                                ulUcapan.appendChild(li);
-                            });
-                        } else {
-                            ulUcapan.innerHTML = '<li class="ucapan-kosong">Belum ada ucapan. Jadilah yang pertama!</li>';
-                        }
+    function fetchUcapan(showLoadingState = false) {
+        if (isFetching) return; // Prevent multiple simultaneous fetches
+        isFetching = true;
+        
+        if (showLoadingState) showLoading();
+
+        fetch(URL_APPS_SCRIPT, { 
+            method: 'GET', 
+            redirect: 'follow',
+            cache: 'no-cache'
+        })
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.text();
+        })
+        .then(text => {
+            try {
+                const data = JSON.parse(text);
+                
+                if (data.result === "success") {
+                    ulUcapan.innerHTML = '';
+                    
+                    if (data.ucapan && data.ucapan.length > 0) {
+                        data.ucapan.forEach(item => {
+                            const li = document.createElement('li');
+                            const badgeClass = item.status === 'Hadir' ? 'badge-hadir' : 'badge-tidak';
+                            const badgeText = item.status === 'Hadir' ? 'Hadir' : 'Tidak Hadir';
+                            
+                            li.innerHTML = `
+                                <div class="ucapan-nama">
+                                    <span>${escapeHtml(item.nama)}</span>
+                                    <span class="${badgeClass}">${badgeText}</span>
+                                </div>
+                                <div class="ucapan-teks">${escapeHtml(item.pesan)}</div>
+                                <span class="ucapan-waktu">${item.waktu || ''}</span>
+                            `;
+                            ulUcapan.appendChild(li);
+                        });
+                    } else {
+                        ulUcapan.innerHTML = '<li class="ucapan-kosong">Belum ada ucapan. Jadilah yang pertama!</li>';
                     }
-                } catch(e) { 
-                    console.error('Parse JSON error:', e); 
+                } else {
+                    showError(data.message || 'Gagal memuat data');
                 }
-            })
-            .catch(err => console.error("Gagal fetch RSVP:", err));
+            } catch(e) {
+                console.error('Parse JSON error:', e);
+                showError('Format data tidak valid');
+            }
+        })
+        .catch(err => {
+            console.error("Gagal fetch RSVP:", err);
+            showError('Gagal terhubung ke server. Periksa koneksi Anda.');
+        })
+        .finally(() => {
+            isFetching = false;
+        });
     }
 
     // Handle Form Submit
@@ -1411,28 +1444,31 @@ btn_gift.onclick = function(){
                 body: dataDikirim,
                 redirect: 'follow'
             })
-            .then(res => res.text())
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.text();
+            })
             .then(text => {
                 try {
                     const data = JSON.parse(text);
                     if (data.result === "success") {
                         alert("Terima kasih! Konfirmasi RSVP dan ucapan Anda berhasil disimpan.");
                         formRsvp.reset();
-                        fetchUcapan(); // Langsung refresh list ucapan tanpa reload halaman
+                        setTimeout(() => fetchUcapan(true), 1000);
                     } else {
                         alert("Gagal mengirim data: " + (data.message || "Unknown error"));
                     }
                 } catch(e) {
                     alert("Ucapan terkirim! Silakan cek Google Sheets Anda.");
                     formRsvp.reset();
-                    fetchUcapan();
+                    setTimeout(() => fetchUcapan(true), 1000);
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
                 alert("Konfirmasi terkirim! Silakan cek Google Sheets Anda.");
                 formRsvp.reset();
-                fetchUcapan();
+                setTimeout(() => fetchUcapan(true), 1000);
             })
             .finally(() => {
                 if (btnSubmit) {
@@ -1443,15 +1479,22 @@ btn_gift.onclick = function(){
         });
     }
 
-    // Init
-    document.addEventListener('DOMContentLoaded', function() {
-        fetchUcapan();
-        setInterval(fetchUcapan, 15000); // Auto refresh tiap 15 detik
-    });
-    
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        fetchUcapan();
-        setInterval(fetchUcapan, 15000);
+    // Init - Hanya fetch sekali saat load, lalu interval
+    function initUcapan() {
+        fetchUcapan(true);
+        
+        // Clear existing interval if any
+        if (fetchInterval) clearInterval(fetchInterval);
+        
+        // Set interval untuk auto-refresh (tanpa loading state agar tidak mengganggu user)
+        fetchInterval = setInterval(() => fetchUcapan(false), 15000);
+    }
+
+    // Pastikan hanya init sekali
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initUcapan);
+    } else {
+        initUcapan();
     }
 })();
 </script></div></div>				</div>
