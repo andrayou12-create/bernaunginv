@@ -698,13 +698,38 @@ Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah 
 			<div class="elementor-widget-wrap elementor-element-populated">
 					<div class="elementor-background-overlay"></div>
 					<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 10px;">
-    <iframe 
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-        src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1&autoplay=0"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-    </iframe>
+ <div id="youtube-player-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    <div id="yt-player" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+</div>
+
+<script>
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var ytPlayer;
+function onYouTubeIframeAPIReady() {
+    ytPlayer = new YT.Player('yt-player', {
+        videoId: 'GANTI_DENGAN_ID_VIDEO_YOUTUBE', // <-- GANTI ID VIDEO DI SINI
+        playerVars: { 'playsinline': 1, 'controls': 1, 'rel': 0, 'modestbranding': 1 },
+        events: { 'onReady': onPlayerReady }
+    });
+}
+
+function onPlayerReady(event) {
+    event.target.mute(); // Mute default agar tidak diblokir browser
+    
+    // Sinkronisasi dengan tombol Audio Bawaan Tema
+    const btnUnmute = document.querySelector('#unmute-sound');
+    const btnMute = document.querySelector('#mute-sound');
+    const btnOpen = document.querySelector('#btn_open');
+
+    if(btnOpen) btnOpen.addEventListener('click', () => { if(ytPlayer) ytPlayer.playVideo(); });
+    if(btnUnmute) btnUnmute.addEventListener('click', () => { if(ytPlayer) { ytPlayer.unMute(); ytPlayer.playVideo(); } });
+    if(btnMute) btnMute.addEventListener('click', () => { if(ytPlayer) { ytPlayer.mute(); ytPlayer.pauseVideo(); } });
+}
+</script>
 </div>
 						<section class="elementor-section elementor-inner-section elementor-element elementor-element-5557df3 wdsdv-enabled--yes inv-zoom-out elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="5557df3" data-element_type="section" data-e-type="section" data-settings="{&quot;jet_parallax_layout_list&quot;:[]}">
 						<div class="elementor-container elementor-column-gap-default">
@@ -1327,7 +1352,76 @@ document.addEventListener("DOMContentLoaded", function() {
     <div id="saic-wrap-form-29862" class="saic-wrap-form saic-clearfix">
         <div id="saic-container-form-29862" class="saic-container-form">
             <div id="respond-29862" class="respond saic-clearfix">
+<!-- CSS Counter & Daftar Ucapan -->
+<style>
+.cui-comment-attendence .cui_comment_count_card_row_2 { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+.cui-comment-attendence .cui_comment_count_card { background: rgba(255, 255, 255, 0.05) !important; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 15px 25px !important; text-align: center; min-width: 130px; color: #ffffff !important; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); }
+.cui_card-hadir span:first-child { color: #00E676 !important; text-shadow: 0 0 15px rgba(0, 230, 118, 0.5); font-size: 36px !important; font-weight: 800; display: block; }
+.cui_card-tidak_hadir span:first-child { color: #FF5252 !important; text-shadow: 0 0 15px rgba(255, 82, 82, 0.5); font-size: 36px !important; font-weight: 800; display: block; }
+.cui_comment_count_card span:last-child { font-size: 12px; font-weight: 600; color: #cccccc !important; letter-spacing: 1.5px; text-transform: uppercase; }
 
+#daftar-ucapan-baru { list-style: none; padding: 0; margin: 20px 0; max-height: 400px; overflow-y: auto; }
+#daftar-ucapan-baru li { background: rgba(255,255,255,0.05); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-bottom: 10px; color: #fff; }
+#daftar-ucapan-baru li .ucapan-nama { font-weight: bold; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;}
+#daftar-ucapan-baru li .badge-hadir { font-size: 10px; background: #00E676; color: #000; padding: 2px 6px; border-radius: 4px; font-weight: normal; }
+#daftar-ucapan-baru li .badge-tidak { font-size: 10px; background: #FF5252; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: normal; }
+#daftar-ucapan-baru li .ucapan-teks { font-size: 14px; color: #ddd; line-height: 1.5; margin-top: 5px;}
+#daftar-ucapan-baru li .ucapan-waktu { font-size: 11px; color: #888; margin-top: 8px; display: block;}
+</style>
+
+<!-- HTML Counter -->
+<div class="cui-comment-attendence">
+    <div class="cui_comment_count_card_row_2">
+        <div class="cui_comment_count_card cui_card-hadir">
+            <span id="count-hadir">0</span>
+            <span>Hadir</span>
+        </div>
+        <div class="cui_comment_count_card cui_card-tidak_hadir">
+            <span id="count-tidak">0</span>
+            <span>Tidak Hadir</span>
+        </div>
+    </div>
+</div>
+
+<!-- HTML Daftar Ucapan -->
+<ul id="daftar-ucapan-baru"></ul>
+
+<!-- Script Fetch Data -->
+<script>
+const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbytfOJzo8QrEZLNVgjOrwsm4Iw32Y0HDmWabmJMArYzQddwWQRUl01ftzxyZetCgpekwA/exec";
+function fetchRSVPData() {
+    fetch(URL_APPS_SCRIPT).then(res => res.json()).then(data => {
+        if(data.result === "success") {
+            document.getElementById('count-hadir').innerText = data.hadir;
+            document.getElementById('count-tidak').innerText = data.tidak_hadir;
+            const ul = document.getElementById('daftar-ucapan-baru');
+            ul.innerHTML = '';
+            if(data.ucapan && data.ucapan.length > 0) {
+                data.ucapan.forEach(item => {
+                    const li = document.createElement('li');
+                    const badgeClass = item.kehadiran === 'Hadir' ? 'badge-hadir' : 'badge-tidak';
+                    const badgeText = item.kehadiran === 'Hadir' ? 'Hadir' : 'Tidak Hadir';
+                    li.innerHTML = `
+                        <div class="ucapan-nama"><span>${item.nama}</span><span class="${badgeClass}">${badgeText}</span></div>
+                        <div class="ucapan-teks">${item.ucapan}</div>
+                        <span class="ucapan-waktu">${item.waktu}</span>`;
+                    ul.appendChild(li);
+                });
+            } else { ul.innerHTML = '<li style="text-align:center; color:#888;">Belum ada ucapan.</li>'; }
+        }
+    }).catch(err => console.error("Gagal fetch RSVP:", err));
+}
+document.addEventListener('DOMContentLoaded', fetchRSVPData);
+setInterval(fetchRSVPData, 10000); // Refresh otomatis tiap 10 detik
+
+// Hook ke Form Bawaan Tema agar setelah submit, list ucapan langsung refresh
+const formRsvp = document.getElementById("commentform-29862");
+if(formRsvp) {
+    formRsvp.addEventListener("submit", function() {
+        setTimeout(fetchRSVPData, 2000); // Tunggu 2 detik lalu fetch ulang data
+    });
+}
+</script>
                 <!-- Form tetap menggunakan ID lama agar CSS tema mengikat sempurna -->
                 <form action="" method="POST" id="commentform-29862">
                     
@@ -1370,7 +1464,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // 1. URL APPS SCRIPT BARU
-    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzQvQbR6w5MbWlcXOUxofoVIQr8ndYSXI4kQxl1GfDwk33qUQAPxfHvsIlL-JrF0jI0/exec";
+    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbysrKj1K2HsOgUbYPZ1KJFWbGuQgy5fVT1ZDOlflq4bhyQIOR71mmeoutRdLgIjtiZzyQ/exec";
     
     // 2. Menangkap elemen Form RSVP
     const formRsvp = document.getElementById("commentform-29862") || 
@@ -1607,7 +1701,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                                         
                     <audio id="song" loop>
-                        <source src="https://github.com/andrayou12-create/bernaunginv/blob/b6aa86eec733a1a400b4fb4055a369e5a3bdedda/tema-deluxe/Beyond-The-Sea-Kina-Grannis.mp3" type="audio/mp3">
+                        <source src="https:///bernaunginv.my.id/tema-deluxe/Beyond-The-Sea-Kina-Grannis.mp3" type="audio/mp3">
                     </audio>
 
                 
