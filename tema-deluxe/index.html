@@ -1224,90 +1224,8 @@ btn_gift.onclick = function(){
 		</div>
 					</div>
 		</section>
-				<section data-dce-background-overlay-color="#101010" class="elementor-section elementor-inner-section elementor-element elementor-element-30e164e9 wdsdv-enabled--yes elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="30e164e9" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;jet_parallax_layout_list&quot;:[]}">
-							<div class="elementor-background-overlay"></div>
-							<div class="elementor-container elementor-column-gap-default">
-					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-1933b9b3" data-id="1933b9b3" data-element_type="column" data-e-type="column">
-			<div class="elementor-widget-wrap elementor-element-populated">
-						<div data-dce-title-color="#DDDDDD" class="elementor-element elementor-element-7913746 inv-zoom-out elementor-widget elementor-widget-heading" data-id="7913746" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
-				<div class="elementor-widget-container">
-					<h2 class="elementor-heading-title elementor-size-default">Ucapan &amp; RSVP</h2>				</div>
-				</div>
-				<div data-dce-title-color="#DDDDDD" class="elementor-element elementor-element-b13170b inv-zoom-out elementor-widget elementor-widget-heading" data-id="b13170b" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
-				<div class="elementor-widget-container">
-					<p class="elementor-heading-title elementor-size-default">Berikan doa dan ucapan terbaik untuk kami.</p>				</div>
-				</div>
-				<div class="elementor-element elementor-element-f07b76a inv-zoom-out elementor-widget elementor-widget-wds_rsvp" data-id="f07b76a" data-element_type="widget" data-e-type="widget" data-settings="{&quot;show_avatar&quot;:&quot;yes&quot;}" data-widget_type="wds_rsvp.default">
-				<div class="elementor-widget-container">
-					<style>.saic-comment-content {margin-left: 0 !important;}.saic-comment-avatar {display: none !important;}</style><div class="saic-wrapper"><div class="saic-wrapper saic-default saic-border saic-full " style="overflow: hidden;">
-
-	 <!-- Tambahan Box Counter Kehadiran tanpa merusak tema awal -->
-   <style>
-/* =========================================
-   OVERRIDE TAMPILAN COUNTER RSVP (GLASSMORPHISM)
-   ========================================= */
-.cui-comment-attendence .cui_comment_count_card_row_2 {
-    display: flex; 
-    gap: 15px; 
-    justify-content: center; 
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.cui-comment-attendence .cui_comment_count_card {
-    /* Efek Glassmorphism: Transparan & Blur */
-    background: rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 15px 25px !important;
-    text-align: center;
-    min-width: 130px;
-    color: #ffffff !important;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cui-comment-attendence .cui_comment_count_card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3);
-}
-
-/* Style Angka */
-.cui_comment_count_card span:first-child {
-    display: block; 
-    font-size: 36px !important; 
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 5px;
-    font-family: 'Lexend', 'Poppins', sans-serif;
-}
-
-/* Warna Hijau Elegan HANYA untuk Angka Hadir */
-.cui_card-hadir span:first-child {
-    color: #00E676 !important; 
-    text-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
-}
-
-/* Warna Merah Elegan HANYA untuk Angka Tidak Hadir */
-.cui_card-tidak_hadir span:first-child {
-    color: #FF5252 !important; 
-    text-shadow: 0 0 15px rgba(255, 82, 82, 0.5);
-}
-
-/* Style Label Teks (Hadir / Tidak Hadir) */
-.cui_comment_count_card span:last-child {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: #cccccc !important;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-}
-</style>
 <style>
-/* ===== WRAPPER DAFTAR UCAPAN ===== */
+/* ===== WRAPPER DAFTAR UCAPAN (GLASSMORPHISM) ===== */
 #daftar-ucapan-baru { 
     list-style: none; 
     padding: 0; 
@@ -1385,7 +1303,7 @@ btn_gift.onclick = function(){
     <li class="ucapan-loading">Memuat ucapan...</li>
 </ul>
 
-<!-- HTML Form RSVP -->
+<!-- HTML Form RSVP (Menggunakan ID Bawaan Tema) -->
 <form action="" method="POST" id="commentform-29862">
     <p class="comment-form-author saic-field-1">
         <input type="text" name="author" id="author" class="saic-input" aria-required="true" placeholder="Nama" value="" required />
@@ -1417,11 +1335,13 @@ btn_gift.onclick = function(){
 
 <script>
 (function() {
-    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbytfOJzo8QrEZLNVgjOrwsm4Iw32Y0HDmWabmJMArYzQddwWQRUl01ftzxyZetCgpekwA/exec";
+    // URL Apps Script TERBARU Anda
+    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzWaawIvIlzNsRPh7THMirQYLZOCDjq3davmiUkBYWXydnjQj-bHQOgNyreu8CiUY4ZVg/exec";
+    
+    // Selector spesifik ke ID bawaan tema (TIDAK akan membajak form lain)
     const formRsvp = document.getElementById("commentform-29862");
     const ulUcapan = document.getElementById('daftar-ucapan-baru');
 
-    // Fungsi escape HTML agar aman
     function escapeHtml(text) {
         if (!text) return '';
         const div = document.createElement('div');
@@ -1432,7 +1352,7 @@ btn_gift.onclick = function(){
     // Fungsi Fetch & Render Daftar Ucapan
     function fetchUcapan() {
         fetch(URL_APPS_SCRIPT, { method: 'GET', redirect: 'follow' })
-            .then(res => res.text()) // Menggunakan .text() untuk menghindari CORS Error dari redirect Apps Script
+            .then(res => res.text()) // Menggunakan .text() untuk antisipasi CORS redirect
             .then(text => {
                 try {
                     const data = JSON.parse(text);
