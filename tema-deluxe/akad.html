@@ -49,20 +49,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
             color: #ffffff !important;
         }
     </style>
-	<style>
-    /* Mengubah warna Judul "Turut Mengundang" menjadi putih */
-    .elementor-element-turtitle h2.elementor-heading-title {
-        color: #ffffff !important;
-    }
-
-    /* Mengubah warna Teks dan Ikon (Orang) pada Daftar Keluarga Kiri & Kanan */
-    .elementor-element-turlist1 .elementor-icon-list-item span,
-    .elementor-element-turlist1 .elementor-icon-list-item i,
-    .elementor-element-turlist2 .elementor-icon-list-item span,
-    .elementor-element-turlist2 .elementor-icon-list-item i {
-        color: #ffffff !important;
-    }
-</style>
+	
 </head>
 <style id='wp-emoji-styles-inline-css'>
 
@@ -785,75 +772,106 @@ Kekalik Jaya, Kec. Sekarbela, Kota Mataram</p>
 					</div>
 				</div>
 
-				<!-- === TURUT MENGUNDANG (AKAD) === -->
-				<div class="elementor-element elementor-element-0ef436c elementor-widget elementor-widget-spacer" data-id="0ef436c" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
-					<div class="elementor-widget-container">
-						<div class="elementor-spacer">
-							<div class="elementor-spacer-inner" style="height:30px;"></div>
-						</div>
-					</div>
-				</div>
-				<div data-dce-title-color="#DDDDDD" class="elementor-element elementor-element-a03baf2 wdsdv-enabled--yes elementor-widget elementor-widget-heading" data-id="a03baf2" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
-					<div class="elementor-widget-container">
-						<h2 class="elementor-heading-title elementor-size-default" style="text-align:center;">Turut Mengundang</h2>
-					</div>
-				</div>
-				<section class="elementor-section elementor-inner-section elementor-element elementor-element-26d0e4c elementor-section-boxed elementor-section-height-default" data-id="26d0e4c" data-element_type="section" data-e-type="section">
-					<div class="elementor-container elementor-column-gap-default">
-						<!-- KOLOM KIRI - PIHAK PRIA -->
-						<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-eb4bcfc" data-id="eb4bcfc" data-element_type="column" data-e-type="column">
-							<div class="elementor-widget-wrap elementor-element-populated">
-								<div data-dce-text-color="#DDDDDD" class="elementor-element elementor-element-2684726 wdsdv-enabled--yes elementor-align-start elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="2684726" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
-									<div class="elementor-widget-container">
-										<ul class="elementor-icon-list-items">
-											<li class="elementor-icon-list-item">
-												<span class="elementor-icon-list-icon">
-													<i aria-hidden="true" class="fas fa-users"></i>
-												</span>
-												<span class="elementor-icon-list-text">Keluarga Besar Bapak Mohamad Rasul</span>
-											</li>
-											<li class="elementor-icon-list-item">
-												<span class="elementor-icon-list-icon">
-													<i aria-hidden="true" class="fas fa-users"></i>
-												</span>
-												<span class="elementor-icon-list-text">Keluarga Ibu Sularti</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- KOLOM KANAN - PIHAK WANITA -->
-						<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-eb4bcfd" data-id="eb4bcfd" data-element_type="column" data-e-type="column">
-							<div class="elementor-widget-wrap elementor-element-populated">
-								<div data-dce-text-color="#DDDDDD" class="elementor-element elementor-element-2684727 wdsdv-enabled--yes elementor-align-start elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="2684727" data-element_type="widget" data-e-type="widget" data-widget_type="icon-list.default">
-									<div class="elementor-widget-container">
-										<ul class="elementor-icon-list-items">
-											<li class="elementor-icon-list-item">
-												<span class="elementor-icon-list-icon">
-													<i aria-hidden="true" class="fas fa-users"></i>
-												</span>
-												<span class="elementor-icon-list-text">Keluarga Besar Bapak Ahmad</span>
-											</li>
-											<li class="elementor-icon-list-item">
-												<span class="elementor-icon-list-icon">
-													<i aria-hidden="true" class="fas fa-users"></i>
-												</span>
-												<span class="elementor-icon-list-text">Keluarga Besar Ibu Almh. Mariana</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-				<!-- === AKHIR TURUT MENGUNDANG === -->
+				<style>
+/* Styling untuk section Turut Mengundang */
+.turut-mengundang-section {
+    padding: 20px 0;
+}
 
-			</div>
-		</div>
-	</div>
-</section>		</div>
+.turut-mengundang-section h2 {
+    color: #DDDDDD !important;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+.turut-mengundang-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.turut-mengundang-column {
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+}
+
+.turut-mengundang-column h3 {
+    color: #DDDDDD !important;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.turut-mengundang-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.turut-mengundang-column ul li {
+    color: #DDDDDD !important;
+    padding: 8px 0;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.turut-mengundang-column ul li i {
+    margin-right: 10px;
+    color: #01928B;
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 768px) {
+    .turut-mengundang-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .turut-mengundang-column {
+        max-width: 100%;
+    }
+}
+</style>
+
+<div class="turut-mengundang-section">
+    <h2>Turut Mengundang</h2>
+    
+    <div class="turut-mengundang-container">
+        <!-- Kolom Kiri - Pihak Pria -->
+        <div class="turut-mengundang-column">
+            <h3>Pihak Pria</h3>
+            <ul>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <span>Keluarga Besar Bapak Mohamad Rasul</span>
+                </li>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <span>Keluarga Ibu Sularti</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Kolom Kanan - Pihak Wanita -->
+        <div class="turut-mengundang-column">
+            <h3>Pihak Wanita</h3>
+            <ul>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <span>Keluarga Besar Bapak Ahmad</span>
+                </li>
+                <li>
+                    <i class="fas fa-users"></i>
+                    <span>Keluarga Besar Ibu Almh. Mariana</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>	</div>
 		</div>
 	</div>
 </section>
