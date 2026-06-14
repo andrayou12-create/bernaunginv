@@ -935,115 +935,115 @@ Jl. Swadaya No.65, Kekalik Jaya, Kec. Sekarbela, Kota Mataram</p>				</div>
 												<div class="elementor-widget-container">
 													<style>.videoWrapper{position:relative;padding-bottom:56.25%;padding-top:0;height:0}.videoWrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%}</style> 
 													<script data-optimized="1" src="https://the.invisimple.id/wp-content/litespeed/js/e16fc868b425493343f7a724127ac6ba.js?ver=ac6ba"></script> 
-				<style>
-    /* Wrapper Video agar tidak merusak layout Elementor */
-    .bernaung-video-wrapper {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        position: relative;
-    }
-
-    /* Rasio 16:9 Responsif */
-    .bernaung-video-wrapper .video-responsive {
-        position: relative;
-        padding-bottom: 56.25%; 
-        height: 0;
-        overflow: hidden;
-        border-radius: 12px; /* Sudut membulat estetis */
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Bayangan agar menyatu dengan tema gelap */
-    }
-
-    /* Posisi Iframe/Player */
-    .bernaung-video-wrapper .video-responsive iframe,
-    .bernaung-video-wrapper .video-responsive #video-yt {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
-    }
-</style>
-
-<!-- Struktur HTML Pembungkus -->
-<div class="bernaung-video-wrapper">
-    <div class="video-responsive">
-        <div id="video-yt"></div>
-    </div> 
+			<div class="videoWrapper">
+    <div id="video-yt"></div>
 </div>
 
+<!-- 1. SCRIPT WAJIB: Memuat YouTube Iframe API -->
 <script>
-(function() {
-    var videoUrl = "https://youtu.be/mnnuySs5kN4";
-    
-    // Fungsi ekstraksi ID YouTube yang lebih akurat
-    function extractVideoId(url) {
-        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        var match = url.match(regExp);
-        return (match && match[2].length === 11) ? match[2] : url;
-    }
-
-    var videoId = extractVideoId(videoUrl);
-
-    function initYTPlayer() {
-        var container = document.getElementById('video-yt');
-        // Cegah error fatal jika elemen belum ter-render oleh Elementor
-        if (!container) return; 
-
-        // Load API YouTube jika belum ada di halaman
-        if (typeof YT === 'undefined' || !YT.Player) {
-            var tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            var firstScriptTag = document.getElementsByTagName('script')[0];
-            if(firstScriptTag && firstScriptTag.parentNode) {
-                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-            }
-        }
-
-        // Fungsi yang dipanggil oleh API YouTube
-        window.onYouTubeIframeAPIReady = function() {
-            if (typeof YT === 'undefined' || !YT.Player) return;
-            
-            var player = new YT.Player('video-yt', {
-                videoId: videoId,
-                playerVars: {
-                    'autoplay': 1,
-                    'mute': 1,
-                    'loop': 1,
-                    'playlist': videoId, // Wajib ada agar loop bekerja
-                    'controls': 1,
-                    'rel': 0,
-                    'modestbranding': 1
-                },
-                events: {
-                    'onStateChange': function(event) {
-                        // Auto replay jika video selesai
-                        if (event.data === YT.PlayerState.ENDED) {
-                            event.target.seekTo(0);
-                            event.target.playVideo();
-                        }
-                    }
-                }
-            });
-        };
-
-        // Jika API sudah terlanjur dimuat sebelum script ini jalan
-        if (typeof YT !== 'undefined' && YT.loaded) {
-            window.onYouTubeIframeAPIReady();
-        }
-    }
-
-    // Tunggu DOM Elementor siap sepenuhnya sebelum menjalankan script
-    // Ini mencegah script menabrak JavaScript bawaan Elementor
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initYTPlayer);
-    } else {
-        initYTPlayer();
-    }
-})();
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 </script>
-				<section data-dce-background-overlay-color="#101010" class="elementor-section elementor-inner-section elementor-element elementor-element-88dcdd wdsdv-enabled--yes elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="88dcdd" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;video&quot;,&quot;jet_parallax_layout_list&quot;:[]}">
+
+<!-- 2. SCRIPT PLAYER UTAMA -->
+<script>
+    var player, playing = false;
+    
+    // Fungsi ini akan dipanggil OTOMATIS oleh YouTube API setelah siap
+    function onYouTubeIframeAPIReady() {
+        var url = "https://youtu.be/mnnuySs5kN4";
+        
+        if (isGoogleDrive(url)) {
+            var driveEmbed = getDriveEmbed(url);
+            document.getElementById("video-yt").innerHTML = '<iframe src="' + driveEmbed + '" style="width:100%;height:100%;border:0;" allow="autoplay" allowfullscreen></iframe>';
+            return;
+        }
+        
+        var videoId = extractVideoId(url);
+        
+        player = new YT.Player('video-yt', {
+            height: '100%',
+            width: '100%',
+            videoId: videoId,
+            playerVars: {
+                'autoplay': 1,
+                'mute': 1,
+                'loop': 1,
+                'playlist': videoId,
+                'controls': 1,
+                'rel': 0,
+                'modestbranding': 1
+            },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    // Dipanggil saat player siap diputar
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
+
+    function isGoogleDrive(url) {
+        return url.includes("drive.google.com");
+    }
+
+    function getDriveEmbed(url) {
+        let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+            return "https://drive.google.com/file/d/" + match[1] + "/preview";
+        }
+        return url;
+    }
+
+    function extractVideoId(url) {
+        let watch = url.match(/v=([^&]+)/);
+        if (watch && watch[1]) return watch[1];
+        let shortUrl = url.match(/youtu\.be\/([^?&]+)/);
+        if (shortUrl && shortUrl[1]) return shortUrl[1];
+        let embed = url.match(/embed\/([^?&]+)/);
+        if (embed && embed[1]) return embed[1];
+        let shorts = url.match(/shorts\/([^?&]+)/);
+        if (shorts && shorts[1]) return shorts[1];
+        return url;
+    }
+
+    // Sinkronisasi dengan musik latar (ditambahkan typeof agar aman jika fungsi audio belum siap)
+    function onPlayerStateChange(event) {
+        if (!player || typeof player.isMuted !== 'function') return;
+        var isMuted = player.isMuted();
+        
+        if (event.data == YT.PlayerState.PLAYING && !isMuted) {
+            if (typeof pauseAudio === 'function') pauseAudio();
+            if (typeof audioInactive === 'function') audioInactive();
+            playing = true;
+        } else if (event.data == YT.PlayerState.PAUSED && !isMuted) {
+            if (typeof playAudio === 'function') playAudio();
+            if (typeof audioActive === 'function') audioActive();
+            playing = false;
+        } else if (event.data == YT.PlayerState.ENDED) {
+            player.seekTo(0);
+            player.playVideo();
+        }
+    }
+
+    function toggleMute() {
+        if (!player) return;
+        if (player.isMuted()) {
+            player.unMute();
+            if (typeof playAudio === 'function') playAudio();
+            if (typeof audioActive === 'function') audioActive();
+        } else {
+            player.mute();
+            if (typeof pauseAudio === 'function') pauseAudio();
+            if (typeof audioInactive === 'function') audioInactive();
+        }
+    }
+</script>				<section data-dce-background-overlay-color="#101010" class="elementor-section elementor-inner-section elementor-element elementor-element-88dcdd wdsdv-enabled--yes elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="88dcdd" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;video&quot;,&quot;jet_parallax_layout_list&quot;:[]}">
 							<div class="elementor-background-overlay"></div>
 							<div class="elementor-container elementor-column-gap-default">
 					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-2a0839b" data-id="2a0839b" data-element_type="column" data-e-type="column">
