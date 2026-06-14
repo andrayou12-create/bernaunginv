@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generator Link Tamu - Bernaung Invitation</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-shadow/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
             --color-gold: #c5a880;
@@ -66,7 +66,7 @@
             color: #b3b3b3;
         }
 
-        input[type="text"], input[type="tel"], textarea {
+        input[type="text"], input[type="tel"], textarea, select {
             width: 100%;
             padding: 12px;
             background-color: #0b0b0b;
@@ -78,7 +78,7 @@
             transition: border-color 0.3s;
         }
 
-        input:focus, textarea:focus {
+        input:focus, textarea:focus, select:focus {
             border-color: var(--color-gold);
             outline: none;
         }
@@ -124,6 +124,7 @@
             word-break: break-all;
             margin-bottom: 15px;
             color: var(--color-gold);
+            white-space: pre-wrap; /* Agar enter pada link keduanya terbaca */
         }
 
         .btn-whatsapp {
@@ -162,6 +163,20 @@
         <input type="text" id="namaTamu" placeholder="Contoh: Bapak Latif & Istri">
     </div>
 
+    <div class="form-group">
+        <label for="nomorHp">Nomor WhatsApp (Opsional)</label>
+        <input type="tel" id="nomorHp" placeholder="Contoh: 08123456789">
+    </div>
+
+    <div class="form-group">
+        <label for="pilihanUndangan">Pilih Jenis Undangan</label>
+        <select id="pilihanUndangan">
+            <option value="keduanya" selected>Undangan Akad & Resepsi</option>
+            <option value="akad">Undangan Akad Saja</option>
+            <option value="resepsi">Undangan Resepsi Saja</option>
+        </select>
+    </div>
+
     <button onclick="generateLink()">Buat Link Undangan</button>
 
     <div class="result-box" id="resultBox">
@@ -182,6 +197,7 @@
 function generateLink() {
     const nama = document.getElementById('namaTamu').value.trim();
     let hp = document.getElementById('nomorHp').value.trim();
+    const pilihan = document.getElementById('pilihanUndangan').value;
 
     if (!nama) {
         alert("Mohon masukkan nama tamu terlebih dahulu!");
@@ -189,18 +205,37 @@ function generateLink() {
     }
 
     // Otomatis mengambil base URL folder tempat file tamu.html berada
-    const baseURL = window.location.href.replace('tamu.html', 'index.html');
+    const pathArray = window.location.href.split('/');
+    pathArray.pop(); // Hapus nama file (tamu.html)
+    const baseURL = pathArray.join('/') + '/';
     
-    // Format nama ke dalam bentuk link URL (?to=Nama+Tamu)
-    const urlUndangan = baseURL + '?to=' + encodeURIComponent(nama);
+    // Generate URL untuk masing-masing file
+    const urlAkad = baseURL + 'akad.html?to=' + encodeURIComponent(nama);
+    const urlResepsi = baseURL + 'resepsi.html?to=' + encodeURIComponent(nama);
+    
+    let urlUndangan = '';
+    let judulAcara = '';
 
-    // Format susunan teks WhatsApp persis seperti permintaan kamu
+    // Logika penentuan link berdasarkan pilihan dropdown
+    if (pilihan === 'akad') {
+        urlUndangan = urlAkad;
+        judulAcara = "Akad Nikah";
+    } else if (pilihan === 'resepsi') {
+        urlUndangan = urlResepsi;
+        judulAcara = "Resepsi Pernikahan";
+    } else {
+        // Jika keduanya, tampilkan 2 link berbeda
+        urlUndangan = "Link Akad Nikah:\n" + urlAkad + "\n\nLink Resepsi Pernikahan:\n" + urlResepsi;
+        judulAcara = "Akad Nikah & Resepsi Pernikahan";
+    }
+
+    // Format susunan teks WhatsApp 
     const pesanWa = "Kepada Yth.\n" +
                     "Bapak/Ibu/Saudara/i\n" +
                     "*" + nama + "*\n" + 
                     "_______\n\n" +
                     "Assalamualaikum Warahmatullahi Wabarakatuh\n\n" +
-                    "Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat, untuk menghadiri acara pernikahan kami.\n\n" +
+                    "Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat, untuk menghadiri acara " + judulAcara + " kami.\n\n" +
                     urlUndangan + "\n\n" +
                     "NB: Hasil maksimal buka lewat browser chrome/safari\n\n" +
                     "Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.\n\n" +
@@ -213,14 +248,15 @@ function generateLink() {
 
     // Format nomor HP ke standar internasional (62)
     if (hp) {
+        hp = hp.replace(/\D/g, ''); // Hapus semua karakter selain angka
         if (hp.startsWith('0')) {
             hp = '62' + hp.slice(1);
-        } else if (hp.startsWith('+62')) {
-            hp = hp.replace('+', '');
+        } else if (!hp.startsWith('62')) {
+            hp = '62' + hp;
         }
     }
 
-    // Tampilkan hasil link undangan saja di kotak output halaman web
+    // Tampilkan hasil link undangan di kotak output
     document.getElementById('outputLink').innerText = urlUndangan;
     
     // Bungkus teks ke link tombol kirim WhatsApp api
