@@ -12,161 +12,49 @@
             --color-dark-grey: #1a1a1a;
             --color-light: #ffffff;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--color-dark);
-            color: var(--color-light);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background-color: var(--color-dark-grey);
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            padding: 30px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            box-sizing: border-box;
-        }
-
-        .logo {
-            text-align: center;
-            font-size: 1.1em;
-            letter-spacing: 2px;
-            color: var(--color-gold);
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        h2 {
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 25px;
-            font-size: 1.4em;
-            color: var(--color-light);
-            font-weight: 500;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.9em;
-            color: #b3b3b3;
-        }
-
-        input[type="text"], input[type="tel"], textarea, select {
-            width: 100%;
-            padding: 12px;
-            background-color: #0b0b0b;
-            border: 1px solid #333;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 1em;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--color-gold);
-            outline: none;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--color-gold);
-            color: var(--color-dark);
-            border: none;
-            border-radius: 6px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.1s;
-        }
-
-        button:hover {
-            background-color: #b3956b;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .result-box {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px dashed #333;
-            display: none;
-        }
-
-        .result-box.active {
-            display: block;
-        }
-
-        .output-link {
-            background-color: #0b0b0b;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #222;
-            font-size: 0.85em;
-            word-break: break-all;
-            margin-bottom: 15px;
-            color: var(--color-gold);
-            white-space: pre-wrap; /* Agar enter pada link keduanya terbaca */
-        }
-
-        .btn-whatsapp {
-            background-color: #25d366;
-            color: white;
-            text-align: center;
-            display: block;
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.95em;
-            transition: background 0.3s;
-        }
-
-        .btn-whatsapp:hover {
-            background-color: #20ba5a;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.75em;
-            color: #555;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--color-dark); color: var(--color-light); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background-color: var(--color-dark-grey); border: 1px solid #2a2a2a; border-radius: 12px; padding: 30px; width: 100%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); box-sizing: border-box; }
+        .logo { text-align: center; font-size: 1.1em; letter-spacing: 2px; color: var(--color-gold); margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
+        h2 { text-align: center; margin-top: 0; margin-bottom: 25px; font-size: 1.4em; color: var(--color-light); font-weight: 500; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.9em; color: #b3b3b3; }
+        input[type="text"], select { width: 100%; padding: 12px; background-color: #0b0b0b; border: 1px solid #333; border-radius: 6px; color: #fff; font-size: 1em; box-sizing: border-box; transition: border-color 0.3s; }
+        input:focus, select:focus { border-color: var(--color-gold); outline: none; }
+        button { width: 100%; padding: 14px; background-color: var(--color-gold); color: var(--color-dark); border: none; border-radius: 6px; font-size: 1em; font-weight: bold; cursor: pointer; transition: background 0.3s, transform 0.1s; }
+        button:hover { background-color: #b3956b; }
+        button:active { transform: scale(0.98); }
+        .result-box { margin-top: 25px; padding-top: 20px; border-top: 1px dashed #333; display: none; }
+        .result-box.active { display: block; }
+        .output-link { background-color: #0b0b0b; padding: 12px; border-radius: 6px; border: 1px solid #222; font-size: 0.85em; word-break: break-all; margin-bottom: 15px; color: var(--color-gold); }
+        
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-copy, .btn-whatsapp { flex: 1; text-align: center; text-decoration: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 0.95em; transition: background 0.3s; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .btn-copy { background-color: #333; color: white; }
+        .btn-copy:hover { background-color: #444; }
+        .btn-whatsapp { background-color: #25d366; color: white; }
+        .btn-whatsapp:hover { background-color: #20ba5a; }
+        
+        .footer { text-align: center; margin-top: 20px; font-size: 0.75em; color: #555; }
+        
+        /* Notifikasi Toast */
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 12px 24px; border-radius: 8px; display: none; z-index: 999; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 0.9em;}
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="logo">Bernaung Invitation</div>
-    <h2>Tamu Link Generator</h2>
+    <h2>Generator Link Tamu</h2>
 
     <div class="form-group">
         <label for="namaTamu">Nama Tamu</label>
-        <input type="text" id="namaTamu" placeholder="Contoh: Bapak Fulan & Fulanah">
+        <input type="text" id="namaTamu" placeholder="Contoh: Bapak Latif & Istri">
     </div>
 
     <div class="form-group">
-        <label for="pilihanUndangan">Pilih Jenis Undangan</label>
-        <select id="pilihanUndangan">
-            <option value="keduanya" selected>Undangan Akad & Resepsi</option>
+        <label for="jenisUndangan">Jenis Undangan</label>
+        <select id="jenisUndangan">
+            <option value="index">Undangan Lengkap (Akad & Resepsi)</option>
             <option value="akad">Undangan Akad Saja</option>
             <option value="resepsi">Undangan Resepsi Saja</option>
         </select>
@@ -175,12 +63,17 @@
     <button onclick="generateLink()">Buat Link Undangan</button>
 
     <div class="result-box" id="resultBox">
-        <label>Link Undangan Hasil Generate:</label>
+        <label>Link Undangan:</label>
         <div class="output-link" id="outputLink"></div>
         
-        <a href="#" target="_blank" class="btn-whatsapp" id="btnWaSender">
-            <i class="fab fa-whatsapp"></i> Kirim Via WhatsApp
-        </a>
+        <div class="btn-group">
+            <button class="btn-copy" onclick="copyLink()">
+                <i class="fas fa-copy"></i> Salin Link
+            </button>
+            <a href="#" target="_blank" class="btn-whatsapp" id="btnWaSender">
+                <i class="fab fa-whatsapp"></i> Buka WhatsApp
+            </a>
+        </div>
     </div>
 
     <div class="footer">
@@ -188,43 +81,36 @@
     </div>
 </div>
 
+<div class="toast" id="toast">Link berhasil disalin!</div>
+
 <script>
 function generateLink() {
     const nama = document.getElementById('namaTamu').value.trim();
-    let hp = document.getElementById('nomorHp').value.trim();
-    const pilihan = document.getElementById('pilihanUndangan').value;
+    const jenis = document.getElementById('jenisUndangan').value;
 
     if (!nama) {
         alert("Mohon masukkan nama tamu terlebih dahulu!");
         return;
     }
 
-    // Otomatis mengambil base URL folder tempat file tamu.html berada
+    // Mengambil base URL secara otomatis
     const pathArray = window.location.href.split('/');
-    pathArray.pop(); // Hapus nama file (tamu.html)
+    pathArray.pop(); 
     const baseURL = pathArray.join('/') + '/';
     
-    // Generate URL untuk masing-masing file
-    const urlAkad = baseURL + 'akad.html?to=' + encodeURIComponent(nama);
-    const urlResepsi = baseURL + 'resepsi.html?to=' + encodeURIComponent(nama);
-    
-    let urlUndangan = '';
-    let judulAcara = '';
+    let fileName = "index.html";
+    let judulAcara = "Akad Nikah & Resepsi Pernikahan";
 
-    // Logika penentuan link berdasarkan pilihan dropdown
-    if (pilihan === 'akad') {
-        urlUndangan = urlAkad;
+    if (jenis === "akad") {
+        fileName = "akad.html";
         judulAcara = "Akad Nikah";
-    } else if (pilihan === 'resepsi') {
-        urlUndangan = urlResepsi;
+    } else if (jenis === "resepsi") {
+        fileName = "resepsi.html";
         judulAcara = "Resepsi Pernikahan";
-    } else {
-        // Jika keduanya, tampilkan 2 link berbeda
-        urlUndangan = "Link Akad Nikah:\n" + urlAkad + "\n\nLink Resepsi Pernikahan:\n" + urlResepsi;
-        judulAcara = "Akad Nikah & Resepsi Pernikahan";
     }
 
-    // Format susunan teks WhatsApp 
+    const urlUndangan = baseURL + fileName + '?to=' + encodeURIComponent(nama);
+
     const pesanWa = "Kepada Yth.\n" +
                     "Bapak/Ibu/Saudara/i\n" +
                     "*" + nama + "*\n" + 
@@ -241,24 +127,39 @@ function generateLink() {
                     "________\n\n" +
                     "Mohon maaf jika ada kesalahan penulisan nama atau gelar";
 
-    // Format nomor HP ke standar internasional (62)
-    if (hp) {
-        hp = hp.replace(/\D/g, ''); // Hapus semua karakter selain angka
-        if (hp.startsWith('0')) {
-            hp = '62' + hp.slice(1);
-        } else if (!hp.startsWith('62')) {
-            hp = '62' + hp;
-        }
-    }
-
-    // Tampilkan hasil link undangan di kotak output
     document.getElementById('outputLink').innerText = urlUndangan;
     
-    // Bungkus teks ke link tombol kirim WhatsApp api
-    const waLink = `https://api.whatsapp.com/send?phone=${hp}&text=${encodeURIComponent(pesanWa)}`;
+    // Tombol Buka WhatsApp (tanpa nomor spesifik, langsung buka WA untuk pilih kontak)
+    const waLink = `https://wa.me/?text=${encodeURIComponent(pesanWa)}`;
     document.getElementById('btnWaSender').href = waLink;
 
     document.getElementById('resultBox').classList.add('active');
+}
+
+function copyLink() {
+    const linkText = document.getElementById('outputLink').innerText;
+    
+    navigator.clipboard.writeText(linkText).then(() => {
+        showToast("Link berhasil disalin!");
+    }).catch(err => {
+        // Fallback untuk browser lama
+        const tempInput = document.createElement("textarea");
+        tempInput.value = linkText;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        showToast("Link berhasil disalin!");
+    });
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.innerText = message;
+    toast.style.display = 'block';
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 2000);
 }
 </script>
 
