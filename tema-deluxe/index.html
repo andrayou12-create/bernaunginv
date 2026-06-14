@@ -935,115 +935,20 @@ Jl. Swadaya No.65, Kekalik Jaya, Kec. Sekarbela, Kota Mataram</p>				</div>
 												<div class="elementor-widget-container">
 													<style>.videoWrapper{position:relative;padding-bottom:56.25%;padding-top:0;height:0}.videoWrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%}</style> 
 													<script data-optimized="1" src="https://the.invisimple.id/wp-content/litespeed/js/e16fc868b425493343f7a724127ac6ba.js?ver=ac6ba"></script> 
-			<div class="videoWrapper">
-    <div id="video-yt"></div>
-</div>
-
-<!-- 1. SCRIPT WAJIB: Memuat YouTube Iframe API -->
-<script>
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-</script>
-
-<!-- 2. SCRIPT PLAYER UTAMA -->
-<script>
-    var player, playing = false;
-    
-    // Fungsi ini akan dipanggil OTOMATIS oleh YouTube API setelah siap
-    function onYouTubeIframeAPIReady() {
-        var url = "https://youtu.be/mnnuySs5kN4";
-        
-        if (isGoogleDrive(url)) {
-            var driveEmbed = getDriveEmbed(url);
-            document.getElementById("video-yt").innerHTML = '<iframe src="' + driveEmbed + '" style="width:100%;height:100%;border:0;" allow="autoplay" allowfullscreen></iframe>';
-            return;
-        }
-        
-        var videoId = extractVideoId(url);
-        
-        player = new YT.Player('video-yt', {
-            height: '100%',
-            width: '100%',
-            videoId: videoId,
-            playerVars: {
-                'autoplay': 1,
-                'mute': 1,
-                'loop': 1,
-                'playlist': videoId,
-                'controls': 1,
-                'rel': 0,
-                'modestbranding': 1
-            },
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-
-    // Dipanggil saat player siap diputar
-    function onPlayerReady(event) {
-        event.target.playVideo();
-    }
-
-    function isGoogleDrive(url) {
-        return url.includes("drive.google.com");
-    }
-
-    function getDriveEmbed(url) {
-        let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-        if (match && match[1]) {
-            return "https://drive.google.com/file/d/" + match[1] + "/preview";
-        }
-        return url;
-    }
-
-    function extractVideoId(url) {
-        let watch = url.match(/v=([^&]+)/);
-        if (watch && watch[1]) return watch[1];
-        let shortUrl = url.match(/youtu\.be\/([^?&]+)/);
-        if (shortUrl && shortUrl[1]) return shortUrl[1];
-        let embed = url.match(/embed\/([^?&]+)/);
-        if (embed && embed[1]) return embed[1];
-        let shorts = url.match(/shorts\/([^?&]+)/);
-        if (shorts && shorts[1]) return shorts[1];
-        return url;
-    }
-
-    // Sinkronisasi dengan musik latar (ditambahkan typeof agar aman jika fungsi audio belum siap)
-    function onPlayerStateChange(event) {
-        if (!player || typeof player.isMuted !== 'function') return;
-        var isMuted = player.isMuted();
-        
-        if (event.data == YT.PlayerState.PLAYING && !isMuted) {
-            if (typeof pauseAudio === 'function') pauseAudio();
-            if (typeof audioInactive === 'function') audioInactive();
-            playing = true;
-        } else if (event.data == YT.PlayerState.PAUSED && !isMuted) {
-            if (typeof playAudio === 'function') playAudio();
-            if (typeof audioActive === 'function') audioActive();
-            playing = false;
-        } else if (event.data == YT.PlayerState.ENDED) {
-            player.seekTo(0);
-            player.playVideo();
-        }
-    }
-
-    function toggleMute() {
-        if (!player) return;
-        if (player.isMuted()) {
-            player.unMute();
-            if (typeof playAudio === 'function') playAudio();
-            if (typeof audioActive === 'function') audioActive();
-        } else {
-            player.mute();
-            if (typeof pauseAudio === 'function') pauseAudio();
-            if (typeof audioInactive === 'function') audioInactive();
-        }
-    }
-</script>				<section data-dce-background-overlay-color="#101010" class="elementor-section elementor-inner-section elementor-element elementor-element-88dcdd wdsdv-enabled--yes elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="88dcdd" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;video&quot;,&quot;jet_parallax_layout_list&quot;:[]}">
+<script data-optimized="1" src="https://the.invisimple.id/wp-content/litespeed/js/e16fc868b425493343f7a724127ac6ba.js?ver=ac6ba"></script> 
+													<div class="videoWrapper">
+														<div id="video-yt"></div></div> 
+													<script>var player,playing=!1;function onYouTubeIframeAPIReady(){var url="https://youtu.be/mnnuySs5kN4";if(isGoogleDrive(url)){var driveEmbed=getDriveEmbed(url);document.getElementById("video-yt").innerHTML='
+	<iframe src="'+driveEmbed+'" '+'style="width:100%;height:100%;border:0;" allow="autoplay" allowfullscreen></iframe>';return}
+var videoId=extractVideoId(url);player=new YT.Player('video-yt',{height:'360',width:'640',videoId:videoId,playerVars:{'autoplay':1,'mute':1,'loop':1,'playlist':videoId},events:{'onStateChange':onPlayerStateChange}});let muteBtn=document.getElementById('mute-button');if(muteBtn){muteBtn.addEventListener('click',function(){toggleMute()})}}
+function isGoogleDrive(url){return url.includes("drive.google.com")}
+function getDriveEmbed(url){let match=url.match(/\/d\/([a-zA-Z0-9_-]+)/);if(match&&match[1]){return"https://drive.google.com/file/d/"+match[1]+"/preview"}
+return url}
+function extractVideoId(url){let watch=url.match(/v=([^&]+)/);if(watch&&watch[1])return watch[1];let shortUrl=url.match(/youtu\.be\/([^?&]+)/);if(shortUrl&&shortUrl[1])return shortUrl[1];let embed=url.match(/embed\/([^?&]+)/);if(embed&&embed[1])return embed[1];let shorts=url.match(/shorts\/([^?&]+)/);if(shorts&&shorts[1])return shorts[1];return url}
+function onPlayerStateChange(event){var isMuted=player.isMuted();if(event.data==YT.PlayerState.PLAYING&&!isMuted){pauseAudio();audioInactive();playing=!0}else if(event.data==YT.PlayerState.PAUSED&&!isMuted){playAudio();audioActive();playing=!1}else if(event.data==YT.PlayerState.ENDED){player.seekTo(0);player.playVideo()}}
+function toggleMute(){if(!player)return;if(player.isMuted()){player.unMute();playAudio();audioActive()}else{player.mute();pauseAudio();audioInactive()}}</script> </div></div></div></div></div></section>
+													
+											<section data-dce-background-overlay-color="#101010" class="elementor-section elementor-inner-section elementor-element elementor-element-88dcdd wdsdv-enabled--yes elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="88dcdd" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;video&quot;,&quot;jet_parallax_layout_list&quot;:[]}">
 							<div class="elementor-background-overlay"></div>
 							<div class="elementor-container elementor-column-gap-default">
 					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-2a0839b" data-id="2a0839b" data-element_type="column" data-e-type="column">
