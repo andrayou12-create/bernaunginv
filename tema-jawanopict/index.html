@@ -1966,56 +1966,102 @@ window.addEventListener("scroll", function() {
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const submitBtn = document.getElementById('submit-6854');
     const rsvpForm = document.getElementById('commentform-6854');
     
-    if (submitBtn && rsvpForm) {
-        // Intercept klik tombol submit menggunakan capture phase (true) 
-        // agar script ini berjalan lebih dulu sebelum plugin bawaan (wds-rsvp.js) memprosesnya
-        submitBtn.addEventListener('click', function(e) {
-            e.preventDefault(); // Mencegah submit bawaan
-            e.stopImmediatePropagation(); // Mencegah event listener lain ikut berjalan
+    if (rsvpForm) {
+        // Gunakan capture phase (true) agar script ini memotong proses submit bawaan plugin
+        rsvpForm.addEventListener('submit', function(e) {
+            e.preventDefault(); 
             
-            // Kumpulkan semua data dari form
             const formData = new FormData(rsvpForm);
+            const nama = formData.get('author');
+            const ucapan = formData.get('comment');
+            const status = formData.get('attendance');
+
+            // Validasi sederhana agar data kosong tidak terkirim
+            if(!nama || !ucapan || !status || status === 'notsure') {
+                alert('Mohon isi Nama, Ucapan, dan pilih Konfirmasi Kehadiran.');
+                return;
+            }
+
+            // 1. Tampilkan loading icon bawaan plugin
+            const holder = document.querySelector('.saic-holder-6854');
+            if(holder) holder.style.display = 'block';
+
             const params = new URLSearchParams();
-            
             for (const [key, value] of formData.entries()) {
                 params.append(key, value);
             }
-            
-            // Sisipkan Sheet ID agar bisa dibaca oleh Apps Script (opsional, tergantung kode Apps Script Anda)
             params.append('sheetId', '1xztKOaDGhUhmJlEmEpD_xI7Muyef7Lb-S0cSKHKqv6I');
 
-            // Kirim data ke Google Apps Script
-            fetch('https://https://script.google.com/macros/s/AKfycbx-q5N_D9OAMR9l3iOdOI5RXEZ4usASIn67O4zOX5PLgnZ2uiLInxN8WShMoUoI7Wlh/exec', {
+            // 2. Kirim ke Google Apps Script
+            fetch('https://script.google.com/macros/s/AKfycbx-q5N_D9OAMR9l3iOdOI5RXEZ4usASIn67O4zOX5PLgnZ2uiLInxN8WShMoUoI7Wlh/exec', {
                 method: 'POST',
-                mode: 'no-cors', // Wajib menggunakan no-cors untuk Google Apps Script
+                mode: 'no-cors',
                 body: params
             }).then(() => {
-                // Tampilkan pesan sukses di elemen status bawaan agar UI tetap sama
+                // 3. Sembunyikan loading icon
+                if(holder) holder.style.display = 'none';
+
+                // 4. Tentukan icon dan teks status kehadiran
+                let statusText = '';
+                let statusIcon = '';
+                if(status === 'present') {
+                    statusText = 'Hadir';
+                    statusIcon = '<i class="fas fa-check-circle" style="color:green;"></i>';
+                } else if(status === 'notpresent') {
+                    statusText = 'Tidak Hadir';
+                    statusIcon = '<i class="fas fa-times-circle" style="color:red;"></i>';
+                } else {
+                    statusText = 'Tidak Konfirmasi';
+                    statusIcon = '<i class="fas fa-question-circle" style="color:gray;"></i>';
+                }
+
+                // 5. Buat HTML untuk ucapan baru dan masukkan ke daftar ucapan
+                const newCommentHTML = `
+                <li class="saic-comment-item" style="list-style:none; margin-bottom:15px; padding:10px; border-bottom:1px solid #eee; animation: fadeIn 0.5s;">
+                    <div class="saic-comment-content" style="margin-left: 0 !important;">
+                        <strong>${nama}</strong> 
+                        <span style="font-size:12px; color:#888; margin-left:5px;">${statusIcon} ${statusText}</span>
+                        <p style="margin:5px 0 0;">${ucapan.replace(/\n/g, '<br>')}</p>
+                    </div>
+                </li>
+                `;
+
+                const commentList = document.getElementById('saic-container-comment-6854');
+                if(commentList) {
+                    // Sisipkan di paling atas (karena urutan DESC / terbaru di atas)
+                    commentList.insertAdjacentHTML('afterbegin', newCommentHTML);
+                }
+
+                // 6. Tampilkan pesan sukses
                 const statusEl = document.getElementById('saic-comment-status-6854');
                 if(statusEl) {
-                    statusEl.innerHTML = '<p style="color:green; text-align:center; font-weight:bold;">Terima kasih! Ucapan dan konfirmasi kehadiran Anda telah kami terima.</p>';
+                    statusEl.innerHTML = '<p style="color:green; text-align:center; font-weight:bold; margin:10px 0;">Terima kasih! Ucapan dan konfirmasi kehadiran Anda telah kami terima.</p>';
                     statusEl.style.display = 'block';
-                } else {
-                    alert('Terima kasih! Ucapan dan konfirmasi kehadiran Anda telah kami terima.');
+                    setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
                 }
-                
-                // Reset form ke keadaan awal
+
+                // 7. Reset form dan kembalikan nilai default
                 rsvpForm.reset();
                 const attendanceInput = document.getElementById('attendance');
                 if(attendanceInput) attendanceInput.value = 'notsure';
                 
+                const submitBtn = document.getElementById('submit-6854');
+                if(submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.value = 'Kirim';
+                }
+
             }).catch(error => {
                 console.error('Error:', error);
+                if(holder) holder.style.display = 'none';
                 alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
             });
         }, true); 
     }
 });
-</script>
-<link rel='stylesheet' id='elementor-post-370686-css' href='https://the.invisimple.id/wp-content/uploads/elementor/css/post-370686.css?ver=1781273826' media='all' />
+</script><link rel='stylesheet' id='elementor-post-370686-css' href='https://the.invisimple.id/wp-content/uploads/elementor/css/post-370686.css?ver=1781273826' media='all' />
 <script src="https://envitto.invisimple.id/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
 <script src="https://envitto.invisimple.id/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
 <script src="https://the.invisimple.id/wp-content/plugins/betterdocs/assets/blocks/categorygrid/frontend.js?ver=9a7c53e94a90401f1886" id="betterdocs-categorygrid-js"></script>
