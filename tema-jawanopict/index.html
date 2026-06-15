@@ -1967,26 +1967,20 @@ window.addEventListener("scroll", function() {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const scriptURL = 'https://script.google.com/macros/s/AKfycbwbVPXslEL-oCmv7yLNMaaxlI0HQL2G1wdByiGg6VV0Cqq1CUpmEuJ1l71ggt8DhVm_/exec';
-    const commentList = document.getElementById('saic-container-comment-6854');
-    const commentWrapper = document.getElementById('saic-wrap-comment-6854');
     const rsvpForm = document.getElementById('commentform-6854');
     const submitBtn = document.getElementById('submit-6854');
 
     // ==========================================
-    // 1. FUNGSI UNTUK MEMUAT DAFTAR UCAPAN DARI SPREADSHEET
+    // FUNGSI UNTUK MEMUAT & MERENDER UCAPAN DARI SPREADSHEET
     // ==========================================
-    function loadComments() {
-        // Tambahkan timestamp (?t=...) untuk menghindari cache browser
+    function loadComments(commentList) {
         fetch(scriptURL + '?t=' + new Date().getTime())
             .then(response => response.json())
             .then(data => {
-                if (commentList && Array.isArray(data) && data.length > 0) {
-                    // Tampilkan wrapper komentar yang tadinya disembunyikan
-                    if(commentWrapper) commentWrapper.style.display = 'block';
-                    
+                console.log("Data ucapan dari Spreadsheet:", data); // Cek di Console browser (F12)
+                if (Array.isArray(data) && data.length > 0) {
                     let html = '';
                     data.forEach(item => {
-                        // Membaca data berdasarkan nama Header di Spreadsheet
                         const nama = item['Nama'] || item['nama'] || item['author'] || 'Tamu';
                         const ucapan = item['Ucapan'] || item['ucapan'] || item['comment'] || '';
                         const status = String(item['Kehadiran'] || item['kehadiran'] || item['attendance'] || '').toLowerCase();
@@ -2013,16 +2007,56 @@ document.addEventListener('DOMContentLoaded', function() {
                         </li>`;
                     });
                     commentList.innerHTML = html;
+                } else {
+                    commentList.innerHTML = '<li style="list-style:none; text-align:center; padding:10px; color:#888;">Belum ada ucapan.</li>';
                 }
             })
-            .catch(error => console.error('Error loading comments:', error));
+            .catch(error => {
+                console.error("Error memuat ucapan:", error);
+                commentList.innerHTML = '<li style="list-style:none; text-align:center; padding:10px; color:red;">Gagal memuat ucapan. Buka Console (F12) untuk detail.</li>';
+            });
     }
 
-    // Jalankan fungsi loadComments saat halaman pertama kali dibuka
-    loadComments();
+    // ==========================================
+    // 1. HIJACK CONTAINER KOMENTAR BAWAAN PLUGIN
+    // ==========================================
+    // Mengintai kapan plugin bawaan memunculkan container komentar di DOM
+    const checkContainer = setInterval(() => {
+        const commentList = document.getElementById('saic-container-comment-6854');
+        // Cari wrapper pembungkus komentar
+        const commentWrapper = document.getElementById('saic-wrap-comment-6854') || commentList?.closest('.elementor-widget-container');
+        
+        if (commentList) {
+            clearInterval(checkContainer); // Hentikan pengintaian karena container sudah ditemukan
+            
+            // Paksa container dan wrapper agar SELALU TERLIHAT (Override plugin bawaan)
+            const forceShow = () => {
+                if (commentWrapper) {
+                    commentWrapper.style.display = 'block';
+                    commentWrapper.style.visibility = 'visible';
+                    commentWrapper.style.opacity = '1';
+                    commentWrapper.style.height = 'auto';
+                    commentWrapper.style.overflow = 'visible';
+                }
+                if (commentList) {
+                    commentList.style.display = 'block';
+                }
+            };
+            
+            forceShow();
+            // Jalankan paksa tampil setiap 500ms untuk mencegah plugin bawaan menyembunyikannya lagi
+            setInterval(forceShow, 500);
+
+            // Muat data dari Spreadsheet
+            loadComments(commentList);
+            
+            // Simpan reference commentList untuk digunakan saat submit form nanti
+            window.myCommentList = commentList;
+        }
+    }, 300);
 
     // ==========================================
-    // 2. FUNGSI INTERCEPT SUBMIT FORM
+    // 2. INTERCEPT SUBMIT FORM
     // ==========================================
     if (rsvpForm && submitBtn) {
         submitBtn.addEventListener('click', function(e) {
@@ -2059,9 +2093,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }).then(() => {
                 if(holder) holder.style.display = 'none';
                 
-                // Setelah berhasil kirim ke Spreadsheet, muat ulang daftar ucapan
-                // Ini menjamin data yang tampil selalu sinkron dengan Spreadsheet
-                loadComments();
+                // Muat ulang daftar ucapan dari Spreadsheet
+                if (window.myCommentList) {
+                    loadComments(window.myCommentList);
+                }
 
                 const statusEl = document.getElementById('saic-comment-status-6854');
                 if(statusEl) {
