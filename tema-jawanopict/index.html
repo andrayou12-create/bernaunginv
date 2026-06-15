@@ -1965,6 +1965,7 @@ window.addEventListener("scroll", function() {
 /*# sourceURL=template-fix-404c5a5-inline-inline-css */
 </style>
 <script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     const rsvpForm = document.getElementById('commentform-6854');
     
@@ -2032,6 +2033,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(commentList) {
                     // Sisipkan di paling atas (karena urutan DESC / terbaru di atas)
                     commentList.insertAdjacentHTML('afterbegin', newCommentHTML);
+                    
+                    // === PERBAIKAN: Tampilkan container komentar jika sebelumnya disembunyikan ===
+                    const commentWrapper = document.getElementById('saic-wrap-comment-6854');
+                    if(commentWrapper && commentWrapper.style.display === 'none') {
+                        commentWrapper.style.display = 'block';
+                    }
+                    // ===========================================================================
                 }
 
                 // 6. Tampilkan pesan sukses
@@ -2061,7 +2069,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, true); 
     }
 });
-</script><link rel='stylesheet' id='elementor-post-370686-css' href='https://the.invisimple.id/wp-content/uploads/elementor/css/post-370686.css?ver=1781273826' media='all' />
+</script>
+<link rel='stylesheet' id='elementor-post-370686-css' href='https://the.invisimple.id/wp-content/uploads/elementor/css/post-370686.css?ver=1781273826' media='all' />
 <script src="https://envitto.invisimple.id/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
 <script src="https://envitto.invisimple.id/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
 <script src="https://the.invisimple.id/wp-content/plugins/betterdocs/assets/blocks/categorygrid/frontend.js?ver=9a7c53e94a90401f1886" id="betterdocs-categorygrid-js"></script>
