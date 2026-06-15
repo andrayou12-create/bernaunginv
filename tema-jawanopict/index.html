@@ -1490,58 +1490,67 @@ bernaunginv
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
                         <script data-optimized="1" src="https://the.invisimple.id/wp-content/litespeed/js/051a23887bb76a428f4cfc30f318f8cd.js?ver=8f8cd"></script>
                         <script>
-                            var cover = document.getElementById('cover');
-                            var btn_open = document.getElementById('btn_open');
-                            let delaySection = 0;
-                            const isEditorActive = document.body.classList.contains('elementor-editor-active');
+var cover = document.getElementById('cover');
+var btn_open = document.getElementById('btn_open');
+let delaySection = 0;
+const isEditorActive = document.body.classList.contains('elementor-editor-active');
 
-                            document.addEventListener('DOMContentLoaded', () => {
-                                document.querySelector('.motionSection .elementor-background-video-container video').removeAttribute('autoplay');
-                                document.querySelector('.kolomPertama').style.display = 'none';
-                                delaySection = document.querySelector('.kolomPertama').dataset.delayTime;
-                            });
+document.addEventListener('DOMContentLoaded', () => {
+    let video = document.querySelector('.motionSection .elementor-background-video-container video');
+    if (video) video.removeAttribute('autoplay');
+    
+    let kolom = document.querySelector('.kolomPertama');
+    if (kolom) {
+        kolom.style.display = 'none';
+        delaySection = kolom.dataset.delayTime || 0;
+    }
+});
 
-                            if (typeof elementorFrontendConfig === 'undefined') {
-                                disableScrolling();
-                                document.body.style.height = "100vh";
-                                btn_open.onclick = function() {
-                                    enableScrolling();
-                                    closeCover();
-                                    myFunction();
-                                };
-                            }
+// PERBAIKAN: Gunakan isEditorActive, BUKAN elementorFrontendConfig
+if (!isEditorActive) {
+    disableScrolling();
+    document.body.style.height = "100vh";
+    btn_open.onclick = function() {
+        enableScrolling();
+        closeCover();
+        myFunction();
+    };
+}
 
-                            function myFunction() {
-                                setTimeout(() => {
-                                    document.querySelector('.motionSection .elementor-background-video-container video').play();
-                                }, 100);
-                                setTimeout(() => {
-                                    document.querySelector('.kolomPertama').style.display = 'block';
-                                }, delaySection);
-                            }
+function myFunction() {
+    setTimeout(() => {
+        let video = document.querySelector('.motionSection .elementor-background-video-container video');
+        if (video) video.play();
+    }, 100);
+    setTimeout(() => {
+        let kolom = document.querySelector('.kolomPertama');
+        if (kolom) kolom.style.display = 'block';
+    }, delaySection);
+}
 
-                            function disableScrolling() {
-                                var x = window.scrollX;
-                                var y = window.scrollY;
-                                window.onscroll = function() { window.scrollTo(x, y); };
-                                jQuery('body').css('overflow', 'hidden');
-                            }
+function disableScrolling() {
+    var x = window.scrollX;
+    var y = window.scrollY;
+    window.onscroll = function() { window.scrollTo(x, y); };
+    jQuery('body').css('overflow', 'hidden');
+}
 
-                            function enableScrolling() {
-                                window.onscroll = function() {};
-                                jQuery('body').css('overflow', 'visible');
-                            }
+function enableScrolling() {
+    window.onscroll = function() {};
+    jQuery('body').css('overflow', 'visible');
+}
 
-                            function closeCover() {
-                                $("#cover").slideUp(1500, 'easeInOutCubic');
-                            }
+function closeCover() {
+    jQuery("#cover").slideUp(1500, 'easeInOutCubic');
+}
 
-                            function munculKolom() {
-                                setTimeout(function() {
-                                    document.querySelector('.kolomPertama').style.display = 'block';
-                                }, 14000);
-                            }
-                        </script>
+function munculKolom() {
+    setTimeout(function() {
+        let kolom = document.querySelector('.kolomPertama');
+        if (kolom) kolom.style.display = 'block';
+    }, 14000);
+}
+</script>
                     </div>
                 </div>
 
