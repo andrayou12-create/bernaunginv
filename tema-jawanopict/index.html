@@ -1965,12 +1965,65 @@ window.addEventListener("scroll", function() {
 /*# sourceURL=template-fix-404c5a5-inline-inline-css */
 </style>
 <script>
-<script>
 document.addEventListener('DOMContentLoaded', function() {
-    const rsvpForm = document.getElementById('commentform-6854');
+    // GANTI URL INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA YANG TERBARU
+    const scriptURL = 'https://script.google.com/macros/s/AKfycby3YXeupCWhh1YHytbm8yRGQYWpQ7Agm6ChSuUQ18Ith3hIPSufDiR8R31wgJIQvSSj/exec';
     
+    // ==========================================
+    // 1. FUNGSI UNTUK MEMUAT UCAPAN DARI SPREADSHEET SAAT HALAMAN DIBUKA
+    // ==========================================
+    function loadComments() {
+        fetch(scriptURL)
+            .then(response => response.json())
+            .then(data => {
+                const commentList = document.getElementById('saic-container-comment-6854');
+                const commentWrapper = document.getElementById('saic-wrap-comment-6854');
+                
+                if (commentList && data.length > 0) {
+                    if(commentWrapper) commentWrapper.style.display = 'block';
+                    
+                    let html = '';
+                    data.forEach(item => {
+                        // Mencocokkan dengan nama header di Google Sheet (Langkah 1)
+                        const nama = item['Nama'] || 'Tamu';
+                        const ucapan = item['Ucapan'] || '';
+                        const status = String(item['Kehadiran'] || '').toLowerCase();
+                        const jumlah = item['Jumlah Tamu'] || '1';
+                        
+                        let statusText = 'Tidak Konfirmasi';
+                        let statusIcon = '<i class="fas fa-question-circle" style="color:gray;"></i>';
+                        
+                        if (status.includes('hadir')) {
+                            statusText = 'Hadir';
+                            statusIcon = '<i class="fas fa-check-circle" style="color:green;"></i>';
+                        } else if (status.includes('tidak')) {
+                            statusText = 'Tidak Hadir';
+                            statusIcon = '<i class="fas fa-times-circle" style="color:red;"></i>';
+                        }
+
+                        html += `
+                        <li class="saic-comment-item" style="list-style:none; margin-bottom:15px; padding:10px; border-bottom:1px solid #eee;">
+                            <div class="saic-comment-content" style="margin-left: 0 !important;">
+                                <strong>${nama}</strong> <span style="font-size:12px; color:#888;">(${jumlah} Orang)</span>
+                                <span style="font-size:12px; color:#888; margin-left:5px;">${statusIcon} ${statusText}</span>
+                                <p style="margin:5px 0 0; white-space: pre-wrap;">${ucapan}</p>
+                            </div>
+                        </li>`;
+                    });
+                    commentList.innerHTML = html;
+                }
+            })
+            .catch(error => console.error('Error loading comments:', error));
+    }
+
+    // Jalankan fungsi loadComments saat halaman selesai dimuat
+    loadComments();
+
+    // ==========================================
+    // 2. FUNGSI UNTUK MENGIRIM UCAPAN BARU (INTERCEPT FORM)
+    // ==========================================
+    const rsvpForm = document.getElementById('commentform-6854');
     if (rsvpForm) {
-        // Gunakan capture phase (true) agar script ini memotong proses submit bawaan plugin
         rsvpForm.addEventListener('submit', function(e) {
             e.preventDefault(); 
             
@@ -1978,14 +2031,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const nama = formData.get('author');
             const ucapan = formData.get('comment');
             const status = formData.get('attendance');
+            const jumlah = formData.get('guest'); // Menangkap field Jumlah Tamu
 
-            // Validasi sederhana agar data kosong tidak terkirim
             if(!nama || !ucapan || !status || status === 'notsure') {
                 alert('Mohon isi Nama, Ucapan, dan pilih Konfirmasi Kehadiran.');
                 return;
             }
 
-            // 1. Tampilkan loading icon bawaan plugin
             const holder = document.querySelector('.saic-holder-6854');
             if(holder) holder.style.display = 'block';
 
@@ -1993,56 +2045,35 @@ document.addEventListener('DOMContentLoaded', function() {
             for (const [key, value] of formData.entries()) {
                 params.append(key, value);
             }
-            params.append('sheetId', '1xztKOaDGhUhmJlEmEpD_xI7Muyef7Lb-S0cSKHKqv6I');
 
-            // 2. Kirim ke Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbxzyXXpdFyCIA4JJ19RjjTQIDSs-MvTUUalS4keTAnX-7H6JSqNr1zGa117lcMRSih1/exec', {
+            fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
                 body: params
             }).then(() => {
-                // 3. Sembunyikan loading icon
                 if(holder) holder.style.display = 'none';
 
-                // 4. Tentukan icon dan teks status kehadiran
-                let statusText = '';
-                let statusIcon = '';
-                if(status === 'present') {
-                    statusText = 'Hadir';
-                    statusIcon = '<i class="fas fa-check-circle" style="color:green;"></i>';
-                } else if(status === 'notpresent') {
-                    statusText = 'Tidak Hadir';
-                    statusIcon = '<i class="fas fa-times-circle" style="color:red;"></i>';
-                } else {
-                    statusText = 'Tidak Konfirmasi';
-                    statusIcon = '<i class="fas fa-question-circle" style="color:gray;"></i>';
-                }
+                const commentList = document.getElementById('saic-container-comment-6854');
+                const commentWrapper = document.getElementById('saic-wrap-comment-6854');
+                if(commentWrapper) commentWrapper.style.display = 'block';
 
-                // 5. Buat HTML untuk ucapan baru dan masukkan ke daftar ucapan
+                let statusText = status === 'present' ? 'Hadir' : (status === 'notpresent' ? 'Tidak Hadir' : 'Tidak Konfirmasi');
+                let statusIcon = status === 'present' ? '<i class="fas fa-check-circle" style="color:green;"></i>' : (status === 'notpresent' ? '<i class="fas fa-times-circle" style="color:red;"></i>' : '<i class="fas fa-question-circle" style="color:gray;"></i>');
+
+                // Tambahkan ucapan baru ke paling atas list secara real-time
                 const newCommentHTML = `
                 <li class="saic-comment-item" style="list-style:none; margin-bottom:15px; padding:10px; border-bottom:1px solid #eee; animation: fadeIn 0.5s;">
                     <div class="saic-comment-content" style="margin-left: 0 !important;">
-                        <strong>${nama}</strong> 
+                        <strong>${nama}</strong> <span style="font-size:12px; color:#888;">(${jumlah} Orang)</span>
                         <span style="font-size:12px; color:#888; margin-left:5px;">${statusIcon} ${statusText}</span>
-                        <p style="margin:5px 0 0;">${ucapan.replace(/\n/g, '<br>')}</p>
+                        <p style="margin:5px 0 0; white-space: pre-wrap;">${ucapan}</p>
                     </div>
-                </li>
-                `;
-
-                const commentList = document.getElementById('saic-container-comment-6854');
+                </li>`;
+                
                 if(commentList) {
-                    // Sisipkan di paling atas (karena urutan DESC / terbaru di atas)
                     commentList.insertAdjacentHTML('afterbegin', newCommentHTML);
-                    
-                    // === PERBAIKAN: Tampilkan container komentar jika sebelumnya disembunyikan ===
-                    const commentWrapper = document.getElementById('saic-wrap-comment-6854');
-                    if(commentWrapper && commentWrapper.style.display === 'none') {
-                        commentWrapper.style.display = 'block';
-                    }
-                    // ===========================================================================
                 }
 
-                // 6. Tampilkan pesan sukses
                 const statusEl = document.getElementById('saic-comment-status-6854');
                 if(statusEl) {
                     statusEl.innerHTML = '<p style="color:green; text-align:center; font-weight:bold; margin:10px 0;">Terima kasih! Ucapan dan konfirmasi kehadiran Anda telah kami terima.</p>';
@@ -2050,7 +2081,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
                 }
 
-                // 7. Reset form dan kembalikan nilai default
                 rsvpForm.reset();
                 const attendanceInput = document.getElementById('attendance');
                 if(attendanceInput) attendanceInput.value = 'notsure';
@@ -2060,7 +2090,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     submitBtn.disabled = false;
                     submitBtn.value = 'Kirim';
                 }
-
             }).catch(error => {
                 console.error('Error:', error);
                 if(holder) holder.style.display = 'none';
