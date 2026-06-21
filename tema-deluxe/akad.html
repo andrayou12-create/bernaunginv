@@ -49,6 +49,19 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
             color: #ffffff !important;
         }
     </style>
+	<style>
+/* Paksa font tema agar tidak ditimpa CSS global */
+body, h1, h2, h3, h4, h5, h6, p, .elementor-heading-title {
+    font-family: 'Lexend', sans-serif !important;
+}
+.playball, .elementor-heading-title.elementor-size-default {
+    font-family: 'Playball', cursive !important;
+}
+/* Pastikan warna teks tetap putih/abu-abu sesuai tema */
+.elementor-heading-title, p, .elementor-icon-list-text {
+    color: #DDDDDD !important;
+}
+</style>
 	
 </head>
 <style id='wp-emoji-styles-inline-css'>
