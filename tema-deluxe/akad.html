@@ -49,7 +49,123 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
             color: #ffffff !important;
         }
     </style>
+<!-- PERBAIKAN FONT & LAYOUT -->
+<style>
+/* ============================================
+   1. PERBAIKAN FONT - LOAD GOOGLE FONTS SECARA MANUAL
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Playball&family=Lexend:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Nunito+Sans:wght@300;400;600;700&family=Roboto+Slab:wght@300;400;500;600;700&display=swap');
 
+/* Terapkan font ke semua elemen */
+body, 
+.elementor-widget-text-editor,
+.elementor-widget-heading,
+.elementor-widget-icon-list,
+.elementor-widget-button,
+.elementor-heading-title,
+p, h1, h2, h3, h4, h5, h6, span, div {
+    font-family: 'Lexend', 'Poppins', 'Roboto', sans-serif !important;
+}
+
+/* Font Playball untuk heading khusus */
+.playball,
+.elementor-widget-heading.playball .elementor-heading-title,
+.elementor-element-eca7d74 .elementor-heading-title,
+.elementor-element-53dfd32 .elementor-heading-title,
+.elementor-element-b06f645 .elementor-heading-title,
+.elementor-element-4d5e410 .elementor-heading-title,
+.elementor-element-ba60692 .elementor-heading-title,
+.elementor-element-5d09f33 .elementor-heading-title,
+.elementor-element-93a8abf .elementor-heading-title,
+.elementor-element-665cf9c .elementor-heading-title {
+    font-family: 'Playball', cursive !important;
+    font-weight: 400 !important;
+}
+
+/* Perbaikan warna teks - pastikan tidak biru */
+.elementor-heading-title,
+.elementor-widget-heading .elementor-heading-title,
+.elementor-widget-text-editor,
+.elementor-icon-list-text,
+.elementor-widget-button .elementor-button-text,
+p, h1, h2, h3, h4, h5, h6 {
+    color: #DDDDDD !important;
+}
+
+/* Override link color agar tidak biru */
+a {
+    color: #DDDDDD !important;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: #FFFFFF !important;
+}
+
+/* ============================================
+   2. PERBAIKAN FOTO MEMPELAI - ASPECT RATIO
+   ============================================ */
+/* Background slideshow untuk foto mempelai */
+.elementor-element-e218b33,
+.elementor-element-cde30ab {
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    min-height: 500px !important;
+}
+
+/* Gallery image aspect ratio */
+.e-gallery-image,
+.elementor-gallery-item__image {
+    object-fit: cover !important;
+    object-position: center !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Image carousel */
+.swiper-slide-image {
+    object-fit: cover !important;
+    object-position: center !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 500px !important;
+}
+
+/* ============================================
+   3. PERBAIKAN LAYOUT & SPACING
+   ============================================ */
+/* Pastikan container memiliki tinggi minimal */
+.elementor-section-height-min-height {
+    min-height: 100vh !important;
+}
+
+/* Perbaikan padding dan margin */
+.elementor-widget-wrap {
+    padding: 20px !important;
+}
+
+/* Perbaikan responsive */
+@media (max-width: 768px) {
+    .elementor-section-height-min-height {
+        min-height: auto !important;
+        padding: 40px 20px !important;
+    }
+    
+    .elementor-element-e218b33,
+    .elementor-element-cde30ab {
+        min-height: 300px !important;
+    }
+}
+</style>
+
+<!-- Fallback untuk UseAnyFont - Load font secara manual -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playball&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+	
 	
 </head>
 <style id='wp-emoji-styles-inline-css'>
