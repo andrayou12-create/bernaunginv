@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Wedding - Vira & Didik</title>
-    <meta name="description" content="Undangan Pernikahan Vira & Didik - 26 Juni 2026" />
+    <meta name="description" content="Undangan Pernikahan Vira & Didik - 28 Juni 2026" />
     
     <!-- Fonts: Poppins & Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
         :root {
             --font-main: 'Poppins', sans-serif;
             --font-sub: 'Montserrat', sans-serif;
-            --color-primary: #01928B;
+            --color-primary: #FFFFFF; /* Diubah ke putih sesuai tema */
             --color-bg: #101010;
         }
 
@@ -34,16 +34,15 @@
 
         /* Typography Classes */
         .font-main { font-family: var(--font-main); }
-        .font-sub { font-family: var(--font-sub); font-weight: 500; } /* Montserrat Medium */
-        .font-accent { font-family: var(--font-main); font-weight: 800; } /* Poppins ExtraBold */
-        .text-content { font-family: var(--font-main); font-weight: 400; } /* Poppins Regular */
+        .font-sub { font-family: var(--font-sub); font-weight: 500; } 
+        .font-accent { font-family: var(--font-main); font-weight: 800; } 
+        .text-content { font-family: var(--font-main); font-weight: 400; } 
         
         /* Background Video */
         #bg-video {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             object-fit: cover; z-index: -2;
         }
-        /* Overlay video sedikit digelapkan agar teks putih tetap terbaca */
         .video-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: rgba(0, 0, 0, 0.4);
@@ -54,8 +53,8 @@
         .app-container {
             max-width: 500px;
             margin: 0 auto;
-            /* Semi transparent wrapper */
-            background: rgba(0,0,0,0.2);
+            /* Diubah menjadi transparan agar video cover jelas */
+            background: transparent;
             min-height: 100vh;
             box-shadow: 0 0 20px rgba(0,0,0,0.7);
             position: relative;
@@ -70,7 +69,7 @@
             text-align: center; padding: 20px;
         }
 
-        /* Buttons (Poppins SemiBold) */
+        /* Buttons */
         .btn-primary {
             background-color: rgba(0, 0, 0, 0.5); color: #fff; 
             padding: 12px 28px; border-radius: 30px; 
@@ -80,7 +79,12 @@
             display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
             cursor: pointer; transition: all 0.3s ease; text-decoration: none;
         }
-        .btn-primary:hover { background-color: var(--color-primary); border-color: var(--color-primary); transform: scale(0.95); }
+        .btn-primary:hover { 
+            background-color: var(--color-primary); 
+            border-color: var(--color-primary); 
+            color: #000; /* Text hitam agar kontras dengan button putih */
+            transform: scale(0.95); 
+        }
 
         /* Custom Animations */
         .inv-fade-in { opacity: 0; transition: opacity 1.5s ease-in-out; }
@@ -98,33 +102,29 @@
         .inv-zoom-out { transform: scale(1.1); opacity: 0; filter: blur(3px); transition: transform 1.5s ease, opacity 1.5s ease, filter 1.5s ease; }
         .inv-zoom-out.active { transform: scale(1); opacity: 1; filter: blur(0); }
 
-        /* Divider */
+        /* Divider (Emoticon Love Dihapus) */
         .wds-divider { width: 80%; height: 1px; background: rgba(255,255,255,0.2); margin: 30px auto; position: relative; }
-        .wds-divider::after {
-            content: "♥"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: transparent; padding: 0 10px; color: var(--color-primary); font-size: 14px;
-            text-shadow: 0 0 5px rgba(0,0,0,0.8);
-        }
 
-        /* Timeline Love Story */
-        .timeline-container { border-left: 2px solid var(--color-primary); margin-left: 20px; padding-left: 20px; position: relative; }
-        .timeline-item { margin-bottom: 30px; position: relative; }
-        .timeline-icon { position: absolute; left: -34px; top: 0; width: 26px; height: 26px; background: rgba(0,0,0,0.8); border: 2px solid var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-primary); font-size: 10px; }
+        /* Timeline Love Story (Garis kiri dihapus, teks dicenter) */
+        .timeline-container { position: relative; }
+        .timeline-item { margin-bottom: 30px; position: relative; text-align: center; }
         
         /* Video Wrapper */
         .videoWrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; }
         .videoWrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-        /* Background Sliders CSS */
+        /* Background Sliders CSS (Opacity Full) */
         .bg-slider { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
         .bg-slider img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: fadeSlide 15s infinite; }
         .bg-slider img:nth-child(1) { animation-delay: 0s; }
         .bg-slider img:nth-child(2) { animation-delay: 5s; }
         .bg-slider img:nth-child(3) { animation-delay: 10s; }
+        
+        /* Animasi slider opacity penuh (1.0) */
         @keyframes fadeSlide {
             0% { opacity: 0; transform: scale(1.05); }
-            10% { opacity: 0.4; transform: scale(1.03); }
-            33% { opacity: 0.4; transform: scale(1); }
+            10% { opacity: 1; transform: scale(1.03); }
+            33% { opacity: 1; transform: scale(1); }
             43% { opacity: 0; transform: scale(0.98); }
             100% { opacity: 0; transform: scale(0.98); }
         }
@@ -133,7 +133,7 @@
         #daftar-ucapan-spreadsheet { list-style: none; padding: 0; margin: 20px 0; max-height: 400px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent; }
         #daftar-ucapan-spreadsheet::-webkit-scrollbar { width: 6px; }
         #daftar-ucapan-spreadsheet::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-        .kartu-ucapan { background: rgba(255,255,255,0.05); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-bottom: 10px; color: #fff; animation: fadeInRSVP 0.5s ease; }
+        .kartu-ucapan { background: rgba(255,255,255,0.05); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-bottom: 10px; color: #fff; animation: fadeInRSVP 0.5s ease; }
         @keyframes fadeInRSVP { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .kartu-ucapan-header { font-weight: bold; color: #fff; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
         .badge-hadir { font-size: 10px; background: #00E676; color: #000; padding: 2px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
@@ -149,8 +149,8 @@
         @keyframes rotating { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .locked { overflow: hidden; height: 100vh; }
         
-        /* Glass Panel Utilities */
-        .glass-panel { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+        /* Glass Panel Utilities (Opacity gelap 15%) */
+        .glass-panel { background: rgba(0, 0, 0, 0.15); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
     </style>
 </head>
 <body class="locked">
@@ -167,7 +167,6 @@
             <source src="https://bernaunginv.my.id/tema-deluxe/nuca-masaini.mp3" type="audio/mp3">
         </audio>
         
-        <!-- Tombol Play (Saat mati) -->
         <div id="unmute-sound" style="display: block; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45.75 45.75" width="45" height="45">
                 <defs>
@@ -175,17 +174,16 @@
                         <stop offset="0.09" stop-color="#0c0c0c"></stop><stop offset="0.76" stop-color="#0a0a0a"></stop>
                     </linearGradient>
                     <linearGradient id="grad2" x1="12.8" y1="27.1" x2="33.91" y2="18.24" gradientUnits="userSpaceOnUse">
-                        <stop offset="0.46" stop-color="#00928b"></stop><stop offset="1" stop-color="#00625d"></stop>
+                        <stop offset="0.46" stop-color="#ffffff"></stop><stop offset="1" stop-color="#d1d5db"></stop>
                     </linearGradient>
                 </defs>
                 <circle cx="22.87" cy="22.87" r="22.75" fill="url(#grad1)" stroke="#000" stroke-width="0.25"/>
                 <circle cx="22.87" cy="22.87" r="11.21" fill="url(#grad2)"/>
-                <path d="M20.16,16A1.27,1.27,0,1,1,18.9,17.3,1.27,1.27,0,0,1,20.16,16Zm1.27,13.25A5.41,5.41,0,0,1,18.9,24.7V19.29h0a2.51,2.51,0,0,1,2.5,2.5v7.5Z" fill="#fff"/>
-                <path d="M25.58,16.46a1.27,1.27,0,1,1-1.26,1.26,1.26,1.26,0,0,1,1.26-1.26Zm1.27,13.25a5.42,5.42,0,0,1-2.53-4.59V19.7h0a2.51,2.51,0,0,1,2.5,2.5v7.51Z" fill="#fff"/>
+                <path d="M20.16,16A1.27,1.27,0,1,1,18.9,17.3,1.27,1.27,0,0,1,20.16,16Zm1.27,13.25A5.41,5.41,0,0,1,18.9,24.7V19.29h0a2.51,2.51,0,0,1,2.5,2.5v7.5Z" fill="#000"/>
+                <path d="M25.58,16.46a1.27,1.27,0,1,1-1.26,1.26,1.26,1.26,0,0,1,1.26-1.26Zm1.27,13.25a5.42,5.42,0,0,1-2.53-4.59V19.7h0a2.51,2.51,0,0,1,2.5,2.5v7.51Z" fill="#000"/>
             </svg>
         </div>
         
-        <!-- Tombol Pause (Saat nyala) -->
         <div id="mute-sound" class="rotating" style="display: none; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45.75 45.75" width="45" height="45">
                 <defs>
@@ -193,12 +191,12 @@
                         <stop offset="0.09096" stop-color="#0c0c0c"></stop><stop offset="0.76007" stop-color="#0a0a0a"></stop>
                     </linearGradient>
                     <linearGradient id="grad4" x1="12.8031" y1="20.89854" x2="33.90705" y2="29.75903" gradientTransform="matrix(1, 0, 0, -1, 0, 48)" gradientUnits="userSpaceOnUse">
-                        <stop offset="0.45725" stop-color="#00928b"></stop><stop offset="1" stop-color="#00625d"></stop>
+                        <stop offset="0.45725" stop-color="#ffffff"></stop><stop offset="1" stop-color="#d1d5db"></stop>
                     </linearGradient>
                 </defs>
                 <circle cx="22.87" cy="22.87" r="22.75" fill="url(#grad3)" stroke="#000" stroke-width="0.25"/>
                 <circle cx="22.87" cy="22.87" r="11.21" fill="url(#grad4)"/>
-                <path d="M20.11842,18.37793a.52877.52877,0,0,0-.33191.49076v7.16513a1.98982,1.98982,0,1,0,.9198,1.87062h.00037V27.897c.00539-.05969.00914-.11987.00914-.181s-.00375-.12127-.00914-.181V20.69581l5.87859-2.35809v5.016a1.99048,1.99048,0,1,0-.93534,3.663,2.02737,2.02737,0,0,0,1.85551-2.04222V15.97461h0a.37864.37864,0,0,0-.51961-.35142Z" fill="#fff"/>
+                <path d="M20.11842,18.37793a.52877.52877,0,0,0-.33191.49076v7.16513a1.98982,1.98982,0,1,0,.9198,1.87062h.00037V27.897c.00539-.05969.00914-.11987.00914-.181s-.00375-.12127-.00914-.181V20.69581l5.87859-2.35809v5.016a1.99048,1.99048,0,1,0-.93534,3.663,2.02737,2.02737,0,0,0,1.85551-2.04222V15.97461h0a.37864.37864,0,0,0-.51961-.35142Z" fill="#000"/>
             </svg>
         </div>
     </div>
@@ -209,7 +207,8 @@
         <!-- COVER -->
         <div id="cover">
             <h2 class="text-sm font-sub tracking-[0.2em] uppercase inv-atas" style="animation-delay: 0.2s;">The Wedding Of</h2>
-            <h1 class="text-4xl md:text-5xl font-accent my-3 text-white inv-zoom-in" style="animation-delay: 0.4s;">Vira & Didik</h1>
+            <!-- Font main dan ukuran diperkecil sedikit -->
+            <h1 class="text-3xl md:text-4xl font-main my-3 text-white inv-zoom-in" style="animation-delay: 0.4s;">Vira & Didik</h1>
             <h2 class="text-sm mt-8 mb-2 font-main inv-atas" style="animation-delay: 0.6s;">Kepada Yth.<br>Bapak/Ibu/Saudara/i</h2>
             <p id="nama-tamu" class="text-lg font-main font-semibold text-white mb-2 inv-atas" style="animation-delay: 0.8s;">Tamu Undangan</p>
             <p class="text-[10px] text-gray-400 mb-8 font-main inv-atas" style="animation-delay: 1s;">*Mohon maaf jika ada kesalahan dalam penulisan nama / gelar.</p>
@@ -221,8 +220,9 @@
         <!-- HERO SECTION -->
         <section class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative pt-20 pb-10">
             <h2 class="text-sm font-sub font-medium tracking-[0.2em] uppercase inv-fade-in text-gray-200">The Wedding Of</h2>
-            <h1 class="text-5xl md:text-6xl font-accent my-4 inv-zoom-in text-white drop-shadow-lg">Vira & Didik</h1>
-            <h2 class="text-lg tracking-[0.3em] font-sub font-medium text-white inv-zoom-out">26 . 06 . 2026</h2>
+            <!-- Font main dan ukuran diperkecil sedikit -->
+            <h1 class="text-4xl md:text-5xl font-main my-4 inv-zoom-in text-white drop-shadow-lg">Vira & Didik</h1>
+            <h2 class="text-lg tracking-[0.3em] font-sub font-medium text-white inv-zoom-out">28 . 06 . 2026</h2>
             
             <div class="my-10 inv-atas">
                 <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
@@ -247,20 +247,22 @@
 
             <!-- The Bride -->
             <div class="text-center mb-10">
-                <div class="relative w-full aspect-[3/4] rounded-t-full overflow-hidden mb-6 inv-zoom-out mx-auto max-w-[280px] border-4 border-white/10">
+                <!-- Ukuran diperbesar (max-w-[320px]), melengkung kotak (rounded-2xl), border dihapus -->
+                <div class="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-6 inv-zoom-out mx-auto max-w-[320px]">
                     <div class="bg-slider">
-                        <img src="https://bernaunginv.my.id/tema-deluxe/images/Wanita.jpg" alt="Putri">
-                        <img src="https://bernaunginv.my.id/tema-deluxe/images/Wanita.jpg" alt="Putri">
+                        <!-- Gambar opacity full melalui CSS fadeSlide -->
+                        <img src="https://bernaunginv.my.id/tema-deluxe/images/Wanita.jpg" alt="Vira">
+                        <img src="https://bernaunginv.my.id/tema-deluxe/images/Wanita.jpg" alt="Vira">
                     </div>
                     <div class="absolute bottom-4 w-full text-center z-10">
                         <h2 class="text-white font-sub font-medium tracking-[0.2em] text-sm drop-shadow-md bg-black/40 inline-block px-4 py-1 rounded-full">THE BRIDE</h2>
                     </div>
                 </div>
-                <h2 class="text-3xl font-accent text-white mb-2 inv-zoom-out">Putri Cantika Sari</h2>
+                <h2 class="text-3xl font-accent text-white mb-2 inv-zoom-out">Savira Nadya Ahmad</h2>
                 <p class="text-xs text-gray-300 inv-zoom-out text-content">Putri dari</p>
                 <p class="text-sm font-medium text-white mb-4 inv-zoom-out font-main">Bapak Ahmad dan Ibu Mariana</p>
-                <a href="https://www.instagram.com/putricantika/" target="_blank" class="btn-primary inv-atas">
-                    <i class="fab fa-instagram"></i> @putricantika
+                <a href="https://www.instagram.com/saviranadya/" target="_blank" class="btn-primary inv-atas">
+                    <i class="fab fa-instagram"></i> @saviranadya
                 </a>
             </div>
 
@@ -268,92 +270,123 @@
 
             <!-- The Groom -->
             <div class="text-center mt-10">
-                <div class="relative w-full aspect-[3/4] rounded-t-full overflow-hidden mb-6 inv-zoom-out mx-auto max-w-[280px] border-4 border-white/10">
+                <!-- Ukuran diperbesar (max-w-[320px]), melengkung kotak (rounded-2xl), border dihapus -->
+                <div class="relative w-full aspect-[3/4] rounded-2xl overflow-hidden mb-6 inv-zoom-out mx-auto max-w-[320px]">
                     <div class="bg-slider">
-                        <img src="https://bernaunginv.my.id/tema-deluxe/images/Pria.jpg" alt="Andika">
-                        <img src="https://bernaunginv.my.id/tema-deluxe/images/Pria.jpg" alt="Andika">
+                        <img src="https://bernaunginv.my.id/tema-deluxe/images/Pria.jpg" alt="Didik">
+                        <img src="https://bernaunginv.my.id/tema-deluxe/images/Pria.jpg" alt="Didik">
                     </div>
                     <div class="absolute bottom-4 w-full text-center z-10">
                         <h2 class="text-white font-sub font-medium tracking-[0.2em] text-sm drop-shadow-md bg-black/40 inline-block px-4 py-1 rounded-full">THE GROOM</h2>
                     </div>
                 </div>
-                <h2 class="text-3xl font-accent text-white mb-2 inv-zoom-out">Andika Saputra</h2>
+                <h2 class="text-3xl font-accent text-white mb-2 inv-zoom-out">Muhammad Fardisul Jinan</h2>
                 <p class="text-xs text-gray-300 inv-zoom-out text-content">Putra dari</p>
                 <p class="text-sm font-medium text-white mb-4 inv-zoom-out font-main">Bapak Mohamad Rasul dan Ibu Sularti</p>
-                <a href="https://www.instagram.com/andikasaputra/" target="_blank" class="btn-primary inv-atas">
-                    <i class="fab fa-instagram"></i> @andikasaputra
+                <a href="https://www.instagram.com/fardisuljinan/" target="_blank" class="btn-primary inv-atas">
+                    <i class="fab fa-instagram"></i> @fardisuljinan
                 </a>
             </div>
         </section>
 
-        <!-- SAVE THE DATE / AKAD SECTION -->
-        <section class="relative py-20 px-6 text-center glass-panel border-t border-white/10">
-            <h2 class="text-3xl font-accent text-white uppercase tracking-widest mb-2 inv-zoom-out">Save The Date</h2>
-            <h2 class="text-xl font-sub font-medium tracking-[0.3em] mb-10 inv-zoom-out">26 . 06 . 26</h2>
-
-            <!-- Countdown -->
-            <div class="flex justify-center gap-4 mb-8 inv-zoom-out">
-                <div class="text-center bg-black/40 backdrop-blur-md rounded-lg p-3 min-w-[70px] border border-white/10 shadow-lg">
-                    <span id="hari" class="block text-2xl font-accent text-white">00</span>
-                    <span class="text-[10px] uppercase font-main tracking-wider text-gray-300">Hari</span>
-                </div>
-                <div class="text-center bg-black/40 backdrop-blur-md rounded-lg p-3 min-w-[70px] border border-white/10 shadow-lg">
-                    <span id="jam" class="block text-2xl font-accent text-white">00</span>
-                    <span class="text-[10px] uppercase font-main tracking-wider text-gray-300">Jam</span>
-                </div>
-                <div class="text-center bg-black/40 backdrop-blur-md rounded-lg p-3 min-w-[70px] border border-white/10 shadow-lg">
-                    <span id="menit" class="block text-2xl font-accent text-white">00</span>
-                    <span class="text-[10px] uppercase font-main tracking-wider text-gray-300">Menit</span>
-                </div>
-                <div class="text-center bg-black/40 backdrop-blur-md rounded-lg p-3 min-w-[70px] border border-white/10 shadow-lg">
-                    <span id="detik" class="block text-2xl font-accent text-white">00</span>
-                    <span class="text-[10px] uppercase font-main tracking-wider text-gray-300">Detik</span>
-                </div>
+        <!-- SAVE THE DATE SECTION (Sesi Mandiri dengan Background Slideshow Opacity Penuh) -->
+        <section class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 overflow-hidden">
+            <!-- Background Slideshow (Full Portrait, Opacity Penuh) -->
+            <div class="absolute inset-0 z-0 bg-slider">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Slide1.jpg" alt="Slide 1" onerror="this.src='https://bernaunginv.my.id/tema-deluxe/images/Cover.jpg'">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Slide2.jpg" alt="Slide 2" onerror="this.src='https://bernaunginv.my.id/tema-deluxe/images/Wanita.jpg'">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Slide3.jpg" alt="Slide 3" onerror="this.src='https://bernaunginv.my.id/tema-deluxe/images/Pria.jpg'">
             </div>
+            
+            <!-- Sedikit gradient/bayangan tipis di bawah agar teks putih tetap dapat dibaca tanpa merusak opacity foto -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/60 z-0"></div>
 
-            <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Wedding+Putri+dan+Andika&details=The+Wedding+Of+Putri+&+Andika&dates=20260626T010000Z/20260627T010000Z" target="_blank" class="btn-primary mb-16 inv-zoom-out shadow-xl">
-                <i class="far fa-bell"></i> SIMPAN TANGGAL
-            </a>
+            <div class="relative z-10 w-full pt-10 pb-10">
+                <h2 class="text-2xl font-accent text-white uppercase tracking-widest mb-2 inv-zoom-out drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Save The Date</h2>
+                <h2 class="text-xl font-sub font-medium tracking-[0.3em] mb-10 inv-zoom-out drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] text-white">28 . 06 . 26</h2>
 
-            <div class="wds-divider inv-zoom-in"></div>
+                <!-- Countdown (Tanpa Bingkai/Background) -->
+                <div class="flex justify-center gap-6 mb-8 inv-zoom-out">
+                    <div class="text-center min-w-[60px]">
+                        <span id="hari" class="block text-3xl font-accent text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">00</span>
+                        <span class="text-xs uppercase font-main tracking-wider text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Hari</span>
+                    </div>
+                    <div class="text-center min-w-[60px]">
+                        <span id="jam" class="block text-3xl font-accent text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">00</span>
+                        <span class="text-xs uppercase font-main tracking-wider text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Jam</span>
+                    </div>
+                    <div class="text-center min-w-[60px]">
+                        <span id="menit" class="block text-3xl font-accent text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">00</span>
+                        <span class="text-xs uppercase font-main tracking-wider text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Menit</span>
+                    </div>
+                    <div class="text-center min-w-[60px]">
+                        <span id="detik" class="block text-3xl font-accent text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">00</span>
+                        <span class="text-xs uppercase font-main tracking-wider text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">Detik</span>
+                    </div>
+                </div>
 
-            <!-- Detail Akad -->
-            <div class="bg-black/50 backdrop-blur-md rounded-2xl p-8 border border-white/20 mt-10 inv-zoom-out relative overflow-hidden shadow-2xl">
-                <div class="absolute -right-4 -top-4 opacity-10">
-                    <i class="fas fa-rings text-8xl text-white"></i>
-                </div>
-                <h2 class="text-3xl font-accent text-white mb-4 relative z-10 tracking-wide uppercase">Akad Nikah</h2>
-                <div class="flex justify-center items-center gap-2 text-xl font-sub text-white mb-6 relative z-10">
-                    <span>Jum'at,</span> <span class="font-accent text-3xl">26</span> <span>Juni</span> <span>2026</span>
-                </div>
-                <div class="flex items-center justify-center gap-2 text-sm mb-6 relative z-10 bg-white/10 py-2 rounded-full border border-white/10 w-max mx-auto px-6">
-                    <i class="fas fa-clock text-[var(--color-primary)]"></i> <span class="font-main font-medium">19:00 WIB - Selesai</span>
-                </div>
-                <h3 class="font-bold text-lg mb-2 relative z-10 font-main">Lokasi Acara</h3>
-                <p class="text-sm text-gray-200 mb-6 relative z-10 text-content leading-relaxed"><b>Masjid Al-Mabrur</b><br />Kekalik Jaya, Kec. Sekarbela, Kota Mataram</p>
-                <a href="https://maps.app.goo.gl/dTSU4WE43L9Uh1vU9" target="_blank" class="btn-primary relative z-10 text-xs">
-                    <i class="fas fa-map-marked-alt"></i> Buka Google Maps
+                <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Wedding+Vira+dan+Didik&details=The+Wedding+Of+Vira+&+Didik&dates=20260628T010000Z/20260629T010000Z" target="_blank" class="btn-primary mb-6 inv-zoom-out shadow-xl border-white bg-white/20 hover:bg-white hover:text-black transition-all">
+                    <i class="far fa-bell"></i> SIMPAN TANGGAL
                 </a>
             </div>
         </section>
 
-        <!-- TURUT MENGUNDANG -->
-        <section class="py-12 px-6 glass-panel border-t border-white/10">
-            <h2 class="text-2xl text-center text-white font-accent uppercase tracking-widest mb-8 inv-zoom-out">Turut Mengundang</h2>
-            <div class="flex flex-col md:flex-row gap-6 justify-center inv-zoom-out">
-                <div class="flex-1 text-center bg-black/40 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg">
-                    <h3 class="text-base font-bold font-main text-white mb-4">Keluarga Mempelai Pria</h3>
-                    <ul class="text-sm space-y-3 text-gray-300 text-content">
-                        <li class="flex flex-col items-center gap-1"><i class="fas fa-users text-[var(--color-primary)] opacity-80"></i> Keluarga Besar Bapak Mohamad Rasul</li>
-                        <li class="flex flex-col items-center gap-1"><i class="fas fa-users text-[var(--color-primary)] opacity-80"></i> Keluarga Besar Ibu Sularti</li>
-                    </ul>
+        <!-- AKAD & TURUT MENGUNDANG (Digabung 1 Sesi) -->
+        <section class="py-20 px-6 text-center glass-panel border-t border-white/10">
+             <!-- Detail Akad -->
+            <div class="mb-16">
+                <div class="bg-black/50 backdrop-blur-md rounded-2xl p-8 border border-white/20 inv-zoom-out relative overflow-hidden shadow-2xl">
+                    <div class="absolute -right-4 -top-4 opacity-10">
+                        <i class="fas fa-rings text-8xl text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-accent text-white mb-4 relative z-10 tracking-wide uppercase">Akad Nikah</h2>
+                    <div class="flex justify-center items-center gap-2 text-xl font-sub text-white mb-6 relative z-10">
+                        <span>Jum'at,</span> <span>26</span> <span>Juni</span> <span>2026</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-sm mb-6 relative z-10 bg-white/10 py-2 rounded-full border border-white/10 w-max mx-auto px-6">
+                        <i class="fas fa-clock text-white"></i> <span class="font-main font-medium">19:00 WIB - Selesai</span>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 relative z-10 font-main text-white">Lokasi Acara</h3>
+                    <p class="text-sm text-gray-200 mb-6 relative z-10 text-content leading-relaxed"><b>Masjid Al-Mabrur</b><br />Kekalik Jaya, Kec. Sekarbela, Kota Mataram</p>
+                    <a href="https://maps.app.goo.gl/dTSU4WE43L9Uh1vU9" target="_blank" class="btn-primary relative z-10 text-xs hover:text-black">
+                        <i class="fas fa-map-marked-alt"></i> Buka Google Maps
+                    </a>
                 </div>
-                <div class="flex-1 text-center bg-black/40 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg mt-4 md:mt-0">
-                    <h3 class="text-base font-bold font-main text-white mb-4">Keluarga Mempelai Wanita</h3>
-                    <ul class="text-sm space-y-3 text-gray-300 text-content">
-                        <li class="flex flex-col items-center gap-1"><i class="fas fa-users text-[var(--color-primary)] opacity-80"></i> Keluarga Besar Bapak Ahmad</li>
-                        <li class="flex flex-col items-center gap-1"><i class="fas fa-users text-[var(--color-primary)] opacity-80"></i> Keluarga Besar Ibu Mariana</li>
-                    </ul>
+            </div>
+            
+            <!-- Detail Resepsi -->
+            <div class="mb-16">
+                <div class="bg-black/50 backdrop-blur-md rounded-2xl p-8 border border-white/20 inv-zoom-out relative overflow-hidden shadow-2xl">
+                    <div class="absolute -right-4 -top-4 opacity-10">
+                        <i class="fas fa-rings text-8xl text-white"></i>
+                    </div>
+                    <h2 class="text-2xl font-accent text-white mb-4 relative z-10 tracking-wide uppercase">Resepsi</h2>
+                    <div class="flex justify-center items-center gap-2 text-xl font-sub text-white mb-6 relative z-10">
+                        <span>Jum'at,</span> <span>26</span> <span>Juni</span> <span>2026</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-sm mb-6 relative z-10 bg-white/10 py-2 rounded-full border border-white/10 w-max mx-auto px-6">
+                        <i class="fas fa-clock text-white"></i> <span class="font-main font-medium">19:00 WIB - Selesai</span>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 relative z-10 font-main text-white">Lokasi Acara</h3>
+                    <p class="text-sm text-gray-200 mb-6 relative z-10 text-content leading-relaxed"><b>Masjid Al-Mabrur</b><br />Kekalik Jaya, Kec. Sekarbela, Kota Mataram</p>
+                    <a href="https://maps.app.goo.gl/dTSU4WE43L9Uh1vU9" target="_blank" class="btn-primary relative z-10 text-xs hover:text-black">
+                        <i class="fas fa-map-marked-alt"></i> Buka Google Maps
+                    </a>
+                </div>
+            </div>
+
+            <!-- Turut Mengundang -->
+            <div>
+                <h2 class="text-2xl font-accent text-white uppercase tracking-widest mb-8 inv-zoom-out">Turut Mengundang</h2>
+                <div class="flex flex-col md:flex-row gap-6 justify-center inv-zoom-out">
+                    <div class="flex-1 bg-black/40 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg">
+                        <ul class="text-sm space-y-3 text-gray-300 text-content">
+                            <li class="flex flex-col items-center gap-1"><i class="fas fa-users text-white opacity-80"></i> Keluarga Besar Bapak Mohamad Rasul</li>
+                            <li class="flex flex-col items-center gap-1"><i class="fas fa-users text-white opacity-80"></i> Keluarga Besar Ibu Sularti</li>
+                            <li class="flex flex-col items-center gap-1"><i class="fas fa-users text-white opacity-80"></i> Keluarga Besar Bapak Ahmad</li>
+                            <li class="flex flex-col items-center gap-1"><i class="fas fa-users text-white opacity-80"></i> Keluarga Besar Ibu Mariana</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
@@ -362,12 +395,10 @@
         <section class="py-16 px-6 glass-panel border-t border-white/10">
             <h2 class="text-3xl text-center font-accent text-white tracking-widest uppercase mb-12 inv-zoom-out">Love Story</h2>
             
-            <div class="timeline-container inv-zoom-in">
-                <!-- Story 1 -->
+            <div class="timeline-container inv-zoom-in space-y-8">
+                <!-- Story 1 (Garis timeline dihapus, layout dicenter) -->
                 <div class="timeline-item">
-                    <div class="timeline-icon"><i class="fas fa-heart"></i></div>
                     <div class="bg-black/50 backdrop-blur-md p-5 rounded-xl border border-white/10 shadow-lg">
-                        <!-- Perubahan: Hapus h-48 dan gunakan h-auto agar foto tidak tercrop -->
                         <img src="https://bernaunginv.my.id/tema-deluxe/images/LoveStory1.jpg" class="w-full h-auto object-contain rounded-lg mb-4 border border-white/10">
                         <h5 class="font-bold text-lg text-white mb-2 font-main">Pertemuan</h5>
                         <p class="text-xs text-gray-300 leading-relaxed text-content">Tidak ada yang kebetulan di dunia ini. Semua sudah tersusun dengan sangat rapi oleh Sang Maha Kuasa. Kami bertemu pertama kalinya tanpa sengaja pada tahun 2017.</p>
@@ -376,7 +407,6 @@
 
                 <!-- Story 2 -->
                 <div class="timeline-item">
-                    <div class="timeline-icon"><i class="fas fa-heart"></i></div>
                     <div class="bg-black/50 backdrop-blur-md p-5 rounded-xl border border-white/10 shadow-lg">
                         <img src="https://bernaunginv.my.id/tema-deluxe/images/LoveStory2.jpg" class="w-full h-auto object-contain rounded-lg mb-4 border border-white/10">
                         <h5 class="font-bold text-lg text-white mb-2 font-main">Lamaran</h5>
@@ -386,7 +416,6 @@
 
                 <!-- Story 3 -->
                 <div class="timeline-item">
-                    <div class="timeline-icon"><i class="fas fa-heart"></i></div>
                     <div class="bg-black/50 backdrop-blur-md p-5 rounded-xl border border-white/10 shadow-lg">
                         <img src="https://bernaunginv.my.id/tema-deluxe/images/LoveStory3.jpg" class="w-full h-auto object-contain rounded-lg mb-4 border border-white/10">
                         <h5 class="font-bold text-lg text-white mb-2 font-main">Pernikahan</h5>
@@ -396,74 +425,74 @@
             </div>
         </section>
 
-        <!-- OUR MOMENTS (GALLERY) -->
+       <!-- OUR MOMENTS (GALLERY) -->
         <section class="py-16 px-4 glass-panel border-t border-white/10">
             <h2 class="text-3xl text-center font-accent text-white tracking-widest uppercase mb-10 inv-zoom-out">Our Moments</h2>
-            <div class="grid grid-cols-2 gap-3 inv-zoom-in">
-                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto1.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
-                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto2.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
-                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto3.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
-                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto4.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
-                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto5.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
-                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto6.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
-                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto7.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
-                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto8.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
-                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto9.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
-                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto10.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+            
+            <!-- Dynamic Masonry Layout -->
+            <div class="columns-2 md:columns-3 gap-4 inv-zoom-in">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto1.jpg" class="w-full mb-4 rounded-xl shadow-lg">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto2.jpg" class="w-full mb-4 rounded-xl shadow-lg">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto3.jpg" class="w-full mb-4 rounded-xl shadow-lg">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto4.jpg" class="w-full mb-4 rounded-xl shadow-lg">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto5.jpg" class="w-full mb-4 rounded-xl shadow-lg">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto6.jpg" class="w-full mb-4 rounded-xl shadow-lg">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto7.jpg" class="w-full mb-4 rounded-xl shadow-lg">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto8.jpg" class="w-full mb-4 rounded-xl shadow-lg">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto9.jpg" class="w-full mb-4 rounded-xl shadow-lg">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto10.jpg" class="w-full mb-4 rounded-xl shadow-lg">
             </div>
         </section>
 
         <!-- WEDDING GIFT / AMPLOP DIGITAL -->
         <section class="py-16 px-6 relative glass-panel border-t border-white/10">
             <div class="text-center mb-8 inv-zoom-out">
-                <i class="fas fa-gift text-4xl text-[var(--color-primary)] mb-4 drop-shadow-md"></i>
+                <i class="fas fa-gift text-4xl text-white mb-4 drop-shadow-md"></i>
                 <h2 class="text-3xl font-accent text-white mb-3 uppercase tracking-widest">Wedding Gift</h2>
                 <p class="text-sm text-gray-200 text-content leading-relaxed">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Dan jika memberi adalah ungkapan tanda kasih Anda, Anda dapat memberi kado secara *cashless*.</p>
             </div>
             
             <div class="text-center inv-zoom-out">
-                <button id="btn-toggle-gift" class="btn-primary shadow-xl"><i class="fas fa-wallet"></i> Kirim Hadiah</button>
+                <button id="btn-toggle-gift" class="btn-primary shadow-xl hover:text-black"><i class="fas fa-wallet"></i> Kirim Hadiah</button>
             </div>
 
-            <!-- Gift Container (Hidden by default) -->
+            <!-- Gift Container -->
             <div id="gift-container" class="hidden mt-8 space-y-5 inv-zoom-in transition-all duration-500">
-                
-                <!-- Rekening BRI -->
+                <!-- Rekening 1 -->
                 <div class="bg-black/50 backdrop-blur-md p-6 rounded-2xl border border-white/20 text-center shadow-lg relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-16 h-16 bg-white/5 rounded-bl-full"></div>
-                    <!-- Logo Bank -->
                     <div class="bg-white inline-block px-4 py-2 rounded-lg mb-4 shadow-sm">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/BRI_2025.svg" alt="BRI" class="h-6">
                     </div>
                     <p class="text-xl font-accent text-white tracking-[0.2em] mb-1">0052 0119 9675 509</p>
-                    <p class="text-sm font-main text-gray-300 mb-4">a.n Putri Cantika Sari</p>
-                    <button class="btn-primary text-xs py-2 px-5" onclick="copyTextToClipboard('0052 0119 9675 509', this)">
+                    <p class="text-sm font-main text-gray-300 mb-4">a.n Savira Nadya Ahmad</p>
+                    <button class="btn-primary text-xs py-2 px-5 hover:text-black" onclick="copyTextToClipboard('0052 0119 9675 509', this)">
                         <i class="far fa-copy"></i> Salin Rekening
                     </button>
                 </div>
 
-                <!-- Rekening Mandiri -->
+                <!-- Rekening 2 -->
                 <div class="bg-black/50 backdrop-blur-md p-6 rounded-2xl border border-white/20 text-center shadow-lg relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-16 h-16 bg-white/5 rounded-bl-full"></div>
                     <div class="bg-white inline-block px-4 py-2 rounded-lg mb-4 shadow-sm">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="h-6">
                     </div>
                     <p class="text-xl font-accent text-white tracking-[0.2em] mb-1">1610007992404</p>
-                    <p class="text-sm font-main text-gray-300 mb-4">a.n Andika Saputra</p>
-                    <button class="btn-primary text-xs py-2 px-5" onclick="copyTextToClipboard('1610007992404', this)">
+                    <p class="text-sm font-main text-gray-300 mb-4">a.n Savira Nadya Ahmad</p>
+                    <button class="btn-primary text-xs py-2 px-5 hover:text-black" onclick="copyTextToClipboard('1610007992404', this)">
                         <i class="far fa-copy"></i> Salin Rekening
                     </button>
                 </div>
 
                 <!-- Alamat Pengiriman -->
                 <div class="bg-black/50 backdrop-blur-md p-6 rounded-2xl border border-white/20 text-center shadow-lg">
-                    <i class="fas fa-map-marker-alt text-3xl text-[var(--color-primary)] mb-3"></i>
+                    <i class="fas fa-map-marker-alt text-3xl text-white mb-3"></i>
                     <p class="text-base font-bold font-main text-white mb-2">Alamat Pengiriman Kado</p>
                     <p class="text-sm text-gray-300 mb-5 text-content leading-relaxed">
-                        Jl. Swadaya, Gg. 16 No. 4, Kekalik Jaya, Sekarbela, Kota Mataram<br />
- Kekalik Jaya, Sekarbela, Kota Mataram</p>
+                        Nama Penerima <br/>
+                        Jl. Swadaya, Gg. 16 No. 4, Kekalik Jaya, Sekarbela, Kota Mataram
                     </p>
-                    <button class="btn-primary text-xs py-2 px-5" onclick="copyTextToClipboard('Jl. Swadaya, Gg. 16 No. 4, Kekalik Jaya, Sekarbela, Kota Mataram Kekalik Jaya, Sekarbela, Kota Mataram', this)">
+                    <button class="btn-primary text-xs py-2 px-5 hover:text-black" onclick="copyTextToClipboard('Jl. Swadaya, Gg. 16 No. 4, Kekalik Jaya, Sekarbela, Kota Mataram', this)">
                         <i class="far fa-copy"></i> Salin Alamat
                     </button>
                 </div>
@@ -507,7 +536,8 @@
                 <b>Wassalamu’alaikum warahmatullahi wabarakatuh</b>
             </p>
             <p class="text-sm font-sub text-white mb-3 inv-zoom-out">Kami Yang Berbahagia</p>
-            <h2 class="text-4xl md:text-5xl font-accent text-white mb-10 inv-zoom-out drop-shadow-lg">Putri & Andika</h2>
+            <!-- Font main dan diperkecil sedikit -->
+            <h2 class="text-3xl md:text-4xl font-main text-white mb-10 inv-zoom-out drop-shadow-lg">Vira & Didik</h2>
         </section>
 
         <!-- FOOTER -->
@@ -517,7 +547,7 @@
                 <div class="w-16 h-16 rounded-full bg-cover border border-white/20 mx-2 shadow-lg" style="background-image:url('https://andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg')"></div>
                 <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-whatsapp"></i></a>
             </div>
-            <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" class="text-sm text-white font-main font-bold tracking-widest hover:text-[var(--color-primary)] transition-colors block mb-4">HUBUNGI KAMI</a>
+            <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" class="text-sm text-white font-main font-bold tracking-widest hover:text-gray-300 transition-colors block mb-4">HUBUNGI KAMI</a>
             <p class="text-[10px] font-main text-gray-500">&copy; 2026 Bernaung Invitation.</p>
         </footer>
 
@@ -615,7 +645,7 @@
 
         // 4. Countdown Timer
         function initCountdown() {
-            const targetDate = new Date("Jun 26, 2026 19:00:00").getTime();
+            const targetDate = new Date("Jun 28, 2026 10:00:00").getTime();
             const timer = setInterval(() => {
                 const now = new Date().getTime();
                 const distance = targetDate - now;
@@ -638,7 +668,6 @@
 
         // 5. Fitur Copy Rekening/Alamat
         function copyTextToClipboard(text, btnElement) {
-            // Gunakan metode yang kompatibel dengan iFrame
             const textArea = document.createElement("textarea");
             textArea.value = text;
             document.body.appendChild(textArea);
@@ -646,15 +675,16 @@
             
             try {
                 document.execCommand('copy');
-                // Ubah status tombol sementara
                 const originalHTML = btnElement.innerHTML;
                 btnElement.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
                 btnElement.style.backgroundColor = 'var(--color-primary)';
+                btnElement.style.color = '#000';
                 btnElement.style.borderColor = 'var(--color-primary)';
                 
                 setTimeout(() => {
                     btnElement.innerHTML = originalHTML;
                     btnElement.style.backgroundColor = '';
+                    btnElement.style.color = '';
                     btnElement.style.borderColor = '';
                 }, 2000);
             } catch (err) {
@@ -740,8 +770,6 @@
                     try {
                         const data = JSON.parse(text);
                         if (data.result === "success") {
-                            // Gunakan alert box biasa atau hilangkan jika mengganggu user experience
-                            // alert("Terima kasih! Konfirmasi RSVP dan ucapan Anda berhasil disimpan.");
                             formRsvp.reset();
                             setTimeout(fetchUcapan, 1500);
                         } else {
