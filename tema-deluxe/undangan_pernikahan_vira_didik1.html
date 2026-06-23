@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wedding - Vira & Didik</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --font-main: 'Poppins', sans-serif;
+            --font-sub: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #0c0c0c;
+            color: #ffffff;
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            margin: 0; padding: 0;
+        }
+
+        #bg-video {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            object-fit: cover; z-index: -2;
+        }
+
+        .video-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        .glass-panel {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px 20px;
+            margin: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .title-names { font-family: var(--font-main); font-weight: 800; font-size: 2rem; color: #ffffff; line-height: 1.2; }
+        .subtitle-tag { font-family: var(--font-sub); font-weight: 500; font-size: 0.75rem; letter-spacing: 5px; text-transform: uppercase; }
+        
+        .btn-primary {
+            background-color: #ffffff; color: #000000; padding: 12px 30px; border-radius: 30px; font-weight: 600; font-size: 0.85rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; border: none;
+            transition: transform 0.2s;
+        }
+
+        .turut-mengundang-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: center; }
+        .turut-mengundang-column h3 { font-size: 0.7rem; font-weight: 600; margin-bottom: 10px; color: #ffffff; text-transform: uppercase; }
+        .turut-mengundang-column ul { list-style: none; padding: 0; }
+        .turut-mengundang-column li { font-size: 0.65rem; margin-bottom: 8px; color: #d1d5db; display: flex; flex-direction: column; align-items: center; }
+        
+        .locked { overflow: hidden; height: 100vh; }
+    </style>
+</head>
+<body class="locked">
+
+    <video id="bg-video" autoplay loop muted playsinline>
+        <source src="https://bernaunginv.my.id/tema-deluxe/Background.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+
+    <div class="app-container max-w-[480px] mx-auto relative z-10">
+        <!-- COVER -->
+        <div id="cover" style="position:fixed; top:0; left:0; width:100%; height:100vh; background:rgba(0,0,0,0.85); z-index:100; display:flex; flex-direction:column; justify-content:center; align-items:center; transition: transform 1.2s cubic-bezier(0.77,0,0.175,1);">
+            <span class="subtitle-tag">The Wedding Of</span>
+            <h1 class="title-names mt-4">Vira & Didik</h1>
+            <p class="text-xs mt-2">20 September 2026</p>
+            <button class="btn-primary mt-10" id="btn_open"><i class="fa-solid fa-envelope-open"></i> Buka Undangan</button>
+        </div>
+
+        <!-- HERO -->
+        <section class="pt-24 pb-10 px-4" data-aos="fade-up">
+            <div class="text-center">
+                <span class="subtitle-tag">The Wedding Of</span>
+                <h2 class="title-names my-4">Vira & Didik</h2>
+                <p class="text-sm font-medium text-gray-300">20 September 2026</p>
+            </div>
+        </section>
+
+        <!-- PROFILE -->
+        <section class="px-3" data-aos="fade-up">
+            <div class="glass-panel text-center">
+                <h3 class="font-bold text-sm text-white mb-6 tracking-widest uppercase">Bride & Groom</h3>
+                <div class="photo-wrap mb-6 w-full max-w-[260px] mx-auto rounded-2xl overflow-hidden border border-white/10">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Wanita.jpg" alt="Vira">
+                </div>
+                <h3 class="title-names text-2xl my-2">Savira Nadya Ahmad</h3>
+                <a href="https://instagram.com/nadysyavira" target="_blank" class="text-xs underline text-gray-300">@nadysyavira</a>
+                <div class="my-8 text-3xl font-light">&</div>
+                <div class="photo-wrap mb-6 w-full max-w-[260px] mx-auto rounded-2xl overflow-hidden border border-white/10">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Pria.jpg" alt="Didik">
+                </div>
+                <h3 class="title-names text-2xl my-2">Muhammad Fardisul Jinan</h3>
+                <a href="https://instagram.com/fardisul" target="_blank" class="text-xs underline text-gray-300">@fardisul</a>
+            </div>
+        </section>
+
+        <!-- TURUT MENGUNDANG -->
+        <section class="px-3" data-aos="fade-up">
+            <div class="glass-panel">
+                <h2 class="text-center font-bold text-xs mb-6 uppercase tracking-widest">Turut Mengundang</h2>
+                <div class="turut-mengundang-container">
+                    <div class="turut-mengundang-column">
+                        <h3>Keluarga Mempelai Pria</h3>
+                        <ul>
+                            <li><i class="fas fa-users mb-1"></i> <span>Keluarga Besar Bapak Mohamad Rasul</span></li>
+                            <li><i class="fas fa-users mb-1"></i> <span>Keluarga Besar Ibu Sularti</span></li>
+                        </ul>
+                    </div>
+                    <div class="turut-mengundang-column">
+                        <h3>Keluarga Mempelai Wanita</h3>
+                        <ul>
+                            <li><i class="fas fa-users mb-1"></i> <span>Keluarga Besar Bapak Ahmad</span></li>
+                            <li><i class="fas fa-users mb-1"></i> <span>Keluarga Besar Ibu Almh. Mariana</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOVE STORY -->
+        <section class="px-3" data-aos="fade-up">
+            <div class="glass-panel">
+                <div class="relative border-l border-white/20 ml-3 pl-6">
+                    <div class="mb-10 relative">
+                        <img src="https://bernaunginv.my.id/tema-deluxe/images/LoveStory1.jpg" class="w-full h-40 object-cover rounded-xl mb-4">
+                        <h4 class="font-bold text-lg mb-2 uppercase">Perkenalan</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">Awal mula perjalanan cinta kami.</p>
+                    </div>
+                    <div class="mb-10 relative">
+                        <img src="https://bernaunginv.my.id/tema-deluxe/images/LoveStory2.jpg" class="w-full h-40 object-cover rounded-xl mb-4">
+                        <h4 class="font-bold text-lg mb-2 uppercase">Lamaran</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">Satu langkah lebih dekat menuju janji suci.</p>
+                    </div>
+                    <div class="relative">
+                        <img src="https://bernaunginv.my.id/tema-deluxe/images/LoveStory3.jpg" class="w-full h-40 object-cover rounded-xl mb-4">
+                        <h4 class="font-bold text-lg mb-2 uppercase">Pernikahan</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">Menyambut masa depan bersama.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- YOUTUBE VIDEO -->
+        <section class="px-3" data-aos="fade-up">
+            <div class="glass-panel">
+                <iframe class="w-full aspect-video rounded-xl" src="https://www.youtube.com/embed/mnnuySs5kN4" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- OUR MEMORIES -->
+        <section class="px-3" data-aos="fade-up">
+            <div class="glass-panel">
+                <span class="subtitle-tag text-center block mb-6">Our Memories</span>
+                <div class="grid grid-cols-2 gap-2">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto1.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto2.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto3.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto4.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto5.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto6.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto7.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto8.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto9.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                    <img src="https://bernaunginv.my.id/tema-deluxe/images/Foto10.jpg" class="w-full aspect-[3/4] object-cover rounded-lg" data-aos="zoom-in">
+                </div>
+            </div>
+        </section>
+
+        <!-- WEDDING GIFT -->
+        <section class="px-3" data-aos="fade-up">
+            <div class="glass-panel text-center">
+                <span class="subtitle-tag mb-4 block">Wedding Gift</span>
+                <p class="text-xs mb-6 text-gray-300">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Jika memberi adalah ungkapan tanda kasih, silakan klik tombol di bawah.</p>
+                <button id="show-gift" class="btn-primary" style="font-size:0.75rem;">Klik Disini</button>
+                
+                <div id="gift-details" class="hidden mt-6 space-y-4">
+                    <div class="bg-black/50 p-4 rounded-xl border border-white/10">
+                        <img src="https://bernaunginv.my.id/tema-deluxe/images/bri.png" class="h-8 mx-auto mb-2">
+                        <p class="text-xl font-bold tracking-widest" id="rek-bri">005201199675509</p>
+                        <p class="text-xs">a.n Savira Nadya Ahmad</p>
+                        <button onclick="copyRek('005201199675509')" class="mt-2 bg-white/10 px-4 py-1 rounded-full text-[10px]">Salin No. Rek</button>
+                    </div>
+                    <div class="bg-black/50 p-4 rounded-xl border border-white/10">
+                        <img src="https://bernaunginv.my.id/tema-deluxe/images/mandiri.png" class="h-8 mx-auto mb-2">
+                        <p class="text-xl font-bold tracking-widest" id="rek-mandiri">1610007992404</p>
+                        <p class="text-xs">a.n Savira Nadya Ahmad</p>
+                        <button onclick="copyRek('1610007992404')" class="mt-2 bg-white/10 px-4 py-1 rounded-full text-[10px]">Salin No. Rek</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP -->
+        <section class="px-3" data-aos="fade-up">
+            <div class="glass-panel text-left">
+                <h2 class="text-center font-bold text-lg mb-6">Konfirmasi Kehadiran</h2>
+                <form id="rsvp-form" class="space-y-4">
+                    <input type="text" name="nama" placeholder="Nama Anda" class="w-full bg-white/5 p-3 rounded-lg border border-white/10 focus:outline-none text-sm text-white" required>
+                    <select name="status" class="w-full bg-white/5 p-3 rounded-lg border border-white/10 focus:outline-none text-sm text-white">
+                        <option value="Hadir">Hadir</option>
+                        <option value="Tidak Hadir">Tidak Hadir</option>
+                    </select>
+                    <button type="submit" class="w-full bg-white text-black p-3 rounded-lg font-bold">Kirim</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- TERIMA KASIH -->
+        <section class="px-3 pt-10 pb-20 text-center" data-aos="fade-up">
+            <div class="glass-panel">
+                <img src="https://bernaunginv.my.id/tema-deluxe/images/Terimakasih1.webp" class="w-full rounded-xl mb-6">
+                <p class="text-sm">Atas kehadiran dan doa restunya, kami ucapkan terima kasih.</p>
+                <h3 class="title-names text-2xl mt-4">Vira & Didik</h3>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center py-10">
+            <div class="flex justify-center items-center gap-6 mb-6">
+                <a href="https://wa.me/6281234567890" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center"><i class="fa-brands fa-whatsapp"></i></a>
+                <div class="w-16 h-16 rounded-full bg-cover border border-white/10" style="background-image:url('https://andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg')"></div>
+                <a href="https://instagram.com/benernaungid" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+            <p class="text-[0.65rem] text-gray-400">© 2026 Bernaung Invitation.</p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true });
+        
+        document.getElementById('btn_open').addEventListener('click', () => {
+            document.getElementById('cover').style.transform = 'translateY(-100%)';
+            document.body.classList.remove('locked');
+            document.getElementById('bg-video').play();
+        });
+
+        document.getElementById('show-gift').addEventListener('click', function() {
+            document.getElementById('gift-details').classList.remove('hidden');
+            this.style.display = 'none';
+        });
+
+        function copyRek(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert("Nomor rekening disalin!");
+        }
+    </script>
+</body>
+</html>
