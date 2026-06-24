@@ -164,6 +164,12 @@
         
         /* Glass Panel Utilities (Opacity gelap 15%) */
         .glass-panel { background: rgba(0, 0, 0, 0.15); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+   
+          /* Lightbox Styling */
+        .lightbox-active { display: flex !important; opacity: 1 !important; }
+        .lightbox-img-active { transform: scale(1) !important; }
+        .gallery-img { transition: transform 0.3s ease; }
+        .gallery-img:hover { transform: scale(1.03); z-index: 10; position: relative; }
     </style>
 </head>
 <body class="locked">
@@ -543,6 +549,27 @@
 
     </div>
 
+<!-- LIGHTBOX MODAL (Untuk Fitur Perbesar Gambar) -->
+    <div id="lightbox" class="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md hidden flex-col justify-center items-center opacity-0 transition-opacity duration-300">
+        <!-- Tombol Close -->
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white text-4xl hover:text-gray-300 z-50 p-2 cursor-pointer transition-transform hover:scale-110">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <!-- Tombol Prev -->
+        <button id="lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white text-3xl hover:text-gray-300 z-50 p-4 cursor-pointer transition-transform hover:scale-110 bg-black/30 rounded-full">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <!-- Gambar Utama -->
+        <img id="lightbox-img" src="" class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg shadow-2xl transition-transform duration-300 scale-95" alt="Gallery Image">
+        
+        <!-- Tombol Next -->
+        <button id="lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white text-3xl hover:text-gray-300 z-50 p-4 cursor-pointer transition-transform hover:scale-110 bg-black/30 rounded-full">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
     <!-- SCRIPT -->
     <script>
         // 1. Cover Logic & Audio Init
@@ -635,7 +662,7 @@
 
         // 4. Countdown Timer
         function initCountdown() {
-            const targetDate = new Date("Jun 28, 2026 10:00:00").getTime();
+            const targetDate = new Date("Jun 26, 2026 19:00:00").getTime();
             const timer = setInterval(() => {
                 const now = new Date().getTime();
                 const distance = targetDate - now;
@@ -656,42 +683,74 @@
             }, 1000);
         }
 
-        // 5. Fitur Copy Rekening/Alamat
-        function copyTextToClipboard(text, btnElement) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
+        // 5. Fitur Lightbox Gallery
+        function initLightbox() {
+            const galleryImages = document.querySelectorAll('.gallery-img');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const btnClose = document.getElementById('lightbox-close');
+            const btnPrev = document.getElementById('lightbox-prev');
+            const btnNext = document.getElementById('lightbox-next');
             
-            try {
-                document.execCommand('copy');
-                const originalHTML = btnElement.innerHTML;
-                btnElement.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
-                btnElement.style.backgroundColor = 'var(--color-primary)';
-                btnElement.style.color = '#000';
-                btnElement.style.borderColor = 'var(--color-primary)';
+            let currentIndex = 0;
+            // Ambil semua sumber gambar ke dalam array
+            const imageUrls = Array.from(galleryImages).map(img => img.src);
+
+            function openLightbox(index) {
+                currentIndex = index;
+                lightboxImg.src = imageUrls[currentIndex];
+                lightbox.classList.remove('hidden');
+                
+                // Sedikit delay agar animasi transisi CSS berfungsi
+                setTimeout(() => {
+                    lightbox.classList.add('lightbox-active');
+                    lightboxImg.classList.add('lightbox-img-active');
+                }, 10);
+                
+                document.body.style.overflow = 'hidden'; // Kunci scroll halaman belakang
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('lightbox-active');
+                lightboxImg.classList.remove('lightbox-img-active');
                 
                 setTimeout(() => {
-                    btnElement.innerHTML = originalHTML;
-                    btnElement.style.backgroundColor = '';
-                    btnElement.style.color = '';
-                    btnElement.style.borderColor = '';
-                }, 2000);
-            } catch (err) {
-                console.error('Gagal menyalin teks: ', err);
+                    lightbox.classList.add('hidden');
+                    document.body.style.overflow = ''; // Kembalikan scroll halaman
+                }, 300); // Sesuai durasi transisi
             }
-            
-            document.body.removeChild(textArea);
-        }
 
-        // Toggle Wedding Gift Container
-        const btnToggleGift = document.getElementById('btn-toggle-gift');
-        const giftContainer = document.getElementById('gift-container');
-        if(btnToggleGift && giftContainer) {
-            btnToggleGift.addEventListener('click', () => {
-                giftContainer.classList.toggle('hidden');
-                if(!giftContainer.classList.contains('hidden')) {
-                    giftContainer.scrollIntoView({behavior: "smooth", block: "nearest"});
+            function showPrev() {
+                currentIndex = (currentIndex - 1 + imageUrls.length) % imageUrls.length;
+                lightboxImg.src = imageUrls[currentIndex];
+            }
+
+            function showNext() {
+                currentIndex = (currentIndex + 1) % imageUrls.length;
+                lightboxImg.src = imageUrls[currentIndex];
+            }
+
+            // Pasang event listener ke tiap gambar
+            galleryImages.forEach((img, index) => {
+                img.addEventListener('click', () => openLightbox(index));
+            });
+
+            // Event listener tombol
+            btnClose.addEventListener('click', closeLightbox);
+            btnPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+            btnNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+            
+            // Tutup jika mengklik area gelap (luar gambar)
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            // Navigasi dengan Keyboard
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('hidden')) {
+                    if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowLeft') showPrev();
+                    if (e.key === 'ArrowRight') showNext();
                 }
             });
         }
@@ -786,6 +845,7 @@
             getGuestName();
             revealElements();
             initCountdown();
+            initLightbox(); // Panggil fungsi lightbox
             fetchUcapan();
             setInterval(fetchUcapan, 15000);
         });
