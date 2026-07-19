@@ -8,14 +8,15 @@
     <!-- Font Modern & Elegan -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome untuk Icon Instagram & Maps -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --bg-color: #FAFAFA; /* Putih tulang modern */
-            --bg-accent: #F3EFE9; /* Krem soft */
-            --text-dark: #2C2C2C; /* Abu gelap/hitam modern */
-            --gold: #C5A880; /* Emas pastel/Muted gold */
+            --text-dark: #2C2C2C; 
+            --gold: #C5A880; 
             --gold-dark: #A3855C;
         }
 
@@ -25,29 +26,59 @@
             box-sizing: border-box;
         }
 
+        /* 1. BACKGROUND FOTO STUCK / FIXED */
         body {
-            font-family: 'Montserrat', sans-serif; /* Font teks modern dan bersih */
-            background-color: var(--bg-color);
+            font-family: 'Montserrat', sans-serif;
             color: var(--text-dark);
             text-align: center;
             overflow-x: hidden;
             font-weight: 300;
+            
+            /* GANTI URL DI BAWAH INI DENGAN LINK FOTO BACKGROUND ANDA */
+            background-image: url('https://images.unsplash.com/photo-1606293926075-69a00dbfde81?q=80&w=1920'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Membuat background stuck */
+            background-repeat: no-repeat;
         }
 
-        /* Mengunci scroll sebelum undangan dibuka */
         body.locked {
             overflow: hidden;
         }
 
+        /* 2. STYLE SECTION (TRANSPARAN & SOLID) */
+        section {
+            min-height: 100vh;
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Transparan: Memperlihatkan background foto */
+        .bg-transparan {
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        /* Solid: Background warna solid menutupi foto */
+        .bg-solid {
+            background-color: #FAFAFA;
+        }
+
         /* Tipografi */
         h1, h2, h3 {
-            font-family: 'Playfair Display', serif; /* Font judul elegan */
+            font-family: 'Playfair Display', serif;
             color: var(--text-dark);
             font-weight: 400;
         }
         
         .nama-latin {
-            font-family: 'Alex Brush', cursive; /* Font sambung modern */
+            font-family: 'Alex Brush', cursive;
             font-size: 4.5rem;
             color: var(--gold-dark);
             margin: 5px 0;
@@ -69,7 +100,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: var(--bg-accent);
+            background-color: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(8px);
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -84,7 +116,7 @@
         .kepada-box {
             margin: 30px 0;
             padding: 20px 40px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             border: 1px solid rgba(197, 168, 128, 0.3);
         }
@@ -100,22 +132,6 @@
             color: var(--text-dark);
         }
 
-        /* ================= LAYOUT & SECTIONS ================= */
-        section {
-            min-height: 100vh;
-            padding: 80px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        
-        section:nth-child(even) {
-            background-color: var(--bg-accent);
-        }
-
-        /* Garis Ornamen Modern */
         .divider {
             width: 1px;
             height: 50px;
@@ -124,30 +140,29 @@
         }
 
         /* Detail Mempelai */
-        .mempelai-box {
-            margin: 40px 0;
-        }
-        .ortu {
-            font-size: 0.85rem;
-            margin-top: 10px;
-            color: #666;
-        }
+        .mempelai-box { margin: 40px 0; }
+        .ortu { font-size: 0.85rem; margin-top: 10px; color: #666; }
+        
         .ig-link {
             text-decoration: none;
             color: var(--text-dark);
             font-size: 0.75rem;
             letter-spacing: 1px;
             border-bottom: 1px solid var(--text-dark);
-            padding-bottom: 2px;
-            display: inline-block;
+            padding-bottom: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Jarak antara icon dan teks */
             margin-top: 15px;
             transition: 0.3s;
             text-transform: uppercase;
+            font-weight: 500;
         }
-        .ig-link:hover {
-            color: var(--gold-dark);
-            border-color: var(--gold-dark);
+        .ig-link i {
+            font-size: 1rem;
         }
+        .ig-link:hover { color: var(--gold-dark); border-color: var(--gold-dark); }
 
         /* Tombol Modern */
         .btn {
@@ -173,13 +188,7 @@
             background-color: transparent;
             color: var(--text-dark);
         }
-        .btn:disabled {
-            background-color: #ccc;
-            border-color: #ccc;
-            cursor: not-allowed;
-            color: #fff;
-        }
-        
+
         /* Card Waktu & Tempat */
         .event-card {
             background: #fff;
@@ -191,15 +200,8 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.03);
             border: 1px solid rgba(0,0,0,0.02);
         }
-        .event-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        .event-card p {
-            font-size: 0.9rem;
-            line-height: 1.8;
-            color: #555;
-        }
+        .event-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        .event-card p { font-size: 0.9rem; line-height: 1.8; color: #555; }
 
         /* Send Gift */
         .rekening-box {
@@ -220,7 +222,7 @@
             margin-bottom: 10px;
         }
 
-        /* Form RSVP Modern */
+        /* Form RSVP & Guestbook */
         .form-rsvp {
             width: 100%;
             max-width: 450px;
@@ -240,53 +242,28 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 0.85rem;
             background: #FAFAFA;
-            transition: 0.3s;
         }
-        .form-rsvp input:focus, .form-rsvp textarea:focus, .form-rsvp select:focus {
-            outline: none;
-            border-color: var(--gold);
-            background: #fff;
-        }
-        
-        /* Buku Tamu (Guestbook) */
         .guestbook {
             width: 100%;
             max-width: 450px;
             height: 350px;
             overflow-y: auto;
-            background: transparent;
             text-align: left;
             margin-top: 20px;
             padding-right: 10px;
         }
-        /* Kustom Scrollbar */
-        .guestbook::-webkit-scrollbar { width: 5px; }
-        .guestbook::-webkit-scrollbar-track { background: transparent; }
-        .guestbook::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
-
         .ucapan-item {
             background: #fff;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            animation: fadeInUp 0.5s ease;
             border-left: 3px solid var(--gold);
         }
-        .ucapan-nama {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-        .ucapan-teks {
-            font-size: 0.85rem;
-            color: #666;
-            line-height: 1.6;
-        }
+        .ucapan-nama { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 1rem; margin-bottom: 5px; }
+        .ucapan-teks { font-size: 0.85rem; color: #666; line-height: 1.6; }
 
-        /* Musik Player Ikon SVG Modern */
+        /* Musik Player */
         .music-btn {
             position: fixed;
             bottom: 30px;
@@ -303,29 +280,41 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.3s;
         }
-        .music-btn:hover {
-            transform: scale(1.1);
-        }
-        .music-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-        .spin {
-            animation: spin 3s linear infinite;
-        }
+        .spin { animation: spin 3s linear infinite; }
+        .icon-svg { width: 16px; height: 16px; fill: currentColor; }
 
-        /* Footer Modern */
-        footer {
-            padding: 40px 20px;
-            background-color: var(--text-dark);
-            color: #fff;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
+        /* ================= KELAS BANTUAN FOOTER ================= */
+        .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+        .text-center { text-align: center; }
+        .bg-black { background-color: #000000; }
+        .border-t { border-top: 1px solid rgba(255,255,255,0.1); }
+        .flex { display: flex; }
+        .justify-center { justify-content: center; }
+        .items-center { align-items: center; }
+        .gap-6 { gap: 1.5rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-gray-400 { color: #9ca3af; }
+        .hover\:text-white:hover { color: #ffffff; }
+        .transition-colors { transition: color 0.3s ease, background-color 0.3s ease; }
+        .w-16 { width: 4rem; }
+        .h-16 { height: 4rem; }
+        .rounded-full { border-radius: 50%; }
+        .bg-cover { background-size: cover; background-position: center; }
+        .border { border: 1px solid rgba(255,255,255,0.2); }
+        .mx-2 { margin-left: 0.5rem; margin-right: 0.5rem; }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .text-sm { font-size: 0.875rem; }
+        .text-white { color: #ffffff; text-decoration: none;}
+        .font-main { font-family: 'Montserrat', sans-serif; }
+        .font-bold { font-weight: 700; }
+        .tracking-widest { letter-spacing: 0.1em; }
+        .hover\:text-gray-300:hover { color: #d1d5db; }
+        .block { display: block; }
+        .text-\[10px\] { font-size: 10px; }
+        .text-gray-500 { color: #6b7280; }
 
         /* ANIMASI */
         .hidden-anim {
@@ -333,42 +322,24 @@
             transform: translateY(30px);
             transition: opacity 1s ease-out, transform 1s ease-out;
         }
-        .show-anim {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes spin { 
-            100% { transform: rotate(360deg); } 
-        }
-
-        /* Icon SVG untuk tombol */
-        .icon-svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
+        .show-anim { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="locked">
 
-    <!-- AUDIO JAWA -->
     <audio id="bg-music" loop>
         <source src="https://www.soundhelix.com/architecture/mp3-player/music/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- TOMBOL MUSIK MENGGUNAKAN SVG (Tanpa Emoticon) -->
     <button class="music-btn" id="music-toggle" onclick="toggleMusic()">
-        <svg id="music-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <svg id="music-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 20px; height: 20px;">
             <path d="M499.1 6.3c8.1 6 12.9 15.6 12.9 25.7v72V368c0 44.2-43 80-96 80s-96-35.8-96-80s43-80 96-80c11.2 0 22 1.6 32 4.6V147L192 223.8V432c0 44.2-43 80-96 80s-96-35.8-96-80s43-80 96-80c11.2 0 22 1.6 32 4.6V200 128c0-14.1 9.3-26.6 22.8-30.7l320-96c9.7-2.9 20.2-1.1 27.5 5z"/>
         </svg>
     </button>
 
-    <!-- ================= COVER (BUKA UNDANGAN) ================= -->
+    <!-- ================= COVER ================= -->
     <div id="cover">
         <p class="subtitle">The Wedding Of</p>
         <h1 class="nama-latin" style="font-size: 5rem;">Annisa & Hendra</h1>
@@ -379,7 +350,6 @@
         </div>
 
         <button class="btn" onclick="bukaUndangan()">
-            <!-- SVG Envelope Icon -->
             <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
             </svg>
@@ -387,18 +357,16 @@
         </button>
     </div>
 
-    <!-- ================= MAIN CONTENT ================= -->
-
-    <!-- SAMPUL DALAM -->
-    <section class="hidden-anim" style="padding-top: 100px;">
+    <!-- ================= SLIDE 1 (TRANSPARAN) ================= -->
+    <section class="hidden-anim bg-transparan" style="padding-top: 100px;">
         <p class="subtitle">Pernikahan Adat Jawa</p>
         <h1 class="nama-latin">Annisa & Hendra</h1>
         <div class="divider"></div>
         <p style="letter-spacing: 4px; font-size: 0.9rem;">1 AGUSTUS 2026</p>
     </section>
 
-    <!-- MEMPELAI -->
-    <section class="hidden-anim">
+    <!-- ================= SLIDE 2 (SOLID) ================= -->
+    <section class="hidden-anim bg-solid">
         <h2 style="font-size: 1.8rem; margin-bottom: 20px;">Assalamu'alaikum Wr. Wb.</h2>
         <p style="max-width: 600px; margin: 0 auto; font-size: 0.9rem; line-height: 1.8; color: #555;">
             Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan acara pernikahan putra-putri kami:
@@ -407,7 +375,9 @@
         <div class="mempelai-box">
             <h1 class="nama-latin" style="font-size: 3.5rem;">Lilia Annisa</h1>
             <p class="ortu">Putri dari Bpk. Wahsoni & Ibu Saidatun</p>
-            <a href="https://instagram.com/___lilia_annisa" class="ig-link" target="_blank">Instagram</a>
+            <a href="https://instagram.com/___lilia_annisa" class="ig-link" target="_blank">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
         </div>
 
         <h2 style="font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; color: var(--gold-dark);">dengan</h2>
@@ -415,12 +385,14 @@
         <div class="mempelai-box">
             <h1 class="nama-latin" style="font-size: 3.5rem;">Hendra Setyawan</h1>
             <p class="ortu">Putra dari Bpk. Mat Syafi'i & Ibu Wahyuni</p>
-            <a href="https://instagram.com/___Hendra_a09" class="ig-link" target="_blank">Instagram</a>
+            <a href="https://instagram.com/___Hendra_a09" class="ig-link" target="_blank">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
         </div>
     </section>
 
-    <!-- WAKTU & LOKASI -->
-    <section class="hidden-anim">
+    <!-- ================= SLIDE 3 (TRANSPARAN) ================= -->
+    <section class="hidden-anim bg-transparan">
         <p class="subtitle">Agenda Acara</p>
         <h2 style="font-size: 2rem;">Waktu & Tempat</h2>
         <div class="divider"></div>
@@ -439,19 +411,20 @@
             </div>
         </div>
 
-        <div class="event-card" style="max-width: 730px; background: transparent; border: 1px solid var(--gold); box-shadow: none;">
+        <!-- ALAMAT ACARA YANG DIKEMBALIKAN -->
+        <div class="event-card" style="max-width: 730px; background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); border: 1px solid var(--gold); box-shadow: none; margin-top: 20px;">
             <h3>Lokasi Acara</h3>
             <p style="margin-top: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-dark);">KEDIAMAN MEMPELAI</p>
-            <p style="margin-bottom: 20px;">Catgawen RT 02 RW 05 Caturanom</p>
+            <p style="margin-bottom: 20px;">CATGAWEN RT 02 RW 05 CATURANOM</p>
             
             <a href="https://maps.app.goo.gl/6mUGYZ5WXUSU596N8?g_st=ic" class="btn" target="_blank" style="background: transparent; color: var(--text-dark); border-color: var(--text-dark);">
-                Buka Google Maps
+                <i class="fas fa-map-marker-alt"></i> Buka Google Maps
             </a>
         </div>
     </section>
 
-    <!-- SEND GIFT -->
-    <section class="hidden-anim">
+    <!-- ================= SLIDE 4 (SOLID) ================= -->
+    <section class="hidden-anim bg-solid">
         <p class="subtitle">Wedding Gift</p>
         <h2 style="font-size: 2rem;">Tanda Kasih</h2>
         <div class="divider"></div>
@@ -459,11 +432,8 @@
             Kehadiran dan doa restu Bapak/Ibu/Saudara/i merupakan anugerah terindah bagi kami. Namun, apabila hendak memberikan tanda kasih, Anda dapat menggunakan fitur di bawah ini.
         </p>
         
-        <button class="btn" onclick="tampilkanRekening()">
-            Kirim Hadiah
-        </button>
+        <button class="btn" onclick="tampilkanRekening()">Kirim Hadiah</button>
 
-        <!-- Kolom Rekening -->
         <div id="rekeningInfo" class="rekening-box">
             <h3 class="bank-name">Bank BRI</h3>
             <p style="font-size: 1.4rem; font-family: 'Montserrat', sans-serif; font-weight: 500; letter-spacing: 2px;">6809 0103 3840 532</p>
@@ -474,97 +444,67 @@
         </div>
     </section>
 
-    <!-- RSVP & UCAPAN -->
-    <section class="hidden-anim" style="padding-bottom: 100px;">
+    <!-- ================= SLIDE 5 (TRANSPARAN) ================= -->
+    <section class="hidden-anim bg-transparan">
         <p class="subtitle">Kehadiran & Doa</p>
         <h2 style="font-size: 2rem;">Buku Tamu</h2>
         <div class="divider"></div>
         
         <form class="form-rsvp" id="rsvpForm" name="submit-to-google-sheet">
             <input type="text" id="namaTamu" name="nama" placeholder="Nama Lengkap Anda" required>
-            
             <select id="kehadiran" name="kehadiran" required>
                 <option value="" disabled selected>Konfirmasi Kehadiran</option>
                 <option value="Hadir">Hadir</option>
                 <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
             </select>
-            
             <textarea id="pesanTamu" name="pesan" rows="4" placeholder="Tulis ucapan & doa restu..." required></textarea>
-            
             <button type="submit" id="btnSubmit" class="btn" style="width: 100%; border-radius: 8px;">Kirim Ucapan</button>
         </form>
 
-        <!-- Tempat Ucapan Ditampilkan -->
         <div class="guestbook" id="daftarUcapan">
-            <p style="font-size: 0.85rem; color: #999; text-align: center; margin-top: 20px; font-style: italic;">Memuat daftar ucapan...</p>
+            <p style="font-size: 0.85rem; color: #555; text-align: center; margin-top: 20px; font-style: italic;">Memuat daftar ucapan...</p>
         </div>
     </section>
 
-    <!-- FOOTER MODERN -->
-    <footer>
-        <p>Copyright © 2026 Annisa & Hendra</p>
-        <p style="margin-top: 10px; color: #888; font-size: 0.65rem;">Created with Love</p>
+    <!-- FOOTER BERNAUNG (Sesuai Permintaan) -->
+    <footer class="py-10 text-center bg-black border-t border-white/10" style="position: relative; z-index: 2;">
+        <div class="flex justify-center items-center gap-6 mb-6">
+            <a href="https://www.instagram.com/bernaing.inv/" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+            <div class="w-16 h-16 rounded-full bg-cover border border-white/20 mx-2 shadow-lg" style="background-image:url('https://andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg')"></div>
+            <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" class="text-sm text-white font-main font-bold tracking-widest hover:text-gray-300 transition-colors block mb-4">HUBUNGI KAMI</a>
+        <p class="text-[10px] font-main text-gray-500">&copy; 2026 Bernaung Invitation.</p>
     </footer>
 
-    <!-- SCRIPT LOGIKA -->
+    <!-- SCRIPT -->
     <script>
-        /* =========================================
-           0. AMBIL NAMA TAMU DARI URL PARAMETER
-        ========================================= */
         const urlParams = new URLSearchParams(window.location.search);
         const guestName = urlParams.get('to');
-        if (guestName) {
-            // Menampilkan nama tamu dari URL (decoder URL otomatis)
-            document.getElementById('nama-tamu-url').innerText = guestName;
-        }
+        if (guestName) document.getElementById('nama-tamu-url').innerText = guestName;
 
-        /* =========================================
-           1. LOGIKA BUKA UNDANGAN (COVER SCREEN)
-        ========================================= */
         function bukaUndangan() {
             document.getElementById('cover').classList.add('open');
             document.body.classList.remove('locked');
-            
-            // Putar musik otomatis jika belum play
-            if (!isPlaying) {
-                toggleMusic();
-            }
+            if (!isPlaying) toggleMusic();
         }
 
-        /* =========================================
-           2. ANIMASI MUNCUL SAAT DI-SCROLL
-        ========================================= */
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show-anim');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('show-anim');
             });
         }, { threshold: 0.1 });
+        document.querySelectorAll('.hidden-anim').forEach((el) => observer.observe(el));
 
-        const hiddenSections = document.querySelectorAll('.hidden-anim');
-        hiddenSections.forEach((el) => observer.observe(el));
-
-        /* =========================================
-           3. LOGIKA MUNCULKAN & SALIN REKENING
-        ========================================= */
         function tampilkanRekening() {
             const rekBox = document.getElementById('rekeningInfo');
-            if (rekBox.style.display === 'block') {
-                rekBox.style.display = 'none';
-            } else {
-                rekBox.style.display = 'block';
-            }
+            rekBox.style.display = rekBox.style.display === 'block' ? 'none' : 'block';
         }
-
         function salinRekening() {
             navigator.clipboard.writeText("680901033840532");
             alert("Nomor rekening berhasil disalin!");
         }
 
-        /* =========================================
-           4. LOGIKA MUSIK MODERN (TANPA EMOJI)
-        ========================================= */
         const bgMusic = document.getElementById('bg-music');
         const musicIcon = document.getElementById('music-icon');
         let isPlaying = false;
@@ -580,15 +520,11 @@
             isPlaying = !isPlaying;
         }
 
-        /* =========================================
-           5. LOGIKA RSVP & GOOGLE SHEETS
-        ========================================= */
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwpZNNAqIB4qsBCl-7jC4mNCw3z3oUwSAHOKtnGQIFdO_LZrBJbrrz2xC92bLAi0pdk/exec';
         const rsvpForm = document.forms['submit-to-google-sheet'];
         const daftarUcapan = document.getElementById('daftarUcapan');
         const btnSubmit = document.getElementById('btnSubmit');
 
-        // Fungsi MEMBACA (GET) data
         async function loadUcapan() {
             try {
                 const response = await fetch(scriptURL);
@@ -599,7 +535,7 @@
                     const ucapanList = data.data.reverse(); 
                     
                     if(ucapanList.length === 0) {
-                        daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #999; text-align: center; margin-top: 20px;">Belum ada ucapan. Jadilah yang pertama!</p>';
+                        daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align: center; margin-top: 20px;">Belum ada ucapan. Jadilah yang pertama!</p>';
                     } else {
                         ucapanList.forEach(item => {
                             if (item.nama && item.pesan) { 
@@ -616,14 +552,12 @@
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #999; text-align:center; margin-top: 20px;">Gagal memuat daftar ucapan.</p>';
+                daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align:center; margin-top: 20px;">Gagal memuat daftar ucapan dari server.</p>';
             }
         }
 
-        // Load ucapan saat web dibuka
         loadUcapan();
 
-        // Fungsi MENGIRIM (POST) data
         rsvpForm.addEventListener('submit', e => {
             e.preventDefault();
             
