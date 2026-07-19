@@ -26,7 +26,13 @@
             box-sizing: border-box;
         }
 
-        /* 1. BACKGROUND FOTO STUCK / FIXED */
+        /* 1. BACKGROUND FOTO STUCK / FIXED & FIX ZOOM */
+        html {
+            background-color: #EFE4D3; /* Warna latar luar jika dibuka di PC */
+            display: flex;
+            justify-content: center;
+        }
+        
         body {
             font-family: 'Montserrat', sans-serif;
             color: var(--text-dark);
@@ -34,12 +40,19 @@
             overflow-x: hidden;
             font-weight: 300;
             
-            /* GANTI URL DI BAWAH INI DENGAN LINK FOTO BACKGROUND ANDA */
-            background-image: url('https://bernaunginv.my.id/Nisa-Hendra/bg.jpg'); 
+            /* Background utama diubah sesuai nama file yang diminta */
+            background-image: url('FD4B17A6-0D91-4910-973D-0FDB0A64847C.png'); 
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Membuat background stuck */
+            background-position: top center;
+            background-attachment: fixed;
             background-repeat: no-repeat;
+            
+            /* Membatasi lebar agar tidak terlalu zoom di layar PC/Laptop */
+            width: 100%;
+            max-width: 500px;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 25px rgba(0,0,0,0.15);
         }
 
         body.locked {
@@ -60,9 +73,9 @@
         
         /* Transparan: Memperlihatkan background foto */
         .bg-transparan {
-            background-color: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.4); /* Dibuat sedikit lebih tipis agar gunungan background terlihat */
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
         }
 
         /* Solid: Background warna solid menutupi foto */
@@ -93,12 +106,33 @@
             margin-bottom: 10px;
         }
 
+        /* ================= HIASAN SAMPING TEXT (GUNUNGAN) ================= */
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px; /* Jarak antara hiasan dan teks */
+            margin: 15px 0;
+            width: 100%;
+        }
+
+        .hiasan-samping {
+            width: 45px; /* Atur ukuran hiasan di sini */
+            height: auto;
+            opacity: 0.85;
+        }
+
+        /* Membalik gambar (mirror) untuk posisi kiri jika menggunakan 1 gambar yang sama */
+        .hiasan-samping.kiri {
+            transform: scaleX(-1);
+        }
+
         /* ================= COVER SCREEN ================= */
         #cover {
-            position: fixed;
+            position: absolute; /* Ubah dari fixed ke absolute mengikuti lebar body */
             top: 0;
             left: 0;
-            width: 100vw;
+            width: 100%;
             height: 100vh;
             background-color: rgba(255, 255, 255, 0.85); 
             backdrop-filter: blur(8px);
@@ -119,6 +153,8 @@
             background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             border: 1px solid rgba(197, 168, 128, 0.3);
+            width: 100%;
+            max-width: 350px;
         }
         .kepada-box p {
             font-size: 0.85rem;
@@ -153,15 +189,13 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px; /* Jarak antara icon dan teks */
+            gap: 8px;
             margin-top: 15px;
             transition: 0.3s;
             text-transform: uppercase;
             font-weight: 500;
         }
-        .ig-link i {
-            font-size: 1rem;
-        }
+        .ig-link i { font-size: 1rem; }
         .ig-link:hover { color: var(--gold-dark); border-color: var(--gold-dark); }
 
         /* Tombol Modern */
@@ -184,10 +218,7 @@
             transition: all 0.4s ease;
             text-transform: uppercase;
         }
-        .btn:hover {
-            background-color: transparent;
-            color: var(--text-dark);
-        }
+        .btn:hover { background-color: transparent; color: var(--text-dark); }
 
         /* Card Waktu & Tempat */
         .event-card {
@@ -216,9 +247,9 @@
             max-width: 400px;
         }
 
-        /* ================= DESAIN KARTU ATM ================= */
+        /* Desain Kartu ATM (Dipadatkan) */
         .atm-card {
-            background: linear-gradient(135deg, #2b2b2b, #141414); /* Warna kartu elegan */
+            background: linear-gradient(135deg, #2b2b2b, #141414);
             border-radius: 15px;
             padding: 25px 20px;
             color: white;
@@ -228,90 +259,27 @@
             text-align: left;
             margin-bottom: 15px;
         }
-
-        /* Efek pantulan cahaya (Glossy) di kartu */
         .atm-card::before {
             content: '';
             position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
+            top: -50px; right: -50px;
+            width: 200px; height: 200px;
             background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
             border-radius: 50%;
             pointer-events: none;
         }
-
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        /* Desain Chip ATM */
-        .chip {
-            width: 42px;
-            height: 32px;
-            background: linear-gradient(135deg, #e5c158, #c5a880); /* Warna Emas */
-            border-radius: 6px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-        .chip::after {
-            content: '';
-            position: absolute;
-            top: 5px; left: 5px; right: 5px; bottom: 5px;
-            border: 1px solid rgba(0,0,0,0.3);
-            border-radius: 3px;
-        }
-        .chip-line {
-            position: absolute;
-            background: rgba(0,0,0,0.2);
-        }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .chip { width: 42px; height: 32px; background: linear-gradient(135deg, #e5c158, #c5a880); border-radius: 6px; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        .chip::after { content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px solid rgba(0,0,0,0.3); border-radius: 3px; }
+        .chip-line { position: absolute; background: rgba(0,0,0,0.2); }
         .cl-1 { top: 15px; left: 0; width: 100%; height: 1px; }
         .cl-2 { top: 0; left: 12px; width: 1px; height: 100%; }
         .cl-3 { top: 0; right: 12px; width: 1px; height: 100%; }
-
-        .bank-logo {
-            font-family: 'Montserrat', sans-serif;
-            font-style: italic;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #fff;
-            letter-spacing: 1px;
-        }
-
-        .card-number {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.3rem;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            font-weight: bold;
-        }
-
-        .card-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .card-name {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #dedede;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .card-type {
-            font-size: 2.2rem;
-            color: #fff;
-            opacity: 0.9;
-        }
-        /* ================= END DESAIN KARTU ATM ================= */
+        .bank-logo { font-family: 'Montserrat', sans-serif; font-style: italic; font-weight: 700; font-size: 1.2rem; color: #fff; letter-spacing: 1px; }
+        .card-number { font-family: 'Courier New', Courier, monospace; font-size: 1.3rem; letter-spacing: 3px; margin-bottom: 15px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-weight: bold; }
+        .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+        .card-name { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: #dedede; font-family: 'Montserrat', sans-serif; }
+        .card-type { font-size: 2.2rem; color: #fff; opacity: 0.9; }
 
         /* Form RSVP & Guestbook */
         .form-rsvp {
@@ -325,32 +293,10 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
         .form-rsvp input, .form-rsvp textarea, .form-rsvp select {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #EAEAEA;
-            border-radius: 8px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            background: #FAFAFA;
+            width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #EAEAEA; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; background: #FAFAFA;
         }
-        .guestbook {
-            width: 100%;
-            max-width: 450px;
-            height: 350px;
-            overflow-y: auto;
-            text-align: left;
-            margin-top: 20px;
-            padding-right: 10px;
-        }
-        .ucapan-item {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            border-left: 3px solid var(--gold);
-        }
+        .guestbook { width: 100%; max-width: 450px; height: 350px; overflow-y: auto; text-align: left; margin-top: 20px; padding-right: 10px; }
+        .ucapan-item { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border-left: 3px solid var(--gold); }
         .ucapan-nama { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 1rem; margin-bottom: 5px; }
         .ucapan-teks { font-size: 0.85rem; color: #666; line-height: 1.6; }
 
@@ -375,7 +321,7 @@
         .spin { animation: spin 3s linear infinite; }
         .icon-svg { width: 16px; height: 16px; fill: currentColor; }
 
-        /* ================= KELAS BANTUAN FOOTER ================= */
+        /* KELAS BANTUAN FOOTER */
         .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
         .text-center { text-align: center; }
         .bg-black { background-color: #000000; }
@@ -408,11 +354,7 @@
         .text-gray-500 { color: #6b7280; }
 
         /* ANIMASI */
-        .hidden-anim {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
+        .hidden-anim { opacity: 0; transform: translateY(30px); transition: opacity 1s ease-out, transform 1s ease-out; }
         .show-anim { opacity: 1; transform: translateY(0); }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -433,7 +375,15 @@
     <!-- ================= COVER ================= -->
     <div id="cover">
         <p class="subtitle">The Wedding Of</p>
-        <h1 class="nama-latin" style="font-size: 5rem;">Annisa & Hendra</h1>
+        
+        <!-- IMPLEMENTASI HIASAN SAMPING PADA COVER -->
+        <div class="title-wrapper">
+            <!-- Ganti URL 'URL_GAMBAR_GUNUNGAN_ANDA.png' dengan link gambar gunungan Anda -->
+            <img src="URL_GAMBAR_GUNUNGAN_ANDA.png" class="hiasan-samping kiri" alt="Hiasan Kiri">
+            <h1 class="nama-latin" style="font-size: 4rem; margin:0;">Annisa & Hendra</h1>
+            <!-- Ganti URL 'URL_GAMBAR_GUNUNGAN_ANDA.png' dengan link gambar gunungan Anda -->
+            <img src="URL_GAMBAR_GUNUNGAN_ANDA.png" class="hiasan-samping kanan" alt="Hiasan Kanan">
+        </div>
         
         <div class="kepada-box">
             <p>Kepada Yth. Bapak/Ibu/Saudara/i:</p>
@@ -451,7 +401,16 @@
     <!-- ================= SLIDE 1 (TRANSPARAN) ================= -->
     <section class="hidden-anim bg-transparan" style="padding-top: 100px;">
         <p class="subtitle">Pernikahan Adat Jawa</p>
-        <h1 class="nama-latin">Annisa & Hendra</h1>
+        
+        <!-- IMPLEMENTASI HIASAN SAMPING PADA SLIDE 1 -->
+        <div class="title-wrapper">
+            <!-- Ganti URL 'URL_GAMBAR_GUNUNGAN_ANDA.png' dengan link gambar gunungan Anda -->
+            <img src="URL_GAMBAR_GUNUNGAN_ANDA.png" class="hiasan-samping kiri" alt="Hiasan Kiri">
+            <h1 class="nama-latin" style="margin:0;">Annisa & Hendra</h1>
+            <!-- Ganti URL 'URL_GAMBAR_GUNUNGAN_ANDA.png' dengan link gambar gunungan Anda -->
+            <img src="URL_GAMBAR_GUNUNGAN_ANDA.png" class="hiasan-samping kanan" alt="Hiasan Kanan">
+        </div>
+
         <div class="divider"></div>
         <p style="letter-spacing: 4px; font-size: 0.9rem;">1 AGUSTUS 2026</p>
     </section>
