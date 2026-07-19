@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Annisa & Hendra</title>
+    <!-- Menggunakan Font Elegan -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FDFBF7; /* Krem klasik keraton */
+            --text-dark: #3E2723; /* Coklat tua */
+            --gold: #B8860B; /* Emas */
+            --gold-light: #DFB15B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Tipografi */
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+        }
+        .nama-latin {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: var(--text-dark);
+            margin: 10px 0;
+        }
+        
+        /* Container tiap section */
+        section {
+            min-height: 100vh;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 2px dashed var(--gold-light);
+            position: relative;
+        }
+
+        /* Ornamen Garis Jawa Sederhana */
+        .ornament {
+            width: 80%;
+            max-width: 300px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            margin: 20px auto;
+        }
+        .ornament-diamond {
+            font-size: 20px;
+            color: var(--gold);
+            margin: 10px 0;
+        }
+
+        /* Detail Mempelai */
+        .mempelai-box {
+            margin: 30px 0;
+        }
+        .ortu {
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+        .ig-link {
+            text-decoration: none;
+            color: var(--gold);
+            font-size: 0.85rem;
+            border: 1px solid var(--gold);
+            padding: 3px 10px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-top: 5px;
+            transition: 0.3s;
+        }
+        .ig-link:hover {
+            background-color: var(--gold);
+            color: white;
+        }
+
+        /* Tombol & Card */
+        .btn {
+            background-color: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: var(--text-dark);
+        }
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* Rekening Hidden (Send Gift) */
+        .rekening-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            animation: fadeInDown 0.5s ease;
+        }
+
+        /* Form RSVP */
+        .form-rsvp {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: left;
+        }
+        .form-rsvp input, .form-rsvp textarea, .form-rsvp select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--gold-light);
+            border-radius: 5px;
+            font-family: 'Lora', serif;
+            background: #fff;
+        }
+        .form-rsvp input:focus, .form-rsvp textarea:focus, .form-rsvp select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 5px rgba(184, 134, 11, 0.3);
+        }
+        
+        /* Buku Tamu (Guestbook) */
+        .guestbook {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid var(--gold-light);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+            margin-top: 20px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .ucapan-item {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.5s ease;
+        }
+        .ucapan-nama {
+            font-weight: bold;
+            color: var(--gold);
+            font-size: 0.9rem;
+        }
+        .ucapan-teks {
+            font-size: 0.85rem;
+            color: #555;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        /* Musik Player Float */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ANIMASI SCROLL (Smooth Transitions) */
+        .hidden-anim {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        .show-anim {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- AUDIO JAWA -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/architecture/mp3-player/music/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+    <button class="music-btn" id="music-toggle" onclick="toggleMusic()">🎵</button>
+
+    <!-- SAMPUL DEPAN -->
+    <section class="hidden-anim">
+        <div class="ornament-diamond">❖</div>
+        <h3>Pernikahan Adat Jawa</h3>
+        <div class="ornament"></div>
+        <div class="nama-latin">Annisa & Hendra</div>
+        <div class="ornament"></div>
+        <p style="letter-spacing: 2px;">1 AGUSTUS 2026</p>
+    </section>
+
+    <!-- MEMPELAI -->
+    <section class="hidden-anim">
+        <h2 style="margin-bottom: 20px;">Om Swastiastu / Assalamu'alaikum</h2>
+        <p style="max-width: 600px; margin: 0 auto; font-size: 0.95rem; line-height: 1.6;">
+            Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan acara pernikahan putra-putri kami:
+        </p>
+
+        <div class="mempelai-box">
+            <h1 class="nama-latin">Lilia Annisa</h1>
+            <p style="font-weight: bold;">(Annisa)</p>
+            <p class="ortu">Putri dari Bpk. Wahsoni & Ibu Saidatun</p>
+            <a href="https://instagram.com/___lilia_annisa" class="ig-link" target="_blank">@___lilia_annisa</a>
+        </div>
+
+        <h2 style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; text-transform: lowercase;">dengan</h2>
+
+        <div class="mempelai-box">
+            <h1 class="nama-latin">Hendra Setyawan</h1>
+            <p style="font-weight: bold;">(Hendra)</p>
+            <p class="ortu">Putra dari Bpk. Mat Syafi'i & Ibu Wahyuni</p>
+            <a href="https://instagram.com/___Hendra_a09" class="ig-link" target="_blank">@___Hendra_a09</a>
+        </div>
+    </section>
+
+    <!-- WAKTU & LOKASI -->
+    <section class="hidden-anim">
+        <div class="ornament-diamond">❖</div>
+        <h2>Waktu & Tempat</h2>
+        <div class="ornament"></div>
+        
+        <div style="margin: 25px 0;">
+            <h3 style="margin-bottom: 5px;">Akad Nikah</h3>
+            <p><strong>Sabtu, 1 Agustus 2026</strong></p>
+            <p>Pukul 08.00 WIB</p>
+        </div>
+
+        <div style="margin: 25px 0;">
+            <h3 style="margin-bottom: 5px;">Resepsi Pernikahan</h3>
+            <p><strong>Sabtu, 1 Agustus 2026</strong></p>
+            <p>Pukul 13.00 - 16.00 WIB</p>
+        </div>
+
+        <div style="margin: 25px 0; border: 1px solid var(--gold); padding: 25px; border-radius: 8px; background-color: #fff;">
+            <h3>Lokasi Acara</h3>
+            <p style="margin-top: 15px; font-weight: bold; color: var(--text-dark);">KEDIAMAN MEMPELAI</p>
+            <p>Catgawen RT 02 RW 05 Caturanom</p>
+            <br>
+            <a href="https://maps.app.goo.gl/6mUGYZ5WXUSU596N8?g_st=ic" class="btn" target="_blank">Lihat Google Maps</a>
+        </div>
+    </section>
+
+    <!-- SEND GIFT -->
+    <section class="hidden-anim">
+        <h2>Tanda Kasih</h2>
+        <div class="ornament"></div>
+        <p style="max-width: 500px; margin: 10px auto; font-size: 0.95rem; line-height: 1.6;">
+            Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun, jika Anda hendak memberikan tanda kasih, Anda dapat menggunakan fitur di bawah ini.
+        </p>
+        
+        <button class="btn" onclick="tampilkanRekening()">🎁 Send Gift</button>
+
+        <!-- Kolom Rekening -->
+        <div id="rekeningInfo" class="rekening-box">
+            <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: #00529C;">Bank BRI</h3>
+            <p style="font-size: 1.5rem; font-weight: bold; letter-spacing: 2px;">6809 0103 3840 532</p>
+            <p style="margin-top: 5px;">a/n <strong>LILIA ANNISA</strong></p>
+            <button class="btn" style="padding: 8px 15px; font-size: 0.8rem; margin-top: 15px;" onclick="salinRekening()">Salin No. Rekening</button>
+        </div>
+    </section>
+
+    <!-- RSVP & UCAPAN -->
+    <section class="hidden-anim">
+        <h2>RSVP & Buku Tamu</h2>
+        <div class="ornament"></div>
+        
+        <form class="form-rsvp" id="rsvpForm" name="submit-to-google-sheet">
+            <input type="text" id="namaTamu" name="nama" placeholder="Nama Anda" required>
+            
+            <select id="kehadiran" name="kehadiran" required>
+                <option value="" disabled selected>Konfirmasi Kehadiran</option>
+                <option value="Hadir">Hadir</option>
+                <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
+            </select>
+            
+            <textarea id="pesanTamu" name="pesan" rows="4" placeholder="Tulis ucapan dan doa untuk kami..." required></textarea>
+            
+            <button type="submit" id="btnSubmit" class="btn" style="width: 100%;">Kirim Ucapan</button>
+        </form>
+
+        <!-- Tempat Ucapan Ditampilkan -->
+        <div class="guestbook" id="daftarUcapan">
+            <p style="font-size: 0.85rem; color: #999; text-align: center; margin-top: 20px;">Memuat ucapan...</p>
+        </div>
+    </section>
+
+    <footer style="padding: 25px; background-color: #3E2723; color: var(--gold-light); font-size: 0.85rem;">
+        <p>&copy; 2026 Annisa & Hendra Wedding.</p>
+        <p style="margin-top: 5px;">Created with ♥</p>
+    </footer>
+
+    <!-- SCRIPT LOGIKA & ANIMASI -->
+    <script>
+        /* =========================================
+           1. ANIMASI MUNCUL SAAT DI-SCROLL
+        ========================================= */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show-anim');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const hiddenSections = document.querySelectorAll('.hidden-anim');
+        hiddenSections.forEach((el) => observer.observe(el));
+
+        /* =========================================
+           2. LOGIKA MUNCULKAN & SALIN REKENING
+        ========================================= */
+        function tampilkanRekening() {
+            const rekBox = document.getElementById('rekeningInfo');
+            if (rekBox.style.display === 'block') {
+                rekBox.style.display = 'none';
+            } else {
+                rekBox.style.display = 'block';
+            }
+        }
+
+        function salinRekening() {
+            navigator.clipboard.writeText("680901033840532");
+            alert("Nomor rekening berhasil disalin!");
+        }
+
+        /* =========================================
+           3. LOGIKA MUSIK
+        ========================================= */
+        const bgMusic = document.getElementById('bg-music');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                document.getElementById('music-toggle').innerText = "🎵";
+            } else {
+                bgMusic.play();
+                document.getElementById('music-toggle').innerText = "⏸";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Autoplay musik saat user klik area web pertama kali
+        document.body.addEventListener('click', () => {
+            if (!isPlaying) toggleMusic();
+        }, { once: true });
+
+        /* =========================================
+           4. LOGIKA RSVP & GOOGLE SHEETS
+        ========================================= */
+        // Masukkan URL Google Apps Script Anda di sini
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwpZNNAqIB4qsBCl-7jC4mNCw3z3oUwSAHOKtnGQIFdO_LZrBJbrrz2xC92bLAi0pdk/exec';
+        
+        const rsvpForm = document.forms['submit-to-google-sheet'];
+        const daftarUcapan = document.getElementById('daftarUcapan');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        // Fungsi untuk MEMBACA (GET) data dari Sheets saat web dibuka
+        async function loadUcapan() {
+            try {
+                const response = await fetch(scriptURL);
+                const data = await response.json();
+                
+                if (data.result === 'success') {
+                    daftarUcapan.innerHTML = ''; // Bersihkan loading text
+                    
+                    // Render data, dibalik agar ucapan terbaru di atas
+                    const ucapanList = data.data.reverse(); 
+                    
+                    if(ucapanList.length === 0) {
+                        daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #999; text-align: center; margin-top: 20px;">Belum ada ucapan. Jadilah yang pertama!</p>';
+                    } else {
+                        ucapanList.forEach(item => {
+                            // Pastikan ada isinya
+                            if (item.nama && item.pesan) { 
+                                const ucapanBaru = document.createElement('div');
+                                ucapanBaru.classList.add('ucapan-item');
+                                ucapanBaru.innerHTML = `
+                                    <div class="ucapan-nama">${item.nama} <span style="color:#888; font-size:0.8rem;">(${item.kehadiran})</span></div>
+                                    <div class="ucapan-teks">${item.pesan}</div>
+                                `;
+                                daftarUcapan.appendChild(ucapanBaru);
+                            }
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #999; text-align:center; margin-top: 20px;">Belum bisa memuat daftar ucapan.</p>';
+            }
+        }
+
+        // Panggil fungsi baca saat web load
+        loadUcapan();
+
+        // Fungsi untuk MENGIRIM (POST) data ke Sheets
+        rsvpForm.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            // Ambil data form untuk di-render lokal langsung (biar keliatan instan)
+            const namaInput = document.getElementById('namaTamu').value;
+            const kehadiranInput = document.getElementById('kehadiran').value;
+            const pesanInput = document.getElementById('pesanTamu').value;
+
+            // Loading state tombol
+            btnSubmit.innerHTML = 'Mengirim...';
+            btnSubmit.disabled = true;
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(rsvpForm)})
+                .then(response => {
+                    // Kembalikan state tombol
+                    btnSubmit.innerHTML = 'Kirim Ucapan';
+                    btnSubmit.disabled = false;
+                    
+                    // Render elemen baru langsung di atas guestbook
+                    const ucapanBaru = document.createElement('div');
+                    ucapanBaru.classList.add('ucapan-item');
+                    ucapanBaru.innerHTML = `
+                        <div class="ucapan-nama">${namaInput} <span style="color:#888; font-size:0.8rem;">(${kehadiranInput})</span></div>
+                        <div class="ucapan-teks">${pesanInput}</div>
+                    `;
+                    
+                    // Hapus teks "Belum ada ucapan" jika ini ucapan pertama
+                    if (daftarUcapan.innerHTML.includes('Belum ada ucapan')) {
+                        daftarUcapan.innerHTML = '';
+                    }
+                    
+                    daftarUcapan.prepend(ucapanBaru);
+                    
+                    // Reset isi form
+                    rsvpForm.reset();
+                    alert("Terima kasih, RSVP dan ucapan Anda telah terkirim!");
+                })
+                .catch(error => {
+                    btnSubmit.innerHTML = 'Kirim Ucapan';
+                    btnSubmit.disabled = false;
+                    alert('Gagal mengirim, periksa koneksi internet Anda atau cek setting Apps Script.');
+                    console.error('Error!', error.message);
+                });
+        });
+    </script>
+</body>
+</html>
