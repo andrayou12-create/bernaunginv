@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome untuk Icon Instagram & Maps -->
+    <!-- FontAwesome untuk Icon Instagram, Maps & Kartu ATM -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -215,12 +215,103 @@
             width: 100%;
             max-width: 400px;
         }
-        .bank-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: var(--gold-dark);
-            margin-bottom: 10px;
+
+        /* ================= DESAIN KARTU ATM ================= */
+        .atm-card {
+            background: linear-gradient(135deg, #2b2b2b, #141414); /* Warna kartu elegan */
+            border-radius: 15px;
+            padding: 25px 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            text-align: left;
+            margin-bottom: 15px;
         }
+
+        /* Efek pantulan cahaya (Glossy) di kartu */
+        .atm-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        /* Desain Chip ATM */
+        .chip {
+            width: 42px;
+            height: 32px;
+            background: linear-gradient(135deg, #e5c158, #c5a880); /* Warna Emas */
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .chip::after {
+            content: '';
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid rgba(0,0,0,0.3);
+            border-radius: 3px;
+        }
+        .chip-line {
+            position: absolute;
+            background: rgba(0,0,0,0.2);
+        }
+        .cl-1 { top: 15px; left: 0; width: 100%; height: 1px; }
+        .cl-2 { top: 0; left: 12px; width: 1px; height: 100%; }
+        .cl-3 { top: 0; right: 12px; width: 1px; height: 100%; }
+
+        .bank-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-style: italic;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .card-number {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-weight: bold;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .card-name {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #dedede;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .card-type {
+            font-size: 2.2rem;
+            color: #fff;
+            opacity: 0.9;
+        }
+        /* ================= END DESAIN KARTU ATM ================= */
 
         /* Form RSVP & Guestbook */
         .form-rsvp {
@@ -411,7 +502,7 @@
             </div>
         </div>
 
-        <!-- ALAMAT ACARA YANG DIKEMBALIKAN -->
+        <!-- ALAMAT ACARA LENGKAP -->
         <div class="event-card" style="max-width: 730px; background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); border: 1px solid var(--gold); box-shadow: none; margin-top: 20px;">
             <h3>Lokasi Acara</h3>
             <p style="margin-top: 10px; font-weight: 600; letter-spacing: 1px; color: var(--text-dark);">KEDIAMAN MEMPELAI</p>
@@ -435,11 +526,28 @@
         <button class="btn" onclick="tampilkanRekening()">Kirim Hadiah</button>
 
         <div id="rekeningInfo" class="rekening-box">
-            <h3 class="bank-name">Bank BRI</h3>
-            <p style="font-size: 1.4rem; font-family: 'Montserrat', sans-serif; font-weight: 500; letter-spacing: 2px;">6809 0103 3840 532</p>
-            <p style="margin-top: 10px; font-size: 0.85rem; text-transform: uppercase;">A.N Lilia Annisa</p>
-            <button class="btn" style="padding: 10px 20px; font-size: 0.75rem; margin-top: 20px; width: 100%; border-radius: 8px;" onclick="salinRekening()">
-                Salin No. Rekening
+            <!-- Desain Kartu ATM -->
+            <div class="atm-card">
+                <div class="card-top">
+                    <div class="chip">
+                        <div class="chip-line cl-1"></div>
+                        <div class="chip-line cl-2"></div>
+                        <div class="chip-line cl-3"></div>
+                    </div>
+                    <div class="bank-logo">BANK BRI</div>
+                </div>
+                
+                <div class="card-number">6809 0103 3840 532</div>
+                
+                <div class="card-bottom">
+                    <div class="card-name">A.N Lilia Annisa</div>
+                    <div class="card-type"><i class="fab fa-cc-mastercard"></i></div>
+                </div>
+            </div>
+
+            <!-- Tombol Salin -->
+            <button class="btn" style="padding: 10px 20px; font-size: 0.8rem; width: 100%; border-radius: 8px;" onclick="salinRekening()">
+                <i class="far fa-copy"></i> Salin No. Rekening
             </button>
         </div>
     </section>
@@ -466,7 +574,7 @@
         </div>
     </section>
 
-    <!-- FOOTER BERNAUNG (Sesuai Permintaan) -->
+    <!-- FOOTER BERNAUNG -->
     <footer class="py-10 text-center bg-black border-t border-white/10" style="position: relative; z-index: 2;">
         <div class="flex justify-center items-center gap-6 mb-6">
             <a href="https://www.instagram.com/bernaing.inv/" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
@@ -479,16 +587,19 @@
 
     <!-- SCRIPT -->
     <script>
+        // Tangkap nama tamu dari URL
         const urlParams = new URLSearchParams(window.location.search);
         const guestName = urlParams.get('to');
         if (guestName) document.getElementById('nama-tamu-url').innerText = guestName;
 
+        // Buka Undangan
         function bukaUndangan() {
             document.getElementById('cover').classList.add('open');
             document.body.classList.remove('locked');
             if (!isPlaying) toggleMusic();
         }
 
+        // Animasi Scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) entry.target.classList.add('show-anim');
@@ -496,6 +607,7 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.hidden-anim').forEach((el) => observer.observe(el));
 
+        // Fitur Rekening ATM
         function tampilkanRekening() {
             const rekBox = document.getElementById('rekeningInfo');
             rekBox.style.display = rekBox.style.display === 'block' ? 'none' : 'block';
@@ -505,6 +617,7 @@
             alert("Nomor rekening berhasil disalin!");
         }
 
+        // Fitur Musik
         const bgMusic = document.getElementById('bg-music');
         const musicIcon = document.getElementById('music-icon');
         let isPlaying = false;
@@ -520,6 +633,7 @@
             isPlaying = !isPlaying;
         }
 
+        // Fitur RSVP Google Sheets
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwpZNNAqIB4qsBCl-7jC4mNCw3z3oUwSAHOKtnGQIFdO_LZrBJbrrz2xC92bLAi0pdk/exec';
         const rsvpForm = document.forms['submit-to-google-sheet'];
         const daftarUcapan = document.getElementById('daftarUcapan');
