@@ -605,37 +605,47 @@
         const daftarUcapan = document.getElementById('daftarUcapan');
         const btnSubmit = document.getElementById('btnSubmit');
 
-        async function loadUcapan() {
+       async function loadUcapan() {
             try {
                 const response = await fetch(scriptURL);
                 const data = await response.json();
                 
-                if (data.result === 'success') {
+                // Apps Script mengirimkan Array langsung, bukan objek {result: 'success'}
+                // Kita cek apakah data yang diterima adalah Array
+                if (Array.isArray(data)) {
                     daftarUcapan.innerHTML = ''; 
-                    const ucapanList = data.data.reverse(); 
                     
-                    if(ucapanList.length === 0) {
+                    if(data.length === 0) {
                         daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align: center; margin-top: 20px;">Belum ada ucapan. Jadilah yang pertama!</p>';
                     } else {
-                        ucapanList.forEach(item => {
-                            if (item.nama && item.pesan) { 
+                        // Di Apps Script data sudah di-reverse, jadi langsung kita gunakan
+                        data.forEach(item => {
+                            // Deteksi otomatis nama header di Google Sheets (antisipasi jika beda undangan beda header)
+                            const namaTamu = item.nama || item.Nama || item.author || item.Author || 'Tamu';
+                            const pesanTamu = item.pesan || item.Pesan || item.comment || item.Comment || '';
+                            const statusKehadiran = item.kehadiran || item.Kehadiran || item.attendance || item.Attendance || '';
+
+                            if (pesanTamu) { 
                                 const ucapanBaru = document.createElement('div');
                                 ucapanBaru.classList.add('ucapan-item');
                                 ucapanBaru.innerHTML = `
-                                    <div class="ucapan-nama">${item.nama} <span style="font-size: 0.75rem; color: #A3855C; font-weight: 400; font-family: 'Montserrat', sans-serif;">— ${item.kehadiran}</span></div>
-                                    <div class="ucapan-teks">${item.pesan}</div>
+                                    <div class="ucapan-nama">${namaTamu} <span style="font-size: 0.75rem; color: #A3855C; font-weight: 400; font-family: 'Montserrat', sans-serif;">— ${statusKehadiran}</span></div>
+                                    <div class="ucapan-teks">${pesanTamu}</div>
                                 `;
                                 daftarUcapan.appendChild(ucapanBaru);
                             }
                         });
                     }
+                } else if (data.error) {
+                    // Jika Apps Script mengembalikan error log
+                    console.error('Error dari Apps Script:', data.error);
+                    daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align:center; margin-top: 20px;">Gagal memuat daftar ucapan dari server.</p>';
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align:center; margin-top: 20px;">Gagal memuat daftar ucapan dari server.</p>';
+                daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align:center; margin-top: 20px;">Gagal terhubung ke server.</p>';
             }
         }
-
         loadUcapan();
 
         rsvpForm.addEventListener('submit', e => {
