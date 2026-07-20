@@ -552,6 +552,7 @@
     </footer>
 
     <!-- SCRIPT -->
+<!-- SCRIPT -->
     <script>
         // Tangkap nama tamu dari URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -605,27 +606,40 @@
         const daftarUcapan = document.getElementById('daftarUcapan');
         const btnSubmit = document.getElementById('btnSubmit');
 
-       async function loadUcapan() {
+        async function loadUcapan() {
             try {
                 const response = await fetch(scriptURL);
                 const data = await response.json();
                 
-                // Apps Script mengirimkan Array langsung, bukan objek {result: 'success'}
-                // Kita cek apakah data yang diterima adalah Array
+                console.log("Data dari Apps Script:", data); // Buka Console F12 untuk inspect data
+
                 if (Array.isArray(data)) {
                     daftarUcapan.innerHTML = ''; 
-                    
-                    if(data.length === 0) {
+
+                    if (data.length === 0) {
                         daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align: center; margin-top: 20px;">Belum ada ucapan. Jadilah yang pertama!</p>';
                     } else {
-                        // Di Apps Script data sudah di-reverse, jadi langsung kita gunakan
-                        data.forEach(item => {
-                            // Deteksi otomatis nama header di Google Sheets (antisipasi jika beda undangan beda header)
-                            const namaTamu = item.nama || item.Nama || item.author || item.Author || 'Tamu';
-                            const pesanTamu = item.pesan || item.Pesan || item.comment || item.Comment || '';
-                            const statusKehadiran = item.kehadiran || item.Kehadiran || item.attendance || item.Attendance || '';
+                        let jumlahUcapanTampil = 0;
 
-                            if (pesanTamu) { 
+                        data.forEach(item => {
+                            // Ambil nilai per kolom berdasarkan posisi urutan sel (Fail-safe)
+                            const cols = Object.values(item);
+                            
+                            // Kolom B (index 1) = Nama
+                            const namaTamu = item.author || item.nama || item.Nama || item.Author || cols[1] || 'Tamu';
+                            
+                            // Kolom C (index 2) = Pesan / Ucapan
+                            const pesanTamu = item.comment || item.pesan || item.Pesan || item.Comment || item.ucapan || item.Ucapan || cols[2] || '';
+                            
+                            // Kolom D (index 3) = Kehadiran
+                            let statusKehadiran = item.attendance || item.kehadiran || item.Kehadiran || item.Attendance || cols[3] || '';
+
+                            if (statusKehadiran === 'present') statusKehadiran = 'Hadir';
+                            if (statusKehadiran === 'notpresent') statusKehadiran = 'Tidak Hadir';
+
+                            // Tampilkan ucapan jika pesan ada isinya
+                            if (pesanTamu && String(pesanTamu).trim() !== '') {
+                                jumlahUcapanTampil++;
                                 const ucapanBaru = document.createElement('div');
                                 ucapanBaru.classList.add('ucapan-item');
                                 ucapanBaru.innerHTML = `
@@ -635,18 +649,24 @@
                                 daftarUcapan.appendChild(ucapanBaru);
                             }
                         });
+
+                        if (jumlahUcapanTampil === 0) {
+                            daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align: center; margin-top: 20px;">Belum ada ucapan yang dapat ditampilkan.</p>';
+                        }
                     }
                 } else if (data.error) {
-                    // Jika Apps Script mengembalikan error log
                     console.error('Error dari Apps Script:', data.error);
-                    daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align:center; margin-top: 20px;">Gagal memuat daftar ucapan dari server.</p>';
+                    daftarUcapan.innerHTML = `<p style="font-size: 0.85rem; color: #555; text-align:center; margin-top: 20px;">Gagal memuat data: ${data.error}</p>`;
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
                 daftarUcapan.innerHTML = '<p style="font-size: 0.85rem; color: #555; text-align:center; margin-top: 20px;">Gagal terhubung ke server.</p>';
             }
         }
-      loadUcapan();
+
+        // Panggil fungsi saat halaman pertama kali dimuat
+        loadUcapan();
+
         rsvpForm.addEventListener('submit', e => {
             e.preventDefault();
             
@@ -654,7 +674,6 @@
             const kehadiranValue = document.getElementById('kehadiran').value;
             const pesanInput = document.getElementById('pesanTamu').value;
 
-            // Ubah teks kehadiran untuk tampilan agar tetap bahasa Indonesia
             const teksKehadiran = (kehadiranValue === 'present') ? 'Hadir' : 'Tidak Hadir';
 
             btnSubmit.innerHTML = 'MENGIRIM...';
@@ -672,13 +691,11 @@
                         <div class="ucapan-teks">${pesanInput}</div>
                     `;
                     
-                    // Memasukkan ucapan baru di paling atas
                     if (daftarUcapan.innerHTML.includes('Belum ada ucapan') || daftarUcapan.innerHTML.includes('Memuat daftar ucapan')) {
                         daftarUcapan.innerHTML = '';
                     }
                     daftarUcapan.prepend(ucapanBaru);
                     
-                    // Reset form setelah berhasil
                     rsvpForm.reset();
                 })
                 .catch(error => {
