@@ -517,14 +517,21 @@
         <h2 style="font-size: 2rem;">Buku Tamu</h2>
         <div class="divider"></div>
         
-        <form class="form-rsvp" id="rsvpForm" name="submit-to-google-sheet">
-            <input type="text" id="namaTamu" name="nama" placeholder="Nama Lengkap Anda" required>
-            <select id="kehadiran" name="kehadiran" required>
+       <form class="form-rsvp" id="rsvpForm" name="submit-to-google-sheet">
+            <!-- Ubah name="nama" menjadi name="author" -->
+            <input type="text" id="namaTamu" name="author" placeholder="Nama Lengkap Anda" required>
+            
+            <!-- Ubah name="kehadiran" menjadi name="attendance" -->
+            <select id="kehadiran" name="attendance" required>
                 <option value="" disabled selected>Konfirmasi Kehadiran</option>
-                <option value="Hadir">Hadir</option>
-                <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
+                <!-- Ubah value menjadi present / notpresent sesuai Apps Script -->
+                <option value="present">Hadir</option>
+                <option value="notpresent">Maaf, Tidak Bisa Hadir</option>
             </select>
-            <textarea id="pesanTamu" name="pesan" rows="4" placeholder="Tulis ucapan & doa restu..." required></textarea>
+            
+            <!-- Ubah name="pesan" menjadi name="comment" -->
+            <textarea id="pesanTamu" name="comment" rows="4" placeholder="Tulis ucapan & doa restu..." required></textarea>
+            
             <button type="submit" id="btnSubmit" class="btn" style="width: 100%; border-radius: 8px;">Kirim Ucapan</button>
         </form>
 
@@ -635,8 +642,11 @@
             e.preventDefault();
             
             const namaInput = document.getElementById('namaTamu').value;
-            const kehadiranInput = document.getElementById('kehadiran').value;
+            const kehadiranValue = document.getElementById('kehadiran').value;
             const pesanInput = document.getElementById('pesanTamu').value;
+
+            // Ubah teks kehadiran untuk tampilan agar tetap bahasa Indonesia
+            const teksKehadiran = (kehadiranValue === 'present') ? 'Hadir' : 'Tidak Hadir';
 
             btnSubmit.innerHTML = 'MENGIRIM...';
             btnSubmit.disabled = true;
@@ -649,21 +659,24 @@
                     const ucapanBaru = document.createElement('div');
                     ucapanBaru.classList.add('ucapan-item');
                     ucapanBaru.innerHTML = `
-                        <div class="ucapan-nama">${namaInput} <span style="font-size: 0.75rem; color: #A3855C; font-weight: 400; font-family: 'Montserrat', sans-serif;">— ${kehadiranInput}</span></div>
+                        <div class="ucapan-nama">${namaInput} <span style="font-size: 0.75rem; color: #A3855C; font-weight: 400; font-family: 'Montserrat', sans-serif;">— ${teksKehadiran}</span></div>
                         <div class="ucapan-teks">${pesanInput}</div>
                     `;
                     
-                    if (daftarUcapan.innerHTML.includes('Belum ada ucapan')) {
+                    // Memasukkan ucapan baru di paling atas
+                    if (daftarUcapan.innerHTML.includes('Belum ada ucapan') || daftarUcapan.innerHTML.includes('Memuat daftar ucapan')) {
                         daftarUcapan.innerHTML = '';
                     }
-                    
                     daftarUcapan.prepend(ucapanBaru);
+                    
+                    // Reset form setelah berhasil
                     rsvpForm.reset();
                 })
                 .catch(error => {
+                    console.error('Error!', error.message);
                     btnSubmit.innerHTML = 'KIRIM UCAPAN';
                     btnSubmit.disabled = false;
-                    alert('Gagal mengirim, periksa koneksi internet Anda.');
+                    alert("Gagal mengirim ucapan, silakan coba lagi.");
                 });
         });
     </script>
