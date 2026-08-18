@@ -550,15 +550,16 @@
                 <input type="hidden" name="sheetName" value="Sheet3">
                 <input type="hidden" name="sheet" value="Sheet3">
                 <input type="hidden" name="action" value="insert">
-                <input type="text" name="nama" id="rsvp-nama" placeholder="Nama Lengkap" required>
-                <select name="kehadiran" required>
+                <!-- Atribut name diubah menggunakan huruf kapital menyesuaikan header spreadsheet -->
+                <input type="text" name="Nama" id="rsvp-nama" placeholder="Nama Lengkap" required>
+                <select name="Kehadiran" required>
                     <option value="">Pilih Kehadiran</option>
                     <option value="Hadir">Hadir</option>
                     <option value="Tidak Hadir">Tidak Hadir</option>
                     <option value="Masih Ragu">Masih Ragu</option>
                 </select>
-                <input type="number" name="jumlah" placeholder="Jumlah Orang (Opsional)" min="1" max="10">
-                <textarea name="ucapan" placeholder="Ucapan & Doa untuk Mempelai" rows="4"></textarea>
+                <input type="number" name="Jumlah Tamu" placeholder="Jumlah Orang (Opsional)" min="1" max="10">
+                <textarea name="Ucapan" placeholder="Ucapan & Doa untuk Mempelai" rows="4"></textarea>
                 <button type="submit" class="brown-btn" style="width: 100%; justify-content: center;">
                     <i data-lucide="send" size="16"></i> Kirim Konfirmasi
                 </button>
@@ -808,11 +809,19 @@
                 alert('URL Google Spreadsheet belum diatur.');
                 return;
             }
-            const formData = new FormData(this);
+            
             const btn = this.querySelector('button[type="submit"]');
             btn.innerHTML = 'Mengirim...';
             btn.disabled = true;
-            fetch(CONFIG.rsvpWebhookUrl, { method: 'POST', body: formData })
+
+            // Konversi FormData ke URLSearchParams agar lebih mudah dibaca oleh Google Apps Script
+            const formData = new FormData(this);
+            const data = new URLSearchParams();
+            for (const pair of formData) {
+                data.append(pair[0], pair[1]);
+            }
+            
+            fetch(CONFIG.rsvpWebhookUrl, { method: 'POST', body: data })
             .then(response => {
                 alert('Terima kasih! Konfirmasi kehadiran Anda telah terkirim.');
                 this.reset();
