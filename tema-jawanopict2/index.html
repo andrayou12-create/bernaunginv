@@ -243,6 +243,82 @@
             outline: none;
             border-color: var(--btn-brown);
         }
+
+        /* === COMMENTS LIST === */
+        #comments-container {
+            width: 100%;
+            max-width: 450px;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        #comments-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        #comments-container::-webkit-scrollbar-track {
+            background: rgba(121, 52, 34, 0.1);
+            border-radius: 10px;
+        }
+        #comments-container::-webkit-scrollbar-thumb {
+            background: var(--btn-brown);
+            border-radius: 10px;
+        }
+        .comment-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(121, 52, 34, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(121, 52, 34, 0.05);
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px dashed rgba(121, 52, 34, 0.2);
+            padding-bottom: 0.5rem;
+        }
+        .comment-name {
+            font-weight: 700;
+            color: var(--btn-brown);
+            font-size: 1.1rem;
+        }
+        .comment-attendance {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .att-hadir {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .att-tidak-hadir {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .att-ragu {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .comment-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-brown);
+            margin-bottom: 0.5rem;
+        }
+        .comment-time {
+            font-size: 0.75rem;
+            color: rgba(121, 52, 34, 0.6);
+            text-align: right;
+            display: block;
+        }
+        
         /* === BOTTOM NAV === */
         .bottom-nav-container {
             position: fixed;
@@ -547,23 +623,22 @@
             <p class="text" style="margin-bottom: 2rem;">Silakan konfirmasi kehadiran dan berikan doa restu Anda.</p>
             
             <form class="form" id="rsvp-form">
-                <input type="hidden" name="sheetName" value="Sheet3">
-                <input type="hidden" name="sheet" value="Sheet3">
-                <input type="hidden" name="action" value="insert">
-                <!-- Atribut name diubah menggunakan huruf kapital menyesuaikan header spreadsheet -->
-                <input type="text" name="Nama" id="rsvp-nama" placeholder="Nama Lengkap" required>
-                <select name="Kehadiran" required>
+                <input type="text" name="author" id="rsvp-nama" placeholder="Nama Lengkap" required>
+                <select name="attendance" required>
                     <option value="">Pilih Kehadiran</option>
-                    <option value="Hadir">Hadir</option>
-                    <option value="Tidak Hadir">Tidak Hadir</option>
-                    <option value="Masih Ragu">Masih Ragu</option>
+                    <option value="present">Hadir</option>
+                    <option value="notpresent">Tidak Hadir</option>
                 </select>
-                <input type="number" name="Jumlah Tamu" placeholder="Jumlah Orang (Opsional)" min="1" max="10">
-                <textarea name="Ucapan" placeholder="Ucapan & Doa untuk Mempelai" rows="4"></textarea>
+                <input type="number" name="guest" placeholder="Jumlah Orang (Opsional)" min="1" max="10">
+                <textarea name="comment" placeholder="Ucapan & Doa untuk Mempelai" rows="4"></textarea>
                 <button type="submit" class="brown-btn" style="width: 100%; justify-content: center;">
                     <i data-lucide="send" size="16"></i> Kirim Konfirmasi
                 </button>
             </form>
+
+            <div id="comments-container">
+                <p class="text" style="text-align: center; font-size: 0.9rem; margin-top: 2rem;">Memuat ucapan...</p>
+            </div>
         </section>
         
         <!-- FOOTER BERNAUNG INVITATION -->
@@ -699,6 +774,7 @@
         }
         
         injectData();
+        fetchComments();
         
         const bgMusic = document.getElementById('bg-music');
         const audioWidget = document.getElementById('audio-widget');
@@ -814,28 +890,94 @@
             btn.innerHTML = 'Mengirim...';
             btn.disabled = true;
 
-            // Konversi FormData ke URLSearchParams agar lebih mudah dibaca oleh Google Apps Script
             const formData = new FormData(this);
             const data = new URLSearchParams();
             for (const pair of formData) {
                 data.append(pair[0], pair[1]);
             }
             
-            fetch(CONFIG.rsvpWebhookUrl, { method: 'POST', body: data })
-            .then(response => {
-                alert('Terima kasih! Konfirmasi kehadiran Anda telah terkirim.');
+            fetch(CONFIG.rsvpWebhookUrl, { 
+                method: 'POST', 
+                body: data,
+                mode: 'no-cors' // Important for Google Forms/Apps Script if not returning proper CORS headers
+            })
+            .then(() => {
+                // When using no-cors, the response is opaque, we just assume success if it didn't throw a network error
+                alert('Terima kasih! Konfirmasi kehadiran dan ucapan Anda telah terkirim.');
                 this.reset();
                 btn.innerHTML = '<i data-lucide="send" size="16"></i> Kirim Konfirmasi';
                 btn.disabled = false;
                 lucide.createIcons();
+                // Refresh comments list
+                fetchComments();
             })
             .catch(error => {
+                console.error("Error:", error);
                 alert('Terjadi kesalahan saat mengirim data. Coba lagi.');
                 btn.innerHTML = '<i data-lucide="send" size="16"></i> Kirim Konfirmasi';
                 btn.disabled = false;
                 lucide.createIcons();
             });
         });
+
+        function fetchComments() {
+            if (!CONFIG.rsvpWebhookUrl) return;
+            
+            const commentsContainer = document.getElementById('comments-container');
+            
+            fetch(CONFIG.rsvpWebhookUrl)
+                .then(response => response.json())
+                .then(data => {
+                    commentsContainer.innerHTML = ''; // Clear loading text
+                    
+                    if (data.length === 0 || data.error) {
+                         commentsContainer.innerHTML = '<p class="text" style="text-align: center; font-size: 0.9rem;">Belum ada ucapan. Jadilah yang pertama!</p>';
+                         return;
+                    }
+
+                    data.forEach(item => {
+                        // Based on your Google App Script `doGet`, it returns objects based on header names.
+                        // We need to map the header names from your screenshot to variables here.
+                        const nama = item['Nama'] || item['author'] || 'Tamu';
+                        const ucapan = item['Ucapan'] || item['comment'] || '';
+                        const kehadiran = item['Kehadiran'] || item['attendance'] || '';
+                        
+                        // Parse timestamp if it exists, otherwise just leave blank
+                        let waktuStr = '';
+                        if (item['Waktu'] || item['Timestamp']) {
+                            try {
+                                const dateObj = new Date(item['Waktu'] || item['Timestamp']);
+                                waktuStr = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                            } catch(e) {}
+                        }
+
+                        if (!ucapan) return; // Skip if no comment
+
+                        let attendanceClass = 'att-ragu';
+                        if (kehadiran.toLowerCase().includes('hadir') && !kehadiran.toLowerCase().includes('tidak')) {
+                            attendanceClass = 'att-hadir';
+                        } else if (kehadiran.toLowerCase().includes('tidak')) {
+                            attendanceClass = 'att-tidak-hadir';
+                        }
+
+                        const commentEl = document.createElement('div');
+                        commentEl.className = 'comment-item';
+                        commentEl.innerHTML = `
+                            <div class="comment-header">
+                                <span class="comment-name">${nama}</span>
+                                ${kehadiran ? `<span class="comment-attendance ${attendanceClass}">${kehadiran}</span>` : ''}
+                            </div>
+                            <p class="comment-text">${ucapan}</p>
+                            ${waktuStr ? `<span class="comment-time">${waktuStr}</span>` : ''}
+                        `;
+                        commentsContainer.appendChild(commentEl);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching comments:', error);
+                    commentsContainer.innerHTML = '<p class="text" style="text-align: center; font-size: 0.9rem;">Gagal memuat ucapan.</p>';
+                });
+        }
     </script>
 </body>
 </html>
