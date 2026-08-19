@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Wedding of Milea & Dilan</title>
+    <title>The Wedding of Nita & Amar</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -188,8 +188,49 @@
             max-width: 450px;
             text-align: center;
             box-shadow: 0 8px 24px rgba(121, 52, 34, 0.08);
-        }
-        /* === COUNTDOWN BOXES === */
+    }
+    
+    /* === TIMELINE STYLES (LOVE STORY) === */
+    .timeline {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto;
+        padding-left: 20px;
+    }
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--btn-brown);
+        opacity: 0.3;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+        padding-left: 20px;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -24px;
+        top: 0;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--btn-brown);
+        border: 2px solid var(--bg-cream);
+    }
+    .timeline-title {
+        font-family: var(--font-heading);
+        color: var(--btn-brown);
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* === COUNTDOWN BOXES === */
         .countdown-container {
             display: flex;
             justify-content: center;
@@ -501,7 +542,7 @@
         <section id="ayat" class="section" style="padding-top: 2rem; min-height: 50vh;">
             <p class="text" style="font-weight: 700; margin-bottom: 1rem;">QS. Ar-Rum Ayat 21</p>
             <p class="title" style="font-size: 1.5rem; font-family: serif; color: var(--text-brown); margin-bottom: 1.5rem; line-height: 1.8;">
-                وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِقَوْمٍ يَتَفَكَّرُونَ
+                وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِقَوْمٍ يَتَفَكَّرُونَ
             </p>
             <p class="text" style="font-style: italic; max-width: 600px; font-size: 0.9rem;">
                 "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir."
@@ -527,7 +568,7 @@
                 <a href="#" id="cfg-groom-ig" target="_blank" class="brown-btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 4px; margin-bottom: 1rem;">
                     <i data-lucide="instagram" size="14"></i> Instagram Pria
                 </a>
-                <p class="text" style="font-weight: 600; margin-top: 0.5rem;">Putra Pertama dari</p>
+                <p class="text" style="font-weight: 600; margin-top: 0.5rem;">Putra dari</p>
                 <p class="text" id="cfg-groom-parents">Bapak Lorem Dan Ibu Ipsum</p>
                 <div style="margin: 3rem 0; display: flex; align-items: center; justify-content: center; gap: 1rem;">
                     <div style="height: 1px; width: 50px; background: var(--text-brown);"></div>
@@ -542,7 +583,7 @@
                 <a href="#" id="cfg-bride-ig" target="_blank" class="brown-btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 4px; margin-bottom: 1rem;">
                     <i data-lucide="instagram" size="14"></i> Instagram Wanita
                 </a>
-                <p class="text" style="font-weight: 600; margin-top: 0.5rem;">Putri Pertama dari</p>
+                <p class="text" style="font-weight: 600; margin-top: 0.5rem;">Putri dari</p>
                 <p class="text" id="cfg-bride-parents">Bapak Lorem Dan Ibu Ipsum</p>
             </div>
         </section>
@@ -575,6 +616,25 @@
             </a>
         </section>
         
+        <!-- LOVE STORY SECTION -->
+        <section id="story" class="section">
+            <h2 class="title" style="font-size: 3rem;">Love Story</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3 class="timeline-title">Awal Perkenalan</h3>
+                    <p class="text" style="text-align: left;">Tidak ada yang kebetulan di dunia ini. Semua telah Allah atur dengan sebaik-baiknya. Di bulan Mei 2017, kita dipertemukan di SMK yang sama. Kita saling mengenal melalui sapaan di BBM dan menjalin hubungan dalam waktu yang terbilang sangat singkat yaitu 2 hari. Dalam waktu sesingkat itu kita memutuskan untuk menjalin suatu hubungan, namun takdir sempat memisahkan kita, takdir pula yang menyatukan kita kembali.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="timeline-title">Lamaran</h3>
+                    <p class="text" style="text-align: left;">Katanya jika ditakdirkan jodoh, maka kita akan kembali dalam versi terbaik kita, dan yapp itu benar, kita memulai lagi kisah dengan keyakinan, bahwa cinta yang datang karena Allah, akan dijaga karena Allah juga. Memang tidak butuh waktu lama untuk menjalin hubungan tapi membutuhkan waktu 9 tahun untuk menjalin ikatan serius. Bukan waktu yang lama yang menentukan, tapi ketulusan yang mempertemukan, dan pada tanggal 28 Mei 2026 kita memutuskan mengikat hubungan yang disaksikan oleh dua keluarga besar.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="timeline-title">Pernikahan</h3>
+                    <p class="text" style="text-align: left;">9 tahun bukan waktu yang singkat. Kita belajar tentang sabar, percaya, dan saling menguatkan. Ada tawa, ada air mata, ada proses bertumbuh yang kita lewati bersama. Hingga akhirnya 1 malam setelah lamaran pada 29 Mei 2026, dengan izin dan ridho-Nya, kita memutuskan untuk menyatukan hati dalam ikatan pernikahan yang suci.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- EVENT SECTION -->
         <section id="event" class="section">
             <h2 class="title" style="font-size: 3rem;">Waktu Acara</h2>
@@ -596,6 +656,18 @@
                 <p class="text" style="margin-top: 1.5rem; font-weight: 700;" id="cfg-event2-loc">Gedung Serbaguna</p>
                 <p class="text" style="font-size: 0.9rem;" id="cfg-event2-addr">JL Kh Moh Mussa</p>
                 <a href="#" id="cfg-event2-map" target="_blank" class="brown-btn" style="margin-top: 1rem;">
+                    <i data-lucide="map-pin" size="16"></i> Google Maps
+                </a>
+            </div>
+
+            <!-- Ngunduh Mantu Card -->
+            <div class="card">
+                <h3 class="heading" style="color: var(--btn-brown); font-size: 1.8rem;" id="cfg-event3-title">Ngunduh Mantu</h3>
+                <p class="text" style="font-size: 1.1rem; font-weight: 600;"><span id="cfg-event3-date">Kamis, 10 September 2026</span></p>
+                <p class="text" id="cfg-event3-time">13:00 WIB - Selesai</p>
+                <p class="text" style="margin-top: 1.5rem; font-weight: 700;" id="cfg-event3-loc">Kediaman Mempelai Pria</p>
+                <p class="text" style="font-size: 0.9rem;" id="cfg-event3-addr">Barang Wetan RT07/RW01, Barang, Jumo, Temanggung</p>
+                <a href="#" id="cfg-event3-map" target="_blank" class="brown-btn" style="margin-top: 1rem;">
                     <i data-lucide="map-pin" size="16"></i> Google Maps
                 </a>
             </div>
@@ -661,6 +733,9 @@
         <a href="#couple" class="nav-item">
             <i data-lucide="users" size="20"></i>
         </a>
+        <a href="#story" class="nav-item">
+            <i data-lucide="heart" size="20"></i>
+        </a>
         <a href="#event" class="nav-item">
             <i data-lucide="calendar" size="20"></i>
         </a>
@@ -680,50 +755,58 @@
             rsvpWebhookUrl: "https://script.google.com/macros/s/AKfycbyUpPKwJuKN1ol_Crn4P9CwVJCg7uZwNsgcvdR996gXqUJGVGe5232WOSM8elnO7D9s/exec", 
             
             // Tanggal Acara untuk Countdown Timer
-            eventDateISO: "2026-09-08T10:00:00",
+            eventDateISO: "2026-09-07T09:00:00",
             
-            googleCalendarLink: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Milea+%26+Dilan&dates=20270322T010000Z/20270322T100000Z&details=Acara+pernikahan+kami.&location=Jakarta",
+            googleCalendarLink: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Nita+%26+Amar&dates=20260907T020000Z/20260907T100000Z&details=Acara+pernikahan+kami.&location=Temanggung",
             groom: {
-                nickname: "Amartya",
-                fullName: "Amartya",
-                parents: "Bapak aaa Dan Ibu bbb",
-                instagram: "Instagram Pria"
+                nickname: "Amar",
+                fullName: "Amartya Feby Saputra",
+                parents: "Bpk. Didin Haris Purwanto dan Ibu. Rochwati",
+                instagram: "amartyafebysaputra"
             },
             
             bride: {
-                nickname: "Mempelai Wanita",
-                fullName: "Mempelai Wanita",
-                parents: "Bapak aaa Dan Ibu bbb",
-                instagram: "Instagram Wanita"
+                nickname: "Nita",
+                fullName: "Nita Idawati",
+                parents: "Bpk. Kirmanto & Ibu Mardiyatun",
+                instagram: "nitanutt__"
             },
             event1: {
-                title: "Resepsi",
-                date: "Selasa, 8 September 2026",
-                time: "10:00 WIB - Selesai",
-                locationName: "Kediaman Mempelai Wanita",
-                address: "Temanggung",
-                googleMapsUrl: "https://maps.app.goo.gl/"
+                title: "Akad Nikah",
+                date: "Jumat, 29 Mei 2026",
+                time: "08:00 WIB",
+                locationName: "Rumah Mempelai Wanita",
+                address: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung",
+                googleMapsUrl: "https://maps.google.com/?q=Kalidadap+RT02/RW08,+Tlogowungu,+Kaloran,+Temanggung"
             },
             event2: {
+                title: "Resepsi",
+                date: "Senin, 7 September 2026",
+                time: "09:00 WIB - Selesai",
+                locationName: "Rumah Mempelai Wanita",
+                address: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung",
+                googleMapsUrl: "https://maps.google.com/?q=Kalidadap+RT02/RW08,+Tlogowungu,+Kaloran,+Temanggung"
+            },
+            event3: {
                 title: "Ngunduh Mantu",
-                date: "Rabu, 9 September 2026",
-                time: "10:00 WIB - Selesai",
+                date: "Kamis, 10 September 2026",
+                time: "13:00 WIB - Selesai",
                 locationName: "Kediaman Mempelai Pria",
-                address: "Temanggung",
-                googleMapsUrl: "https://maps.app.goo.gl/"
+                address: "Barang Wetan RT07/RW01, Barang, Jumo, Temanggung",
+                googleMapsUrl: "https://maps.google.com/?q=Barang+Wetan+RT07/RW01,+Barang,+Jumo,+Temanggung"
             },
             gifts: [
                 {
                     bank: "BCA",
-                    accountNumber: "1234567890",
-                    accountName: "Amartya"
-                },
-                {
-                    bank: "Mandiri",
-                    accountNumber: "0987654321",
-                    accountName: "Amartya"
+                    accountNumber: "1550459040",
+                    accountName: "Amartya Feby Saputra"
                 }
-            ]
+            ],
+            physicalGift: {
+                name: "Nita Idawati",
+                phone: "085731422144",
+                address: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung"
+            }
         };
         
         lucide.createIcons();
@@ -750,31 +833,52 @@
             document.getElementById('cfg-event1-map').href = CONFIG.event1.googleMapsUrl;
             document.getElementById('cfg-event2-title').textContent = CONFIG.event2.title;
             document.getElementById('cfg-event2-date').textContent = CONFIG.event2.date;
-            document.getElementById('cfg-event2-time').textContent = CONFIG.event2.time;
-            document.getElementById('cfg-event2-loc').textContent = CONFIG.event2.locationName;
-            document.getElementById('cfg-event2-addr').textContent = CONFIG.event2.address;
-            document.getElementById('cfg-event2-map').href = CONFIG.event2.googleMapsUrl;
-            
-            document.getElementById('cfg-cal-link').href = CONFIG.googleCalendarLink;
-            const giftContainer = document.getElementById('gift-container');
-            CONFIG.gifts.forEach(gift => {
-                const card = document.createElement('div');
-                card.className = "card";
-                card.innerHTML = `
-                    <h3 class="heading" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--btn-brown);">${gift.bank}</h3>
-                    <p class="text" style="font-size: 1.4rem; letter-spacing: 2px; color: var(--text-brown); font-weight: 700; margin-bottom: 0.5rem;">${gift.accountNumber}</p>
-                    <p class="text" style="margin-bottom: 1.5rem; font-size: 0.9rem;">a.n ${gift.accountName}</p>
-                    <button class="brown-btn" onclick="salinRekening('${gift.accountNumber}')" style="font-size: 0.85rem;">
-                        <i data-lucide="copy" size="14"></i> Salin Nomor
-                    </button>
-                `;
-                giftContainer.appendChild(card);
-            });
-            lucide.createIcons();
-        }
+        document.getElementById('cfg-event2-time').textContent = CONFIG.event2.time;
+        document.getElementById('cfg-event2-loc').textContent = CONFIG.event2.locationName;
+        document.getElementById('cfg-event2-addr').textContent = CONFIG.event2.address;
+        document.getElementById('cfg-event2-map').href = CONFIG.event2.googleMapsUrl;
         
-        injectData();
-        fetchComments();
+        document.getElementById('cfg-event3-title').textContent = CONFIG.event3.title;
+        document.getElementById('cfg-event3-date').textContent = CONFIG.event3.date;
+        document.getElementById('cfg-event3-time').textContent = CONFIG.event3.time;
+        document.getElementById('cfg-event3-loc').textContent = CONFIG.event3.locationName;
+        document.getElementById('cfg-event3-addr').textContent = CONFIG.event3.address;
+        document.getElementById('cfg-event3-map').href = CONFIG.event3.googleMapsUrl;
+        
+        document.getElementById('cfg-cal-link').href = CONFIG.googleCalendarLink;
+        const giftContainer = document.getElementById('gift-container');
+        CONFIG.gifts.forEach(gift => {
+            const card = document.createElement('div');
+            card.className = "card";
+            card.innerHTML = `
+                <h3 class="heading" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--btn-brown);">${gift.bank}</h3>
+                <p class="text" style="font-size: 1.4rem; letter-spacing: 2px; color: var(--text-brown); font-weight: 700; margin-bottom: 0.5rem;">${gift.accountNumber}</p>
+                <p class="text" style="margin-bottom: 1.5rem; font-size: 0.9rem;">a.n ${gift.accountName}</p>
+                <button class="brown-btn" onclick="salinTeks('${gift.accountNumber}', 'Nomor rekening')" style="font-size: 0.85rem;">
+                    <i data-lucide="copy" size="14"></i> Salin Nomor
+                </button>
+            `;
+            giftContainer.appendChild(card);
+        });
+
+        // Add Physical Gift Address
+        const physicalCard = document.createElement('div');
+        physicalCard.className = "card";
+        physicalCard.innerHTML = `
+            <h3 class="heading" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--btn-brown);">Kirim Kado Fisik</h3>
+            <p class="text" style="font-size: 1rem; color: var(--text-brown); font-weight: 700; margin-bottom: 0.5rem;">Penerima: ${CONFIG.physicalGift.name}<br>(${CONFIG.physicalGift.phone})</p>
+            <p class="text" style="margin-bottom: 1.5rem; font-size: 0.9rem;">${CONFIG.physicalGift.address}</p>
+            <button class="brown-btn" onclick="salinTeks('${CONFIG.physicalGift.address}', 'Alamat kado')" style="font-size: 0.85rem;">
+                <i data-lucide="copy" size="14"></i> Salin Alamat
+            </button>
+        `;
+        giftContainer.appendChild(physicalCard);
+
+        lucide.createIcons();
+    }
+    
+    injectData();
+    fetchComments();
         
         const bgMusic = document.getElementById('bg-music');
         const audioWidget = document.getElementById('audio-widget');
@@ -848,38 +952,38 @@
         }
         
         function initScrollAnimations() {
-            gsap.registerPlugin(ScrollTrigger);
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                gsap.to(section, {
-                    y: 0,
-                    opacity: 1,
-                    duration: 1.2,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 85%",
-                    }
-                });
+        gsap.registerPlugin(ScrollTrigger);
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            gsap.to(section, {
+                y: 0,
+                opacity: 1,
+                duration: 1.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 85%",
+                }
             });
-        }
-        
-        window.salinRekening = function(nomor) {
-            navigator.clipboard.writeText(nomor).then(() => {
-                alert('Nomor rekening ' + nomor + ' berhasil disalin!');
-            }).catch(err => {
-                /* Cadangan eksekusi copy apabila writeText diblokir iframe */
-                const el = document.createElement('textarea');
-                el.value = nomor;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                alert('Nomor rekening ' + nomor + ' berhasil disalin!');
-            });
-        }
-        
-        document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+        });
+    }
+    
+    window.salinTeks = function(teks, label) {
+        navigator.clipboard.writeText(teks).then(() => {
+            alert(label + ' berhasil disalin!');
+        }).catch(err => {
+            /* Cadangan eksekusi copy apabila writeText diblokir iframe */
+            const el = document.createElement('textarea');
+            el.value = teks;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert(label + ' berhasil disalin!');
+        });
+    }
+    
+    document.getElementById('rsvp-form').addEventListener('submit', function(e) {
             e.preventDefault();
             if (!CONFIG.rsvpWebhookUrl) {
                 alert('URL Google Spreadsheet belum diatur.');
