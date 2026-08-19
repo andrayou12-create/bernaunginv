@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Wedding of Milea & Dilan</title>
+    <title>The Wedding of Nita & Amar</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -80,6 +80,7 @@
             margin-bottom: 1rem;
             color: var(--text-brown);
         }
+        
         /* === SECTIONS === */
         .section {
             min-height: 100vh;
@@ -109,7 +110,7 @@
         }
         /* FOTO PENGANTIN 2D (BINGKAI LENGKUNG) */
         .couple-arch {
-            position: center;
+            position: relative;
             width: 200px;
             height: 250px;
             background: #fff;
@@ -154,6 +155,7 @@
             50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
+        
         /* === BUTTONS === */
         .brown-btn {
             background: var(--btn-brown);
@@ -186,8 +188,49 @@
             max-width: 450px;
             text-align: center;
             box-shadow: 0 8px 24px rgba(121, 52, 34, 0.08);
-        }
-        /* === COUNTDOWN BOXES === */
+    }
+    
+    /* === TIMELINE STYLES (LOVE STORY) === */
+    .timeline {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto;
+        padding-left: 20px;
+    }
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--btn-brown);
+        opacity: 0.3;
+    }
+    .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+        padding-left: 20px;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -24px;
+        top: 0;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--btn-brown);
+        border: 2px solid var(--bg-cream);
+    }
+    .timeline-title {
+        font-family: var(--font-heading);
+        color: var(--btn-brown);
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* === COUNTDOWN BOXES === */
         .countdown-container {
             display: flex;
             justify-content: center;
@@ -241,6 +284,82 @@
             outline: none;
             border-color: var(--btn-brown);
         }
+
+        /* === COMMENTS LIST === */
+        #comments-container {
+            width: 100%;
+            max-width: 450px;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        #comments-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        #comments-container::-webkit-scrollbar-track {
+            background: rgba(121, 52, 34, 0.1);
+            border-radius: 10px;
+        }
+        #comments-container::-webkit-scrollbar-thumb {
+            background: var(--btn-brown);
+            border-radius: 10px;
+        }
+        .comment-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(121, 52, 34, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(121, 52, 34, 0.05);
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px dashed rgba(121, 52, 34, 0.2);
+            padding-bottom: 0.5rem;
+        }
+        .comment-name {
+            font-weight: 700;
+            color: var(--btn-brown);
+            font-size: 1.1rem;
+        }
+        .comment-attendance {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .att-hadir {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .att-tidak-hadir {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .att-ragu {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .comment-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-brown);
+            margin-bottom: 0.5rem;
+        }
+        .comment-time {
+            font-size: 0.75rem;
+            color: rgba(121, 52, 34, 0.6);
+            text-align: right;
+            display: block;
+        }
+        
         /* === BOTTOM NAV === */
         .bottom-nav-container {
             position: fixed;
@@ -329,6 +448,7 @@
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         /* === CUSTOM FOOTER === */
         .custom-footer {
             text-align: center;
@@ -389,9 +509,9 @@
     <div class="audio-widget paused" id="audio-widget" onclick="toggleAudio()">
         <i data-lucide="music" size="24"></i>
     </div>
+    
     <!-- COVER SECTION -->
     <section id="cover-section">
-        
         <p class="text" style="font-size: 0.9rem; font-weight: 500; margin-bottom: 0;">The Wedding Of</p>
         
         <!-- FOTO/AVATAR BINGKAI -->
@@ -414,6 +534,7 @@
             <img src="./assets/wayang_kanan.webp" alt="Wayang Kanan" class="wayang wayang-kanan" onerror="this.style.display='none'">
         </div>
     </section>
+
     <!-- MAIN CONTENT -->
     <div id="main-content">
         
@@ -421,7 +542,7 @@
         <section id="ayat" class="section" style="padding-top: 2rem; min-height: 50vh;">
             <p class="text" style="font-weight: 700; margin-bottom: 1rem;">QS. Ar-Rum Ayat 21</p>
             <p class="title" style="font-size: 1.5rem; font-family: serif; color: var(--text-brown); margin-bottom: 1.5rem; line-height: 1.8;">
-                وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِقَوْمٍ يَتَفَكَّرُونَ
+                وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِقَوْمٍ يَتَفَكَّرُونَ
             </p>
             <p class="text" style="font-style: italic; max-width: 600px; font-size: 0.9rem;">
                 "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir."
@@ -431,6 +552,7 @@
                 <img src="./assets/wayang_kanan.webp" alt="Wayang Kanan" class="wayang wayang-kanan" style="width: 100px;">
             </div>
         </section>
+        
         <!-- COUPLE SECTION -->
         <section id="couple" class="section" style="padding-top: 2rem;">
             <div class="card" style="box-shadow: none; border: none; background: transparent;">
@@ -440,7 +562,7 @@
                 </p>
                 <!-- Bingkai Pasangan 1 (Groom Vector) -->
                 <div class="couple-arch" style="width: 150px; height: 180px; margin-bottom: 1.5rem;">
-                    <img src="./assets/pria.webp" alt="Groom Avatar" class="couple-img" onerror="this.src='./assets/pria.webp'">
+                    <img src="./assets/pria.webp" alt="Groom Avatar" class="couple-img" onerror="this.src='https://cdn.pixabay.com/photo/2021/07/25/08/05/muslim-6491184_1280.png'">
                 </div>
                 <h2 class="title" style="font-size: 2.8rem; margin-bottom: 0.5rem;" id="cfg-groom-full">Dilan Pratama</h2>
                 <a href="#" id="cfg-groom-ig" target="_blank" class="brown-btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 4px; margin-bottom: 1rem;">
@@ -455,7 +577,7 @@
                 </div>
                 <!-- Bingkai Pasangan 2 (Bride Vector) -->
                 <div class="couple-arch" style="width: 150px; height: 180px; margin-bottom: 1.5rem;">
-                    <img src="./assets/wanita.webp" alt="Bride Avatar" class="couple-img" style="width: 80%;" onerror="this.src='./assets/wanita.webp'">
+                    <img src="./assets/wanita.webp" alt="Bride Avatar" class="couple-img" style="width: 80%;" onerror="this.src='https://cdn.pixabay.com/photo/2021/07/25/08/03/muslim-6491176_1280.png'">
                 </div>
                 <h2 class="title" style="font-size: 2.8rem; margin-bottom: 0.5rem;" id="cfg-bride-full">Millea Pratiwi</h2>
                 <a href="#" id="cfg-bride-ig" target="_blank" class="brown-btn" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 4px; margin-bottom: 1rem;">
@@ -465,6 +587,7 @@
                 <p class="text" id="cfg-bride-parents">Bapak Lorem Dan Ibu Ipsum</p>
             </div>
         </section>
+        
         <!-- COUNTDOWN SECTION -->
         <section id="countdown" class="section" style="min-height: auto; padding-top: 0; padding-bottom: 2rem;">
             <p class="text" style="max-width: 500px; margin-bottom: 2rem; font-weight: 500;">
@@ -492,6 +615,26 @@
                 <i data-lucide="calendar-plus" size="18"></i> Simpan di Kalender
             </a>
         </section>
+        
+        <!-- LOVE STORY SECTION -->
+        <section id="story" class="section">
+            <h2 class="title" style="font-size: 3rem;">Love Story</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3 class="timeline-title">Awal Perkenalan</h3>
+                    <p class="text" style="text-align: left;">Tidak ada yang kebetulan di dunia ini. Semua telah Allah atur dengan sebaik-baiknya. Di bulan Mei 2017, kita dipertemukan di SMK yang sama. Kita saling mengenal melalui sapaan di BBM dan menjalin hubungan dalam waktu yang terbilang sangat singkat yaitu 2 hari. Dalam waktu sesingkat itu kita memutuskan untuk menjalin suatu hubungan, namun takdir sempat memisahkan kita, takdir pula yang menyatukan kita kembali.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="timeline-title">Lamaran</h3>
+                    <p class="text" style="text-align: left;">Katanya jika ditakdirkan jodoh, maka kita akan kembali dalam versi terbaik kita, dan yapp itu benar, kita memulai lagi kisah dengan keyakinan, bahwa cinta yang datang karena Allah, akan dijaga karena Allah juga. Memang tidak butuh waktu lama untuk menjalin hubungan tapi membutuhkan waktu 9 tahun untuk menjalin ikatan serius. Bukan waktu yang lama yang menentukan, tapi ketulusan yang mempertemukan, dan pada tanggal 28 Mei 2026 kita memutuskan mengikat hubungan yang disaksikan oleh dua keluarga besar.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="timeline-title">Pernikahan</h3>
+                    <p class="text" style="text-align: left;">9 tahun bukan waktu yang singkat. Kita belajar tentang sabar, percaya, dan saling menguatkan. Ada tawa, ada air mata, ada proses bertumbuh yang kita lewati bersama. Hingga akhirnya 1 malam setelah lamaran pada 29 Mei 2026, dengan izin dan ridho-Nya, kita memutuskan untuk menyatukan hati dalam ikatan pernikahan yang suci.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- EVENT SECTION -->
         <section id="event" class="section">
             <h2 class="title" style="font-size: 3rem;">Waktu Acara</h2>
@@ -516,7 +659,20 @@
                     <i data-lucide="map-pin" size="16"></i> Google Maps
                 </a>
             </div>
+
+            <!-- Ngunduh Mantu Card -->
+            <div class="card">
+                <h3 class="heading" style="color: var(--btn-brown); font-size: 1.8rem;" id="cfg-event3-title">Ngunduh Mantu</h3>
+                <p class="text" style="font-size: 1.1rem; font-weight: 600;"><span id="cfg-event3-date">Kamis, 10 September 2026</span></p>
+                <p class="text" id="cfg-event3-time">13:00 WIB - Selesai</p>
+                <p class="text" style="margin-top: 1.5rem; font-weight: 700;" id="cfg-event3-loc">Kediaman Mempelai Pria</p>
+                <p class="text" style="font-size: 0.9rem;" id="cfg-event3-addr">Barang Wetan RT07/RW01, Barang, Jumo, Temanggung</p>
+                <a href="#" id="cfg-event3-map" target="_blank" class="brown-btn" style="margin-top: 1rem;">
+                    <i data-lucide="map-pin" size="16"></i> Google Maps
+                </a>
+            </div>
         </section>
+        
         <!-- GIFT SECTION -->
         <section id="gift" class="section">
             <h2 class="title" style="font-size: 3rem;">Wedding Gift</h2>
@@ -532,29 +688,31 @@
                 <!-- Injected via JS -->
             </div>
         </section>
+        
         <!-- RSVP SECTION -->
         <section id="rsvp" class="section">
             <h2 class="title" style="font-size: 3rem;">Buku Tamu</h2>
             <p class="text" style="margin-bottom: 2rem;">Silakan konfirmasi kehadiran dan berikan doa restu Anda.</p>
             
             <form class="form" id="rsvp-form">
-                <input type="hidden" name="sheetName" value="Sheet3">
-                <input type="hidden" name="sheet" value="Sheet3">
-                <input type="hidden" name="action" value="insert">
-                <input type="text" name="nama" id="rsvp-nama" placeholder="Nama Lengkap" required>
-                <select name="kehadiran" required>
+                <input type="text" name="author" id="rsvp-nama" placeholder="Nama Lengkap" required>
+                <select name="attendance" required>
                     <option value="">Pilih Kehadiran</option>
-                    <option value="Hadir">Hadir</option>
-                    <option value="Tidak Hadir">Tidak Hadir</option>
-                    <option value="Masih Ragu">Masih Ragu</option>
+                    <option value="present">Hadir</option>
+                    <option value="notpresent">Tidak Hadir</option>
                 </select>
-                <input type="number" name="jumlah" placeholder="Jumlah Orang (Opsional)" min="1" max="10">
-                <textarea name="ucapan" placeholder="Ucapan & Doa untuk Mempelai" rows="4"></textarea>
+                <input type="number" name="guest" placeholder="Jumlah Orang (Opsional)" min="1" max="10">
+                <textarea name="comment" placeholder="Ucapan & Doa untuk Mempelai" rows="4"></textarea>
                 <button type="submit" class="brown-btn" style="width: 100%; justify-content: center;">
                     <i data-lucide="send" size="16"></i> Kirim Konfirmasi
                 </button>
             </form>
+
+            <div id="comments-container">
+                <p class="text" style="text-align: center; font-size: 0.9rem; margin-top: 2rem;">Memuat ucapan...</p>
+            </div>
         </section>
+        
         <!-- FOOTER BERNAUNG INVITATION -->
         <footer class="custom-footer">
             <div class="footer-socials">
@@ -566,6 +724,7 @@
             <p class="footer-copy">&copy; 2026 Bernaung Invitation.</p>
         </footer>
     </div>
+    
     <!-- STICKY BOTTOM NAV -->
     <div class="bottom-nav-container" id="bottom-nav">
         <a href="#cover-section" class="nav-item">
@@ -573,6 +732,9 @@
         </a>
         <a href="#couple" class="nav-item">
             <i data-lucide="users" size="20"></i>
+        </a>
+        <a href="#story" class="nav-item">
+            <i data-lucide="heart" size="20"></i>
         </a>
         <a href="#event" class="nav-item">
             <i data-lucide="calendar" size="20"></i>
@@ -584,6 +746,7 @@
             <i data-lucide="book-heart" size="20"></i>
         </a>
     </div>
+
     <!-- ==========================================
          PENGATURAN DATA UNDANGAN (SILAKAN EDIT DI SINI)
          ========================================== -->
@@ -592,56 +755,67 @@
             rsvpWebhookUrl: "https://script.google.com/macros/s/AKfycbyUpPKwJuKN1ol_Crn4P9CwVJCg7uZwNsgcvdR996gXqUJGVGe5232WOSM8elnO7D9s/exec", 
             
             // Tanggal Acara untuk Countdown Timer
-            eventDateISO: "2027-03-22T08:00:00",
+            eventDateISO: "2026-09-07T09:00:00",
             
-            googleCalendarLink: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Milea+%26+Dilan&dates=20270322T010000Z/20270322T100000Z&details=Acara+pernikahan+kami.&location=Jakarta",
+            googleCalendarLink: "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Nita+%26+Amar&dates=20260907T020000Z/20260907T100000Z&details=Acara+pernikahan+kami.&location=Temanggung",
             groom: {
-                nickname: "Dilan",
-                fullName: "Dilan Pratama",
-                parents: "Bapak Lorem Dan Ibu Ipsum",
-                instagram: "Instagram Pria"
+                nickname: "Amar",
+                fullName: "Amartya Feby Saputra",
+                parents: "Bpk. Didin Haris Purwanto dan Ibu. Rochwati",
+                instagram: "amartyafebysaputra"
             },
             
             bride: {
-                nickname: "Milea",
-                fullName: "Millea Pratiwi",
-                parents: "Bapak Lorem Dan Ibu Ipsum",
-                instagram: "Instagram Wanita"
+                nickname: "Nita",
+                fullName: "Nita Idawati",
+                parents: "Bpk. Kirmanto & Ibu Mardiyatun",
+                instagram: "nitanutt__"
             },
             event1: {
                 title: "Akad Nikah",
-                date: "Senin, 22 Maret 2027",
-                time: "08:00 WIB - Selesai",
-                locationName: "Kediaman Mempelai Wanita",
-                address: "Jl. Karet Pasar Baru Barat V No.92, Karet Tengsin, Jakarta Pusat",
-                googleMapsUrl: "https://maps.app.goo.gl/6s8GiHW8Es2FfkGL6"
+                date: "Jumat, 29 Mei 2026",
+                time: "08:00 WIB",
+                locationName: "Rumah Mempelai Wanita",
+                address: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung",
+                googleMapsUrl: "https://maps.google.com/?q=Kalidadap+RT02/RW08,+Tlogowungu,+Kaloran,+Temanggung"
             },
             event2: {
                 title: "Resepsi",
-                date: "Senin, 22 Maret 2027",
-                time: "11:00 WIB - Selesai",
-                locationName: "Gedung Serbaguna",
-                address: "JL Kh Moh Mussa",
-                googleMapsUrl: "https://maps.app.goo.gl/HZz4xL9okdpeGTwXA"
+                date: "Senin, 7 September 2026",
+                time: "09:00 WIB - Selesai",
+                locationName: "Rumah Mempelai Wanita",
+                address: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung",
+                googleMapsUrl: "https://maps.google.com/?q=Kalidadap+RT02/RW08,+Tlogowungu,+Kaloran,+Temanggung"
+            },
+            event3: {
+                title: "Ngunduh Mantu",
+                date: "Kamis, 10 September 2026",
+                time: "13:00 WIB - Selesai",
+                locationName: "Kediaman Mempelai Pria",
+                address: "Barang Wetan RT07/RW01, Barang, Jumo, Temanggung",
+                googleMapsUrl: "https://maps.google.com/?q=Barang+Wetan+RT07/RW01,+Barang,+Jumo,+Temanggung"
             },
             gifts: [
                 {
                     bank: "BCA",
-                    accountNumber: "1234567890",
-                    accountName: "Dilan Pratama"
-                },
-                {
-                    bank: "Mandiri",
-                    accountNumber: "0987654321",
-                    accountName: "Millea Pratiwi"
+                    accountNumber: "1550459040",
+                    accountName: "Amartya Feby Saputra"
                 }
-            ]
+            ],
+            physicalGift: {
+                name: "Nita Idawati",
+                phone: "085731422144",
+                address: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung"
+            }
         };
+        
         lucide.createIcons();
+        
         const urlParams = new URLSearchParams(window.location.search);
         const guestName = urlParams.get('to') || 'Tamu Undangan';
         document.getElementById('guest-name').textContent = guestName;
         document.getElementById('rsvp-nama').value = guestName !== 'Tamu Undangan' ? guestName : '';
+        
         function injectData() {
             document.getElementById('cfg-groom-nick').textContent = CONFIG.groom.nickname;
             document.getElementById('cfg-groom-full').textContent = CONFIG.groom.fullName;
@@ -659,33 +833,57 @@
             document.getElementById('cfg-event1-map').href = CONFIG.event1.googleMapsUrl;
             document.getElementById('cfg-event2-title').textContent = CONFIG.event2.title;
             document.getElementById('cfg-event2-date').textContent = CONFIG.event2.date;
-            document.getElementById('cfg-event2-time').textContent = CONFIG.event2.time;
-            document.getElementById('cfg-event2-loc').textContent = CONFIG.event2.locationName;
-            document.getElementById('cfg-event2-addr').textContent = CONFIG.event2.address;
-            document.getElementById('cfg-event2-map').href = CONFIG.event2.googleMapsUrl;
-            
-            document.getElementById('cfg-cal-link').href = CONFIG.googleCalendarLink;
-            const giftContainer = document.getElementById('gift-container');
-            CONFIG.gifts.forEach(gift => {
-                const card = document.createElement('div');
-                card.className = "card";
-                card.innerHTML = `
-                    <h3 class="heading" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--btn-brown);">${gift.bank}</h3>
-                    <p class="text" style="font-size: 1.4rem; letter-spacing: 2px; color: var(--text-brown); font-weight: 700; margin-bottom: 0.5rem;">${gift.accountNumber}</p>
-                    <p class="text" style="margin-bottom: 1.5rem; font-size: 0.9rem;">a.n ${gift.accountName}</p>
-                    <button class="brown-btn" onclick="salinRekening('${gift.accountNumber}')" style="font-size: 0.85rem;">
-                        <i data-lucide="copy" size="14"></i> Salin Nomor
-                    </button>
-                `;
-                giftContainer.appendChild(card);
-            });
-            lucide.createIcons();
-        }
+        document.getElementById('cfg-event2-time').textContent = CONFIG.event2.time;
+        document.getElementById('cfg-event2-loc').textContent = CONFIG.event2.locationName;
+        document.getElementById('cfg-event2-addr').textContent = CONFIG.event2.address;
+        document.getElementById('cfg-event2-map').href = CONFIG.event2.googleMapsUrl;
         
-        injectData();
+        document.getElementById('cfg-event3-title').textContent = CONFIG.event3.title;
+        document.getElementById('cfg-event3-date').textContent = CONFIG.event3.date;
+        document.getElementById('cfg-event3-time').textContent = CONFIG.event3.time;
+        document.getElementById('cfg-event3-loc').textContent = CONFIG.event3.locationName;
+        document.getElementById('cfg-event3-addr').textContent = CONFIG.event3.address;
+        document.getElementById('cfg-event3-map').href = CONFIG.event3.googleMapsUrl;
+        
+        document.getElementById('cfg-cal-link').href = CONFIG.googleCalendarLink;
+        const giftContainer = document.getElementById('gift-container');
+        CONFIG.gifts.forEach(gift => {
+            const card = document.createElement('div');
+            card.className = "card";
+            card.innerHTML = `
+                <h3 class="heading" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--btn-brown);">${gift.bank}</h3>
+                <p class="text" style="font-size: 1.4rem; letter-spacing: 2px; color: var(--text-brown); font-weight: 700; margin-bottom: 0.5rem;">${gift.accountNumber}</p>
+                <p class="text" style="margin-bottom: 1.5rem; font-size: 0.9rem;">a.n ${gift.accountName}</p>
+                <button class="brown-btn" onclick="salinTeks('${gift.accountNumber}', 'Nomor rekening')" style="font-size: 0.85rem;">
+                    <i data-lucide="copy" size="14"></i> Salin Nomor
+                </button>
+            `;
+            giftContainer.appendChild(card);
+        });
+
+        // Add Physical Gift Address
+        const physicalCard = document.createElement('div');
+        physicalCard.className = "card";
+        physicalCard.innerHTML = `
+            <h3 class="heading" style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--btn-brown);">Kirim Kado Fisik</h3>
+            <p class="text" style="font-size: 1rem; color: var(--text-brown); font-weight: 700; margin-bottom: 0.5rem;">Penerima: ${CONFIG.physicalGift.name}<br>(${CONFIG.physicalGift.phone})</p>
+            <p class="text" style="margin-bottom: 1.5rem; font-size: 0.9rem;">${CONFIG.physicalGift.address}</p>
+            <button class="brown-btn" onclick="salinTeks('${CONFIG.physicalGift.address}', 'Alamat kado')" style="font-size: 0.85rem;">
+                <i data-lucide="copy" size="14"></i> Salin Alamat
+            </button>
+        `;
+        giftContainer.appendChild(physicalCard);
+
+        lucide.createIcons();
+    }
+    
+    injectData();
+    fetchComments();
+        
         const bgMusic = document.getElementById('bg-music');
         const audioWidget = document.getElementById('audio-widget');
         let isPlaying = false;
+        
         function toggleAudio() {
             if (isPlaying) {
                 bgMusic.pause();
@@ -696,10 +894,12 @@
             }
             isPlaying = !isPlaying;
         }
+        
         function tampilkanGift() {
             document.getElementById('btn-tampilkan-gift').style.display = 'none';
             document.getElementById('gift-container').style.display = 'flex';
         }
+        
         function startCountdown() {
             const countDownDate = new Date(CONFIG.eventDateISO).getTime();
             const x = setInterval(function() {
@@ -723,13 +923,19 @@
                 document.getElementById("cd-detik").innerHTML = seconds;
             }, 1000);
         }
+        
         function bukaUndangan() {
             bgMusic.play().then(() => {
                 isPlaying = true;
                 audioWidget.classList.remove('paused');
             }).catch(e => console.log("Audio autoplay blocked by browser, user must interact again."));
-            gsap.to('.wayang-container', { y: 200, opacity: 0, duration: 1.2, ease: "power2.inOut" });
-            gsap.to('.couple-arch', { scale: 0.8, opacity: 0, duration: 1, ease: "power2.inOut" });
+            
+            /* 
+               PERBAIKAN: Hanya menargetkan `.wayang-container` dan `.couple-arch` yang ada di dalam `#cover-section`.
+               Sebelumnya, GSAP menyembunyikan semua elemen .couple-arch di seluruh dokumen (termasuk yang ada di profil).
+            */
+            gsap.to('#cover-section .wayang-container', { y: 200, opacity: 0, duration: 1.2, ease: "power2.inOut" });
+            gsap.to('#cover-section .couple-arch', { scale: 0.8, opacity: 0, duration: 1, ease: "power2.inOut" });
             
             gsap.to('#cover-section', { opacity: 0, duration: 1, onComplete: () => {
                 document.getElementById('cover-section').style.display = 'none';
@@ -744,52 +950,138 @@
                 window.scrollTo(0, 0);
             }});
         }
+        
         function initScrollAnimations() {
-            gsap.registerPlugin(ScrollTrigger);
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                gsap.to(section, {
-                    y: 0,
-                    opacity: 1,
-                    duration: 1.2,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 85%",
-                    }
-                });
+        gsap.registerPlugin(ScrollTrigger);
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            gsap.to(section, {
+                y: 0,
+                opacity: 1,
+                duration: 1.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 85%",
+                }
             });
-        }
-        window.salinRekening = function(nomor) {
-            navigator.clipboard.writeText(nomor).then(() => {
-                alert('Nomor rekening ' + nomor + ' berhasil disalin!');
-            });
-        }
-        document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+        });
+    }
+    
+    window.salinTeks = function(teks, label) {
+        navigator.clipboard.writeText(teks).then(() => {
+            alert(label + ' berhasil disalin!');
+        }).catch(err => {
+            /* Cadangan eksekusi copy apabila writeText diblokir iframe */
+            const el = document.createElement('textarea');
+            el.value = teks;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert(label + ' berhasil disalin!');
+        });
+    }
+    
+    document.getElementById('rsvp-form').addEventListener('submit', function(e) {
             e.preventDefault();
             if (!CONFIG.rsvpWebhookUrl) {
                 alert('URL Google Spreadsheet belum diatur.');
                 return;
             }
-            const formData = new FormData(this);
+            
             const btn = this.querySelector('button[type="submit"]');
             btn.innerHTML = 'Mengirim...';
             btn.disabled = true;
-            fetch(CONFIG.rsvpWebhookUrl, { method: 'POST', body: formData })
-            .then(response => {
-                alert('Terima kasih! Konfirmasi kehadiran Anda telah terkirim.');
+
+            const formData = new FormData(this);
+            const data = new URLSearchParams();
+            for (const pair of formData) {
+                data.append(pair[0], pair[1]);
+            }
+            
+            fetch(CONFIG.rsvpWebhookUrl, { 
+                method: 'POST', 
+                body: data,
+                mode: 'no-cors' // Important for Google Forms/Apps Script if not returning proper CORS headers
+            })
+            .then(() => {
+                // When using no-cors, the response is opaque, we just assume success if it didn't throw a network error
+                alert('Terima kasih! Konfirmasi kehadiran dan ucapan Anda telah terkirim.');
                 this.reset();
                 btn.innerHTML = '<i data-lucide="send" size="16"></i> Kirim Konfirmasi';
                 btn.disabled = false;
                 lucide.createIcons();
+                // Refresh comments list
+                fetchComments();
             })
             .catch(error => {
+                console.error("Error:", error);
                 alert('Terjadi kesalahan saat mengirim data. Coba lagi.');
                 btn.innerHTML = '<i data-lucide="send" size="16"></i> Kirim Konfirmasi';
                 btn.disabled = false;
                 lucide.createIcons();
             });
         });
+
+        function fetchComments() {
+            if (!CONFIG.rsvpWebhookUrl) return;
+            
+            const commentsContainer = document.getElementById('comments-container');
+            
+            fetch(CONFIG.rsvpWebhookUrl)
+                .then(response => response.json())
+                .then(data => {
+                    commentsContainer.innerHTML = ''; // Clear loading text
+                    
+                    if (data.length === 0 || data.error) {
+                         commentsContainer.innerHTML = '<p class="text" style="text-align: center; font-size: 0.9rem;">Belum ada ucapan. Jadilah yang pertama!</p>';
+                         return;
+                    }
+
+                    data.forEach(item => {
+                        // Based on your Google App Script `doGet`, it returns objects based on header names.
+                        // We need to map the header names from your screenshot to variables here.
+                        const nama = item['Nama'] || item['author'] || 'Tamu';
+                        const ucapan = item['Ucapan'] || item['comment'] || '';
+                        const kehadiran = item['Kehadiran'] || item['attendance'] || '';
+                        
+                        // Parse timestamp if it exists, otherwise just leave blank
+                        let waktuStr = '';
+                        if (item['Waktu'] || item['Timestamp']) {
+                            try {
+                                const dateObj = new Date(item['Waktu'] || item['Timestamp']);
+                                waktuStr = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                            } catch(e) {}
+                        }
+
+                        if (!ucapan) return; // Skip if no comment
+
+                        let attendanceClass = 'att-ragu';
+                        if (kehadiran.toLowerCase().includes('hadir') && !kehadiran.toLowerCase().includes('tidak')) {
+                            attendanceClass = 'att-hadir';
+                        } else if (kehadiran.toLowerCase().includes('tidak')) {
+                            attendanceClass = 'att-tidak-hadir';
+                        }
+
+                        const commentEl = document.createElement('div');
+                        commentEl.className = 'comment-item';
+                        commentEl.innerHTML = `
+                            <div class="comment-header">
+                                <span class="comment-name">${nama}</span>
+                                ${kehadiran ? `<span class="comment-attendance ${attendanceClass}">${kehadiran}</span>` : ''}
+                            </div>
+                            <p class="comment-text">${ucapan}</p>
+                            ${waktuStr ? `<span class="comment-time">${waktuStr}</span>` : ''}
+                        `;
+                        commentsContainer.appendChild(commentEl);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching comments:', error);
+                    commentsContainer.innerHTML = '<p class="text" style="text-align: center; font-size: 0.9rem;">Gagal memuat ucapan.</p>';
+                });
+        }
     </script>
 </body>
 </html>
