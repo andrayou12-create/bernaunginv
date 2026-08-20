@@ -414,12 +414,13 @@
                     if (namaTamu) {
                         document.getElementById('nama-tamu').innerText = namaTamu.replace(/\+/g, ' ');
                     }
+
+                    setTimeout(() => { AOS.init({ duration: 1000, once: true }); }, 100);
                 },
                 openInvitation() {
                     this.isOpened = true;
                     document.body.classList.add('opened');
                     this.playMusic();
-                    setTimeout(() => { AOS.init({ duration: 1000, once: true }); }, 500);
                 },
                 playMusic() {
                     const audio = document.getElementById('bg-music');
@@ -461,3 +462,4 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 </html>
+
