@@ -3016,217 +3016,238 @@ const UNDANGAN = {
     cerita_lamaran: "Katanya jika ditakdirkan jodoh, maka kita akan kembali dalam versi terbaik kita, dan yapp itu benar, kita memulai lagi kisah dengan keyakinan, bahwa cinta yang datang karena Allah, akan dijaga karena Allah juga. Memang tidak butuh waktu lama untuk menjalin hubungan tapi membutuhkan waktu 9 tahun untuk menjalin ikatan serius. Bukan waktu yang lama yang menentukan, tapi ketulusan yang mempertemukan, dan pada tanggal 28 Mei 2026 kita memutuskan mengikat hubungan yang disaksikan oleh dua keluarga besar.",
     cerita_nikah: "9 tahun bukan waktu yang singkat. Kita belajar tentang sabar, percaya, dan saling menguatkan. Ada tawa, ada air mata, ada proses bertumbuh yang kita lewati bersama. Hingga akhirnya 1 malam setelah lamaran pada 29 Mei 2026, dengan izin dan ridho-Nya, kita memutuskan untuk menyatukan hati dalam ikatan pernikahan yang suci.",
 
-    // === FOTO UTAMA ===
-    foto_cover: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image4.jpeg",
-    foto_pria: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image6.jpeg",
-    foto_wanita: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image5.jpeg",
+// === FOTO UTAMA & BACKGROUND ===
+        foto_cover: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image4.jpeg",
+        foto_frame_inisial: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image4.jpeg", // Frame foto atas inisial
+        foto_pria: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image6.jpeg",
+        foto_wanita: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image5.jpeg",
+        foto_bg_countdown: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image8.jpeg", // Background countdown
 
-    // === GALERI ===
-    tampilkan_galeri: true,
-    foto_galeri: [
-        "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image4.jpeg",
-        "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image8.jpeg",
-        "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image9.jpeg",
-        "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image10.jpeg",
-        "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image11.jpeg",
-        "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image12.jpeg",
-        "https://bernaunginv.my.id/latif-erna/images/Foto%202.jpeg",
-        "https://bernaunginv.my.id/latif-erna/images/Foto%203.jpeg"
-    ]
-};
+        // === GALERI ===
+        tampilkan_galeri: true,
+        foto_galeri: [
+            "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image4.jpeg",
+            "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image8.jpeg",
+            "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image9.jpeg",
+            "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image10.jpeg",
+            "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image11.jpeg",
+            "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image12.jpeg"
+        ]
+    };
 
-// ==========================================
-// KODE SISTEM PENGGANTI OTOMATIS
-// ==========================================
-document.addEventListener("DOMContentLoaded", function() {
-    try {
-        // 1. REPLACEMENT TEKS DI SELURUH DOM
-        function replaceTextInDOM(node) {
-            if (node.nodeType === 3) {
-                let val = node.nodeValue;
-                let orig = val;
-                
-                val = val.replace(/Latif & Erna/gi, UNDANGAN.mempelai_pria_panggilan + " & " + UNDANGAN.mempelai_wanita_panggilan);
-                val = val.replace(/Latif &amp; Erna/gi, UNDANGAN.mempelai_pria_panggilan + " &amp; " + UNDANGAN.mempelai_wanita_panggilan);
-                val = val.replace(/Latif \/ Erna/gi, UNDANGAN.mempelai_pria_panggilan + " / " + UNDANGAN.mempelai_wanita_panggilan);
-                val = val.replace(/Ahmad Latif/gi, UNDANGAN.mempelai_pria_lengkap);
-                val = val.replace(/\bLatif\b/g, UNDANGAN.mempelai_pria_panggilan);
-                val = val.replace(/Erna Amelia/gi, UNDANGAN.mempelai_wanita_lengkap);
-                val = val.replace(/\bErna\b/g, UNDANGAN.mempelai_wanita_panggilan);
+    // ==========================================
+    // KODE SISTEM PENGGANTI OTOMATIS
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", function() {
+        try {
+            // 1. REPLACEMENT TEKS DI SELURUH DOM
+            function replaceTextInDOM(node) {
+                if (node.nodeType === 3) {
+                    let val = node.nodeValue;
+                    let orig = val;
 
-                val = val.replace(/Bapak Tulo Wahono dan Ibu Suparti/gi, UNDANGAN.mempelai_pria_ortu);
-                val = val.replace(/Bapak Sani Aripin dan Ibu Daroyati/gi, UNDANGAN.mempelai_wanita_ortu);
-                val = val.replace(/@ahmadltf___/gi, UNDANGAN.mempelai_pria_ig);
-                val = val.replace(/@rna887_/gi, UNDANGAN.mempelai_wanita_ig);
-                
-                val = val.replace(/Selasa\s*,\s*9 Juni 2026/gi, UNDANGAN.tanggal_akad);
-                val = val.replace(/08:00 WIB/gi, UNDANGAN.waktu_akad);
-                val = val.replace(/10:00 WIB - Selesai/gi, UNDANGAN.waktu_resepsi);
-                val = val.replace(/Banjarsari RT03\/RW01, Kebumen, Pringsurat, Temanggung/gi, UNDANGAN.alamat_akad);
-                
-                val = val.replace(/Akad Nikah/g, UNDANGAN.judul_akad);
-                val = val.replace(/Resepsi/g, UNDANGAN.judul_resepsi);
-                
-                // Ganti data kado fisik
-                val = val.replace(/(\+6285731422144|\+628\d+)/gi, UNDANGAN.kado_hp);
-                
-                if (val !== orig) {
-                    node.nodeValue = val;
-                }
-            } else if (node.nodeType === 1 && node.nodeName !== "SCRIPT" && node.nodeName !== "STYLE") {
-                for (let i = 0; i < node.childNodes.length; i++) {
-                    replaceTextInDOM(node.childNodes[i]);
-                }
-            }
-        }
-        
-        replaceTextInDOM(document.body);
-        document.title = document.title.replace(/Latif/g, UNDANGAN.mempelai_pria_panggilan).replace(/Erna/g, UNDANGAN.mempelai_wanita_panggilan);
+                    val = val.replace(/Latif & Erna/gi, UNDANGAN.mempelai_pria_panggilan + " & " + UNDANGAN.mempelai_wanita_panggilan);
+                    val = val.replace(/Latif &amp; Erna/gi, UNDANGAN.mempelai_pria_panggilan + " &amp; " + UNDANGAN.mempelai_wanita_panggilan);
+                    val = val.replace(/Latif \/ Erna/gi, UNDANGAN.mempelai_pria_panggilan + " / " + UNDANGAN.mempelai_wanita_panggilan);
+                    val = val.replace(/Ahmad Latif/gi, UNDANGAN.mempelai_pria_lengkap);
+                    val = val.replace(/\bLatif\b/g, UNDANGAN.mempelai_pria_panggilan);
+                    val = val.replace(/Erna Amelia/gi, UNDANGAN.mempelai_wanita_lengkap);
+                    val = val.replace(/\bErna\b/g, UNDANGAN.mempelai_wanita_panggilan);
 
-        // 2. INISIAL MEMPELAI
-        document.querySelectorAll('.elementor-heading-title').forEach(el => {
-            if(el.innerText.trim() === 'L') el.innerText = UNDANGAN.mempelai_pria_panggilan.charAt(0).toUpperCase();
-            if(el.innerText.trim() === 'E') el.innerText = UNDANGAN.mempelai_wanita_panggilan.charAt(0).toUpperCase();
-        });
-        
-        // 3. TANGGAL & DETAIL ACARA
-        const headings = document.querySelectorAll('h2');
-        let akadTitle = null, resepsiTitle = null;
-        for(let h of headings) {
-            if(h.innerText.trim() === 'Akad Nikah' || h.innerText.trim() === UNDANGAN.judul_akad) akadTitle = h;
-            if(h.innerText.trim() === 'Resepsi' || h.innerText.trim() === UNDANGAN.judul_resepsi) resepsiTitle = h;
-        }
+                    val = val.replace(/Bapak Tulo Wahono dan Ibu Suparti/gi, UNDANGAN.mempelai_pria_ortu);
+                    val = val.replace(/Bapak Sani Aripin dan Ibu Daroyati/gi, UNDANGAN.mempelai_wanita_ortu);
+                    val = val.replace(/@ahmadltf___/gi, UNDANGAN.mempelai_pria_ig);
+                    val = val.replace(/@rna887_/gi, UNDANGAN.mempelai_wanita_ig);
 
-        if (akadTitle) {
-            const akadCol = akadTitle.closest('.elementor-col-100') || akadTitle.parentElement;
-            if (akadCol) {
-                akadCol.querySelectorAll('h2, p, span').forEach(el => {
-                    if (el.innerText === "09") el.innerText = UNDANGAN.tanggal_akad_tgl;
-                    if (el.innerText === "Selasa") el.innerText = UNDANGAN.tanggal_akad_hari;
-                    if (el.innerText === "Juni") el.innerText = UNDANGAN.tanggal_akad_bln;
-                    if (el.innerText === "2026") el.innerText = UNDANGAN.tanggal_akad_thn;
-                    if (el.innerText === "Rumah Mempelai Wanita") el.innerText = UNDANGAN.lokasi_akad;
-                });
-            }
-        }
+                    val = val.replace(/Selasa\s*,\s*9 Juni 2026/gi, UNDANGAN.tanggal_akad);
+                    val = val.replace(/08:00 WIB/gi, UNDANGAN.waktu_akad);
+                    val = val.replace(/10:00 WIB - Selesai/gi, UNDANGAN.waktu_resepsi);
+                    val = val.replace(/Banjarsari RT03\/RW01, Kebumen, Pringsurat, Temanggung/gi, UNDANGAN.alamat_akad);
 
-        if (resepsiTitle) {
-            const resepsiCol = resepsiTitle.closest('.elementor-col-100') || resepsiTitle.parentElement;
-            if (resepsiCol) {
-                resepsiCol.querySelectorAll('h2, p, span').forEach(el => {
-                    if (el.innerText === "09") el.innerText = UNDANGAN.tanggal_resepsi_tgl;
-                    if (el.innerText === "Selasa") el.innerText = UNDANGAN.tanggal_resepsi_hari;
-                    if (el.innerText === "Juni") el.innerText = UNDANGAN.tanggal_resepsi_bln;
-                    if (el.innerText === "2026") el.innerText = UNDANGAN.tanggal_resepsi_thn;
-                    if (el.innerText === "Rumah Mempelai Wanita") el.innerText = UNDANGAN.lokasi_resepsi;
-                });
-            }
-        }
+                    val = val.replace(/Akad Nikah/g, UNDANGAN.judul_akad);
+                    val = val.replace(/Resepsi/g, UNDANGAN.judul_resepsi);
 
-        // 4. COUNTDOWN TIMER
-        const countdownWrapper = document.querySelector('.elementor-countdown-wrapper');
-        if (countdownWrapper && UNDANGAN.waktu_countdown) {
-            const targetTime = new Date(UNDANGAN.waktu_countdown).getTime();
-            setInterval(() => {
-                const now = new Date().getTime();
-                const distance = targetTime - now;
-                if (distance < 0) return;
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
-                const daysEl = countdownWrapper.querySelector('.elementor-countdown-days');
-                const hoursEl = countdownWrapper.querySelector('.elementor-countdown-hours');
-                const minEl = countdownWrapper.querySelector('.elementor-countdown-minutes');
-                const secEl = countdownWrapper.querySelector('.elementor-countdown-seconds');
-                
-                if (daysEl) daysEl.innerText = days < 10 ? '0' + days : days;
-                if (hoursEl) hoursEl.innerText = hours < 10 ? '0' + hours : hours;
-                if (minEl) minEl.innerText = minutes < 10 ? '0' + minutes : minutes;
-                if (secEl) secEl.innerText = seconds < 10 ? '0' + seconds : seconds;
-            }, 1000);
-        }
+                    val = val.replace(/(\+6285731422144|\+628\d+)/gi, UNDANGAN.kado_hp);
 
-        // 5. LOVE STORY TIMELINE
-        const timelineItems = document.querySelectorAll('.jet-timeline-item');
-        if (timelineItems.length > 0) {
-            const stories = [
-                { title: "Awal perkenalan", desc: UNDANGAN.cerita_awal, show: UNDANGAN.tampilkan_awal_pertemuann },
-                { title: "Lamaran", desc: UNDANGAN.cerita_lamaran, show: true },
-                { title: "Pernikahan", desc: UNDANGAN.cerita_nikah, show: true },
-                { title: "Cerita Keempat", desc: "", show: UNDANGAN.tampilkan_love_story_keempat }
-            ];
-
-            timelineItems.forEach((item, i) => {
-                if (stories[i]) {
-                    if (!stories[i].show) {
-                        item.style.display = 'none';
-                    } else {
-                        item.style.display = '';
-                        const titleEl = item.querySelector('.timeline-item__card-title');
-                        const descEl = item.querySelector('.timeline-item__card-desc');
-                        if (titleEl && stories[i].title) titleEl.innerText = stories[i].title;
-                        if (descEl && stories[i].desc) descEl.innerText = stories[i].desc;
+                    if (val !== orig) {
+                        node.nodeValue = val;
+                    }
+                } else if (node.nodeType === 1 && node.nodeName !== "SCRIPT" && node.nodeName !== "STYLE") {
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        replaceTextInDOM(node.childNodes[i]);
                     }
                 }
+            }
+
+            replaceTextInDOM(document.body);
+            document.title = document.title.replace(/Latif/g, UNDANGAN.mempelai_pria_panggilan).replace(/Erna/g, UNDANGAN.mempelai_wanita_panggilan);
+
+            // 2. INISIAL MEMPELAI
+            document.querySelectorAll('.elementor-heading-title').forEach(el => {
+                if(el.innerText.trim() === 'L') el.innerText = UNDANGAN.mempelai_pria_panggilan.charAt(0).toUpperCase();
+                if(el.innerText.trim() === 'E') el.innerText = UNDANGAN.mempelai_wanita_panggilan.charAt(0).toUpperCase();
             });
-        }
 
-        // 6. LOGIKA REKENING & KADO
-        const rek1Box = document.querySelector('.rekening-1, [data-rekening="1"]');
-        const rek2Box = document.querySelector('.rekening-2, [data-rekening="2"]');
-        if(rek1Box) rek1Box.style.display = UNDANGAN.tampilkan_rekening_1 ? '' : 'none';
-        if(rek2Box) rek2Box.style.display = UNDANGAN.tampilkan_rekening_2 ? '' : 'none';
+            // 3. TANGGAL & DETAIL ACARA
+            const headings = document.querySelectorAll('h2');
+            let akadTitle = null, resepsiTitle = null;
+            for(let h of headings) {
+                if(h.innerText.trim() === 'Akad Nikah' || h.innerText.trim() === UNDANGAN.judul_akad) akadTitle = h;
+                if(h.innerText.trim() === 'Resepsi' || h.innerText.trim() === UNDANGAN.judul_resepsi) resepsiTitle = h;
+            }
 
-        // Update detail penerima kado fisik
-        document.querySelectorAll('.kado-penerima, .nama-penerima').forEach(el => el.innerText = UNDANGAN.kado_nama_penerima);
-        document.querySelectorAll('.kado-alamat, .alamat-penerima').forEach(el => el.innerText = UNDANGAN.kado_alamat);
-
-        // 7. LOGIKA GALERI FOTO
-        const gallerySection = document.querySelector('.elementor-widget-image-gallery, .gallery, #gallery');
-        if (gallerySection && !UNDANGAN.tampilkan_galeri) {
-            gallerySection.style.display = 'none';
-        } else {
-            const galleryImgs = document.querySelectorAll('.gallery img, .elementor-gallery-item img, .e-gallery-item img');
-            galleryImgs.forEach((img, idx) => {
-                if (UNDANGAN.foto_galeri[idx]) {
-                    img.src = UNDANGAN.foto_galeri[idx];
-                    const parentAnchor = img.closest('a');
-                    if (parentAnchor) parentAnchor.href = UNDANGAN.foto_galeri[idx];
-                } else {
-                    const itemWrapper = img.closest('.elementor-gallery-item, .gallery-item');
-                    if(itemWrapper) itemWrapper.style.display = 'none';
-                }
-            });
-        }
-
-        // 8. REPLACEMENT FOTO UTAMA & BACKGROUND
-        let fotoReplacements = {
-            "https://bernaunginv.my.id/latif-erna/images/Foto%201.jpeg": UNDANGAN.foto_cover,
-            "https://bernaunginv.my.id/latif-erna/images/Foto%206.jpeg": UNDANGAN.foto_pria,
-            "https://bernaunginv.my.id/latif-erna/images/Foto%205.jpeg": UNDANGAN.foto_wanita
-        };
-        
-        document.querySelectorAll('*').forEach(el => {
-            if (el.tagName === 'IMG') {
-                for (let oldSrc in fotoReplacements) {
-                    if (el.src && el.src.includes(oldSrc)) el.src = fotoReplacements[oldSrc];
+            if (akadTitle) {
+                const akadCol = akadTitle.closest('.elementor-col-100') || akadTitle.parentElement;
+                if (akadCol) {
+                    akadCol.querySelectorAll('h2, p, span').forEach(el => {
+                        if (el.innerText === "09") el.innerText = UNDANGAN.tanggal_akad_tgl;
+                        if (el.innerText === "Selasa") el.innerText = UNDANGAN.tanggal_akad_hari;
+                        if (el.innerText === "Juni") el.innerText = UNDANGAN.tanggal_akad_bln;
+                        if (el.innerText === "2026") el.innerText = UNDANGAN.tanggal_akad_thn;
+                        if (el.innerText === "Rumah Mempelai Wanita") el.innerText = UNDANGAN.lokasi_akad;
+                    });
                 }
             }
-            let bg = getComputedStyle(el).backgroundImage;
-            if (bg && bg !== 'none') {
-                let newBg = bg;
-                for (let oldSrc in fotoReplacements) {
-                    if(bg.includes(oldSrc)) newBg = newBg.replace(oldSrc, fotoReplacements[oldSrc]);
-                }
-                if (bg !== newBg) el.style.backgroundImage = newBg;
-            }
-        });
 
-    } catch(e) { console.error("Error injeksi JavaScript:", e); }
-});
-</script>
+            if (resepsiTitle) {
+                const resepsiCol = resepsiTitle.closest('.elementor-col-100') || resepsiTitle.parentElement;
+                if (resepsiCol) {
+                    resepsiCol.querySelectorAll('h2, p, span').forEach(el => {
+                        if (el.innerText === "09") el.innerText = UNDANGAN.tanggal_resepsi_tgl;
+                        if (el.innerText === "Selasa") el.innerText = UNDANGAN.tanggal_resepsi_hari;
+                        if (el.innerText === "Juni") el.innerText = UNDANGAN.tanggal_resepsi_bln;
+                        if (el.innerText === "2026") el.innerText = UNDANGAN.tanggal_resepsi_thn;
+                        if (el.innerText === "Rumah Mempelai Wanita") el.innerText = UNDANGAN.lokasi_resepsi;
+                    });
+                }
+            }
+
+            // 4. COUNTDOWN TIMER
+            const countdownWrapper = document.querySelector('.elementor-countdown-wrapper');
+            if (countdownWrapper && UNDANGAN.waktu_countdown) {
+                const targetTime = new Date(UNDANGAN.waktu_countdown).getTime();
+                setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = targetTime - now;
+                    if (distance < 0) return;
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    const daysEl = countdownWrapper.querySelector('.elementor-countdown-days');
+                    const hoursEl = countdownWrapper.querySelector('.elementor-countdown-hours');
+                    const minEl = countdownWrapper.querySelector('.elementor-countdown-minutes');
+                    const secEl = countdownWrapper.querySelector('.elementor-countdown-seconds');
+
+                    if (daysEl) daysEl.innerText = days < 10 ? '0' + days : days;
+                    if (hoursEl) hoursEl.innerText = hours < 10 ? '0' + hours : hours;
+                    if (minEl) minEl.innerText = minutes < 10 ? '0' + minutes : minutes;
+                    if (secEl) secEl.innerText = seconds < 10 ? '0' + seconds : seconds;
+                }, 1000);
+            }
+
+            // 5. LOVE STORY TIMELINE
+            const timelineItems = document.querySelectorAll('.jet-timeline-item');
+            if (timelineItems.length > 0) {
+                const stories = [
+                    { title: "Awal perkenalan", desc: UNDANGAN.cerita_awal, show: UNDANGAN.tampilkan_awal_pertemuann },
+                    { title: "Lamaran", desc: UNDANGAN.cerita_lamaran, show: true },
+                    { title: "Pernikahan", desc: UNDANGAN.cerita_nikah, show: true },
+                    { title: "Cerita Keempat", desc: "", show: UNDANGAN.tampilkan_love_story_keempat }
+                ];
+
+                timelineItems.forEach((item, i) => {
+                    if (stories[i]) {
+                        if (!stories[i].show) {
+                            item.style.display = 'none';
+                        } else {
+                            item.style.display = '';
+                            const titleEl = item.querySelector('.timeline-item__card-title');
+                            const descEl = item.querySelector('.timeline-item__card-desc');
+                            if (titleEl && stories[i].title) titleEl.innerText = stories[i].title;
+                            if (descEl && stories[i].desc) descEl.innerText = stories[i].desc;
+                        }
+                    }
+                });
+            }
+
+            // 6. LOGIKA REKENING & KADO
+            const rek1Box = document.querySelector('.rekening-1, [data-rekening="1"]');
+            const rek2Box = document.querySelector('.rekening-2, [data-rekening="2"]');
+            if(rek1Box) rek1Box.style.display = UNDANGAN.tampilkan_rekening_1 ? '' : 'none';
+            if(rek2Box) rek2Box.style.display = UNDANGAN.tampilkan_rekening_2 ? '' : 'none';
+
+            document.querySelectorAll('.kado-penerima, .nama-penerima').forEach(el => el.innerText = UNDANGAN.kado_nama_penerima);
+            document.querySelectorAll('.kado-alamat, .alamat-penerima').forEach(el => el.innerText = UNDANGAN.kado_alamat);
+
+            // 7. LOGIKA GALERI FOTO
+            const gallerySection = document.querySelector('.elementor-widget-image-gallery, .gallery, #gallery');
+            if (gallerySection && !UNDANGAN.tampilkan_galeri) {
+                gallerySection.style.display = 'none';
+            } else {
+                const galleryImgs = document.querySelectorAll('.gallery img, .elementor-gallery-item img, .e-gallery-item img');
+                galleryImgs.forEach((img, idx) => {
+                    if (UNDANGAN.foto_galeri[idx]) {
+                        img.src = UNDANGAN.foto_galeri[idx];
+                        const parentAnchor = img.closest('a');
+                        if (parentAnchor) parentAnchor.href = UNDANGAN.foto_galeri[idx];
+                    } else {
+                        const itemWrapper = img.closest('.elementor-gallery-item, .gallery-item');
+                        if(itemWrapper) itemWrapper.style.display = 'none';
+                    }
+                });
+            }
+
+            // 8. REPLACEMENT FOTO UTAMA & BACKGROUND (METHODE DUAL: URL + CSS CLASS TARGETING)
+            
+            // A. Pemetaan Berdasarkan Link URL Default Template
+            let fotoReplacements = {
+                "https://bernaunginv.my.id/latif-erna/images/Foto%201.jpeg": UNDANGAN.foto_cover,
+                "https://bernaunginv.my.id/latif-erna/images/Foto%206.jpeg": UNDANGAN.foto_pria,
+                "https://bernaunginv.my.id/latif-erna/images/Foto%205.jpeg": UNDANGAN.foto_wanita,
+                "https://bernaunginv.my.id/latif-erna/images/Foto%202.jpeg": UNDANGAN.foto_frame_inisial,
+                "https://bernaunginv.my.id/latif-erna/images/Foto%203.jpeg": UNDANGAN.foto_bg_countdown,
+                "https://bernaunginv.my.id/latif-erna/images/Foto%204.jpeg": UNDANGAN.foto_bg_countdown
+            };
+
+            // Scan seluruh elemen untuk mengganti src / background-image URL
+            document.querySelectorAll('*').forEach(el => {
+                if (el.tagName === 'IMG') {
+                    for (let oldSrc in fotoReplacements) {
+                        if (el.src && el.src.includes(oldSrc)) el.src = fotoReplacements[oldSrc];
+                    }
+                }
+                let bg = getComputedStyle(el).backgroundImage;
+                if (bg && bg !== 'none') {
+                    let newBg = bg;
+                    for (let oldSrc in fotoReplacements) {
+                        if(bg.includes(oldSrc)) newBg = newBg.replace(oldSrc, fotoReplacements[oldSrc]);
+                    }
+                    if (bg !== newBg) el.style.backgroundImage = newBg;
+                }
+            });
+
+            // B. Direct Class Targeting (Jika foto berupa background di Elementor Section/Container)
+            const updateElementMedia = (selector, newUrl) => {
+                if (!newUrl) return;
+                document.querySelectorAll(selector).forEach(el => {
+                    if (el.tagName === 'IMG') {
+                        el.src = newUrl;
+                    } else {
+                        el.style.setProperty('background-image', `url("${newUrl}")`, 'important');
+                    }
+                });
+            };
+
+            updateElementMedia('.foto-frame-inisial, .frame-inisial', UNDANGAN.foto_frame_inisial);
+            updateElementMedia('.foto-pria, .mempelai-pria-img', UNDANGAN.foto_pria);
+            updateElementMedia('.foto-wanita, .mempelai-wanita-img', UNDANGAN.foto_wanita);
+            updateElementMedia('.bg-countdown, .section-countdown', UNDANGAN.foto_bg_countdown);
+
+        } catch(e) { console.error("Error injeksi JavaScript:", e); }
+    });
+    </script>
 </body>
 </html>
 <!-- Performance optimized by Redis Object Cache. Learn more: https://wprediscache.com -->
