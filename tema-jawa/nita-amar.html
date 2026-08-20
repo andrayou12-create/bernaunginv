@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playball&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5A0000',
+                        secondary: '#E1D5C5',
+                        accent: '#866350',
+                        textMain: '#333333'
+                    },
+                    fontFamily: {
+                        script: ['Playball', 'cursive'],
+                        sans: ['"Open Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Open Sans', sans-serif; overflow-x: hidden; }
+        .bg-cover-img { background-size: cover; background-position: center; }
+        
+        #cover-screen {
+            transition: transform 1.5s cubic-bezier(0.65, 0, 0.35, 1), opacity 1.5s ease-in-out;
+        }
+        .opened #cover-screen {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Flower animations */
+        .flower-top-left { top: -20px; left: -20px; transform: scaleX(-1); }
+        .flower-top-right { top: -20px; right: -20px; }
+        .flower-bottom-left { bottom: -20px; left: -20px; transform: scaleX(-1) scaleY(-1); }
+        .flower-bottom-right { bottom: -20px; right: -20px; transform: scaleY(-1); }
+
+        .flower { position: absolute; width: 150px; opacity: 0.8; z-index: 10; }
+        @media(min-width: 768px) { .flower { width: 250px; } }
+        
+        /* Floating Music Button */
+        .music-btn {
+            position: fixed; bottom: 20px; right: 20px; z-index: 50;
+            background: #5A0000; color: white; width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .spin { animation: spin 4s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body x-data="invitationData()" x-init="init()" :class="{ 'overflow-hidden h-screen': !isOpened }" class="text-textMain bg-accent relative">
+
+    <!-- COVER SCREEN -->
+    <div id="cover-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center text-center bg-cover-img text-white" 
+         :style="`background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${media.cover_bg})`">
+        
+        <h2 data-aos="zoom-in" class="text-2xl mb-2 uppercase tracking-widest text-secondary">The Wedding Of</h2>
+        <h1 data-aos="fade-up" data-aos-delay="300" class="text-6xl md:text-8xl font-script text-primary mb-6" x-text="`${bride.nickname} & ${groom.nickname}`"></h1>
+        
+        <div data-aos="fade-up" data-aos-delay="600" class="mb-10 text-secondary">
+            <p class="text-lg">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+            <h3 class="text-2xl font-bold my-2" id="nama-tamu">Tamu Undangan</h3>
+            <p class="text-sm italic opacity-80">*Mohon maaf jika ada kesalahan penulisan nama/gelar</p>
+        </div>
+
+        <button @click="openInvitation()" data-aos="zoom-in" data-aos-delay="900" 
+                class="bg-primary text-white px-8 py-3 rounded-full hover:bg-red-900 transition flex items-center shadow-lg font-semibold">
+            <i class="far fa-envelope-open mr-2"></i> Buka Undangan
+        </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content" :style="`background-image: url(${media.main_bg}); background-attachment: fixed;`" class="bg-cover-img min-h-screen">
+        
+        <!-- INTRO SECTION -->
+        <section class="min-h-screen flex flex-col items-center justify-center text-center relative py-20 bg-secondary/80">
+            <img :src="media.flower_img" class="flower flower-top-left" data-aos="fade-right">
+            <img :src="media.flower_img" class="flower flower-top-right" data-aos="fade-left">
+            
+            <h2 data-aos="zoom-in" class="text-xl uppercase tracking-[0.3em] mb-4">The Wedding Of</h2>
+            <h1 data-aos="zoom-in" data-aos-delay="300" class="text-5xl md:text-7xl font-script text-primary leading-tight mb-4">
+                <span x-text="bride.nickname"></span><br>
+                <span class="text-3xl text-textMain">&</span><br>
+                <span x-text="groom.nickname"></span>
+            </h1>
+            <p data-aos="zoom-in" data-aos-delay="600" class="text-lg font-semibold tracking-wide" x-text="events.akad.date"></p>
+            
+            <div class="mt-12 w-64 mx-auto text-center" data-aos="fade-up" data-aos-delay="900">
+                <p class="italic mb-2 text-sm leading-relaxed">
+                    "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri..."
+                </p>
+                <p class="font-bold text-sm">Q.S Ar-Rum : 21</p>
+            </div>
+        </section>
+
+        <!-- GROOM & BRIDE SECTION -->
+        <section class="py-20 relative bg-accent/10">
+            <div class="container mx-auto px-4 max-w-4xl text-center">
+                <h2 data-aos="fade-up" class="text-4xl font-script text-primary mb-12">Groom & Bride</h2>
+                
+                <p data-aos="fade-up" class="mb-12 max-w-2xl mx-auto italic">
+                    Assalamu’alaikum Warahmatullahi Wabarakatuh<br><br>
+                    Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi pernikahan kami.
+                </p>
+
+                <div class="flex flex-col md:flex-row justify-center items-center gap-12">
+                    <!-- BRIDE -->
+                    <div data-aos="fade-right" class="w-full md:w-1/2 flex flex-col items-center">
+                        <div class="w-48 h-48 rounded-full overflow-hidden mb-6 border-4 border-primary shadow-xl bg-gray-200">
+                            <img :src="bride.photo" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-3xl font-script text-primary mb-2" x-text="bride.nickname"></h3>
+                        <h4 class="text-xl font-bold mb-1" x-text="bride.full_name"></h4>
+                        <p class="text-sm mb-4">Putri dari<br><span class="font-semibold" x-text="bride.parents"></span></p>
+                        <a :href="bride.ig_link" target="_blank" class="bg-primary text-white px-4 py-2 rounded-full text-sm hover:bg-red-900 transition">
+                            <i class="fab fa-instagram mr-1"></i> <span x-text="bride.ig"></span>
+                        </a>
+                    </div>
+                    
+                    <!-- GROOM -->
+                    <div data-aos="fade-left" class="w-full md:w-1/2 flex flex-col items-center">
+                        <div class="w-48 h-48 rounded-full overflow-hidden mb-6 border-4 border-primary shadow-xl bg-gray-200">
+                            <img :src="groom.photo" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-3xl font-script text-primary mb-2" x-text="groom.nickname"></h3>
+                        <h4 class="text-xl font-bold mb-1" x-text="groom.full_name"></h4>
+                        <p class="text-sm mb-4">Putra dari<br><span class="font-semibold" x-text="groom.parents"></span></p>
+                        <a :href="groom.ig_link" target="_blank" class="bg-primary text-white px-4 py-2 rounded-full text-sm hover:bg-red-900 transition">
+                            <i class="fab fa-instagram mr-1"></i> <span x-text="groom.ig"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SAVE THE DATE SECTION -->
+        <section class="py-24 relative bg-cover-img text-white text-center" 
+                 :style="`background-image: linear-gradient(rgba(85,0,0,0.6), rgba(85,0,0,0.6)), url(${gallery[0]})`">
+            <h2 data-aos="zoom-in" class="text-4xl md:text-5xl font-script mb-8">Save The Date</h2>
+            
+            <div data-aos="fade-up" class="flex justify-center gap-4 text-center max-w-sm mx-auto mb-10">
+                <div class="bg-white/20 backdrop-blur-sm p-4 rounded-lg w-20">
+                    <div class="text-3xl font-bold" x-text="timeLeft.days">00</div>
+                    <div class="text-xs uppercase mt-1">Hari</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm p-4 rounded-lg w-20">
+                    <div class="text-3xl font-bold" x-text="timeLeft.hours">00</div>
+                    <div class="text-xs uppercase mt-1">Jam</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm p-4 rounded-lg w-20">
+                    <div class="text-3xl font-bold" x-text="timeLeft.minutes">00</div>
+                    <div class="text-xs uppercase mt-1">Menit</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm p-4 rounded-lg w-20">
+                    <div class="text-3xl font-bold" x-text="timeLeft.seconds">00</div>
+                    <div class="text-xs uppercase mt-1">Detik</div>
+                </div>
+            </div>
+            
+            <a data-aos="fade-up" data-aos-delay="200" href="#" class="bg-white text-primary font-bold px-6 py-3 rounded-full hover:bg-gray-200 transition inline-block">
+                <i class="fas fa-calendar-check mr-2"></i> Simpan Tanggal
+            </a>
+        </section>
+
+        <!-- EVENTS SECTION -->
+        <section class="py-20 bg-secondary relative">
+            <img :src="media.flower_img" class="flower flower-top-left" data-aos="fade-right">
+            <img :src="media.flower_img" class="flower flower-top-right" data-aos="fade-left">
+            
+            <div class="container mx-auto px-4 max-w-5xl">
+                <div class="flex flex-col md:flex-row gap-8 justify-center">
+                    
+                    <!-- AKAD -->
+                    <div data-aos="fade-up" class="bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-lg w-full md:w-1/3 text-center border-t-4 border-primary">
+                        <h2 class="text-3xl font-script text-primary mb-4">Akad Nikah</h2>
+                        <div class="w-16 h-1 bg-primary mx-auto mb-4"></div>
+                        <p class="font-bold text-xl mb-2" x-text="events.akad.date"></p>
+                        <p class="mb-4"><i class="fas fa-clock mr-2 text-primary"></i> <span x-text="events.akad.time"></span></p>
+                        <p class="font-bold mb-1" x-text="events.akad.location"></p>
+                        <p class="text-sm mb-6 h-16" x-text="events.akad.address"></p>
+                    </div>
+
+                    <!-- RESEPSI -->
+                    <div data-aos="fade-up" data-aos-delay="200" class="bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-lg w-full md:w-1/3 text-center border-t-4 border-primary">
+                        <h2 class="text-3xl font-script text-primary mb-4">Resepsi</h2>
+                        <div class="w-16 h-1 bg-primary mx-auto mb-4"></div>
+                        <p class="font-bold text-xl mb-2" x-text="events.resepsi.date"></p>
+                        <p class="mb-4"><i class="fas fa-clock mr-2 text-primary"></i> <span x-text="events.resepsi.time"></span></p>
+                        <p class="font-bold mb-1" x-text="events.resepsi.location"></p>
+                        <p class="text-sm mb-6 h-16" x-text="events.resepsi.address"></p>
+                    </div>
+
+                    <!-- NGUNDUH MANTU -->
+                    <div data-aos="fade-up" data-aos-delay="400" class="bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-lg w-full md:w-1/3 text-center border-t-4 border-primary">
+                        <h2 class="text-3xl font-script text-primary mb-4">Ngunduh Mantu</h2>
+                        <div class="w-16 h-1 bg-primary mx-auto mb-4"></div>
+                        <p class="font-bold text-xl mb-2" x-text="events.ngunduh_mantu.date"></p>
+                        <p class="mb-4"><i class="fas fa-clock mr-2 text-primary"></i> <span x-text="events.ngunduh_mantu.time"></span></p>
+                        <p class="font-bold mb-1" x-text="events.ngunduh_mantu.location"></p>
+                        <p class="text-sm mb-6 h-16" x-text="events.ngunduh_mantu.address"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOVE STORY -->
+        <section class="py-20 bg-accent/20">
+            <div class="container mx-auto px-4 max-w-3xl">
+                <h2 data-aos="fade-up" class="text-4xl font-script text-primary text-center mb-16">Love Story</h2>
+                
+                <div class="relative border-l-2 border-primary ml-4 md:mx-auto md:border-l-0">
+                    <!-- Timeline line for desktop -->
+                    <div class="hidden md:block absolute w-0.5 bg-primary h-full left-1/2 transform -translate-x-1/2"></div>
+                    
+                    <template x-for="(story, index) in love_story">
+                        <div class="mb-12 relative flex flex-col md:flex-row items-center justify-between" data-aos="fade-up">
+                            
+                            <!-- Timeline dot -->
+                            <div class="absolute w-4 h-4 bg-primary rounded-full -left-[9px] md:left-1/2 md:-translate-x-1/2 z-10 border-2 border-white shadow"></div>
+                            
+                            <!-- Content -->
+                            <div class="pl-8 md:pl-0 md:w-[45%] w-full" :class="index % 2 === 0 ? 'md:text-right md:pr-8' : 'md:order-last md:pl-8'">
+                                <h3 class="text-xl font-bold text-primary mb-1" x-text="story.title"></h3>
+                                <p class="text-sm font-semibold mb-2" x-text="story.date"></p>
+                                <p class="text-sm italic text-gray-700 bg-white/60 p-4 rounded-lg shadow-sm" x-text="story.content"></p>
+                            </div>
+
+                            <div class="hidden md:block md:w-[45%]">
+                                <img :src="story.photo" class="w-full h-48 object-cover rounded-xl shadow-md border-4 border-white" :class="index % 2 === 0 ? 'ml-auto' : ''">
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- WEDDING GIFT -->
+        <section class="py-20 bg-secondary relative">
+            <div class="container mx-auto px-4 max-w-3xl text-center">
+                <h2 data-aos="fade-up" class="text-4xl font-script text-primary mb-4">Wedding Gift</h2>
+                <p data-aos="fade-up" class="mb-8">Doa Restu Anda merupakan karunia yang sangat berarti bagi kami. Dan jika memberi adalah ungkapan tanda kasih, Anda dapat memberi melalui di bawah ini.</p>
+                
+                <button @click="showGift = !showGift" data-aos="zoom-in" class="bg-primary text-white px-8 py-3 rounded-full hover:bg-red-900 transition shadow-lg mb-8">
+                    <i class="fas fa-gift mr-2"></i> Klik di Sini
+                </button>
+
+                <div x-show="showGift" x-transition.duration.500ms class="flex flex-col gap-6" style="display: none;">
+                    
+                    <template x-for="gift in gifts">
+                        <div class="bg-white/80 p-6 rounded-2xl shadow-md max-w-md mx-auto w-full border-t-4 border-primary relative overflow-hidden">
+                            <h3 class="font-bold text-lg mb-2" x-text="gift.bank"></h3>
+                            <p class="text-2xl font-mono tracking-widest mb-1" x-text="gift.account"></p>
+                            <p class="text-sm mb-4" x-text="'a.n ' + gift.name"></p>
+                            <button @click="copyText(gift.account)" class="bg-gray-200 text-textMain px-4 py-2 rounded-lg text-sm hover:bg-gray-300 transition w-full flex items-center justify-center">
+                                <i class="far fa-copy mr-2"></i> Salin Rekening
+                            </button>
+                        </div>
+                    </template>
+
+                    <div class="bg-white/80 p-6 rounded-2xl shadow-md max-w-md mx-auto w-full border-t-4 border-primary">
+                        <h3 class="font-bold text-lg mb-4"><i class="fas fa-box-open text-primary mr-2"></i> Kirim Kado</h3>
+                        <p class="font-bold" x-text="physical_gift.name"></p>
+                        <p class="mb-2" x-text="physical_gift.phone"></p>
+                        <p class="text-sm mb-4" x-text="physical_gift.address"></p>
+                        <button @click="copyText(physical_gift.address)" class="bg-gray-200 text-textMain px-4 py-2 rounded-lg text-sm hover:bg-gray-300 transition w-full flex items-center justify-center">
+                            <i class="far fa-copy mr-2"></i> Salin Alamat
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THANK YOU -->
+        <section class="py-24 bg-accent/20 text-center relative overflow-hidden">
+            <img :src="media.flower_img" class="flower flower-bottom-left" data-aos="fade-right">
+            <img :src="media.flower_img" class="flower flower-bottom-right" data-aos="fade-left">
+            
+            <div class="container mx-auto px-4 max-w-2xl relative z-10">
+                <h2 data-aos="fade-up" class="text-4xl font-script text-primary mb-6">Terima Kasih</h2>
+                <p data-aos="fade-up" data-aos-delay="200" class="mb-8 italic">
+                    Merupakan suatu kebahagiaan dan kehormatan bagi kami, apabila Bapak/Ibu/Saudara/i, berkenan hadir dan memberikan do’a restu kepada kami.<br><br>
+                    <strong>Wassalamu’alaikum warahmatullahi wabarakatuh</strong>
+                </p>
+                <p data-aos="fade-up" data-aos-delay="400" class="mb-4">Kami Yang Berbahagia</p>
+                <h3 data-aos="zoom-in" data-aos-delay="600" class="text-4xl font-script text-primary" x-text="`${bride.nickname} & ${groom.nickname}`"></h3>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- AUDIO PLAYER -->
+    <button @click="toggleMusic()" class="music-btn" :class="{ 'spin': isPlaying }">
+        <i class="fas fa-music" x-show="isPlaying"></i>
+        <i class="fas fa-volume-mute" x-show="!isPlaying" style="display: none;"></i>
+    </button>
+    <audio id="bg-music" :src="media.music" loop></audio>
+
+    <script>
+        function invitationData() {
+            return {
+                isOpened: false,
+                isPlaying: false,
+                showGift: false,
+                timeLeft: { days: 0, hours: 0, minutes: 0, seconds: 0 },
+                
+                // === EDIT DATA DI BAWAH INI ===
+                bride: {
+                    full_name: "Nita Idawati",
+                    nickname: "Nita",
+                    parents: "Bpk. Kirmanto & Ibu Mardiyatun",
+                    ig: "@nitanutt__",
+                    ig_link: "https://instagram.com/nitanutt__",
+                    photo: "https://bernaunginv.my.id/latif-erna/images/Foto%205.jpeg" // Ubah path foto ini
+                },
+                groom: {
+                    full_name: "Amartya Feby Saputra",
+                    nickname: "Amar",
+                    parents: "Bpk. Didin Haris Purwanto & Ibu. Rochwati",
+                    ig: "@amartyafebysaputra",
+                    ig_link: "https://instagram.com/amartyafebysaputra",
+                    photo: "https://bernaunginv.my.id/latif-erna/images/Foto%206.jpeg" // Ubah path foto ini
+                },
+                events: {
+                    akad: {
+                        date: "Jumat, 29 Mei 2026",
+                        time: "08.00 WIB",
+                        location: "Rumah Mempelai Wanita",
+                        address: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung"
+                    },
+                    resepsi: {
+                        date: "Senin, 7 September 2026",
+                        time: "09.00 WIB - Selesai",
+                        location: "Rumah Mempelai Wanita",
+                        address: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung"
+                    },
+                    ngunduh_mantu: {
+                        date: "Kamis, 10 September 2026",
+                        time: "13.00 WIB - Selesai",
+                        location: "Rumah Mempelai Pria",
+                        address: "Barang Wetan RT07/RW01, Barang, Jumo, Temanggung"
+                    }
+                },
+                love_story: [
+                    {
+                        title: "Awal perkenalan",
+                        date: "Mei 2017",
+                        content: "Tidak ada yang kebetulan di dunia ini. Semua telah Allah atur dengan sebaik-baiknya. Di bulan Mei 2017, kita dipertemukan di SMK yang sama. Kita saling mengenal melalui sapaan di BBM dan menjalin hubungan dalam waktu yang terbilang sangat singkat yaitu 2 hari. Dalam waktu sesingkat itu kita memutuskan untuk menjalin suatu hubungan, namun takdir sempat memisahkan kita, takdir pula yang menyatukan kita kembali.",
+                        photo: "https://bernaunginv.my.id/latif-erna/images/Foto%207.jpeg" // Ubah foto
+                    },
+                    {
+                        title: "Lamaran",
+                        date: "28 Mei 2026",
+                        content: "Katanya jika ditakdirkan jodoh, maka kita akan kembali dalam versi terbaik kita, dan yapp itu benar, kita memulai lagi kisah dengan keyakinan, bahwa cinta yang datang karena Allah, akan dijaga karena Allah juga. Memang tidak butuh waktu lama untuk menjalin hubungan tapi membutuhkan waktu 9 tahun untuk menjalin ikatan serius. Bukan waktu yang lama yang menentukan, tapi ketulusan yang mempertemukan, dan pada tanggal 28 Mei 2026 kita memutuskan mengikat hubungan yang disaksikan oleh dua keluarga besar.",
+                        photo: "https://bernaunginv.my.id/latif-erna/images/Foto%208.jpeg" // Ubah foto
+                    },
+                    {
+                        title: "Pernikahan",
+                        date: "29 Mei 2026",
+                        content: "9 tahun bukan waktu yang singkat. Kita belajar tentang sabar, percaya, dan saling menguatkan. Ada tawa, ada air mata, ada proses bertumbuh yang kita lewati bersama. Hingga akhirnya 1 malam setelah lamaran pada 29 Mei 2026, dengan izin dan ridho-Nya, kita memutuskan untuk menyatukan hati dalam ikatan pernikahan yang suci.",
+                        photo: "https://bernaunginv.my.id/latif-erna/images/Foto%2010.jpeg" // Ubah foto
+                    }
+                ],
+                gifts: [
+                    {
+                        bank: "BCA",
+                        account: "1550459040",
+                        name: "Amartya Feby Saputra"
+                    }
+                ],
+                physical_gift: {
+                    name: "Nita Idawati",
+                    phone: "085731422144",
+                    address: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung"
+                },
+                gallery: [
+                    "https://bernaunginv.my.id/latif-erna/images/Foto%2010.jpeg",
+                    "https://bernaunginv.my.id/latif-erna/images/Foto%2011.jpeg",
+                    "https://bernaunginv.my.id/latif-erna/images/Foto%2012.jpeg",
+                    "https://bernaunginv.my.id/latif-erna/images/Foto%201.jpeg"
+                ],
+                media: {
+                    cover_bg: "https://the.invisimple.id/wp-content/uploads/2026/03/TEMA-3-CCOVER-BUKA-UNDANGAN-.jpg",
+                    main_bg: "https://the.invisimple.id/wp-content/uploads/2026/03/BACKGROUND-ALL-PAGE-.jpg",
+                    flower_img: "https://the.invisimple.id/wp-content/uploads/2026/03/BUNGA.png",
+                    music: "https://bernaunginv.my.id/latif-erna/Kasetyan%20Jati.mpeg"
+                },
+                countdown: {
+                    targetDate: "2026-05-29T08:00:00"
+                },
+                // === END EDIT DATA ===
+
+                init() {
+                    this.startCountdown();
+                    
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const namaTamu = urlParams.get('to');
+                    if (namaTamu) {
+                        document.getElementById('nama-tamu').innerText = namaTamu.replace(/\+/g, ' ');
+                    }
+                },
+                openInvitation() {
+                    this.isOpened = true;
+                    document.body.classList.add('opened');
+                    this.playMusic();
+                    setTimeout(() => { AOS.init({ duration: 1000, once: true }); }, 500);
+                },
+                playMusic() {
+                    const audio = document.getElementById('bg-music');
+                    audio.play();
+                    this.isPlaying = true;
+                },
+                toggleMusic() {
+                    const audio = document.getElementById('bg-music');
+                    if (this.isPlaying) {
+                        audio.pause();
+                    } else {
+                        audio.play();
+                    }
+                    this.isPlaying = !this.isPlaying;
+                },
+                copyText(text) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert("Berhasil disalin: " + text);
+                    });
+                },
+                startCountdown() {
+                    const target = new Date(this.countdown.targetDate).getTime();
+                    
+                    setInterval(() => {
+                        const now = new Date().getTime();
+                        const distance = target - now;
+                        
+                        if (distance < 0) return;
+
+                        this.timeLeft.days = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                        this.timeLeft.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                        this.timeLeft.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                        this.timeLeft.seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                    }, 1000);
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</body>
+</html>
