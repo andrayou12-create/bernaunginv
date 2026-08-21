@@ -3012,10 +3012,7 @@ const UNDANGAN = {
 
             // 3. TANGGAL & DETAIL ACARA
             const headings = document.querySelectorAll('h2');
-            let resepsiTitle = null;
-            for(let h of headings) {
-                if(h.innerText.trim() === 'Resepsi' || h.innerText.trim() === UNDANGAN.judul_resepsi) resepsiTitle = h;
-            }
+            
 
             if (akadTitle) {
                 const akadCol = akadTitle.closest('.elementor-col-100') || akadTitle.parentElement;
