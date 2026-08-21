@@ -375,7 +375,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		</section>
 				<section class="elementor-section elementor-inner-section elementor-element elementor-element-2d5c7db elementor-section-full_width elementor-section-height-default elementor-section-height-default" data-id="2d5c7db" data-element_type="section" data-e-type="section" data-settings="{&quot;jet_parallax_layout_list&quot;:[],&quot;background_background&quot;:&quot;classic&quot;}">
 						<div class="elementor-container elementor-column-gap-default">
-					<div data-dce-background-image-url="https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/images8.jpeg" class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-f864b3a" data-id="f864b3a" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+					<div data-dce-background-image-url="https://bernaunginv.my.id/latif-erna/images/Foto%202.jpeg" class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-f864b3a" data-id="f864b3a" data-element_type="column" data-e-type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 			<div class="elementor-widget-wrap elementor-element-populated">
 							</div>
 		</div>
@@ -3071,52 +3071,6 @@ const UNDANGAN = {
             document.querySelectorAll('.kado-penerima, .nama-penerima').forEach(el => el.innerText = UNDANGAN.kado_nama_penerima);
             document.querySelectorAll('.kado-alamat, .alamat-penerima').forEach(el => el.innerText = 
 				
-            // 8. REPLACEMENT FOTO UTAMA & BACKGROUND (METHODE DUAL: URL + CSS CLASS TARGETING)
-            
-            // A. Pemetaan Berdasarkan Link URL Default Template
-            let fotoReplacements = {
-                "https://bernaunginv.my.id/latif-erna/images/Foto%201.jpeg": UNDANGAN.foto_cover,
-                "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image6.jpeg": UNDANGAN.foto_pria,
-                "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image5.jpeg": UNDANGAN.foto_wanita,
-                "https://bernaunginv.my.id/latif-erna/images/Foto%202.jpeg": UNDANGAN.foto_frame_inisial,
-                "https://bernaunginv.my.id/latif-erna/images/Foto%203.jpeg": UNDANGAN.foto_bg_countdown,
-                "https://bernaunginv.my.id/latif-erna/images/Foto%204.jpeg": UNDANGAN.foto_bg_countdown
-            };
-
-            // Scan seluruh elemen untuk mengganti src / background-image URL
-            document.querySelectorAll('*').forEach(el => {
-                if (el.tagName === 'IMG') {
-                    for (let oldSrc in fotoReplacements) {
-                        if (el.src && el.src.includes(oldSrc)) el.src = fotoReplacements[oldSrc];
-                    }
-                }
-                let bg = getComputedStyle(el).backgroundImage;
-                if (bg && bg !== 'none') {
-                    let newBg = bg;
-                    for (let oldSrc in fotoReplacements) {
-                        if(bg.includes(oldSrc)) newBg = newBg.replace(oldSrc, fotoReplacements[oldSrc]);
-                    }
-                    if (bg !== newBg) el.style.backgroundImage = newBg;
-                }
-            });
-
-            // B. Direct Class Targeting (Jika foto berupa background di Elementor Section/Container)
-            const updateElementMedia = (selector, newUrl) => {
-                if (!newUrl) return;
-                document.querySelectorAll(selector).forEach(el => {
-                    if (el.tagName === 'IMG') {
-                        el.src = newUrl;
-                    } else {
-                        el.style.setProperty('background-image', `url("${newUrl}")`, 'important');
-                    }
-                });
-            };
-
-            updateElementMedia('.foto-frame-inisial, .frame-inisial', UNDANGAN.foto_frame_inisial);
-            updateElementMedia('.foto-pria, .mempelai-pria-img', UNDANGAN.foto_pria);
-            updateElementMedia('.foto-wanita, .mempelai-wanita-img', UNDANGAN.foto_wanita);
-            updateElementMedia('.bg-countdown, .section-countdown', UNDANGAN.foto_bg_countdown);
-
         } catch(e) { console.error("Error injeksi JavaScript:", e); }
     });
     </script>
