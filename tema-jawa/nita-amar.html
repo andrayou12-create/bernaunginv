@@ -3017,19 +3017,6 @@ const UNDANGAN = {
                 if(h.innerText.trim() === 'Resepsi' || h.innerText.trim() === UNDANGAN.judul_resepsi) resepsiTitle = h;
             }
 
-            if (akadTitle) {
-                const akadCol = akadTitle.closest('.elementor-col-100') || akadTitle.parentElement;
-                if (akadCol) {
-                    akadCol.querySelectorAll('h2, p, span').forEach(el => {
-                        if (el.innerText === "09") el.innerText = UNDANGAN.tanggal_akad_tgl;
-                        if (el.innerText === "Selasa") el.innerText = UNDANGAN.tanggal_akad_hari;
-                        if (el.innerText === "Juni") el.innerText = UNDANGAN.tanggal_akad_bln;
-                        if (el.innerText === "2026") el.innerText = UNDANGAN.tanggal_akad_thn;
-                        if (el.innerText === "Rumah Mempelai Wanita") el.innerText = UNDANGAN.lokasi_akad;
-                    });
-                }
-            }
-
             if (resepsiTitle) {
                 const resepsiCol = resepsiTitle.closest('.elementor-col-100') || resepsiTitle.parentElement;
                 if (resepsiCol) {
