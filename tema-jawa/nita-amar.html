@@ -2908,7 +2908,7 @@ const UNDANGAN = {
     tanggal_resepsi_thn: "2026",
     waktu_resepsi: "13.00 - Selesai",
     lokasi_resepsi: "Rumah Mempelai Pria",
-    alamat_resepsi: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung",
+    alamat_resepsi: "Barang Wetan, RT07/RW01 Barang, Jumo, Temanggung",
     
     waktu_countdown: "2026-09-07T09:00:00",
 
@@ -2981,6 +2981,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 val = val.replace(/08:00 WIB/gi, UNDANGAN.waktu_akad);
                 val = val.replace(/10:00 WIB - Selesai/gi, UNDANGAN.waktu_resepsi);
                 val = val.replace(/Banjarsari RT03\/RW01, Kebumen, Pringsurat, Temanggung/gi, UNDANGAN.alamat_akad);
+				val = val.replace(/Banjarsari RT03\/RW01, Kebumen, Pringsurat, Temanggung/gi, UNDANGAN.alamat_resepsi);
 
                 // Bagian replace judul akad/resepsi DIHAPUS agar tidak error 'undefined'
 
