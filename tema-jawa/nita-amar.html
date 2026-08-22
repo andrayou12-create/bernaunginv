@@ -5884,7 +5884,6 @@ function muatUcapan() {
 	<style id="e-addons-template-dynamic-f864b3a-inline">.elementor:is(.e-post-538931,.e-loop-item-538931) .elementor-element.elementor-element-f864b3a:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap, .elementor:is(.e-post-538931,.e-loop-item-538931) .elementor-element.elementor-element-f864b3a > .elementor-widget-wrap > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image: url("https://bernaunginv.my.id/latif-erna/images/Foto%201.jpeg");--e-bg-lazyload:url("https://bernaunginv.my.id/latif-erna/images/Foto%201.jpeg");background-position: center center;background-size: cover;}</style><style id="e-addons-template-dynamic-8211d57-inline">.elementor:is(.e-post-538931,.e-loop-item-538931) .elementor-element.elementor-element-8211d57:not(.elementor-motion-effects-element-type-background), .elementor:is(.e-post-538931,.e-loop-item-538931) .elementor-element.elementor-element-8211d57 > .elementor-motion-effects-container > .elementor-motion-effects-layer{background-image: url("https://bernaunginv.my.id/latif-erna/images/Foto%201.jpeg");--e-bg-lazyload:url("https://bernaunginv.my.id/latif-erna/images/Foto%201.jpeg");background-position: center center;background-size: cover;}</style>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"8c176fcb44334ee084dc23a91c928a72","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script>
-<script>
 // ==========================================
 // BAGIAN PENGATURAN DATA CUSTOMER
 // Edit variabel di bawah ini untuk mengganti data
@@ -5902,10 +5901,6 @@ const UNDANGAN = {
     mempelai_wanita_ig: "@nitanutt__",
     
     // === DATA ACARA ===
-    // Tambahan judul acara agar tidak timbul 'undefined'
-    judul_akad: "Resepsi",      // Ubah di sini jika judul Akad diganti (misal: "Resepsi")
-    judul_resepsi: "Resepsi",   // Judul untuk acara resepsi
-    
     tanggal_akad: "7 September 2026",
     tanggal_akad_tgl: "07",
     tanggal_akad_hari: "Senin",
@@ -5942,7 +5937,7 @@ const UNDANGAN = {
     kado_alamat: "Kalidadap RT02/RW08, Tlogowungu, Kaloran, Temanggung",
 
     // === LOVE STORY ===
-    tampilkan_awal_pertemuann: true,
+    tampilkan_awal_pertemuann: true, // Ubah ke false jika ingin menyembunyikan cerita awal
     tampilkan_love_story_keempat: false,
     cerita_awal: "Tidak ada yang kebetulan di dunia ini. Semua telah Allah atur dengan sebaik-baiknya. Di bulan Mei 2017, kita dipertemukan di SMK yang sama. Kita saling mengenal melalui sapaan di BBM dan menjalin hubungan dalam waktu yang terbilang sangat singkat yaitu 2 hari. Dalam waktu sesingkat itu kita memutuskan untuk menjalin suatu hubungan, namun takdir sempat memisahkan kita, takdir pula yang menyatukan kita kembali.",
     cerita_lamaran: "Katanya jika ditakdirkan jodoh, maka kita akan kembali dalam versi terbaik kita, dan yapp itu benar, kita memulai lagi kisah dengan keyakinan, bahwa cinta yang datang karena Allah, akan dijaga karena Allah juga. Memang tidak butuh waktu lama untuk menjalin hubungan tapi membutuhkan waktu 9 tahun untuk menjalin ikatan serius. Bukan waktu yang lama yang menentukan, tapi ketulusan yang mempertemukan, dan pada tanggal 28 Mei 2026 kita memutuskan mengikat hubungan yang disaksikan oleh dua keluarga besar.",
@@ -5950,10 +5945,10 @@ const UNDANGAN = {
 
     // === FOTO UTAMA & BACKGROUND ===
     foto_cover: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image4.jpeg",
-    foto_frame_inisial: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image4.jpeg",
+    foto_frame_inisial: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image4.jpeg", // Frame foto atas inisial
     foto_pria: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image6.jpeg",
     foto_wanita: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/wanita1.jpeg",
-    foto_bg_countdown: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image8.jpeg",
+    foto_bg_countdown: "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image8.jpeg", // Background countdown
 
     // === GALERI ===
     tampilkan_galeri: true,
@@ -5996,13 +5991,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 val = val.replace(/10:00 WIB - Selesai/gi, UNDANGAN.waktu_resepsi);
                 val = val.replace(/Banjarsari RT03\/RW01, Kebumen, Pringsurat, Temanggung/gi, UNDANGAN.alamat_akad);
 
-                // Penggantian judul acara dengan proteksi fallback jika tidak didefinisikan
-                if (UNDANGAN.judul_akad) {
-                    val = val.replace(/Akad Nikah/g, UNDANGAN.judul_akad);
-                }
-                if (UNDANGAN.judul_resepsi) {
-                    val = val.replace(/Resepsi/g, UNDANGAN.judul_resepsi);
-                }
+                // Bagian replace judul akad/resepsi DIHAPUS agar tidak error 'undefined'
 
                 val = val.replace(/(\+6285731422144|\+628\d+)/gi, UNDANGAN.kado_hp);
 
@@ -6029,9 +6018,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const headings = document.querySelectorAll('h2');
         let resepsiTitle = null;
         for(let h of headings) {
-            if(h.innerText.trim() === 'Resepsi' || (UNDANGAN.judul_resepsi && h.innerText.trim() === UNDANGAN.judul_resepsi)) {
-                resepsiTitle = h;
-            }
+            if(h.innerText.trim() === 'Resepsi') resepsiTitle = h;
         }
 
         if (resepsiTitle) {
@@ -6124,7 +6111,9 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
 
-        // 8. REPLACEMENT FOTO UTAMA & BACKGROUND
+        // 8. REPLACEMENT FOTO UTAMA & BACKGROUND (METHODE DUAL: URL + CSS CLASS TARGETING)
+        
+        // A. Pemetaan Berdasarkan Link URL Default Template
         let fotoReplacements = {
             "https://bernaunginv.my.id/latif-erna/images/Foto%201.jpeg": UNDANGAN.foto_cover,
             "https://bernaunginv.my.id/tema-jawa/images/assets-nita-amar/image6.jpeg": UNDANGAN.foto_pria,
@@ -6134,6 +6123,7 @@ document.addEventListener("DOMContentLoaded", function() {
             "https://bernaunginv.my.id/latif-erna/images/Foto%204.jpeg": UNDANGAN.foto_bg_countdown
         };
 
+        // Scan seluruh elemen untuk mengganti src / background-image URL
         document.querySelectorAll('*').forEach(el => {
             if (el.tagName === 'IMG') {
                 for (let oldSrc in fotoReplacements) {
@@ -6150,6 +6140,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
+        // B. Direct Class Targeting (Jika foto berupa background di Elementor Section/Container)
         const updateElementMedia = (selector, newUrl) => {
             if (!newUrl) return;
             document.querySelectorAll(selector).forEach(el => {
