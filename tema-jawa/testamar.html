@@ -1618,7 +1618,7 @@ value="" />
 
 
 <!-- Tombol kirim dipindah ke luar .saic-wrap-guest agar tidak dikontrol plugin -->
-<div id="kirim-wrapper" style="display:none; padding: 10px 0;">
+<div id="kirim-wrapper" style="display:block; padding: 10px 0;">
 
 <input type='hidden' name='comment_post_ID' value='6854' id='comment_post_ID' />
 <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
@@ -1637,27 +1637,16 @@ value="" />
 <div id="saic-comment-status-6854" class="saic-comment-status"></div>
 									<script>
 				// =============================================
-				// FIX RSVP LENGKAP: Hadir & Tidak Hadir
-				// =============================================
-				document.addEventListener('DOMContentLoaded', function () {
-
-				    // --- 1. Tampilkan form RSVP secara otomatis (plugin menyembunyikannya) ---
-				// =============================================
-				// FIX RSVP FINAL: Hadir & Tidak Hadir
-				// Pakai window.onload agar jalan SETELAH semua
-				// plugin selesai loading dan mungkin memanipulasi DOM
+				// FIX RSVP: Tombol Hadir & Tidak Hadir
+				// Tombol kirim selalu tampil, attendance disimpan
 				// =============================================
 				window.addEventListener('load', function () {
 
 				    var btnHadir     = document.getElementById('optPresent');
 				    var btnTidak     = document.getElementById('optNotpresent');
 				    var attendanceEl = document.getElementById('attendance');
-				    // Hanya 1 .saic-wrap-guest yang tersisa = pilihan jumlah tamu
 				    var guestWrap    = document.querySelector('.saic-wrap-guest');
-				    // Tombol kirim sudah dipindah ke #kirim-wrapper (bebas dari plugin)
-				    var kirimWrapper = document.getElementById('kirim-wrapper');
 
-				    // Set default
 				    window._attendanceVal = 'notsure';
 
 				    function resetTombol() {
@@ -1683,9 +1672,7 @@ value="" />
 				            resetTombol();
 				            activateTombol(btnHadir);
 				            // Tampilkan pilihan jumlah tamu
-				            if (guestWrap)    guestWrap.style.display    = 'block';
-				            // Tampilkan tombol kirim
-				            if (kirimWrapper) kirimWrapper.style.display = 'block';
+				            if (guestWrap) guestWrap.style.display = 'block';
 				        });
 				    }
 
@@ -1697,9 +1684,7 @@ value="" />
 				            resetTombol();
 				            activateTombol(btnTidak);
 				            // Sembunyikan pilihan jumlah tamu (tidak relevan)
-				            if (guestWrap)    guestWrap.style.display    = 'none';
-				            // Tampilkan tombol kirim (pakai #kirim-wrapper, bebas plugin)
-				            if (kirimWrapper) kirimWrapper.style.display = 'block';
+				            if (guestWrap) guestWrap.style.display = 'none';
 				        });
 				    }
 				});
