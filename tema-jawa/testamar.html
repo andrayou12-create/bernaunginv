@@ -1648,15 +1648,22 @@ value="" />
 <div id="saic-comment-status-6854" class="saic-comment-status"></div>
 									<script>
 				// =============================================
-				// FIX RSVP: Tombol Hadir & Tidak Hadir
+				// FIX RSVP LENGKAP: Hadir & Tidak Hadir
 				// =============================================
 				document.addEventListener('DOMContentLoaded', function () {
+
+				    // --- 1. Tampilkan form RSVP secara otomatis (plugin menyembunyikannya) ---
+				    var wrapComment = document.getElementById('saic-wrap-comment-6854');
+				    if (wrapComment) wrapComment.style.display = 'block';
+
 				    var btnHadir     = document.getElementById('optPresent');
 				    var btnTidak     = document.getElementById('optNotpresent');
 				    var attendanceEl = document.getElementById('attendance');
-				    // Ambil semua div.saic-wrap-guest
-				    // [0] = pilihan jumlah tamu  |  [1] = tombol kirim pesan
+				    // [0] = div jumlah tamu  |  [1] = div tombol kirim
 				    var guestWraps   = document.querySelectorAll('.saic-wrap-guest');
+
+				    // Simpan status kehadiran yang dipilih (accessible oleh submit handler)
+				    window._attendanceVal = 'notsure';
 
 				    function resetTombol() {
 				        [btnHadir, btnTidak].forEach(function (btn) {
@@ -1673,28 +1680,28 @@ value="" />
 				        btn.style.borderColor     = '#5A0000';
 				    }
 
-				    // ── Klik HADIR ────────────────────────────────────
+				    // ── Klik HADIR ──────────────────────────────────────
 				    if (btnHadir) {
 				        btnHadir.addEventListener('click', function () {
+				            window._attendanceVal = 'present';
 				            if (attendanceEl) attendanceEl.value = 'present';
 				            resetTombol();
 				            activateTombol(btnHadir);
-				            // Tampilkan pilihan jumlah tamu
 				            if (guestWraps[0]) guestWraps[0].style.display = 'block';
-				            // Tampilkan tombol kirim
 				            if (guestWraps[1]) guestWraps[1].style.display = 'block';
 				        });
 				    }
 
-				    // ── Klik TIDAK HADIR ──────────────────────────────
+				    // ── Klik TIDAK HADIR ────────────────────────────────
 				    if (btnTidak) {
 				        btnTidak.addEventListener('click', function () {
+				            window._attendanceVal = 'notpresent';
 				            if (attendanceEl) attendanceEl.value = 'notpresent';
 				            resetTombol();
 				            activateTombol(btnTidak);
-				            // Sembunyikan pilihan jumlah tamu (tidak relevan)
+				            // Sembunyikan jumlah tamu (tidak relevan)
 				            if (guestWraps[0]) guestWraps[0].style.display = 'none';
-				            // Tampilkan tombol kirim ← INI YANG SEBELUMNYA TIDAK MUNCUL
+				            // Tampilkan tombol kirim
 				            if (guestWraps[1]) guestWraps[1].style.display = 'block';
 				        });
 				    }
@@ -2809,50 +2816,74 @@ const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(
 //# sourceURL=https://envitto.invisimple.id/wp-includes/js/wp-emoji-loader.min.js
 </script>
 	<script>
-// 1. Pastikan URL Web App sudah benar (hasil Deploy dari Google Sheets)
-const scriptURL = 'https://script.google.com/macros/s/AKfycbziGMnQ9yAqzilKK5YhDML7OC9Gu7skkKlmVdee3V0BO0meoNHR9PSQy55LzcZYY9NZCA/exec'; 
+// =============================================
+// SUBMIT HANDLER — Kirim Pesan ke Google Sheets
+// (diperbaiki: validasi kehadiran + kirim data lengkap)
+// =============================================
+const scriptURL = 'https://script.google.com/macros/s/AKfycbziGMnQ9yAqzilKK5YhDML7OC9Gu7skkKlmVdee3V0BO0meoNHR9PSQy55LzcZYY9NZCA/exec';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const btnKirim = document.getElementById('btn-kirim-firebase');
-    
-    if (btnKirim) {
-        btnKirim.addEventListener('click', function(e) {
-            e.preventDefault(); // Mencegah reload halaman
-            
-            const nama = document.querySelector('[name="author"]')?.value;
-            const pesan = document.querySelector('[name="comment"]')?.value;
-            const jumlah = document.querySelector('[name="guest"]')?.value || "1";
 
-            if (!nama || !pesan) {
-                alert("Mohon isi Nama dan Pesan Anda");
+    if (btnKirim) {
+        btnKirim.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const nama      = (document.querySelector('[name="author"]')?.value || '').trim();
+            const pesan     = (document.querySelector('[name="comment"]')?.value || '').trim();
+            // Ambil status kehadiran dari window._attendanceVal yang di-set oleh tombol RSVP
+            const kehadiran = window._attendanceVal || 'notsure';
+            // Jumlah tamu: hanya relevan jika hadir; jika tidak hadir → 0
+            const jumlah    = (kehadiran === 'present')
+                                ? (document.querySelector('[name="guest"]')?.value || '1')
+                                : '0';
+
+            // --- Validasi ---
+            if (!nama) {
+                alert('Mohon isi Nama Anda.');
+                return;
+            }
+            if (!pesan) {
+                alert('Mohon isi Ucapan / Pesan Anda.');
+                return;
+            }
+            if (kehadiran === 'notsure') {
+                alert('Mohon pilih konfirmasi kehadiran terlebih dahulu (Hadir / Tidak Hadir).');
                 return;
             }
 
-            // Ubah tampilan tombol saat proses
-            btnKirim.innerText = "Mengirim...";
-            btnKirim.disabled = true;
+            // --- Kirim data ---
+            btnKirim.innerText = 'Mengirim...';
+            btnKirim.disabled  = true;
 
             fetch(scriptURL, {
                 method: 'POST',
-                body: JSON.stringify({ "nama": nama, "pesan": pesan, "jumlah": jumlah }),
+                body: JSON.stringify({
+                    nama      : nama,
+                    pesan     : pesan,
+                    jumlah    : jumlah,
+                    kehadiran : kehadiran === 'present' ? 'Hadir' : 'Tidak Hadir'
+                }),
             })
-            .then(response => {
-                alert("Ucapan berhasil tersimpan!");
-                btnKirim.innerText = "Kirim Pesan";
-                btnKirim.disabled = false;
-                document.querySelector('[name="comment"]').value = ""; // Kosongkan form
-                muatUcapan(); // Refresh daftar rekapan di bawahnya
+            .then(function () {
+                alert('Ucapan berhasil tersimpan! Terima kasih 🙏');
+                btnKirim.innerText = 'Kirim Pesan';
+                btnKirim.disabled  = false;
+                // Reset form
+                const commentField = document.querySelector('[name="comment"]');
+                if (commentField) commentField.value = '';
+                muatUcapan();
             })
-            .catch(error => {
-                console.error('Error!', error.message);
-                alert("Gagal mengirim. Pastikan Apps Script sudah di-Deploy sebagai 'Anyone'.");
-                btnKirim.disabled = false;
-                btnKirim.innerText = "Kirim Pesan";
+            .catch(function (error) {
+                console.error('Error:', error.message);
+                alert('Gagal mengirim. Silakan coba lagi.');
+                btnKirim.disabled  = false;
+                btnKirim.innerText = 'Kirim Pesan';
             });
         });
     }
-    
-    // Jalankan fungsi muat ucapan saat halaman terbuka
+
+    // Muat rekap ucapan saat halaman pertama kali dibuka
     muatUcapan();
 });
 
