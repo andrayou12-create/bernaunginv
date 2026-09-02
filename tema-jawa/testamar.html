@@ -1506,7 +1506,7 @@ Ucapan </a>
 
 
 
-<div id="saic-wrap-comment-6854" class="saic-wrap-comments" style="display: none;" data-id="6854">
+<div id="saic-wrap-comment-6854" class="saic-wrap-comments" data-id="6854">
 
 
 
@@ -1617,29 +1617,18 @@ value="" />
 
 
 
-<div class="saic-wrap-guest" style="display: none;">
-
-
-
-<div class="saic-wrap-submit saic-clearfix">
-
-<p class="form-submit">
+<!-- Tombol kirim dipindah ke luar .saic-wrap-guest agar tidak dikontrol plugin -->
+<div id="kirim-wrapper" style="display:none; padding: 10px 0;">
 
 <input type='hidden' name='comment_post_ID' value='6854' id='comment_post_ID' />
-
 <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
-
 <input type="hidden" name="commentpress" value="true" />
 
-<button type="button" id="btn-kirim-firebase" style="width:100%; padding:12px; background:#C5A25D; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Kirim Pesan</button>
-
-</p>
+<button type="button" id="btn-kirim-firebase" style="width:100%; padding:12px; background:#b24b4b; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Kirim Pesan</button>
 
 </div>
 
 </form>
-
-</div>
 
 </div>
 
@@ -1653,16 +1642,22 @@ value="" />
 				document.addEventListener('DOMContentLoaded', function () {
 
 				    // --- 1. Tampilkan form RSVP secara otomatis (plugin menyembunyikannya) ---
-				    var wrapComment = document.getElementById('saic-wrap-comment-6854');
-				    if (wrapComment) wrapComment.style.display = 'block';
+				// =============================================
+				// FIX RSVP FINAL: Hadir & Tidak Hadir
+				// Pakai window.onload agar jalan SETELAH semua
+				// plugin selesai loading dan mungkin memanipulasi DOM
+				// =============================================
+				window.addEventListener('load', function () {
 
 				    var btnHadir     = document.getElementById('optPresent');
 				    var btnTidak     = document.getElementById('optNotpresent');
 				    var attendanceEl = document.getElementById('attendance');
-				    // [0] = div jumlah tamu  |  [1] = div tombol kirim
-				    var guestWraps   = document.querySelectorAll('.saic-wrap-guest');
+				    // Hanya 1 .saic-wrap-guest yang tersisa = pilihan jumlah tamu
+				    var guestWrap    = document.querySelector('.saic-wrap-guest');
+				    // Tombol kirim sudah dipindah ke #kirim-wrapper (bebas dari plugin)
+				    var kirimWrapper = document.getElementById('kirim-wrapper');
 
-				    // Simpan status kehadiran yang dipilih (accessible oleh submit handler)
+				    // Set default
 				    window._attendanceVal = 'notsure';
 
 				    function resetTombol() {
@@ -1687,8 +1682,10 @@ value="" />
 				            if (attendanceEl) attendanceEl.value = 'present';
 				            resetTombol();
 				            activateTombol(btnHadir);
-				            if (guestWraps[0]) guestWraps[0].style.display = 'block';
-				            if (guestWraps[1]) guestWraps[1].style.display = 'block';
+				            // Tampilkan pilihan jumlah tamu
+				            if (guestWrap)    guestWrap.style.display    = 'block';
+				            // Tampilkan tombol kirim
+				            if (kirimWrapper) kirimWrapper.style.display = 'block';
 				        });
 				    }
 
@@ -1699,10 +1696,10 @@ value="" />
 				            if (attendanceEl) attendanceEl.value = 'notpresent';
 				            resetTombol();
 				            activateTombol(btnTidak);
-				            // Sembunyikan jumlah tamu (tidak relevan)
-				            if (guestWraps[0]) guestWraps[0].style.display = 'none';
-				            // Tampilkan tombol kirim
-				            if (guestWraps[1]) guestWraps[1].style.display = 'block';
+				            // Sembunyikan pilihan jumlah tamu (tidak relevan)
+				            if (guestWrap)    guestWrap.style.display    = 'none';
+				            // Tampilkan tombol kirim (pakai #kirim-wrapper, bebas plugin)
+				            if (kirimWrapper) kirimWrapper.style.display = 'block';
 				        });
 				    }
 				});
