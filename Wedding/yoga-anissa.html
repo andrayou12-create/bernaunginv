@@ -84,6 +84,16 @@
             from {bottom: 30px; opacity: 1;}
             to {bottom: 0; opacity: 0;}
         }
+
+        /* Pulsating ring for music button */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 123, 157, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(74, 123, 157, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 123, 157, 0); }
+        }
+        .music-pulse {
+            animation: pulse-ring 2s infinite;
+        }
     </style>
 </head>
 <body class="bg-slate-100 font-sans text-slate-700 antialiased selection:bg-sky-200">
@@ -144,26 +154,16 @@
         <!-- ================= MAIN CONTENT ================= -->
         <div id="main-content" class="hidden transition-opacity duration-700 opacity-0">
 
-            <!-- Floating Audio Player Bar -->
-            <div class="sticky top-3 z-50 px-4 mb-4">
-                <div class="bg-white/90 backdrop-blur-md border border-sky-200 rounded-2xl p-3 shadow-md flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-themeCardBg border border-themeBlue/30 flex items-center justify-center text-themeBlue">
-                            <i data-lucide="music" class="w-5 h-5 animate-spin" style="animation-duration: 8s;"></i>
-                        </div>
-                        <div class="text-xs">
-                            <p class="font-bold text-themeDarkBlue">Bicara - The Overtunes</p>
-                            <p class="text-slate-500 font-handwriting text-sm">Please turn on music for best experience</p>
-                        </div>
-                    </div>
-                    <button id="music-toggle-btn" onclick="toggleMusic()" class="p-2.5 rounded-full bg-themeBlue text-white hover:bg-themeDarkBlue transition">
-                        <i id="music-icon" data-lucide="pause" class="w-4 h-4"></i>
-                    </button>
-                </div>
+            <!-- Floating Audio Player Button di Bawah Kiri -->
+            <div class="fixed bottom-5 left-5 z-50">
+                <button id="music-toggle-btn" onclick="toggleMusic()" class="w-12 h-12 rounded-full bg-themeBlue text-white border-2 border-white shadow-xl flex items-center justify-center hover:bg-themeDarkBlue transition-all duration-300 music-pulse">
+                    <i id="music-icon" data-lucide="pause" class="w-5 h-5"></i>
+                </button>
             </div>
 
-            <audio id="bg-music" loop>
-                <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-marriage-523.mp3" type="audio/mpeg">
+            <!-- Audio Element Menggunakan Musik Nuca Masaini -->
+            <audio id="bg-music" loop preload="auto">
+                <source src="https://bernaunginv.my.id/tema-deluxe/nuca-masaini.mp3" type="audio/mpeg">
             </audio>
 
             <!-- ================= SECTION 2: D-DAY & COUNTDOWN ================= -->
@@ -235,8 +235,45 @@
                 <div class="mb-10 flex flex-col items-center">
                     <div class="relative w-36 h-36 mb-4">
                         <div class="absolute inset-0 rounded-full border-4 border-dashed border-white/60 animate-spin" style="animation-duration: 25s;"></div>
-                        <!-- Foto Kartun 2D Anak Perempuan -->
-                        <img src="https://img.freepik.com/free-vector/cute-little-girl-cartoon-character-isolated_1308-133501.jpg" alt="Annisa Hurun'in" class="w-full h-full object-cover rounded-full p-2 bg-sky-100">
+                        <!-- Vektor 2D Anak Perempuan (Rambut Tebal & Terisi) -->
+                        <div class="w-full h-full rounded-full p-2 bg-sky-100 flex items-center justify-center overflow-hidden border-2 border-white/80 shadow-inner">
+                            <svg viewBox="0 0 120 120" class="w-full h-full">
+                                <circle cx="60" cy="60" r="55" fill="#E2EFF8" />
+                                
+                                <!-- Rambut Belakang Tebal Panjang -->
+                                <path d="M22,60 C18,20 102,20 98,60 C98,92 88,105 82,108 C75,108 72,75 60,75 C48,75 45,108 38,108 C32,105 22,92 22,60 Z" fill="#2D2013" />
+                                
+                                <!-- Leher & Badan/Baju -->
+                                <rect x="55" y="70" width="10" height="15" fill="#FAD1C2" />
+                                <path d="M35,115 C35,82 85,82 85,115 Z" fill="#4A7B9D" />
+                                <path d="M48,82 Q60,94 72,82 Z" fill="#FFFFFF" />
+
+                                <!-- Kepala -->
+                                <circle cx="60" cy="52" r="23" fill="#FAD1C2" />
+                                <ellipse cx="37" cy="54" rx="3.5" ry="5" fill="#FAD1C2" />
+                                <ellipse cx="83" cy="54" rx="3.5" ry="5" fill="#FAD1C2" />
+
+                                <!-- Poni Rambut Tebal Depan -->
+                                <path d="M37,48 C37,28 83,28 83,48 C72,32 62,38 60,42 C58,38 48,32 37,48 Z" fill="#3D2B1F" />
+                                <path d="M36,44 C35,32 85,32 84,44 C76,35 60,37 60,37 C60,37 44,35 36,44 Z" fill="#2D2013" />
+
+                                <!-- Pita Rambut 2D -->
+                                <path d="M72,30 C76,26 84,32 80,36 Z" fill="#2C5270" />
+                                <path d="M72,30 C70,22 80,22 80,30 Z" fill="#4A7B9D" />
+                                <circle cx="75" cy="30" r="3" fill="#FCE7F3" />
+
+                                <!-- Wajah Vektor 2D -->
+                                <circle cx="50" cy="53" r="2.5" fill="#2C5270" />
+                                <circle cx="70" cy="53" r="2.5" fill="#2C5270" />
+                                <circle cx="51.5" cy="51.5" r="0.8" fill="#FFFFFF" />
+                                <circle cx="71.5" cy="51.5" r="0.8" fill="#FFFFFF" />
+                                
+                                <!-- Senyum & Pipi Merah -->
+                                <path d="M54,60 Q60,65 66,60" fill="none" stroke="#C2410C" stroke-width="2" stroke-linecap="round" />
+                                <ellipse cx="46" cy="57" rx="3.5" ry="2" fill="#F87171" opacity="0.4" />
+                                <ellipse cx="74" cy="57" rx="3.5" ry="2" fill="#F87171" opacity="0.4" />
+                            </svg>
+                        </div>
                     </div>
                     <h3 class="font-handwriting text-3xl font-bold text-sky-100">Annisa Hurun’in</h3>
                     <p class="font-sans text-xs text-sky-200 mt-1">Putri dari Bapak Junaedi & Ibu Munawarah</p>
@@ -252,8 +289,44 @@
                 <div class="mb-6 flex flex-col items-center">
                     <div class="relative w-36 h-36 mb-4">
                         <div class="absolute inset-0 rounded-full border-4 border-dashed border-white/60 animate-spin" style="animation-duration: 25s; animation-direction: reverse;"></div>
-                        <!-- Foto Kartun 2D Anak Laki-Laki -->
-                        <img src="https://img.freepik.com/free-vector/cute-boy-smiling-cartoon-character_1308-132970.jpg" alt="Yoga Tri Febrian" class="w-full h-full object-cover rounded-full p-2 bg-sky-100">
+                        <!-- Vektor 2D Anak Laki-Laki (Rambut Tebal Rapi & Terisi) -->
+                        <div class="w-full h-full rounded-full p-2 bg-sky-100 flex items-center justify-center overflow-hidden border-2 border-white/80 shadow-inner">
+                            <svg viewBox="0 0 120 120" class="w-full h-full">
+                                <circle cx="60" cy="60" r="55" fill="#E2EFF8" />
+
+                                <!-- Leher & Badan/Jas Pria -->
+                                <rect x="55" y="70" width="10" height="15" fill="#FAD1C2" />
+                                <path d="M32,115 C32,78 88,78 88,115 Z" fill="#2C5270" />
+                                <path d="M50,78 L60,98 L70,78 Z" fill="#FFFFFF" />
+                                <!-- Dasi Kupu-Kupu -->
+                                <polygon points="54,80 66,80 60,85" fill="#4A7B9D" />
+                                <polygon points="54,90 66,90 60,85" fill="#4A7B9D" />
+                                <circle cx="60" cy="85" r="2.5" fill="#1E293B" />
+
+                                <!-- Kepala & Telinga -->
+                                <circle cx="60" cy="52" r="23" fill="#FAD1C2" />
+                                <circle cx="36" cy="54" r="4" fill="#FAD1C2" />
+                                <circle cx="84" cy="54" r="4" fill="#FAD1C2" />
+
+                                <!-- Rambut Tebal Pria 2D Bertumpuk -->
+                                <path d="M34,50 C30,22 90,22 86,50 C86,34 76,24 60,24 C44,24 34,34 34,50 Z" fill="#1E1711" />
+                                <path d="M35,46 C38,30 52,26 60,32 C70,25 84,30 85,46 C80,36 70,32 60,36 C50,30 40,36 35,46 Z" fill="#332417" />
+                                <path d="M37,42 C45,30 60,34 62,38 C68,32 78,35 83,42 C78,36 68,34 62,39 C54,34 44,35 37,42 Z" fill="#4A3525" />
+
+                                <!-- Wajah Vektor 2D -->
+                                <circle cx="50" cy="53" r="2.5" fill="#2C5270" />
+                                <circle cx="70" cy="53" r="2.5" fill="#2C5270" />
+                                <circle cx="51.5" cy="51.5" r="0.8" fill="#FFFFFF" />
+                                <circle cx="71.5" cy="51.5" r="0.8" fill="#FFFFFF" />
+                                
+                                <!-- Alis & Senyum -->
+                                <path d="M46,47 Q50,45 54,47" fill="none" stroke="#332417" stroke-width="1.5" stroke-linecap="round" />
+                                <path d="M66,47 Q70,45 74,47" fill="none" stroke="#332417" stroke-width="1.5" stroke-linecap="round" />
+                                <path d="M54,60 Q60,65 66,60" fill="none" stroke="#C2410C" stroke-width="2" stroke-linecap="round" />
+                                <ellipse cx="46" cy="57" rx="3" ry="1.8" fill="#F87171" opacity="0.3" />
+                                <ellipse cx="74" cy="57" rx="3" ry="1.8" fill="#F87171" opacity="0.3" />
+                            </svg>
+                        </div>
                     </div>
                     <h3 class="font-handwriting text-3xl font-bold text-sky-100">Yoga Tri Febrian</h3>
                     <p class="font-sans text-xs text-sky-200 mt-1">Putra dari Bpk. Marzuki & Ibu Rositah</p>
@@ -423,7 +496,7 @@
                     </button>
                 </form>
 
-                <!-- Daftar Ucapan Guestbook (Otomatis terisi dari Google Sheets) -->
+                <!-- Daftar Ucapan Guestbook -->
                 <div id="greetings-list" class="mt-6 max-w-xs mx-auto space-y-3 text-left max-h-72 overflow-y-auto pr-1">
                     <p class="text-center text-xs text-slate-400 py-2">Memuat ucapan...</p>
                 </div>
@@ -456,7 +529,7 @@
         lucide.createIcons();
 
         /* ==========================================================================
-           URL GOOGLE APPS SCRIPT SUDAH TERHUBUNG
+           URL GOOGLE APPS SCRIPT
            ========================================================================== */
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5_7otU7J8XFTC857AUWktgT0587GllNtn4SP5-GqcfxLAz9yWQyytyp5XcvQWAsT8/exec";
 
@@ -474,7 +547,7 @@
             }, 50);
 
             playMusic();
-            loadGreetings(); // Muat daftar ucapan saat undangan dibuka
+            loadGreetings();
         }
 
         function playMusic() {
@@ -482,17 +555,20 @@
                 isPlaying = true;
                 updateMusicIcon();
             }).catch(e => {
-                console.log("Audio autoplay prevented by browser");
+                console.log("Audio autoplay diproteksi browser");
             });
         }
 
         function toggleMusic() {
+            const btn = document.getElementById('music-toggle-btn');
             if (isPlaying) {
                 bgMusic.pause();
                 isPlaying = false;
+                btn.classList.remove('music-pulse');
             } else {
                 bgMusic.play();
                 isPlaying = true;
+                btn.classList.add('music-pulse');
             }
             updateMusicIcon();
         }
@@ -583,10 +659,9 @@
         }
 
         /* ==========================================================================
-           INTEGRASI GOOGLE SHEETS (FETCH & SUBMIT UCAPAN)
+           INTEGRASI GOOGLE SHEETS
            ========================================================================== */
 
-        // Render satu item kartu ucapan ke dalam daftar HTML
         function renderGreetingCard(name, status, message, prepend = false) {
             const list = document.getElementById('greetings-list');
             const card = document.createElement('div');
@@ -611,7 +686,6 @@
             }
         }
 
-        // Ambil (Fetch) semua ucapan dari Google Sheets
         async function loadGreetings() {
             const list = document.getElementById('greetings-list');
 
@@ -619,7 +693,7 @@
                 const response = await fetch(SCRIPT_URL);
                 const data = await response.json();
 
-                list.innerHTML = ''; // Kosongkan loader
+                list.innerHTML = '';
 
                 if (!data || data.length === 0) {
                     list.innerHTML = '<p class="text-center text-xs text-slate-400 py-2">Belum ada ucapan. Jadilah yang pertama!</p>';
@@ -635,7 +709,6 @@
             }
         }
 
-        // Kirim Ucapan baru ke Google Sheets
         async function submitGreeting(event) {
             event.preventDefault();
             const btnSubmit = document.getElementById('btn-submit-ucapan');
@@ -649,15 +722,12 @@
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = `<span>Mengirim...</span>`;
 
-            // Tampilkan dulu di layar secara langsung (Optimistic UI)
             renderGreetingCard(name, status, message, true);
 
-            // Bersihkan form
             document.getElementById('guest-name').value = '';
             document.getElementById('guest-message').value = '';
 
             try {
-                // Kirim ke Google Apps Script Web App
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
