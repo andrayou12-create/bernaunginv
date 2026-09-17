@@ -462,7 +462,7 @@
         /* ==========================================================================
            URL GOOGLE APPS SCRIPT
            ========================================================================== */
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxbIypfmANto6QgNiFl4VflWKLhVlEHH75EE5mxqMaFC797GXn89MZo7z-Q3qwzIeWZ/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5_7otU7J8XFTC857AUWktgT0587GllNtn4SP5-GqcfxLAz9yWQyytyp5XcvQWAsT8/exec";
 
         const bgMusic = document.getElementById('bg-music');
         let isPlaying = false;
@@ -626,13 +626,17 @@
 
                 list.innerHTML = '';
 
-                if (!data || data.length === 0) {
+                // Sesuaikan dengan format kembalian doGet dari Apps Script Anda
+                const ucapanList = data.ucapan || [];
+
+                if (ucapanList.length === 0) {
                     list.innerHTML = '<p class="text-center text-xs text-slate-400 py-2">Belum ada ucapan. Jadilah yang pertama!</p>';
                     return;
                 }
 
-                data.forEach(item => {
-                    renderGreetingCard(item.name, item.status, item.message);
+                ucapanList.forEach(item => {
+                    // Gunakan properti nama, status, dan pesan sesuai JSON dari doGet
+                    renderGreetingCard(item.nama, item.status, item.pesan);
                 });
             } catch (error) {
                 console.error("Gagal memuat ucapan:", error);
@@ -658,12 +662,11 @@
             document.getElementById('guest-name').value = '';
             document.getElementById('guest-message').value = '';
 
-            // PERUBAHAN DI SINI:
-            // Gunakan URLSearchParams alih-alih JSON.stringify() untuk menghindari masalah CORS di Google Apps Script
+            // Sesuaikan penamaan parameter dengan yang diminta doPost Apps Script
             const formData = new URLSearchParams();
-            formData.append('name', name);
-            formData.append('status', status);
-            formData.append('message', message);
+            formData.append('author', name);
+            formData.append('konfirmasi', status);
+            formData.append('comment', message);
 
             try {
                 await fetch(SCRIPT_URL, {
@@ -677,7 +680,7 @@
 
                 showToast("Terima kasih, ucapan Anda berhasil disimpan!");
             } catch (error) {
-                console.error("Gagal mengirim ke Google Sheets:", error);
+                console.error("Gagal mengirim Pesan:", error);
                 showToast("Terjadi kesalahan saat menyimpan ucapan.");
             } finally {
                 btnSubmit.disabled = false;
