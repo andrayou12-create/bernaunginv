@@ -35,9 +35,9 @@
         }
 
         // 1. MENGAMBIL URL DASAR SECARA OTOMATIS
-        // Kode ini akan otomatis mengambil domain dan folder (latif-erna)
-        const currentUrl = window.location.origin + window.location.pathname;
-        const linkFix = currentUrl.replace('tamu.html', 'index.html') + "?to=" + encodeURIComponent(nama);
+       // 1. MENGAMBIL URL DASAR SECARA OTOMATIS (Naik 1 folder dari /tamu/ ke /Wedding/)
+        const targetUrl = new URL('../yoga-anissa.html', window.location.href).href;
+        const linkFix = targetUrl + "?to=" + encodeURIComponent(nama);
 
         // 2. SUSUN TEKS PESAN
         const pesanMentah = 
