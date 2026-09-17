@@ -658,21 +658,22 @@
             document.getElementById('guest-name').value = '';
             document.getElementById('guest-message').value = '';
 
-            // PERUBAHAN DI SINI:
-            // Gunakan URLSearchParams alih-alih JSON.stringify() untuk menghindari masalah CORS di Google Apps Script
-            const formData = new URLSearchParams();
-            formData.append('name', name);
-            formData.append('status', status);
-            formData.append('message', message);
+            // Mengembalikan format pengiriman ke JSON string (Format paling stabil untuk Apps Script)
+            // Kita gunakan Content-Type text/plain agar tidak terkena blokir preflight CORS browser
+            const payload = JSON.stringify({
+                name: name,
+                status: status,
+                message: message
+            });
 
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors', // Tetap gunakan no-cors agar tidak di-block browser
+                    mode: 'no-cors', // Wajib agar browser mengabaikan CORS
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'text/plain;charset=utf-8'
                     },
-                    body: formData
+                    body: payload
                 });
 
                 showToast("Terima kasih, ucapan Anda berhasil disimpan!");
