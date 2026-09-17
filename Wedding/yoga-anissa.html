@@ -462,7 +462,7 @@
         /* ==========================================================================
            URL GOOGLE APPS SCRIPT
            ========================================================================== */
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwrQprmY9gy7qEA4T42R_hkFtScUnpgMuSVf9L_0caYFl-hKZQJecr49Sz5EMCKz24/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5_7otU7J8XFTC857AUWktgT0587GllNtn4SP5-GqcfxLAz9yWQyytyp5XcvQWAsT8/exec";
 
         const bgMusic = document.getElementById('bg-music');
         let isPlaying = false;
@@ -626,13 +626,22 @@
 
                 list.innerHTML = '';
 
-                if (!data || data.length === 0) {
+                // Mendukung jika response berbentuk array langsung atau { result: "success", ucapan: [...] }
+                const ucapanList = Array.isArray(data) ? data : (data.ucapan || []);
+
+                if (!ucapanList || ucapanList.length === 0) {
                     list.innerHTML = '<p class="text-center text-xs text-slate-400 py-2">Belum ada ucapan. Jadilah yang pertama!</p>';
                     return;
                 }
 
-                data.forEach(item => {
-                    renderGreetingCard(item.name, item.status, item.message);
+                ucapanList.forEach(item => {
+                    const name = item.name || item.nama || '';
+                    const status = item.status || item.konfirmasi || 'Hadir';
+                    const message = item.message || item.pesan || '';
+
+                    if (name) {
+                        renderGreetingCard(name, status, message);
+                    }
                 });
             } catch (error) {
                 console.error("Gagal memuat ucapan:", error);
@@ -658,8 +667,6 @@
             document.getElementById('guest-name').value = '';
             document.getElementById('guest-message').value = '';
 
-            // Mengembalikan format pengiriman ke JSON string (Format paling stabil untuk Apps Script)
-            // Kita gunakan Content-Type text/plain agar tidak terkena blokir preflight CORS browser
             const payload = JSON.stringify({
                 name: name,
                 status: status,
@@ -669,7 +676,7 @@
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors', // Wajib agar browser mengabaikan CORS
+                    mode: 'no-cors',
                     headers: {
                         'Content-Type': 'text/plain;charset=utf-8'
                     },
