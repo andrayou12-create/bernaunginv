@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -43,14 +44,14 @@
         /* Wood & Batik Texture Gradients */
         .bg-jawa-pattern {
             background-color: #160C07;
-            background-image: radial-gradient(#2B170D 1px, transparent 1px), radial-gradient(#2B170D 1px, #160C07 1px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
+            background-image: radial-gradient(#2B170D 1.2px, transparent 1.2px), radial-gradient(#2B170D 1.2px, #160C07 1.2px);
+            background-size: 36px 36px;
+            background-position: 0 0, 18px 18px;
         }
 
         .bg-parchment-pattern {
             background-color: #FDF9F3;
-            background-image: radial-gradient(#E8D7C3 0.75px, transparent 0.75px);
+            background-image: radial-gradient(#E8D7C3 0.8px, transparent 0.8px);
             background-size: 24px 24px;
         }
 
@@ -71,13 +72,22 @@
             border-radius: 180px 180px 24px 24px;
         }
 
-        /* Subtle Floating Animation */
+        /* Wayang Floating Animation */
         @keyframes floatWayang {
             0%, 100% { transform: translateY(0px) scale(1); }
             50% { transform: translateY(-8px) scale(1.02); }
         }
         .animate-wayang {
             animation: floatWayang 6s ease-in-out infinite;
+        }
+
+        /* Spinning Vinyl Music Disc */
+        @keyframes spinVinyl {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-vinyl {
+            animation: spinVinyl 5s linear infinite;
         }
 
         /* Music Button Pulse Glow */
@@ -103,26 +113,26 @@
             position: fixed;
             z-index: 100;
             left: 50%;
-            bottom: 30px;
+            bottom: 80px;
             transform: translateX(-50%);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.6);
             font-size: 12px;
             font-weight: 600;
         }
 
         #toast.show {
             visibility: visible;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.4s, fadeout 0.4s 2.6s;
         }
 
         @keyframes fadein {
-            from { bottom: 0; opacity: 0; }
-            to { bottom: 30px; opacity: 1; }
+            from { bottom: 30px; opacity: 0; }
+            to { bottom: 80px; opacity: 1; }
         }
 
         @keyframes fadeout {
-            from { bottom: 30px; opacity: 1; }
-            to { bottom: 0; opacity: 0; }
+            from { bottom: 80px; opacity: 1; }
+            to { bottom: 30px; opacity: 0; }
         }
 
         /* Custom Scrollbar */
@@ -139,10 +149,10 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 font-sans text-slate-800 antialiased selection:bg-jawaGold selection:text-jawaDark">
+<body class="bg-slate-950 font-sans text-slate-800 antialiased selection:bg-jawaGold selection:text-jawaDark flex justify-center">
 
-    <!-- Mobile Frame Viewport -->
-    <div class="max-w-md mx-auto bg-jawaDark min-h-screen shadow-2xl relative overflow-hidden border-x border-jawaGold/20">
+    <!-- Mobile Frame Viewport Wrapper -->
+    <div class="w-full max-w-md bg-jawaDark min-h-screen shadow-2xl relative overflow-hidden border-x border-jawaGold/30">
 
         <!-- ================= SECTION 1: HERO / COVER (JAWA CLASSIC) ================= -->
         <section id="hero-section" class="relative min-h-screen flex flex-col justify-between items-center px-6 py-10 text-center bg-jawa-pattern text-white overflow-hidden">
@@ -174,18 +184,16 @@
                         <path d="M50 18 C37 40 20 70 14 110 L86 110 C80 70 63 40 50 18 Z" stroke="#F7E7AD" stroke-width="1" stroke-dasharray="2 2"/>
                         <circle cx="50" cy="55" r="14" fill="#160C07" stroke="#D4AF37" stroke-width="1.5"/>
                         <path d="M50 45 L50 65 M40 55 L60 55" stroke="#F7E7AD" stroke-width="1.5"/>
-                        <!-- Gate House motif -->
                         <path d="M38 125 L38 95 L50 85 L62 95 L62 125 Z" fill="#160C07" stroke="#D4AF37" stroke-width="1.5"/>
                     </svg>
                 </div>
 
                 <!-- Arch Gebyok Frame with Couple Names -->
-                <div class="gebyok-frame w-72 h-80 border-2 border-jawaGold/70 p-3 relative flex flex-col items-center justify-center bg-jawaBrown/80 backdrop-blur-md shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
+                <div class="gebyok-frame w-72 h-80 border-2 border-jawaGold/70 p-3 relative flex flex-col items-center justify-center bg-jawaBrown/85 backdrop-blur-md shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
                     
                     <!-- Inner Golden Filigree Border -->
                     <div class="gebyok-frame w-full h-full border border-jawaGold/40 p-4 flex flex-col items-center justify-center text-center relative overflow-hidden">
                         
-                        <!-- Javanese Batik Corner Accents -->
                         <span class="absolute top-2 left-2 text-jawaGold text-xs opacity-60">❖</span>
                         <span class="absolute top-2 right-2 text-jawaGold text-xs opacity-60">❖</span>
                         <span class="absolute bottom-2 left-2 text-jawaGold text-xs opacity-60">❖</span>
@@ -203,9 +211,11 @@
                     </div>
                 </div>
 
+                <!-- Dynamic Guest Name Box -->
                 <p class="font-serif italic text-xs text-slate-300 tracking-wider mt-6">Kepada Yth. Bapak/Ibu/Saudara/i</p>
-                <div class="mt-2 px-6 py-2 bg-jawaBrown/90 border border-jawaGold/50 rounded-full text-goldLight text-xs font-semibold tracking-wide shadow-md">
-                    Tamu Undangan
+                <div id="recipient-name-display" class="mt-2 px-6 py-2.5 bg-jawaBrown/90 border border-jawaGold/60 rounded-full text-goldLight text-xs font-bold tracking-wide shadow-lg flex items-center gap-2">
+                    <i data-lucide="user" class="w-3.5 h-3.5 text-jawaGold"></i>
+                    <span id="guest-name-placeholder">Tamu Undangan</span>
                 </div>
             </div>
 
@@ -219,14 +229,39 @@
         </section>
 
         <!-- ================= MAIN CONTENT CONTAINER ================= -->
-        <div id="main-content" class="hidden transition-opacity duration-1000 opacity-0 bg-creamBg">
+        <div id="main-content" class="hidden transition-opacity duration-1000 opacity-0 bg-creamBg pb-24">
 
             <!-- Floating Audio Control Button (Bottom Left) -->
-            <div class="fixed bottom-6 left-6 z-50">
-                <button id="music-toggle-btn" onclick="toggleMusic()" class="w-12 h-12 rounded-full bg-jawaBrown text-jawaGold border-2 border-jawaGold shadow-2xl flex items-center justify-center hover:bg-jawaDark transition-all duration-300 music-pulse">
-                    <i id="music-icon" data-lucide="pause" class="w-5 h-5"></i>
+            <div class="fixed bottom-20 left-4 z-50">
+                <button id="music-toggle-btn" onclick="toggleMusic()" title="Putar/Hentikan Musik" class="w-12 h-12 rounded-full bg-jawaBrown text-jawaGold border-2 border-jawaGold shadow-2xl flex items-center justify-center hover:bg-jawaDark transition-all duration-300 music-pulse relative overflow-hidden">
+                    <div id="vinyl-disc" class="absolute inset-1 rounded-full border border-jawaGold/30 border-dashed animate-vinyl hidden"></div>
+                    <i id="music-icon" data-lucide="music" class="w-5 h-5 relative z-10"></i>
                 </button>
             </div>
+
+            <!-- Floating Bottom Quick Navigation Bar -->
+            <nav id="bottom-nav" class="fixed bottom-3 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-sm bg-jawaDark/90 backdrop-blur-md border border-jawaGold/50 rounded-full px-4 py-2 shadow-2xl flex items-center justify-around text-goldLight text-[10px] font-semibold">
+                <a href="#section-mempelai" class="flex flex-col items-center gap-0.5 hover:text-white transition">
+                    <i data-lucide="heart" class="w-4 h-4 text-jawaGold"></i>
+                    <span>Mempelai</span>
+                </a>
+                <a href="#section-acara" class="flex flex-col items-center gap-0.5 hover:text-white transition">
+                    <i data-lucide="calendar" class="w-4 h-4 text-jawaGold"></i>
+                    <span>Acara</span>
+                </a>
+                <a href="#section-galeri" class="flex flex-col items-center gap-0.5 hover:text-white transition">
+                    <i data-lucide="image" class="w-4 h-4 text-jawaGold"></i>
+                    <span>Galeri</span>
+                </a>
+                <a href="#section-hadiah" class="flex flex-col items-center gap-0.5 hover:text-white transition">
+                    <i data-lucide="gift" class="w-4 h-4 text-jawaGold"></i>
+                    <span>Hadiah</span>
+                </a>
+                <a href="#section-ucapan" class="flex flex-col items-center gap-0.5 hover:text-white transition">
+                    <i data-lucide="message-square" class="w-4 h-4 text-jawaGold"></i>
+                    <span>Ucapan</span>
+                </a>
+            </nav>
 
             <!-- Audio Track ("Bermuara" - Rizky Febian & Mahalini) -->
             <audio id="bg-music" loop preload="auto">
@@ -237,7 +272,6 @@
             <section class="px-6 py-12 text-center bg-jawa-pattern text-white relative overflow-hidden border-b border-jawaGold/30">
                 <div class="max-w-xs mx-auto relative z-10">
                     
-                    <!-- Decorative Gunungan Header Mini -->
                     <div class="flex justify-center items-center gap-3 mb-4">
                         <span class="w-12 h-[1px] bg-gradient-to-r from-transparent to-jawaGold"></span>
                         <span class="text-jawaGold text-sm">❖</span>
@@ -254,7 +288,7 @@
                     </div>
                 </div>
 
-                <!-- Countdown Section -->
+                <!-- Live Countdown Timer -->
                 <div class="mt-12 max-w-xs mx-auto relative z-10">
                     <h3 class="font-serif text-lg text-goldLight font-semibold tracking-widest uppercase mb-6">Menghitung Hari</h3>
 
@@ -280,7 +314,7 @@
             </section>
 
             <!-- ================= SECTION 3: THE BRIDE & GROOM ================= -->
-            <section class="px-6 py-12 text-center bg-parchment-pattern relative">
+            <section id="section-mempelai" class="px-6 py-12 text-center bg-parchment-pattern relative scroll-mt-6">
                 <div class="max-w-xs mx-auto">
                     <p class="font-serif italic text-xs text-jawaBrown tracking-widest uppercase font-semibold">Maha Suci Allah SWT</p>
                     <h2 class="font-script text-5xl text-textMahogany py-1">Pasangan Bahagia</h2>
@@ -289,7 +323,6 @@
                     <!-- BRIDE (ANNISA) -->
                     <div class="mb-12 flex flex-col items-center">
                         <div class="relative w-44 h-44 mb-5">
-                            <!-- Javanese Batik Golden Circular Frame -->
                             <div class="absolute inset-0 rounded-full border-2 border-dashed border-jawaGold animate-spin" style="animation-duration: 35s;"></div>
                             <div class="w-full h-full rounded-full p-2 bg-jawaBrown flex items-center justify-center overflow-hidden border-2 border-jawaGold shadow-2xl">
                                 <img src="https://bernaunginv.my.id/tema-jawanopict2/assets/wanita.webp" alt="Annisa Hurun'in" class="w-full h-full object-cover rounded-full">
@@ -308,7 +341,6 @@
                     <!-- GROOM (YOGA) -->
                     <div class="mb-6 flex flex-col items-center">
                         <div class="relative w-44 h-44 mb-5">
-                            <!-- Javanese Batik Golden Circular Frame -->
                             <div class="absolute inset-0 rounded-full border-2 border-dashed border-jawaGold animate-spin" style="animation-duration: 35s; animation-direction: reverse;"></div>
                             <div class="w-full h-full rounded-full p-2 bg-jawaBrown flex items-center justify-center overflow-hidden border-2 border-jawaGold shadow-2xl">
                                 <img src="https://bernaunginv.my.id/tema-jawanopict2/assets/pria.webp" alt="Yoga Tri Febrian" class="w-full h-full object-cover rounded-full">
@@ -325,7 +357,7 @@
             </section>
 
             <!-- ================= SECTION 4: SAVE THE DATE & ACARA ================= -->
-            <section class="px-6 py-12 text-center bg-jawa-pattern text-white relative border-y border-jawaGold/30">
+            <section id="section-acara" class="px-6 py-12 text-center bg-jawa-pattern text-white relative border-y border-jawaGold/30 scroll-mt-6">
                 <div class="max-w-xs mx-auto">
                     <p class="font-serif text-xs uppercase tracking-[0.25em] text-goldLight font-semibold">Sugeng Rawuh</p>
                     <h2 class="font-script text-5xl text-gold-gradient py-2">Rangkaian Acara</h2>
@@ -357,7 +389,7 @@
                         <p class="font-sans text-xs font-semibold text-jawaGold mt-1">Pukul 20.00 WITA - Selesai</p>
                     </div>
 
-                    <!-- LOKASI CARD -->
+                    <!-- LOKASI & MAPS CARD -->
                     <div class="bg-jawaBrown/95 border border-jawaGold/40 rounded-2xl p-6 text-center relative shadow-2xl backdrop-blur-sm">
                         <div class="w-12 h-12 bg-jawaDark rounded-full border border-jawaGold flex items-center justify-center mx-auto -mt-12 shadow-xl text-jawaGold">
                             <i data-lucide="map-pin" class="w-6 h-6"></i>
@@ -366,10 +398,22 @@
                         <p class="text-xs font-bold text-white mt-2">Jln. Swadaya no. 47 Kekalik</p>
                         <p class="text-xs text-slate-300 mt-1 leading-relaxed">Kekalik Jaya, Kec. Sekarbela, Kota Mataram, Nusa Tenggara Barat</p>
 
-                        <a href="https://maps.app.goo.gl/tZL7sLDS6ZTPie2Z6?g_st=ic" target="_blank" class="mt-5 inline-flex items-center gap-2 px-6 py-3 bg-gold-gradient text-jawaDark text-xs font-serif font-bold uppercase tracking-wider rounded-full shadow-lg hover:brightness-110 transition border border-goldLight">
-                            <i data-lucide="navigation" class="w-4 h-4"></i>
-                            <span>Buka Google Maps</span>
-                        </a>
+                        <!-- Interactive Map Embed Frame -->
+                        <div class="mt-4 rounded-xl overflow-hidden border border-jawaGold/40 shadow-inner h-40 w-full">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3945.0232148723!2d116.0965!3d-8.5925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwMzUnMzMuMCJTIDExNsKwMDUnNDcuNCJF!5e0!3m2!1sid!2sid!4v1680000000000!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+
+                        <div class="flex flex-col gap-2.5 mt-5">
+                            <a href="https://maps.app.goo.gl/tZL7sLDS6ZTPie2Z6?g_st=ic" target="_blank" class="w-full py-3 bg-gold-gradient text-jawaDark text-xs font-serif font-bold uppercase tracking-wider rounded-full shadow-lg hover:brightness-110 transition border border-goldLight inline-flex items-center justify-center gap-2">
+                                <i data-lucide="navigation" class="w-4 h-4"></i>
+                                <span>Petunjuk Arah Google Maps</span>
+                            </a>
+
+                            <button onclick="addToCalendar()" class="w-full py-2.5 bg-jawaDark border border-jawaGold/50 text-goldLight hover:bg-jawaGold hover:text-jawaDark rounded-full text-xs font-serif font-bold uppercase tracking-wider transition inline-flex items-center justify-center gap-2">
+                                <i data-lucide="calendar-plus" class="w-4 h-4"></i>
+                                <span>Simpan ke Kalender</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -380,7 +424,7 @@
                     <div class="w-12 h-12 mx-auto mb-3 border border-jawaGold rounded-full flex items-center justify-center text-jawaBrown bg-creamCard shadow">
                         <i data-lucide="book-open-check" class="w-6 h-6"></i>
                     </div>
-                    <h2 class="font-script text-5xl text-textMahogany py-1">Our Love Story</h2>
+                    <h2 class="font-script text-5xl text-textMahogany py-1">Kisah Cinta</h2>
                     <div class="w-16 h-[1px] bg-jawaGold mx-auto mb-8"></div>
 
                     <div class="bg-white/80 border border-jawaGold/40 p-6 rounded-2xl text-xs text-slate-700 leading-relaxed text-justify space-y-4 shadow-md backdrop-blur-sm">
@@ -397,51 +441,92 @@
                 </div>
             </section>
 
-            <!-- ================= SECTION 6: WEDDING GIFT ================= -->
-            <section class="px-6 py-12 text-center bg-jawa-pattern text-white relative border-t border-jawaGold/30">
+            <!-- ================= SECTION 6: PHOTO GALLERY & LIGHTBOX ================= -->
+            <section id="section-galeri" class="px-6 py-12 bg-jawa-pattern text-white text-center border-t border-jawaGold/30 scroll-mt-6">
+                <div class="max-w-xs mx-auto">
+                    <p class="font-serif text-xs uppercase tracking-[0.25em] text-goldLight font-semibold">Moment Bahagia</p>
+                    <h2 class="font-script text-5xl text-gold-gradient py-2">Galeri Prewedding</h2>
+                    <div class="w-16 h-[1px] bg-jawaGold mx-auto mb-8"></div>
+
+                    <!-- Photo Grid -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="overflow-hidden rounded-xl border border-jawaGold/40 shadow-lg cursor-pointer transform hover:scale-105 transition duration-300" onclick="openLightbox(0)">
+                            <img src="https://bernaunginv.my.id/tema-jawanopict2/assets/wanita.webp" alt="Prewedding 1" class="w-full h-40 object-cover">
+                        </div>
+                        <div class="overflow-hidden rounded-xl border border-jawaGold/40 shadow-lg cursor-pointer transform hover:scale-105 transition duration-300" onclick="openLightbox(1)">
+                            <img src="https://bernaunginv.my.id/tema-jawanopict2/assets/pria.webp" alt="Prewedding 2" class="w-full h-40 object-cover">
+                        </div>
+                        <div class="col-span-2 overflow-hidden rounded-xl border border-jawaGold/40 shadow-lg cursor-pointer transform hover:scale-105 transition duration-300" onclick="openLightbox(2)">
+                            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Prewedding 3" class="w-full h-48 object-cover">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= SECTION 7: WEDDING GIFT ================= -->
+            <section id="section-hadiah" class="px-6 py-12 text-center bg-jawa-pattern text-white relative border-t border-jawaGold/30 scroll-mt-6">
                 <div class="max-w-xs mx-auto">
                     <div class="w-12 h-12 mx-auto mb-2 text-jawaGold">
                         <i data-lucide="gift" class="w-8 h-8 mx-auto"></i>
                     </div>
-                    <h2 class="font-script text-5xl text-gold-gradient py-1">Wedding Gift</h2>
+                    <h2 class="font-script text-5xl text-gold-gradient py-1">Tanda Kasih</h2>
                     <div class="w-16 h-[1px] bg-jawaGold mx-auto mb-4"></div>
                     <p class="text-xs text-slate-300 leading-relaxed mb-6">
-                        Doa restu Anda merupakan karunia terindah bagi kami. Namun jika Anda ingin memberikan tanda kasih, Anda dapat menekan tombol di bawah ini:
+                        Doa restu Anda merupakan karunia terindah bagi kami. Namun jika Anda ingin memberikan tanda kasih, Anda dapat memilih metode di bawah ini:
                     </p>
 
                     <button onclick="toggleGift()" class="px-8 py-3.5 bg-gold-gradient text-jawaDark rounded-full text-xs font-serif font-bold uppercase tracking-wider shadow-xl transition-all duration-300 transform active:scale-95 inline-flex items-center gap-2 mb-6 border border-goldLight">
                         <i data-lucide="gift" class="w-4 h-4"></i>
-                        <span id="gift-btn-text">Kirim Gift</span>
+                        <span id="gift-btn-text">Kirim Hadiah</span>
                         <i id="gift-btn-icon" data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-300"></i>
                     </button>
 
                     <div id="gift-container" class="hidden opacity-0 transition-all duration-500 text-left space-y-4">
-                        <!-- BCA Annisa Card -->
-                        <div class="bg-jawaBrown border border-jawaGold/50 rounded-2xl p-5 relative shadow-xl">
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-lg tracking-wider text-goldLight">BCA</span>
-                                <i data-lucide="credit-card" class="w-5 h-5 text-jawaGold"></i>
-                            </div>
-                            <p class="font-mono text-xl font-bold text-white tracking-wider">0561698456</p>
-                            <p class="text-xs text-slate-300 font-medium mt-1">a/n Annisa Hurun’in</p>
-                            <button onclick="copyToClipboard('0561698456', 'No. Rekening Annisa berhasil disalin!')" class="mt-4 w-full py-2.5 bg-jawaDark border border-jawaGold/50 text-goldLight hover:bg-jawaGold hover:text-jawaDark rounded-xl text-xs font-bold tracking-wider transition flex items-center justify-center gap-2">
-                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                <span>Salin No. Rekening</span>
-                            </button>
+                        
+                        <!-- Gift Navigation Tabs -->
+                        <div class="flex rounded-xl bg-jawaBrown p-1 border border-jawaGold/40 text-xs font-semibold mb-4">
+                            <button onclick="switchGiftTab('rekening')" id="tab-btn-rek" class="flex-1 py-2 text-center rounded-lg bg-jawaGold text-jawaDark transition">Transfer Rekening</button>
+                            <button onclick="switchGiftTab('qris')" id="tab-btn-qris" class="flex-1 py-2 text-center rounded-lg text-goldLight hover:text-white transition">QRIS Scanner</button>
                         </div>
 
-                        <!-- BCA Yoga Card -->
-                        <div class="bg-jawaBrown border border-jawaGold/50 rounded-2xl p-5 relative shadow-xl">
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="font-bold text-lg tracking-wider text-goldLight">BCA</span>
-                                <i data-lucide="credit-card" class="w-5 h-5 text-jawaGold"></i>
+                        <!-- TAB 1: REKENING BANK -->
+                        <div id="tab-rekening-content" class="space-y-4">
+                            <!-- BCA Annisa Card -->
+                            <div class="bg-jawaBrown border border-jawaGold/50 rounded-2xl p-5 relative shadow-xl">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-bold text-lg tracking-wider text-goldLight">BCA</span>
+                                    <i data-lucide="credit-card" class="w-5 h-5 text-jawaGold"></i>
+                                </div>
+                                <p class="font-mono text-xl font-bold text-white tracking-wider">0561698456</p>
+                                <p class="text-xs text-slate-300 font-medium mt-1">a/n Annisa Hurun’in</p>
+                                <button onclick="copyToClipboard('0561698456', 'No. Rekening Annisa berhasil disalin!')" class="mt-4 w-full py-2.5 bg-jawaDark border border-jawaGold/50 text-goldLight hover:bg-jawaGold hover:text-jawaDark rounded-xl text-xs font-bold tracking-wider transition flex items-center justify-center gap-2">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                    <span>Salin No. Rekening</span>
+                                </button>
                             </div>
-                            <p class="font-mono text-xl font-bold text-white tracking-wider">2320547973</p>
-                            <p class="text-xs text-slate-300 font-medium mt-1">a/n Yoga Tri Febrian</p>
-                            <button onclick="copyToClipboard('2320547973', 'No. Rekening Yoga berhasil disalin!')" class="mt-4 w-full py-2.5 bg-jawaDark border border-jawaGold/50 text-goldLight hover:bg-jawaGold hover:text-jawaDark rounded-xl text-xs font-bold tracking-wider transition flex items-center justify-center gap-2">
-                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                <span>Salin No. Rekening</span>
-                            </button>
+
+                            <!-- BCA Yoga Card -->
+                            <div class="bg-jawaBrown border border-jawaGold/50 rounded-2xl p-5 relative shadow-xl">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="font-bold text-lg tracking-wider text-goldLight">BCA</span>
+                                    <i data-lucide="credit-card" class="w-5 h-5 text-jawaGold"></i>
+                                </div>
+                                <p class="font-mono text-xl font-bold text-white tracking-wider">2320547973</p>
+                                <p class="text-xs text-slate-300 font-medium mt-1">a/n Yoga Tri Febrian</p>
+                                <button onclick="copyToClipboard('2320547973', 'No. Rekening Yoga berhasil disalin!')" class="mt-4 w-full py-2.5 bg-jawaDark border border-jawaGold/50 text-goldLight hover:bg-jawaGold hover:text-jawaDark rounded-xl text-xs font-bold tracking-wider transition flex items-center justify-center gap-2">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                    <span>Salin No. Rekening</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: QRIS CODE -->
+                        <div id="tab-qris-content" class="hidden text-center bg-jawaBrown border border-jawaGold/50 p-5 rounded-2xl">
+                            <p class="text-xs font-bold text-goldLight mb-3 uppercase tracking-wider">Scan QRIS All Payment</p>
+                            <div class="bg-white p-3 rounded-xl inline-block shadow-lg border border-jawaGold/40 mb-3">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PAWIWAHAN%20YOGA%20AND%20ANNISA" alt="QRIS Code" class="w-44 h-44 mx-auto">
+                            </div>
+                            <p class="text-[11px] text-slate-300">Dapat di-scan menggunakan GoPay, OVO, Dana, ShopeePay, & Mobile Banking</p>
                         </div>
 
                         <!-- Physical Gift Card -->
@@ -459,8 +544,8 @@
                 </div>
             </section>
 
-            <!-- ================= SECTION 7: RSVP & GUESTBOOK ================= -->
-            <section class="px-6 py-12 bg-parchment-pattern text-center border-t border-jawaGold/30">
+            <!-- ================= SECTION 8: RSVP & GUESTBOOK ================= -->
+            <section id="section-ucapan" class="px-6 py-12 bg-parchment-pattern text-center border-t border-jawaGold/30 scroll-mt-6">
                 <div class="max-w-xs mx-auto">
                     <h2 class="font-script text-5xl text-textMahogany py-1">Ucapan & Doa</h2>
                     <p class="text-xs text-slate-600 mb-6 font-medium">Berikan ucapan manis serta konfirmasi kehadiran Anda</p>
@@ -506,9 +591,25 @@
                     </a>
                 </div>
                 <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" class="text-xs text-goldLight font-serif font-bold tracking-widest hover:text-white transition-colors block mb-3 uppercase">HUBUNGI KAMI</a>
-                <p class="text-[10px] text-slate-400 font-sans">&copy; 2026 Bernaung Invitation.</p>
+                <p class="text-[10px] text-slate-400 font-sans">&copy; 2026 Bernaung Invitation. All Rights Reserved.</p>
             </footer>
 
+        </div>
+    </div>
+
+    <!-- Lightbox Modal Gallery Viewer -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[100] bg-black/95 hidden flex flex-col items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-2xl font-bold hover:text-jawaGold transition">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <img id="lightbox-img" src="" alt="Fullscreen Photo" class="max-w-full max-h-[80vh] rounded-xl border border-jawaGold/50 shadow-2xl">
+        <div class="flex gap-6 mt-6">
+            <button onclick="prevLightbox()" class="p-3 rounded-full bg-jawaBrown text-goldLight border border-jawaGold">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <button onclick="nextLightbox()" class="p-3 rounded-full bg-jawaBrown text-goldLight border border-jawaGold">
+                <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
         </div>
     </div>
 
@@ -518,6 +619,18 @@
     <!-- JavaScript Interactions -->
     <script>
         lucide.createIcons();
+
+        /* Dynamic Guest Name Extraction from URL Query Parameters (?to=Nama or ?nama=Nama) */
+        function parseGuestName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const guestName = urlParams.get('to') || urlParams.get('nama') || urlParams.get('u');
+            if (guestName) {
+                const decodedName = decodeURIComponent(guestName.replace(/\+/g, ' '));
+                document.getElementById('guest-name-placeholder').innerText = decodedName;
+                document.getElementById('guest-name').value = decodedName;
+            }
+        }
+        parseGuestName();
 
         /* Google Apps Script Integration URL */
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5_7otU7J8XFTC857AUWktgT0587GllNtn4SP5-GqcfxLAz9yWQyytyp5XcvQWAsT8/exec";
@@ -549,29 +662,62 @@
         }
 
         function toggleMusic() {
-            const btn = document.getElementById('music-toggle-btn');
             if (isPlaying) {
                 bgMusic.pause();
                 isPlaying = false;
-                btn.classList.remove('music-pulse');
             } else {
                 bgMusic.play();
                 isPlaying = true;
-                btn.classList.add('music-pulse');
             }
             updateMusicIcon();
         }
 
         function updateMusicIcon() {
+            const btn = document.getElementById('music-toggle-btn');
             const btnIcon = document.getElementById('music-icon');
+            const vinyl = document.getElementById('vinyl-disc');
+
             if (isPlaying) {
                 btnIcon.setAttribute('data-lucide', 'pause');
+                btn.classList.add('music-pulse');
+                vinyl.classList.remove('hidden');
             } else {
-                btnIcon.setAttribute('data-lucide', 'play');
+                btnIcon.setAttribute('data-lucide', 'music');
+                btn.classList.remove('music-pulse');
+                vinyl.classList.add('hidden');
             }
             lucide.createIcons();
         }
 
+        /* Gallery Lightbox */
+        const galleryImages = [
+            "https://bernaunginv.my.id/tema-jawanopict2/assets/wanita.webp",
+            "https://bernaunginv.my.id/tema-jawanopict2/assets/pria.webp",
+            "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80"
+        ];
+        let currentPhotoIndex = 0;
+
+        function openLightbox(index) {
+            currentPhotoIndex = index;
+            document.getElementById('lightbox-img').src = galleryImages[currentPhotoIndex];
+            document.getElementById('lightbox-modal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        function prevLightbox() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + galleryImages.length) % galleryImages.length;
+            document.getElementById('lightbox-img').src = galleryImages[currentPhotoIndex];
+        }
+
+        function nextLightbox() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % galleryImages.length;
+            document.getElementById('lightbox-img').src = galleryImages[currentPhotoIndex];
+        }
+
+        /* Gift Toggle & Switch Tab */
         let isGiftOpen = false;
         function toggleGift() {
             const container = document.getElementById('gift-container');
@@ -585,18 +731,50 @@
                 setTimeout(() => {
                     container.classList.remove('opacity-0');
                 }, 20);
-                btnText.innerText = "Tutup Gift";
+                btnText.innerText = "Tutup Hadiah";
                 btnIcon.style.transform = "rotate(180deg)";
             } else {
                 container.classList.add('opacity-0');
                 setTimeout(() => {
                     container.classList.add('hidden');
                 }, 300);
-                btnText.innerText = "Kirim Gift";
+                btnText.innerText = "Kirim Hadiah";
                 btnIcon.style.transform = "rotate(0deg)";
             }
         }
 
+        function switchGiftTab(tab) {
+            const rekBtn = document.getElementById('tab-btn-rek');
+            const qrisBtn = document.getElementById('tab-btn-qris');
+            const rekContent = document.getElementById('tab-rekening-content');
+            const qrisContent = document.getElementById('tab-qris-content');
+
+            if (tab === 'rekening') {
+                rekBtn.className = "flex-1 py-2 text-center rounded-lg bg-jawaGold text-jawaDark transition font-semibold";
+                qrisBtn.className = "flex-1 py-2 text-center rounded-lg text-goldLight hover:text-white transition font-semibold";
+                rekContent.classList.remove('hidden');
+                qrisContent.classList.add('hidden');
+            } else {
+                qrisBtn.className = "flex-1 py-2 text-center rounded-lg bg-jawaGold text-jawaDark transition font-semibold";
+                rekBtn.className = "flex-1 py-2 text-center rounded-lg text-goldLight hover:text-white transition font-semibold";
+                qrisContent.classList.remove('hidden');
+                rekContent.classList.add('hidden');
+            }
+        }
+
+        /* Add to Google Calendar */
+        function addToCalendar() {
+            const title = encodeURIComponent("Pernikahan Yoga & Annisa");
+            const details = encodeURIComponent("Pawiwahan Ageng Pernikahan Yoga Tri Febrian & Annisa Hurun'in");
+            const location = encodeURIComponent("Jln. Swadaya no. 47 Kekalik, Mataram, NTB");
+            const startTime = "20260920T080000Z";
+            const endTime = "20260920T140000Z";
+
+            const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startTime}/${endTime}&details=${details}&location=${location}`;
+            window.open(calendarUrl, '_blank');
+        }
+
+        /* Live Countdown Timer */
         const targetDate = new Date("September 20, 2026 16:00:00").getTime();
 
         function updateCountdown() {
@@ -624,6 +802,7 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
+        /* Copy Clipboard */
         function copyToClipboard(text, message) {
             const tempInput = document.createElement('input');
             tempInput.value = text;
@@ -644,6 +823,7 @@
             }, 3000);
         }
 
+        /* Render Greetings */
         function renderGreetingCard(name, status, message, prepend = false) {
             const list = document.getElementById('greetings-list');
             const card = document.createElement('div');
@@ -706,7 +886,6 @@
 
             renderGreetingCard(name, status, message, true);
 
-            document.getElementById('guest-name').value = '';
             document.getElementById('guest-message').value = '';
 
             try {
