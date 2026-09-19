@@ -1952,6 +1952,23 @@ new Promise( ( resolve ) => {
         
         document.addEventListener("DOMContentLoaded", loadGreetings);
     </script>
+	<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Mengambil parameter dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const namaTamu = urlParams.get('to');
+    
+    if (namaTamu) {
+        // Menargetkan ID unik widget nama pada file Anda
+        const elemenNama = document.querySelector('.elementor-element-93c7bb0 .elementor-heading-title');
+        
+        if (elemenNama) {
+            // Mengganti teks default dengan format URL, membersihkan tanda + menjadi spasi, dll.
+            elemenNama.innerHTML = 'Kepada Yth.<br><strong>' + decodeURIComponent(namaTamu).replace(/\+/g, ' ') + '</strong>';
+        }
+    }
+});
+</script>
 </body>
 </html>
 <!-- Page optimized by LiteSpeed Cache @2026-09-18 18:09:13 -->
