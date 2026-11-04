@@ -100,7 +100,7 @@ tailwind.config = {
         - FOTO_COVER (opsional): link foto prewedding untuk latar cover
      ============================================================ -->
 <script>
-  const RSVP_WEBAPP_URL = "";   // ⬅️ RUANG KOSONG: paste URL Web App Apps Script di sini (akhiran /exec)
+  const RSVP_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxUiEssY8p8hgWlirrpiqzu9BnLlicCe-uWjMGw66Z9rPe3dA70LQPhGf_GlQQDnY9C/exec";   // ⬅️ RUANG KOSONG: paste URL Web App Apps Script di sini (akhiran /exec)
   const MUSIC_URL       = "";   // ⬅️ Opsional: paste link lagu mp3 pilihan mempelai
   const FOTO_COVER      = "";   // ⬅️ Opsional: link foto prewedding untuk latar cover
 </script>
@@ -369,7 +369,7 @@ tailwind.config = {
     <h3 class="reveal font-script text-4xl mb-4">Konfirmasi Kehadiran</h3>
     <p class="reveal text-sm text-ink/70 leading-relaxed max-w-xs mx-auto mb-10" style="transition-delay:.1s">
       Kehadiran dan doa restu Anda adalah hadiah terindah bagi kami. Mohon konfirmasi kehadiran Anda
-      melalui formulir berikut. Data akan tersimpan otomatis ke Google Spreadsheet kami.
+      melalui formulir berikut. Data akan tersimpan otomatis.
     </p>
 
     <form id="rsvp-form" class="reveal bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8 text-left" style="transition-delay:.2s">
@@ -401,7 +401,7 @@ tailwind.config = {
       </button>
 
       <p id="rsvp-status" class="mt-4 text-xs text-center hidden"></p>
-      <p class="mt-4 text-[10px] text-center text-ink/40">* Data konfirmasi tersimpan otomatis pada Google Spreadsheet RSVP.</p>
+      <p class="mt-4 text-[10px] text-center text-ink/40">* Data konfirmasi tersimpan otomatis pada Form RSVP.</p>
     </form>
 
     <!-- Daftar ucapan (muncul otomatis jika Web App Apps Script sudah aktif) -->
