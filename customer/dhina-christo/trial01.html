@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Wedding of Dhina &amp; Christo — 05 &amp; 06 Desember 2026</title>
+<meta name="description" content="Undangan pernikahan Dhina Christi Aprilia &amp; Christopha Matica Timothy — Pemberkatan Sabtu, 05 Desember 2026 &amp; Resepsi Minggu, 06 Desember 2026 di Mranggen Kidul, Bansari, Temanggung.">
+<meta name="theme-color" content="#262117">
+<meta property="og:title" content="The Wedding of Dhina &amp; Christo">
+<meta property="og:description" content="Dari teman masa kecil, menjadi teman hidup selamanya. Kami menantikan doa restu Anda.">
+<link rel="icon" href="/_cdn/andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg">
+
+<!-- Fonts -->
+
+
+<link href="/_cdn/fonts.googleapis.com/css-a594d86114.css" rel="stylesheet">
+
+<!-- Font Awesome (dipakai ikon footer & ikon lainnya) -->
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        cream: '#f8f4ec',
+        soft:  '#efe7d8',
+        ink:   '#2b261e',
+        gold:  '#a5885f',
+        sage:  '#6f7d63'
+      },
+      fontFamily: {
+        serif:  ['"Cormorant Garamond"', 'serif'],
+        script: ['"Great Vibes"', 'cursive'],
+        main:   ['Poppins', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #efe9dd; }
+  .no-scroll { overflow: hidden; height: 100dvh; }
+
+  /* Layar pembuka (cover) */
+  #cover {
+    background:
+      radial-gradient(circle at 18% 15%, rgba(165,136,95,.18), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(165,136,95,.14), transparent 45%),
+      #262117;
+    transition: opacity .9s ease, visibility .9s ease;
+  }
+  #cover.cover-hide { opacity: 0; visibility: hidden; }
+
+  /* Animasi muncul saat discroll */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* Musik berputar pelan */
+  .spin-slow { animation: spin 6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Garis ornamen */
+  .ornamen { display: flex; align-items: center; justify-content: center; gap: .75rem; }
+  .ornamen::before, .ornamen::after {
+    content: ""; height: 1px; width: 4rem;
+    background: linear-gradient(to right, transparent, rgba(165,136,95,.65));
+  }
+  .ornamen::after { background: linear-gradient(to left, transparent, rgba(165,136,95,.65)); }
+
+  /* Cegah zoom otomatis di iOS */
+  @media screen and (max-width: 768px) {
+    input, select, textarea { font-size: 16px !important; }
+  }
+</style>
+
+<!-- ============================================================
+     ★★★  PENGATURAN CEPAT — CUKUP EDIT BAGIAN INI  ★★★
+
+     1) RSVP → GOOGLE SPREADSHEET
+        - Buat Google Spreadsheet baru (sheets.new)
+        - Menu: Ekstensi > Apps Script
+        - Paste kode dari file: apps-script-rsvp.gs
+        - Deploy > New deployment > Web app
+              Execute as: Me | Who has access: Anyone
+        - Copy "Web app URL" (berakhiran /exec)
+        - PASTE URL tersebut ke RSVP_WEBAPP_URL di bawah ini
+          (ini "ruang kosong link" yang nanti kamu isi sendiri)
+
+     2) MUSIK LATAR (pilihan lagu klien masih kosong)
+        - Isi MUSIC_URL dengan link .mp3 jika klien sudah
+          menentukan lagu. Biarkan "" untuk menyembunyikan tombol musik.
+
+     3) FOTO
+        - Ganti src pada foto mempelai (cari komentar "GANTI FOTO")
+        - FOTO_COVER (opsional): link foto prewedding untuk latar cover
+     ============================================================ -->
+<script>
+  const RSVP_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxUiEssY8p8hgWlirrpiqzu9BnLlicCe-uWjMGw66Z9rPe3dA70LQPhGf_GlQQDnY9C/exec";   // ⬅️ RUANG KOSONG: paste URL Web App Apps Script di sini (akhiran /exec)
+  const MUSIC_URL       = "";   // ⬅️ Opsional: paste link lagu mp3 pilihan mempelai
+  const FOTO_COVER      = "";   // ⬅️ Opsional: link foto prewedding untuk latar cover
+</script>
+</head>
+
+<body class="bg-cream text-ink font-main antialiased no-scroll">
+
+<!-- Tombol musik (muncul otomatis jika MUSIC_URL diisi) -->
+<audio id="bgm" loop preload="none"></audio>
+<button id="music-btn" class="hidden fixed top-4 right-4 z-40 w-11 h-11 rounded-full bg-ink/85 text-cream shadow-lg items-center justify-center" aria-label="Putar / jeda musik">
+  <i id="music-icon" class="fas fa-music text-sm"></i>
+</button>
+
+<!-- ============================================================
+     COVER / PEMBUKA
+     ============================================================ -->
+<div id="cover" class="fixed inset-0 z-50 overflow-y-auto text-cream">
+  <div class="absolute inset-3 border border-gold/40 rounded-2xl pointer-events-none"></div>
+  <div class="min-h-full flex items-center justify-center p-8">
+    <div class="max-w-[420px] mx-auto text-center">
+      <p class="text-[11px] tracking-[.35em] text-gold uppercase mb-4">The Wedding Of</p>
+      <h1 class="font-script text-5xl sm:text-6xl leading-tight mb-4">Dhina &amp; Christo</h1>
+      <p class="font-serif text-lg tracking-[.3em] text-cream/90 mb-8">05 . 12 . 2026</p>
+      <div class="ornamen mb-8"><i class="fas fa-heart text-gold text-xs"></i></div>
+      <p class="text-xs tracking-[.2em] text-cream/70 uppercase mb-2">Kepada Bapak/Ibu/Saudara/i</p>
+      <p id="guest-name" class="font-serif text-2xl font-semibold mb-10">Bapak/Ibu/Saudara/i</p>
+      <button id="btn-open" class="inline-flex items-center gap-2 bg-gold hover:bg-[#8f7450] text-white text-xs font-semibold tracking-[.25em] uppercase px-8 py-4 rounded-full shadow-xl transition-all">
+        <i class="fas fa-envelope-open-text"></i> Buka Undangan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Navigasi bawah (muncul setelah undangan dibuka) -->
+<nav id="bottom-nav" class="hidden fixed bottom-3 left-1/2 -translate-x-1/2 z-40 bg-ink/90 backdrop-blur text-cream rounded-full px-2 py-2 shadow-2xl">
+  <div class="flex items-center gap-1">
+    <a href="#home"    class="flex flex-col items-center px-3 py-1 rounded-full hover:bg-white/10 transition"><i class="fas fa-house text-xs"></i><span class="text-[9px] mt-0.5">Home</span></a>
+    <a href="#mempelai" class="flex flex-col items-center px-3 py-1 rounded-full hover:bg-white/10 transition"><i class="fas fa-user-group text-xs"></i><span class="text-[9px] mt-0.5">Mempelai</span></a>
+    <a href="#acara"   class="flex flex-col items-center px-3 py-1 rounded-full hover:bg-white/10 transition"><i class="fas fa-calendar-day text-xs"></i><span class="text-[9px] mt-0.5">Acara</span></a>
+    <a href="#hadiah"  class="flex flex-col items-center px-3 py-1 rounded-full hover:bg-white/10 transition"><i class="fas fa-gift text-xs"></i><span class="text-[9px] mt-0.5">Hadiah</span></a>
+    <a href="#rsvp"    class="flex flex-col items-center px-3 py-1 rounded-full hover:bg-white/10 transition"><i class="fas fa-envelope-open-text text-xs"></i><span class="text-[9px] mt-0.5">RSVP</span></a>
+  </div>
+</nav>
+
+<!-- ============================================================
+     ISI UNDANGAN
+     ============================================================ -->
+<div class="page max-w-[480px] mx-auto bg-cream shadow-2xl overflow-hidden">
+
+  <!-- ============ HERO ============ -->
+  <section id="home" class="relative px-6 pt-20 pb-14 text-center">
+    <div class="absolute inset-3 border border-gold/25 rounded-2xl pointer-events-none"></div>
+    <p class="reveal text-[11px] tracking-[.35em] text-gold uppercase mb-4">The Wedding Of</p>
+    <h2 class="reveal font-script text-6xl leading-tight mb-4" style="transition-delay:.1s">Dhina &amp; Christo</h2>
+    <div class="reveal ornamen mb-6" style="transition-delay:.2s"><i class="fas fa-heart text-gold text-xs"></i></div>
+    <p class="reveal font-serif text-xl mb-2" style="transition-delay:.3s">Sabtu &amp; Minggu, 05 &ndash; 06 Desember 2026</p>
+    <p class="reveal italic text-sm text-ink/70 mb-10" style="transition-delay:.4s">&ldquo;Dari teman masa kecil, menjadi teman hidup selamanya.&rdquo;</p>
+
+    <!-- Countdown menuju Pemberkatan Nikah -->
+    <p class="reveal text-[10px] tracking-[.3em] uppercase text-ink/50 mb-3" style="transition-delay:.5s">Menuju Hari Bahagia</p>
+    <div class="reveal grid grid-cols-4 gap-2 max-w-[260px] mx-auto" style="transition-delay:.6s">
+      <div class="bg-white rounded-xl shadow-sm border border-gold/20 py-3"><p id="cd-d" class="font-serif text-2xl font-semibold leading-none">0</p><p class="text-[9px] tracking-widest uppercase text-ink/50 mt-1">Hari</p></div>
+      <div class="bg-white rounded-xl shadow-sm border border-gold/20 py-3"><p id="cd-h" class="font-serif text-2xl font-semibold leading-none">0</p><p class="text-[9px] tracking-widest uppercase text-ink/50 mt-1">Jam</p></div>
+      <div class="bg-white rounded-xl shadow-sm border border-gold/20 py-3"><p id="cd-m" class="font-serif text-2xl font-semibold leading-none">0</p><p class="text-[9px] tracking-widest uppercase text-ink/50 mt-1">Menit</p></div>
+      <div class="bg-white rounded-xl shadow-sm border border-gold/20 py-3"><p id="cd-s" class="font-serif text-2xl font-semibold leading-none">0</p><p class="text-[9px] tracking-widest uppercase text-ink/50 mt-1">Detik</p></div>
+    </div>
+  </section>
+
+  <!-- ============ AYAT ============ -->
+  <section class="bg-soft px-8 py-14 text-center">
+    <i class="reveal fas fa-book-bible text-gold text-xl mb-5"></i>
+    <p class="reveal font-serif italic text-lg leading-relaxed text-ink/85 mb-5">
+      &ldquo;Demikianlah mereka bukan lagi dua, melainkan satu. Dan apa yang telah dipersatukan Allah,
+      tidak boleh diceraikan manusia.&rdquo;
+    </p>
+    <p class="reveal text-xs tracking-[.25em] uppercase text-gold font-semibold">Markus 10 : 8 &ndash; 9</p>
+  </section>
+
+  <!-- ============ KEDUA MEMPELAI ============ -->
+  <section id="mempelai" class="px-6 py-16 text-center">
+    <p class="reveal text-[11px] tracking-[.35em] text-gold uppercase mb-2">Bride &amp; Groom</p>
+    <h3 class="reveal font-script text-4xl mb-3">Kedua Mempelai</h3>
+    <p class="reveal text-sm text-ink/70 leading-relaxed max-w-xs mx-auto mb-12" style="transition-delay:.1s">
+      Dengan penuh rasa syukur kepada Tuhan, kami mengundang Bapak/Ibu/Saudara/i untuk hadir
+      dan memberikan doa restu pada acara pernikahan kami:
+    </p>
+
+    <!-- Mempelai Wanita -->
+    <div class="reveal bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8 mb-6">
+      <!-- GANTI FOTO: ganti src di bawah dengan foto Dhina -->
+      <img src="/_cdn/andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg" alt="Foto Dhina"
+           class="w-36 h-36 rounded-full object-cover mx-auto mb-5 border-4 border-gold/30 shadow-md">
+      <p class="font-script text-3xl text-gold mb-1">Dhina</p>
+      <p class="font-serif text-xl font-semibold mb-2">Dhina Christi Aprilia</p>
+      <p class="text-xs text-ink/60 leading-relaxed mb-4">Putri dari Bp. Mugiarto &amp; Ibu. Jupriyati</p>
+      <a href="https://www.instagram.com/dhinachristii" target="_blank" rel="noopener"
+         class="inline-flex items-center gap-2 text-xs border border-gold/40 text-ink/80 hover:bg-gold hover:text-white transition px-4 py-2 rounded-full">
+        <i class="fab fa-instagram text-gold"></i> @dhinachristii
+      </a>
+    </div>
+
+    <p class="reveal font-script text-4xl text-gold my-6">&amp;</p>
+
+    <!-- Mempelai Pria -->
+    <div class="reveal bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8">
+      <!-- GANTI FOTO: ganti src di bawah dengan foto Christo -->
+      <img src="/_cdn/andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg" alt="Foto Christo"
+           class="w-36 h-36 rounded-full object-cover mx-auto mb-5 border-4 border-gold/30 shadow-md">
+      <p class="font-script text-3xl text-gold mb-1">Christo</p>
+      <p class="font-serif text-xl font-semibold mb-2">Christopha Matica Timothy</p>
+      <p class="text-xs text-ink/60 leading-relaxed mb-4">Putra dari (Alm.) Bp. Yochanan &amp; Ibu. Lastri Wulaningrum</p>
+      <a href="https://www.instagram.com/christo_timoty" target="_blank" rel="noopener"
+         class="inline-flex items-center gap-2 text-xs border border-gold/40 text-ink/80 hover:bg-gold hover:text-white transition px-4 py-2 rounded-full">
+        <i class="fab fa-instagram text-gold"></i> @christo_timoty
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ DETAIL ACARA ============ -->
+  <section id="acara" class="bg-soft px-6 py-16 text-center">
+    <p class="reveal text-[11px] tracking-[.35em] text-gold uppercase mb-2">Save The Date</p>
+    <h3 class="reveal font-script text-4xl mb-10">Waktu &amp; Tempat</h3>
+
+    <!-- Pemberkatan Nikah -->
+    <div class="reveal bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8 mb-6">
+      <i class="fas fa-church text-gold text-2xl mb-4"></i>
+      <h4 class="font-serif text-2xl font-semibold mb-1">Pemberkatan Nikah</h4>
+      <p class="font-serif text-lg mb-1">Sabtu, 05 Desember 2026</p>
+      <p class="text-sm text-ink/60 mb-4">Pukul 08.00 WIB &ndash; selesai</p>
+      <div class="ornamen"><i class="fas fa-ring text-gold text-xs"></i></div>
+    </div>
+
+    <!-- Resepsi -->
+    <div class="reveal bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8 mb-6" style="transition-delay:.1s">
+      <i class="fas fa-champagne-glasses text-gold text-2xl mb-4"></i>
+      <h4 class="font-serif text-2xl font-semibold mb-1">Resepsi</h4>
+      <p class="font-serif text-lg mb-1">Minggu, 06 Desember 2026</p>
+      <p class="text-sm text-ink/60 mb-4">Pukul 13.00 WIB &ndash; selesai</p>
+      <div class="ornamen"><i class="fas fa-heart text-gold text-xs"></i></div>
+    </div>
+
+    <!-- Alamat -->
+    <div class="reveal bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8" style="transition-delay:.2s">
+      <i class="fas fa-map-location-dot text-gold text-2xl mb-4"></i>
+      <p class="text-xs tracking-[.2em] uppercase text-ink/50 mb-2">Alamat Acara</p>
+      <p class="text-sm leading-relaxed text-ink/80 mb-6">Mranggen Kidul RT 05 RW 01, Bansari, Temanggung</p>
+      <div class="flex flex-col gap-3">
+        <a href="https://maps.app.goo.gl/Yq513gMgsVoVvzsC8?g_st=awb" target="_blank" rel="noopener"
+           class="inline-flex items-center justify-center gap-2 bg-gold hover:bg-[#8f7450] text-white text-xs font-semibold tracking-[.2em] uppercase px-6 py-3.5 rounded-full transition">
+          <i class="fas fa-map-location-dot"></i> Lihat Google Maps
+        </a>
+        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Pernikahan%20Dhina%20%26%20Christo&amp;dates=20261205T010000Z%2F20261206T110000Z&amp;details=Pemberkatan%20Nikah%3A%20Sabtu%2C%2005%20Desember%202026%2C%20pukul%2008.00%20WIB%20%C2%B7%20Resepsi%3A%20Minggu%2C%2006%20Desember%202026%2C%20pukul%2013.00%20WIB&amp;location=Mranggen%20Kidul%20RT%2005%20RW%2001%2C%20Bansari%2C%20Temanggung" target="_blank" rel="noopener"
+           class="inline-flex items-center justify-center gap-2 border border-gold/50 text-ink/80 hover:bg-gold hover:text-white text-xs font-semibold tracking-[.2em] uppercase px-6 py-3.5 rounded-full transition">
+          <i class="fas fa-calendar-plus"></i> Simpan ke Kalender
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOVE STORY ============ -->
+  <section id="cerita" class="px-6 py-16 text-center">
+    <p class="reveal text-[11px] tracking-[.35em] text-gold uppercase mb-2">Cerita Kami</p>
+    <h3 class="reveal font-script text-4xl mb-3">Our Love Story</h3>
+    <p class="reveal italic text-sm text-ink/70 mb-12" style="transition-delay:.1s">Dari teman masa kecil, menjadi teman hidup selamanya.</p>
+
+    <!-- Bab 1 -->
+    <div class="reveal relative bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8 mb-6 text-left">
+      <span class="absolute -top-4 left-8 w-9 h-9 rounded-full bg-gold text-white font-serif text-base flex items-center justify-center shadow-md">1</span>
+      <h4 class="font-serif text-xl font-semibold mt-2 mb-3">Awal Cerita &mdash; Teman di Masa Kecil</h4>
+      <p class="text-sm text-ink/70 leading-relaxed">
+        Semua berawal dari sebuah masa sederhana, ketika kami masih mengenakan seragam sekolah dan belum
+        mengenal arti cinta. Kami hanyalah dua teman yang pernah berbagi cerita, tawa, dan kenangan di masa
+        kecil. Saat itu, kami tidak pernah menyangka bahwa seseorang yang pernah menjadi bagian dari cerita
+        masa sekolah akan menjadi bagian terpenting dalam kehidupan kami.
+      </p>
+    </div>
+
+    <!-- Bab 2 -->
+    <div class="reveal relative bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8 mb-6 text-left" style="transition-delay:.1s">
+      <span class="absolute -top-4 left-8 w-9 h-9 rounded-full bg-gold text-white font-serif text-base flex items-center justify-center shadow-md">2</span>
+      <h4 class="font-serif text-xl font-semibold mt-2 mb-3">Pertemuan Kembali &mdash; Takdir yang Menyapa</h4>
+      <p class="text-sm text-ink/70 leading-relaxed">
+        Waktu berlalu, kami tumbuh dengan jalan kehidupan masing-masing. Hingga suatu hari, takdir kembali
+        mempertemukan kami. Dari sapaan sederhana, percakapan kecil, hingga akhirnya tumbuh rasa yang berbeda.
+        Kami mulai menyadari bahwa mungkin pertemuan ini bukan sekadar kebetulan, melainkan bagian dari
+        rencana indah Tuhan.
+      </p>
+    </div>
+
+    <!-- Bab 3 -->
+    <div class="reveal relative bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8 mb-10 text-left" style="transition-delay:.2s">
+      <span class="absolute -top-4 left-8 w-9 h-9 rounded-full bg-gold text-white font-serif text-base flex items-center justify-center shadow-md">3</span>
+      <h4 class="font-serif text-xl font-semibold mt-2 mb-3">Menjadi Satu &mdash; Janji Seumur Hidup</h4>
+      <p class="text-sm text-ink/70 leading-relaxed">
+        Kini, teman kecil yang dahulu hanya berbagi cerita di bangku sekolah akan menjadi teman hidup untuk
+        selamanya. Bukan lagi sekadar teman berbagi tawa, tetapi seseorang yang akan menemani setiap langkah,
+        melewati suka dan duka, serta membangun masa depan bersama. Dengan penuh rasa syukur, kami memilih
+        untuk mengikat janji suci dalam sebuah pernikahan.
+      </p>
+    </div>
+
+    <!-- Penutup cerita -->
+    <div class="reveal bg-soft rounded-[2rem] p-8 border border-gold/20" style="transition-delay:.3s">
+      <p class="text-sm text-ink/75 leading-relaxed mb-4">
+        Siapa sangka, seseorang yang dahulu hanya menjadi bagian dari kenangan masa sekolah, kini menjadi
+        seseorang yang akan menemani seluruh perjalanan hidup.
+      </p>
+      <p class="font-serif italic text-base leading-loose text-ink/85 mb-4">
+        Dari teman kecil, menjadi teman hidup.<br>
+        Dari sebuah pertemanan, tumbuh menjadi cinta.<br>
+        Dan kini, kami siap menulis cerita selamanya. 🤍
+      </p>
+      <p class="text-xs italic text-ink/50 leading-relaxed">
+        &ldquo;We were once just childhood friends, but destiny had written a beautiful ending for us &mdash;
+        to be together forever.&rdquo;
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ WEDDING GIFT ============ -->
+  <section id="hadiah" class="bg-soft px-6 py-16 text-center">
+    <p class="reveal text-[11px] tracking-[.35em] text-gold uppercase mb-2">Wedding Gift</p>
+    <h3 class="reveal font-script text-4xl mb-4">Tanda Kasih</h3>
+    <p class="reveal text-sm text-ink/70 leading-relaxed max-w-xs mx-auto mb-10" style="transition-delay:.1s">
+      Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan
+      tanda kasih, Anda dapat memberikan hadiah melalui rekening berikut:
+    </p>
+
+    <div class="reveal bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8" style="transition-delay:.2s">
+      <p class="font-serif text-3xl font-bold tracking-widest text-gold mb-1">BCA</p>
+      <p class="text-[10px] tracking-[.25em] uppercase text-ink/50 mb-4">Nomor Rekening</p>
+      <p class="font-serif text-2xl font-semibold tracking-[.15em] mb-4 select-all">1550358961</p>
+      <p class="text-xs text-ink/60 mb-6">a.n. <span class="font-semibold text-ink/80">Christopha Matica Timothy</span></p>
+      <button data-copy="1550358961"
+              class="inline-flex items-center gap-2 bg-gold hover:bg-[#8f7450] text-white text-xs font-semibold tracking-[.2em] uppercase px-6 py-3 rounded-full transition">
+        <i class="fas fa-copy"></i> Salin Nomor Rekening
+      </button>
+    </div>
+
+    <!-- ============================================================
+         ALAMAT PENGIRIMAN GIFT (KIRIM HADIAH)
+         Data pada form klien masih KOSONG, sehingga bagian ini
+         sengaja tidak ditampilkan. Jika klien mengisi alamat
+         pengiriman hadiah, hapus tanda komentar di bawah lalu isi:
+    ============================================================
+    <section class="px-6 pt-10 text-center">
+      <div class="bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8">
+        <i class="fas fa-box-open text-gold text-2xl mb-4"></i>
+        <h4 class="font-serif text-2xl font-semibold mb-2">Kirim Hadiah</h4>
+        <p class="text-sm text-ink/70 leading-relaxed mb-4">
+          Hadiah juga dapat dikirim langsung ke alamat berikut:
+        </p>
+        <p class="text-sm text-ink/80 leading-relaxed">
+          <span class="font-semibold">Nama penerima:</span> ISI NAMA<br>
+          <span class="font-semibold">Alamat:</span> ISI ALAMAT LENGKAP<br>
+          <span class="font-semibold">No. Telepon:</span> ISI NOMOR TELEPON
+        </p>
+      </div>
+    </section>
+    ============================================================ -->
+  </section>
+
+  <!-- ============ RSVP ============ -->
+  <section id="rsvp" class="px-6 py-16 text-center">
+    <p class="reveal text-[11px] tracking-[.35em] text-gold uppercase mb-2">RSVP</p>
+    <h3 class="reveal font-script text-4xl mb-4">Konfirmasi Kehadiran</h3>
+    <p class="reveal text-sm text-ink/70 leading-relaxed max-w-xs mx-auto mb-10" style="transition-delay:.1s">
+      Kehadiran dan doa restu Anda adalah hadiah terindah bagi kami. Mohon konfirmasi kehadiran Anda
+      melalui formulir berikut. Data akan tersimpan otomatis.
+    </p>
+
+    <form id="rsvp-form" class="reveal bg-white rounded-[2rem] border border-gold/20 shadow-lg p-8 text-left" style="transition-delay:.2s">
+      <label class="block text-[10px] tracking-[.2em] uppercase text-ink/50 mb-1.5" for="nama">Nama Lengkap</label>
+      <input id="nama" name="nama" type="text" required placeholder="Tulis nama Anda"
+             class="w-full rounded-xl border border-ink/15 bg-cream/60 px-4 py-3 text-sm outline-none focus:border-gold transition mb-5">
+
+      <label class="block text-[10px] tracking-[.2em] uppercase text-ink/50 mb-1.5" for="kehadiran">Konfirmasi Kehadiran</label>
+      <select id="kehadiran" name="kehadiran" required
+              class="w-full rounded-xl border border-ink/15 bg-cream/60 px-4 py-3 text-sm outline-none focus:border-gold transition mb-5">
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
+        <option value="Masih Ragu">Masih Ragu</option>
+      </select>
+
+      <div id="jumlah-wrap" class="mb-5 transition-opacity">
+        <label class="block text-[10px] tracking-[.2em] uppercase text-ink/50 mb-1.5" for="jumlah">Jumlah Tamu</label>
+        <input id="jumlah" name="jumlah" type="number" min="1" max="20" value="1"
+               class="w-full rounded-xl border border-ink/15 bg-cream/60 px-4 py-3 text-sm outline-none focus:border-gold transition">
+      </div>
+
+      <label class="block text-[10px] tracking-[.2em] uppercase text-ink/50 mb-1.5" for="pesan">Ucapan &amp; Doa</label>
+      <textarea id="pesan" name="pesan" rows="4" placeholder="Tuliskan ucapan dan doa terbaik untuk kami"
+                class="w-full rounded-xl border border-ink/15 bg-cream/60 px-4 py-3 text-sm outline-none focus:border-gold transition resize-none mb-6"></textarea>
+
+      <button id="rsvp-btn" type="submit"
+              class="w-full inline-flex items-center justify-center gap-2 bg-gold hover:bg-[#8f7450] text-white text-xs font-semibold tracking-[.25em] uppercase px-6 py-4 rounded-full transition">
+        <i class="fas fa-paper-plane"></i> Kirim Konfirmasi
+      </button>
+
+      <p id="rsvp-status" class="mt-4 text-xs text-center hidden"></p>
+      <p class="mt-4 text-[10px] text-center text-ink/40">* Data konfirmasi tersimpan otomatis pada Form RSVP.</p>
+    </form>
+
+    <!-- Daftar ucapan (muncul otomatis jika Web App Apps Script sudah aktif) -->
+    <div id="ucapan-wrap" class="hidden mt-10">
+      <div class="ornamen mb-6"><i class="fas fa-comments text-gold text-xs"></i></div>
+      <h4 class="font-serif text-2xl font-semibold mb-6">Ucapan &amp; Doa</h4>
+      <div id="ucapan-list" class="space-y-3 max-h-96 overflow-y-auto pr-1"></div>
+    </div>
+  </section>
+
+  <!-- ============ PENUTUP ============ -->
+  <section class="bg-soft px-6 py-16 text-center">
+    <p class="reveal text-sm text-ink/70 leading-relaxed max-w-xs mx-auto mb-8">
+      Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir
+      untuk memberikan doa restu kepada kami.
+    </p>
+    <p class="reveal text-xs tracking-[.25em] uppercase text-ink/50 mb-2" style="transition-delay:.1s">Kami yang berbahagia,</p>
+    <p class="reveal font-script text-5xl text-gold" style="transition-delay:.2s">Dhina &amp; Christo</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-10 text-center bg-black border-t border-white/10">
+      <div class="flex justify-center items-center gap-6 mb-6">
+          <a href="https://www.instagram.com/bernaung.inv/" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+          <div class="w-16 h-16 rounded-full bg-cover border border-white/20 mx-2 shadow-lg" style="background-image:url('/_cdn/andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg')"></div>
+          <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" class="text-sm text-white font-main font-bold tracking-widest hover:text-gray-300 transition-colors block mb-4">HUBUNGI KAMI</a>
+      <p class="text-[10px] font-main text-gray-500">&copy; 2026 Bernaung Invitation.</p>
+  </footer>
+
+</div>
+
+<!-- ============================================================
+     SCRIPT UTAMA
+     ============================================================ -->
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Nama tamu dari URL (?to=Nama%20Tamu) ---------- */
+  var params = new URLSearchParams(location.search);
+  var guest  = params.get("to") || params.get("tamu") || "Bapak/Ibu/Saudara/i";
+  var guestEl = document.getElementById("guest-name");
+  guestEl.textContent = guest;
+
+  /* ---------- Latar cover opsional (FOTO_COVER) ---------- */
+  if (FOTO_COVER) {
+    document.getElementById("cover").style.backgroundImage = "linear-gradient(rgba(38,33,23,.72), rgba(38,33,23,.72)), url('" + FOTO_COVER + "')";
+    document.getElementById("cover").style.backgroundSize = "cover";
+    document.getElementById("cover").style.backgroundPosition = "center";
+  }
+
+  /* ---------- Buka undangan ---------- */
+  var cover = document.getElementById("cover");
+  document.getElementById("btn-open").addEventListener("click", function () {
+    document.body.classList.remove("no-scroll");
+    cover.classList.add("cover-hide");
+    var nav = document.getElementById("bottom-nav");
+    nav.classList.remove("hidden");
+    setTimeout(function () { cover.remove(); window.scrollTo(0, 0); }, 950);
+    startMusic();
+  });
+
+  /* ---------- Musik latar ---------- */
+  var bgm = document.getElementById("bgm");
+  var musicBtn = document.getElementById("music-btn");
+  var musicIcon = document.getElementById("music-icon");
+  var playing = false;
+
+  if (MUSIC_URL) {
+    bgm.src = MUSIC_URL;
+    musicBtn.classList.remove("hidden");
+    musicBtn.classList.add("flex");
+  }
+  function startMusic() {
+    if (!MUSIC_URL) return;
+    bgm.play().then(function () {
+      playing = true;
+      musicIcon.classList.add("spin-slow");
+    }).catch(function () {});
+  }
+  musicBtn.addEventListener("click", function () {
+    if (!MUSIC_URL) return;
+    if (playing) { bgm.pause(); musicIcon.classList.remove("spin-slow"); }
+    else { bgm.play().catch(function () {}); musicIcon.classList.add("spin-slow"); }
+    playing = !playing;
+  });
+
+  /* ---------- Countdown menuju Pemberkatan (05 Des 2026, 08.00 WIB) ---------- */
+  var target = new Date("2026-12-05T08:00:00+07:00").getTime();
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function tick() {
+    var diff = target - Date.now();
+    if (diff <= 0) {
+      document.getElementById("cd-d").textContent = "00";
+      document.getElementById("cd-h").textContent = "00";
+      document.getElementById("cd-m").textContent = "00";
+      document.getElementById("cd-s").textContent = "00";
+      return;
+    }
+    var s = Math.floor(diff / 1000);
+    document.getElementById("cd-d").textContent = pad(Math.floor(s / 86400));
+    document.getElementById("cd-h").textContent = pad(Math.floor((s % 86400) / 3600));
+    document.getElementById("cd-m").textContent = pad(Math.floor((s % 3600) / 60));
+    document.getElementById("cd-s").textContent = pad(s % 60);
+    setTimeout(tick, 1000);
+  }
+  tick();
+
+  /* ---------- Animasi reveal saat scroll ---------- */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+  /* ---------- Salin nomor rekening ---------- */
+  document.querySelectorAll("[data-copy]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = btn.getAttribute("data-copy");
+      var done = function () {
+        var old = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Tersalin';
+        setTimeout(function () { btn.innerHTML = old; }, 2000);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text); done(); });
+      } else { fallbackCopy(text); done(); }
+    });
+  });
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- RSVP ---------- */
+  var form = document.getElementById("rsvp-form");
+  var statusEl = document.getElementById("rsvp-status");
+  var btnRsvp = document.getElementById("rsvp-btn");
+  var kehadiranSel = document.getElementById("kehadiran");
+  var jumlahWrap = document.getElementById("jumlah-wrap");
+  var jumlahInput = document.getElementById("jumlah");
+
+  kehadiranSel.addEventListener("change", function () {
+    var off = kehadiranSel.value === "Tidak Hadir";
+    jumlahWrap.style.opacity = off ? "0.4" : "1";
+    jumlahInput.disabled = off;
+  });
+
+  function setStatus(msg, type) {
+    statusEl.className = "mt-4 text-xs text-center " + (type === "ok" ? "text-emerald-700" : type === "err" ? "text-rose-600" : "text-ink/60");
+    statusEl.textContent = msg;
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function renderUcapan(rows) {
+    var wrap = document.getElementById("ucapan-wrap");
+    var list = document.getElementById("ucapan-list");
+    if (!rows || !rows.length) { wrap.classList.add("hidden"); return; }
+    wrap.classList.remove("hidden");
+    list.innerHTML = rows.map(function (r) {
+      var warna = r.kehadiran === "Hadir" ? "bg-emerald-100 text-emerald-700"
+        : r.kehadiran === "Tidak Hadir" ? "bg-rose-100 text-rose-700"
+        : "bg-amber-100 text-amber-700";
+      return '<div class="bg-white rounded-2xl border border-ink/10 p-4 shadow-sm text-left">' +
+        '<div class="flex items-center justify-between gap-2 mb-1">' +
+          '<span class="font-semibold text-sm">' + esc(r.nama) + '</span>' +
+          '<span class="text-[10px] px-2 py-0.5 rounded-full ' + warna + '">' + esc(r.kehadiran) + '</span>' +
+        '</div>' +
+        (r.pesan ? '<p class="text-sm text-ink/80 leading-relaxed">' + esc(r.pesan) + '</p>' : '') +
+        '<p class="text-[10px] text-ink/40 mt-2">' + esc(r.waktu) + '</p>' +
+      '</div>';
+    }).join("");
+  }
+
+  /* Ambil ucapan terbaru dari Spreadsheet (opsional, gagal = tidak ditampilkan) */
+  function loadUcapan() {
+    if (!RSVP_WEBAPP_URL) return;
+    fetch(RSVP_WEBAPP_URL, { method: "GET" })
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        if (json && json.status === "success" && Array.isArray(json.data)) renderUcapan(json.data);
+        else renderUcapan(null);
+      })
+      .catch(function () { renderUcapan(null); });
+  }
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!RSVP_WEBAPP_URL) {
+      setStatus("Pengaturan belum selesai: URL Apps Script belum dipasang. Isi konstanta RSVP_WEBAPP_URL di bagian atas file ini.", "err");
+      return;
+    }
+    var btnHtml = btnRsvp.innerHTML;
+    btnRsvp.disabled = true;
+    btnRsvp.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Mengirim...';
+    setStatus("", "info");
+
+    var payload = new URLSearchParams({
+      nama:      document.getElementById("nama").value.trim(),
+      kehadiran: kehadiranSel.value,
+      jumlah:    jumlahInput.disabled ? "0" : jumlahInput.value,
+      pesan:     document.getElementById("pesan").value.trim()
+    });
+
+    /* mode no-cors: kirim tetap sampai ke Spreadsheet; hasil dibaca lewat daftar ucapan / sheet */
+    fetch(RSVP_WEBAPP_URL, { method: "POST", mode: "no-cors", body: payload })
+      .then(function () {
+        setStatus("Terima kasih! Konfirmasi kehadiran Anda telah kami terima. 🤍", "ok");
+        form.reset();
+        jumlahInput.value = "1";
+        loadUcapan();
+      })
+      .catch(function () {
+        setStatus("Maaf, terjadi kendala saat mengirim. Silakan coba lagi atau hubungi kami.", "err");
+      })
+      .finally(function () {
+        btnRsvp.disabled = false;
+        btnRsvp.innerHTML = btnHtml;
+      });
+  });
+
+  loadUcapan();
+})();
+</script>
+</body>
+</html>

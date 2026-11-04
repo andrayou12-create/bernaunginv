@@ -1,0 +1,75 @@
+/* ============================================================
+   BERNAUNG INVITATION — footer.css (aset global)
+   ------------------------------------------------------------
+   Styling footer brand yang seragam untuk SEMUA tema undangan.
+   Footer memakai kelas Tailwind, tapi tidak semua tema memuat
+   Tailwind — file ini mendefinisikan kelas yang dipakai footer
+   dengan selector diawali `footer.` agar tidak menabrak CSS tema.
+   Ikon Instagram/WhatsApp memakai FontAwesome Brands yang
+   diunduh lokal (folder _cdn) — tanpa koneksi ke web vendor.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Font Awesome 6 Brands';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('../_cdn/the.invisimple.id/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-brands-400.woff2') format('woff2'),
+       url('../_cdn/the.invisimple.id/wp-content/plugins/elementor/assets/lib/font-awesome/webfonts/fa-brands-400.ttf') format('truetype');
+}
+
+/* --- Ikon (scoped ke footer agar tidak menabrak FA tema) --- */
+footer .fab {
+  font-family: 'Font Awesome 6 Brands', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  line-height: 1;
+}
+footer .fa-instagram::before { content: '\f16d'; }
+footer .fa-whatsapp::before  { content: '\f232'; }
+
+/* --- Kelas utilitas yang dipakai footer --- */
+footer.py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+footer.text-center { text-align: center; }
+footer.bg-black { background-color: #000; }
+footer.border-t { border-top-width: 1px; }
+footer.border-white\/10 { border-color: rgba(255,255,255,.1); }
+footer.border-t.border-white\/10 { border-top-style: solid; }
+
+footer .flex { display: flex; }
+footer .justify-center { justify-content: center; }
+footer .items-center { align-items: center; }
+footer .gap-6 { gap: 1.5rem; }
+footer .mb-6 { margin-bottom: 1.5rem; }
+footer .mb-4 { margin-bottom: 1rem; }
+footer .mx-2 { margin-left: .5rem; margin-right: .5rem; }
+footer .block { display: block; }
+
+footer .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+footer .text-sm { font-size: .875rem; line-height: 1.25rem; }
+footer .text-\[10px\] { font-size: 10px; }
+
+footer .text-gray-400 { color: #9ca3af; }
+footer .text-gray-500 { color: #6b7280; }
+footer .text-white { color: #fff; }
+footer .hover\:text-white:hover { color: #fff; }
+footer .hover\:text-gray-300:hover { color: #d1d5db; }
+
+footer .transition-colors { transition: color .3s ease; }
+
+footer .w-16 { width: 4rem; }
+footer .h-16 { height: 4rem; }
+footer .rounded-full { border-radius: 9999px; }
+footer .bg-cover { background-size: cover; background-position: center; }
+footer .border { border-width: 1px; border-style: solid; }
+footer .border-white\/20 { border-color: rgba(255,255,255,.2); }
+footer .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1); }
+
+footer .font-main { font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif; }
+footer .font-bold { font-weight: 700; }
+footer .tracking-widest { letter-spacing: .1em; }
+
+footer a { text-decoration: none; }

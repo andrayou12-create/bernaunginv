@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Admin — Bernaung Invitation</title>
+<link rel="icon" type="image/jpeg" href="/assets.bernaung.id/loading-bernaung.jpeg">
+<link rel="stylesheet" href="/assets.bernaung.id/footer.css">
+<style>
+  :root { --bg:#141d28; --card:#1d2a3a; --line:#31465e; --text:#eef3f8; --muted:#93a5ba; --gold:#e8c687; --green:#3ecf8e; --red:#ff6b6b; --blue:#6ea8fe; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Poppins','Segoe UI',Tahoma,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+  a { color:var(--blue); text-decoration:none; } a:hover { text-decoration:underline; }
+  .hidden { display:none !important; }
+
+  /* ---------- LOGIN ---------- */
+  #login { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
+  .login-box { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:38px 34px; width:100%; max-width:380px; text-align:center; }
+  .login-box .logo { width:76px; height:76px; border-radius:50%; background-size:cover; border:3px solid #fff; margin:0 auto 14px; box-shadow:0 6px 18px rgba(0,0,0,.4); }
+  .login-box h1 { font-size:17px; letter-spacing:2px; margin-bottom:6px; }
+  .login-box p { color:var(--muted); font-size:12.5px; margin-bottom:20px; }
+  .login-box input { width:100%; text-align:center; font-size:16px; letter-spacing:2px; padding:12px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--text); }
+  .login-box input:focus { outline:none; border-color:var(--gold); }
+  .login-box button { width:100%; margin-top:14px; padding:12px; border:0; border-radius:10px; background:var(--gold); color:#16202c; font-weight:700; letter-spacing:1px; cursor:pointer; font-size:14px; }
+  .login-err { color:var(--red); font-size:12.5px; margin-top:12px; min-height:16px; }
+
+  /* ---------- APP ---------- */
+  header.top { display:flex; align-items:center; gap:14px; padding:14px 22px; border-bottom:1px solid var(--line); background:var(--card); position:sticky; top:0; z-index:40; flex-wrap:wrap; }
+  header.top .logo { width:38px; height:38px; border-radius:50%; background-size:cover; border:2px solid #fff; }
+  header.top h1 { font-size:15px; letter-spacing:1.5px; flex:1; }
+  header.top .btn-out { background:transparent; border:1px solid var(--line); color:var(--muted); border-radius:8px; padding:7px 14px; cursor:pointer; font-size:12px; }
+  nav.tabs { display:flex; gap:6px; padding:12px 22px 0; flex-wrap:wrap; }
+  nav.tabs button { background:var(--card); border:1px solid var(--line); border-bottom:none; color:var(--muted); padding:10px 18px; border-radius:10px 10px 0 0; cursor:pointer; font-size:13px; letter-spacing:.5px; }
+  nav.tabs button.active { color:var(--gold); border-color:var(--gold); font-weight:600; }
+  main { padding:22px; max-width:1200px; margin:0 auto 60px; }
+
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; margin-bottom:18px; }
+  .card h2 { font-size:15px; letter-spacing:1px; margin-bottom:14px; color:var(--gold); }
+  .card .desc { color:var(--muted); font-size:12.5px; line-height:1.65; margin-bottom:14px; }
+
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; color:var(--muted); font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:8px 8px; border-bottom:1px solid var(--line); }
+  td { padding:9px 8px; border-bottom:1px solid rgba(49,70,94,.4); vertical-align:middle; }
+  tr:hover td { background:rgba(232,198,135,.04); }
+  td input, td select { width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:7px; padding:7px 9px; font-family:inherit; font-size:12.5px; }
+  td input:focus { outline:none; border-color:var(--gold); }
+  .thumb { width:44px; height:44px; border-radius:8px; background:#0f1620; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:9px; color:var(--muted); }
+
+  .btn { cursor:pointer; border:0; border-radius:9px; padding:9px 16px; font-family:inherit; font-weight:600; font-size:12.5px; letter-spacing:.5px; transition:transform .15s; }
+  .btn:hover { transform:translateY(-1px); }
+  .btn-gold { background:var(--gold); color:#16202c; }
+  .btn-line { background:transparent; border:1px solid var(--line); color:var(--text); }
+  .btn-green { background:var(--green); color:#0b2119; }
+  .btn-red { background:transparent; border:1px solid var(--red); color:var(--red); }
+  .btn-sm { padding:6px 11px; font-size:11.5px; }
+  .btn:disabled { opacity:.5; cursor:wait; transform:none; }
+
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  @media (max-width:760px){ .grid2,.grid3{grid-template-columns:1fr;} }
+
+  fieldset { border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:16px; }
+  legend { padding:0 10px; color:var(--gold); font-size:12px; letter-spacing:1px; }
+  label.f { display:block; font-size:11px; color:var(--muted); letter-spacing:.5px; margin:10px 0 4px; }
+  input.f, select.f, textarea.f { width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-family:inherit; font-size:13px; }
+  input.f:focus, textarea.f:focus { outline:none; border-color:var(--gold); }
+  textarea.f { min-height:70px; resize:vertical; }
+  .hint { font-size:11.5px; color:var(--muted); margin-top:5px; line-height:1.55; }
+
+  .status { display:inline-block; padding:3px 10px; border-radius:999px; font-size:10.5px; font-weight:700; letter-spacing:.5px; }
+  .st-paid { background:rgba(62,207,142,.15); color:var(--green); border:1px solid var(--green); }
+  .st-unpaid { background:rgba(255,107,107,.12); color:var(--red); border:1px solid var(--red); }
+
+  #toast { position:fixed; left:50%; bottom:26px; transform:translateX(-50%); background:#0f1720; border:1px solid var(--gold); color:var(--gold); padding:11px 20px; border-radius:999px; font-size:13px; opacity:0; pointer-events:none; transition:opacity .25s; z-index:99; max-width:90vw; }
+  #toast.show { opacity:1; }
+  #busy { position:fixed; inset:0; background:rgba(10,15,22,.72); display:flex; align-items:center; justify-content:center; z-index:98; flex-direction:column; gap:14px; }
+  .spin { width:44px; height:44px; border:4px solid var(--line); border-top-color:var(--gold); border-radius:50%; animation:sp 1s linear infinite; }
+  @keyframes sp { to { transform:rotate(360deg); } }
+
+  .dl-list { list-style:none; margin-top:10px; }
+  .dl-list li { display:flex; justify-content:space-between; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:9px; padding:9px 12px; margin-bottom:8px; font-size:12.5px; }
+  .dl-list code { color:var(--blue); word-break:break-all; }
+  .warn { color:var(--red); font-size:12px; margin-top:8px; }
+  .iframe-prev { width:100%; height:420px; border:1px solid var(--line); border-radius:12px; background:#0f1620; }
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div id="login">
+  <div class="login-box">
+    <div class="logo" style="background-image:url('/assets.bernaung.id/loading-bernaung.jpeg')"></div>
+    <h1>BERNAUNG INVITATION</h1>
+    <p>Panel Admin &mdash; khusus admin. Masukkan PIN untuk melanjutkan.</p>
+    <input type="password" id="pin" placeholder="PIN Admin" autocomplete="current-password">
+    <button id="pinBtn">MASUK</button>
+    <div class="login-err" id="pinErr"></div>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app" class="hidden">
+  <header class="top">
+    <div class="logo" style="background-image:url('/assets.bernaung.id/loading-bernaung.jpeg')"></div>
+    <h1>PANEL ADMIN &mdash; BERNAUNG INVITATION</h1>
+    <span id="modeBadge" class="status st-unpaid"></span>
+    <button class="btn-out" id="logout">Keluar</button>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="katalog" class="active">Katalog &amp; Harga</button>
+    <button data-tab="baru">Customer Baru</button>
+    <button data-tab="daftar">Daftar Customer</button>
+    <button data-tab="set">Pengaturan</button>
+  </nav>
+
+  <main>
+    <!-- ============ TAB KATALOG ============ -->
+    <section id="tab-katalog">
+      <div class="card">
+        <h2>KLASIFIKASI, HARGA &amp; TAMPILAN TEMA</h2>
+        <p class="desc">Ubah nama, klasifikasi (pemisah katalog otomatis mengikuti kolom ini), harga, urutan, dan tampilkan/sembunyikan tema. 1 jenis undangan = 1 entri katalog. Jangan lupa klik <b>Simpan Katalog</b>.</p>
+        <div style="overflow-x:auto">
+          <table id="themeTable">
+            <thead><tr><th>Pratinjau</th><th>Nama Tema</th><th>Klasifikasi</th><th>Harga (Rp)</th><th>Urutan</th><th>Tampil</th><th>Path</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+          <button class="btn btn-gold" id="saveCatalog">SIMPAN KATALOG</button>
+          <button class="btn btn-line" id="addTheme">+ TAMBAH TEMA BARU</button>
+        </div>
+        <p class="hint" id="catalogInfo"></p>
+      </div>
+      <div class="card">
+        <h2>DAFTAR CUSTOMER (RINGKAS)</h2>
+        <p class="desc">Ringkasan customer &mdash; kelola lengkap di tab <b>Daftar Customer</b>.</p>
+        <div id="custMini"></div>
+      </div>
+    </section>
+
+    <!-- ============ TAB CUSTOMER BARU ============ -->
+    <section id="tab-baru" class="hidden">
+      <div class="card">
+        <h2>BUAT UNDANGAN CUSTOMER BARU</h2>
+        <p class="desc">Pilih tema, isi detail acara baru, lalu klik <b>Buat Undangan</b>. Sistem akan menyalin tema, mengganti seluruh data demo dengan data customer, menautkan RSVP (Apps Script), dan mencatatnya ke daftar customer.</p>
+
+        <fieldset>
+          <legend>IDENTITAS UNDANGAN</legend>
+          <div class="grid2">
+            <div><label class="f">Nama Customer / Folder (slug)</label><input class="f" id="c_slug" placeholder="mis. budi-sari"><div class="hint">Jadi alamat undangan: <code>/customer/&lt;slug&gt;/index.html</code>. Huruf kecil &amp; tanda minus.</div></div>
+            <div><label class="f">Tema Undangan</label><select class="f" id="c_theme"></select></div>
+          </div>
+          <div class="grid2" style="margin-top:12px">
+            <div><label class="f">Judul Situs (tab browser)</label><input class="f" id="c_title" placeholder="Wedding - Budi & Sari"></div>
+            <div><label class="f">Nama Pasangan (hero)</label><input class="f" id="c_heroNames" placeholder="Budi & Sari"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>MEMPELAI WANITA</legend>
+          <div class="grid2">
+            <div><label class="f">Nama Panggilan</label><input class="f" id="c_brideNick" placeholder="Sari"></div>
+            <div><label class="f">Nama Lengkap</label><input class="f" id="c_brideFull" placeholder="Sari Amelia Putri"></div>
+          </div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">Putri dari (orang tua — teks utuh)</label><input class="f" id="c_brideParents" placeholder="Putri dari Bapak Budi dan Ibu Sari"></div>
+            <div class="grid2" style="gap:10px">
+              <div><label class="f">Ayah (tema terpisah)</label><input class="f" id="c_brideFather" placeholder="Bapak Budi"></div>
+              <div><label class="f">Ibu (tema terpisah)</label><input class="f" id="c_brideMother" placeholder="Ibu Sari"></div>
+            </div>
+          </div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">Instagram (tanpa @)</label><input class="f" id="c_brideIg" placeholder="instagram_wanita"></div>
+            <div><label class="f">Foto (opsional — instruksi)</label><input class="f" id="c_brideNote" placeholder="Catatan untuk foto mempelai wanita"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>MEMPELAI PRIA</legend>
+          <div class="grid2">
+            <div><label class="f">Nama Panggilan</label><input class="f" id="c_groomNick" placeholder="Budi"></div>
+            <div><label class="f">Nama Lengkap</label><input class="f" id="c_groomFull" placeholder="Budi Santoso"></div>
+          </div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">Putra dari (orang tua — teks utuh)</label><input class="f" id="c_groomParents" placeholder="Putra dari Bapak Andi dan Ibu Rina"></div>
+            <div class="grid2" style="gap:10px">
+              <div><label class="f">Ayah (tema terpisah)</label><input class="f" id="c_groomFather" placeholder="Bapak Andi"></div>
+              <div><label class="f">Ibu (tema terpisah)</label><input class="f" id="c_groomMother" placeholder="Ibu Rina"></div>
+            </div>
+          </div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">Instagram (tanpa @)</label><input class="f" id="c_groomIg" placeholder="instagram_pria"></div>
+            <div><label class="f">Pasangan ke-2 (khusus tema Kembar)</label><input class="f" id="c_groom2Full" placeholder="kosongkan bila tidak perlu"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>ACARA</legend>
+          <div class="grid3">
+            <div><label class="f">Akad — Hari &amp; Tanggal</label><input class="f" id="c_akadDayDate" placeholder="Minggu, 05 Desember 2026"></div>
+            <div><label class="f">Akad — Jam</label><input class="f" id="c_akadTime" placeholder="08.00 WIB"></div>
+            <div><label class="f">Akad — Tempat</label><input class="f" id="c_akadPlace" placeholder="Masjid Al-Ikhlas"></div>
+          </div>
+          <div class="grid3" style="margin-top:10px">
+            <div><label class="f">Resepsi — Hari &amp; Tanggal</label><input class="f" id="c_resDayDate" placeholder="Minggu, 05 Desember 2026"></div>
+            <div><label class="f">Resepsi — Jam</label><input class="f" id="c_resTime" placeholder="11.00 - 14.00 WIB"></div>
+            <div><label class="f">Resepsi — Tempat</label><input class="f" id="c_resPlace" placeholder="Gedung Serbaguna"></div>
+          </div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">Alamat Lengkap</label><input class="f" id="c_address" placeholder="Jl. Merdeka No. 10, Yogyakarta"></div>
+            <div><label class="f">Link Google Maps</label><input class="f" id="c_gmaps" placeholder="https://maps.app.goo.gl/..."></div>
+          </div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">Hitung Mundur (untuk tema Modern)</label><input class="f" id="c_countdown" type="datetime-local"><div class="hint">Boleh kosong — otomatis diisi dari akad bila bisa dibaca.</div></div>
+            <div><label class="f">Teks Tambahan 2 Pasangan (tema Kembar)</label><input class="f" id="c_bride2Full" placeholder="kosongkan bila tidak perlu"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>AMPLOP DIGITAL / KADO</legend>
+          <div class="grid3">
+            <div><label class="f">Rekening 1 — Nomor</label><input class="f" id="c_gift1Number" placeholder="1234567890"></div>
+            <div><label class="f">Rekening 1 — a.n.</label><input class="f" id="c_gift1Name" placeholder="Nama Pemilik"></div>
+            <div><label class="f">Rekening 1 — Bank (teks khusus)</label><input class="f" id="c_gift1Bank" placeholder="mis. SeaBank (kosongkan bila pakai penggantian tambahan)"></div>
+          </div>
+          <div class="grid3" style="margin-top:10px">
+            <div><label class="f">Rekening 2 — Nomor</label><input class="f" id="c_gift2Number"></div>
+            <div><label class="f">Rekening 2 — a.n.</label><input class="f" id="c_gift2Name"></div>
+            <div><label class="f">Rekening 3 — Nomor</label><input class="f" id="c_gift3Number"></div>
+          </div>
+          <div class="grid3" style="margin-top:10px">
+            <div><label class="f">Penerima Kado — Nama</label><input class="f" id="c_kadoName" placeholder="Budi"></div>
+            <div><label class="f">Penerima Kado — No. HP</label><input class="f" id="c_kadoPhone" placeholder="+6281234567890"></div>
+            <div><label class="f">Penerima Kado — Alamat</label><input class="f" id="c_kadoAddress" placeholder="Jl. ..."></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>RSVP — PILIH METODE</legend>
+          <div class="grid3">
+            <div><label class="f">Metode RSVP</label>
+              <select class="f" id="c_rsvpMode">
+                <option value="wa" selected>WhatsApp — internal, tanpa spreadsheet</option>
+                <option value="sheet">Google Spreadsheet (Apps Script)</option>
+                <option value="demo">Tanpa RSVP (demo saja)</option>
+              </select>
+            </div>
+            <div id="waField"><label class="f">WhatsApp Tujuan (format 62...)</label><input class="f" id="c_wa" placeholder="6282324137816"></div>
+            <div><label class="f">Link Google Spreadsheet (catatan admin)</label><input class="f" id="c_sheet" placeholder="https://docs.google.com/spreadsheets/..."></div>
+          </div>
+          <div id="waHint" class="hint" style="margin-top:10px"><b>WhatsApp (internal):</b> ucapan &amp; konfirmasi tamu terkirim langsung ke WhatsApp keluarga — customer tidak perlu membuat spreadsheet. Form RSVP tampil normal di undangan.</div>
+          <div id="sheetFields" style="margin-top:10px">
+            <label class="f">URL Apps Script (berakhiran /exec)</label>
+            <input class="f" id="c_appscript" placeholder="https://script.google.com/macros/s/AKfyc.../exec">
+            <div class="hint">Ikuti panduan di tab Pengaturan. Jika tema sudah memiliki form RSVP sendiri yang berfungsi, URL ini menggantikan endpoint lamanya.</div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>PENGGANTIAN TAMBAHAN (OPSIONAL)</legend>
+          <label class="f">Satu per baris, format: <b>teks demo lama | teks baru</b></label>
+          <textarea class="f" id="c_extra" placeholder="Keluarga Besar Bapak Mohamad Rasul | Keluarga Besar Bapak Ahmad&#10;Episode 1: Pertemuan | Bab 1: Awal Mula"></textarea>
+        </fieldset>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-gold" id="btnGenerate">BUAT UNDANGAN</button>
+          <button class="btn btn-line" id="btnPreviewTheme">PRATINJAU TEMA (DEMO)</button>
+        </div>
+        <div id="genReport"></div>
+        <div id="genPreview" style="margin-top:14px"></div>
+      </div>
+    </section>
+
+    <!-- ============ TAB DAFTAR CUSTOMER ============ -->
+    <section id="tab-daftar" class="hidden">
+      <div class="card">
+        <h2>DAFTAR CUSTOMER</h2>
+        <p class="desc">Tandai <b>Terbayar</b> untuk otomatis membuat halaman <b>Generator Link Tamu</b> (<code>tamu.html</code>) di folder customer. Gunakan <b>Edit</b> untuk mengubah data lalu membuat ulang file undangan.</p>
+        <div style="overflow-x:auto">
+          <table id="custTable">
+            <thead><tr><th>Customer</th><th>Tema</th><th>Acara</th><th>RSVP</th><th>Status</th><th>Aksi</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TAB PENGATURAN ============ -->
+    <section id="tab-set" class="hidden">
+      <div class="card">
+        <h2>PENYIMPANAN LANGSUNG (GITHUB)</h2>
+        <p class="desc">Agar tombol simpan langsung mengubah repo dari browser, buat <b>GitHub Personal Access Token (fine-grained)</b>: buka github.com &rarr; Settings &rarr; Developer settings &rarr; Fine-grained tokens &rarr; Generate. Beri akses <b>Contents: Read and write</b> hanya untuk repo <code>bernaunginv</code>. Token disimpan <b>hanya di browser Anda</b> (localStorage) dan tidak pernah dikirim ke tempat lain.</p>
+        <div class="grid2">
+          <div><label class="f">Repo (owner/nama)</label><input class="f" id="s_repo" placeholder="andrayou12-create/bernaunginv"></div>
+          <div><label class="f">Branch</label><input class="f" id="s_branch" placeholder="main"></div>
+        </div>
+        <div style="margin-top:10px"><label class="f">GitHub Token (PAT)</label><input class="f" id="s_token" type="password" placeholder="github_pat_... (kosongkan untuk mode unduh manual)"></div>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-gold" id="saveSettings">SIMPAN PENGATURAN</button>
+          <button class="btn btn-line" id="testToken">TES KONEKSI</button>
+        </div>
+        <p class="hint">Tanpa token: panel tetap bisa dipakai &mdash; hasil perubahan/undangan akan <b>diunduh sebagai file</b> untuk Anda unggah manual ke GitHub (Add file &rarr; Upload files).</p>
+      </div>
+
+      <div class="card">
+        <h2>GANTI PIN ADMIN</h2>
+        <p class="desc">PIN saat ini tersimpan sebagai hash di <code>assets.bernaung.id/admin-auth.js</code>. Dengan token terpasang, panel bisa menggantinya otomatis. Tanpa token, unduh file baru lalu unggah manual menggantikan file lama.</p>
+        <div class="grid3">
+          <div><label class="f">PIN Baru</label><input class="f" id="p1" type="password"></div>
+          <div><label class="f">Ulangi PIN Baru</label><input class="f" id="p2" type="password"></div>
+          <div style="display:flex;align-items:flex-end"><button class="btn btn-gold" id="btnPin" style="width:100%">GANTI PIN</button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>PANDUAN RSVP (SPREADSHEET + APPS SCRIPT)</h2>
+        <p class="desc">
+          1. Buat Spreadsheet baru di sheets.google.com &rarr; Extensions &rarr; Apps Script.<br>
+          2. Hapus kode bawaan, tempel isi file <code>assets.bernaung.id/Code.gs</code> (tersedia juga di panel ini), Save.<br>
+          3. Deploy &rarr; New deployment &rarr; Web app &rarr; Execute as: <b>Me</b>, Who has access: <b>Anyone</b> &rarr; Deploy &rarr; Allow.<br>
+          4. Salin URL berakhiran <b>/exec</b> &rarr; tempel di form Customer Baru (bagian RSVP).<br>
+          5. Selesai &mdash; RSVP undangan customer tersimpan otomatis ke spreadsheet Anda.
+        </p>
+        <button class="btn btn-line" id="dlCode">UNDUH Code.gs</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal unduhan manual -->
+  <div id="manualModal" class="hidden" style="position:fixed;inset:0;background:rgba(8,12,18,.8);z-index:90;display:flex;align-items:center;justify-content:center;padding:20px">
+    <div class="card" style="max-width:640px;width:100%;max-height:80vh;overflow:auto">
+      <h2>MODE MANUAL — UNGGAH FILE INI KE GITHUB</h2>
+      <p class="desc">Token GitHub belum terpasang, jadi berikut file hasil proses. Klik unduh lalu unggah ke repo (Add file &rarr; Upload files, pertahankan struktur folder). Setelah selesai, GitHub Pages akan diperbarui otomatis.</p>
+      <ul class="dl-list" id="dlList"></ul>
+      <button class="btn btn-line" id="closeManual" style="margin-top:8px">TUTUP</button>
+    </div>
+  </div>
+</div>
+
+<div id="busy" class="hidden"><div class="spin"></div><div id="busyText" style="color:var(--gold);font-size:13px;letter-spacing:1px">MEMPROSES...</div></div>
+<div id="toast"></div>
+
+<script src="/assets.bernaung.id/admin-auth.js"></script>
+<script src="/assets.bernaung.id/admin.js"></script>
+</body>
+</html>

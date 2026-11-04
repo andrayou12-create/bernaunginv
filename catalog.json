@@ -1,0 +1,171 @@
+{
+  "brand": {
+    "name": "Bernaung Invitation",
+    "wa": "6282324137816",
+    "ig": "https://www.instagram.com/bernaung.inv/",
+    "logo": "/assets.bernaung.id/loading-bernaung.jpeg"
+  },
+  "themes": [
+    {
+      "id": "tema-jawa",
+      "name": "Tema Jawa",
+      "classification": "Adat Jawa",
+      "price": 150000,
+      "order": 1,
+      "visible": true,
+      "note": "Dengan foto",
+      "path": "tema-jawa/index.html"
+    },
+    {
+      "id": "tema-jawa2",
+      "name": "Tema Jawa 2",
+      "classification": "Adat Jawa",
+      "price": 150000,
+      "order": 2,
+      "visible": true,
+      "note": "Dengan foto",
+      "path": "tema-jawa2/index.html"
+    },
+    {
+      "id": "tema-jawanopict",
+      "name": "Tema Jawa Tanpa Foto",
+      "classification": "Adat Jawa",
+      "price": 120000,
+      "order": 3,
+      "visible": true,
+      "note": "Tanpa foto",
+      "path": "tema-jawanopict/index.html"
+    },
+    {
+      "id": "tema-jawanopict2",
+      "name": "Tema Jawa Tanpa Foto 2",
+      "classification": "Adat Jawa",
+      "price": 120000,
+      "order": 4,
+      "visible": true,
+      "note": "Tanpa foto",
+      "path": "tema-jawanopict2/index.html"
+    },
+    {
+      "id": "tema-deluxe",
+      "name": "Tema Deluxe",
+      "classification": "Premium",
+      "price": 250000,
+      "order": 5,
+      "visible": true,
+      "note": "",
+      "path": "tema-deluxe/index.html"
+    },
+    {
+      "id": "tema-elegan",
+      "name": "Tema Elegan",
+      "classification": "Premium",
+      "price": 250000,
+      "order": 6,
+      "visible": true,
+      "note": "",
+      "path": "tema-elegan/index.html"
+    },
+    {
+      "id": "tema-invisim",
+      "name": "Tema Invisim",
+      "classification": "Premium",
+      "price": 200000,
+      "order": 7,
+      "visible": true,
+      "note": "",
+      "path": "tema-invisim/index.html"
+    },
+    {
+      "id": "tema-spotify",
+      "name": "Tema Spotify",
+      "classification": "Musik",
+      "price": 180000,
+      "order": 8,
+      "visible": true,
+      "note": "Tampilan pemutar musik",
+      "path": "tema-spotify/index.html"
+    },
+    {
+      "id": "tema-netflix",
+      "name": "Tema Netflix",
+      "classification": "Musik",
+      "price": 180000,
+      "order": 9,
+      "visible": true,
+      "note": "Tampilan streaming",
+      "path": "tema-netflix/index.html"
+    },
+    {
+      "id": "tema-modern",
+      "name": "Tema Modern",
+      "classification": "Modern",
+      "price": 180000,
+      "order": 10,
+      "visible": true,
+      "note": "",
+      "path": "tema-modern/index.html"
+    },
+    {
+      "id": "tema-nisa",
+      "name": "Tema Nisa",
+      "classification": "Modern",
+      "price": 150000,
+      "order": 11,
+      "visible": true,
+      "note": "",
+      "path": "tema-nisa/index.html"
+    },
+    {
+      "id": "tema-simple",
+      "name": "Tema Simple",
+      "classification": "Minimalis",
+      "price": 100000,
+      "order": 12,
+      "visible": true,
+      "note": "Tanpa foto",
+      "path": "tema-simple/index.html"
+    },
+    {
+      "id": "tema-simple2",
+      "name": "Tema Simple 2",
+      "classification": "Minimalis",
+      "price": 120000,
+      "order": 13,
+      "visible": true,
+      "note": "",
+      "path": "tema-simple2/index.html"
+    },
+    {
+      "id": "tema-special03",
+      "name": "Tema Special 03",
+      "classification": "Ilustrasi",
+      "price": 130000,
+      "order": 14,
+      "visible": true,
+      "note": "Tanpa foto",
+      "path": "tema-special03/index.html"
+    },
+    {
+      "id": "tema-3dmotion",
+      "name": "Tema 3D Motion",
+      "classification": "3D Motion",
+      "price": 150000,
+      "order": 15,
+      "visible": true,
+      "note": "Tanpa foto",
+      "path": "tema-3dmotion/index.html"
+    },
+    {
+      "id": "tema-punakawan-luxury01",
+      "name": "Tema Minimalist Luxury 01",
+      "classification": "Minimalis",
+      "price": 132000,
+      "order": 16,
+      "visible": true,
+      "note": "Salinan tema punakawan — tanpa foto",
+      "path": "tema-punakawan-luxury01/index.html"
+    }
+  ],
+  "customers": []
+}
