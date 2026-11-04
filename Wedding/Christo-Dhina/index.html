@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Wedding of Dhina &amp; Christo</title>
+  <meta name="description" content="Undangan Pernikahan Dhina Christi Aprilia & Christopha Matica Timothy — Sabtu, 05 Desember 2026, Mranggen Kidul, Bansari, Temanggung.">
+  <meta property="og:title" content="The Wedding of Dhina & Christo">
+  <meta property="og:description" content="Dengan penuh rasa syukur, kami mengundang Anda untuk hadir di hari bahagia kami. Sabtu, 05 Desember 2026.">
+  <meta property="og:image" content="assets/img/cover.jpg">
+
+  <!-- Google Fonts: Cormorant Garamond (judul), Pinyon Script (nama), Quicksand (teks) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Pinyon+Script&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       COVER / AMPLOP PEMBUKA
+       Nama tamu otomatis dari link: ?to=Nama%20Tamu
+       ============================================================ -->
+  <div id="cover" class="cover">
+    <div class="cover-inner">
+      <div class="cover-flower reveal-anim">
+        <p class="cover-sub">The Wedding of</p>
+        <h1 class="cover-name">Dhina &amp; Christo</h1>
+        <p class="cover-date">Sabtu, 05 Desember 2026</p>
+      </div>
+      <div class="cover-guest reveal-anim delay-1">
+        <p class="guest-label">Kepada Bapak/Ibu/Saudara/i</p>
+        <p class="guest-name" id="guest-name">Tamu Undangan</p>
+        <button id="btn-open" class="btn btn-gold">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          Buka Undangan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       NAVIGASI BAWAH (muncul setelah undangan dibuka)
+       ============================================================ -->
+  <nav id="bottom-nav" class="bottom-nav">
+    <a href="#home" class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span>Home</span></a>
+    <a href="#mempelai" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><path d="M14.8 14.6c2.2.2 4 1.7 4.7 4.4"/></svg><span>Mempelai</span></a>
+    <a href="#acara" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 10h17M8 2.8V7m8-4.2V7"/></svg><span>Tanggal</span></a>
+    <a href="#galeri" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2"/><circle cx="9" cy="9.5" r="1.8"/><path d="M4 18l5-5 3.5 3.5L16 13l4 4"/></svg><span>Galeri</span></a>
+    <a href="#rsvp" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8 3.6 4.9 6.9 4.9c2 0 3.7 1.1 5.1 3 1.4-1.9 3.1-3 5.1-3 3.3 0 5.4 3.1 4.2 6.4-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg><span>Ucapan</span></a>
+  </nav>
+
+  <!-- ============================================================
+       TOMBOL MUSIK (mengambang)
+       Musik: ganti file assets/audio/music.mp3 — lihat README
+       ============================================================ -->
+  <button id="music-btn" class="music-btn" aria-label="Putar / jeda musik">
+    <svg class="icon-play" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+    <svg class="icon-pause" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+  </button>
+  <audio id="bg-music" src="assets/audio/music.mp3" loop preload="auto"></audio>
+
+  <main id="content">
+
+    <!-- ============================================================
+         1. HERO / SAVE THE DATE
+         ============================================================ -->
+    <section id="home" class="section hero">
+      <div class="hero-frame reveal">
+        <p class="eyebrow">The Wedding of</p>
+        <h2 class="hero-names script-lg">Dhina &amp; Christo</h2>
+        <div class="ornament">
+          <span class="line"></span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 21s-7-4.4-9-8.6C1.6 9 3.5 6 6.6 6c1.9 0 3.5 1 5.4 2.9C13.9 7 15.5 6 17.4 6c3.1 0 5 3 3.6 6.4C19 16.6 12 21 12 21z"/></svg>
+          <span class="line"></span>
+        </div>
+        <p class="hero-date-num">05 . 12 . 2026</p>
+        <p class="hero-tagline">it was <em>Always You</em></p>
+        <p class="hero-place">Mranggen Kidul &middot; Bansari &middot; Temanggung</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         2. KUTIPAN ALKITAB (1 Korintus 13)
+         ============================================================ -->
+    <section id="quote" class="section quote-section">
+      <div class="reveal">
+        <svg class="quote-mark" viewBox="0 0 24 24" width="34" height="34" fill="currentColor"><path d="M6.2 6C4 7.4 2.6 9.6 2.6 12.6c0 3 1.9 5.4 4.6 5.4 2.2 0 3.8-1.6 3.8-3.8 0-2.1-1.4-3.6-3.4-3.6-.4 0-.9.1-1 .2.3-1.6 1.8-3.3 3.2-4.1L6.2 6zm10 0c-2.2 1.4-3.6 3.6-3.6 6.6 0 3 1.9 5.4 4.6 5.4 2.2 0 3.8-1.6 3.8-3.8 0-2.1-1.4-3.6-3.4-3.6-.4 0-.9.1-1 .2.3-1.6 1.8-3.3 3.2-4.1L16.2 6z"/></svg>
+        <p class="quote-text">"Cinta itu sabar; cinta itu murah hati; cinta itu tidak cemburu. Cinta tidak memegah diri dan tidak pemaaf, tidak melakukan yang tidak sopan dan tidak mencari keuntungan diri sendiri, tidak pemarah dan menyimpan kesalahan orang lain&hellip; Cinta menutupi segala sesuatu, percaya segala sesuatu, mengharapkan segala sesuatu, bersabar menanggung segala sesuatu. Cinta tidak pernah berhenti."</p>
+        <p class="quote-source">&mdash; 1 Korintus 13 : 4-8 &mdash;</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         3. KEDUA MEMPELAI
+         ============================================================ -->
+    <section id="mempelai" class="section">
+      <div class="section-head reveal">
+        <p class="eyebrow">Dengan penuh syukur</p>
+        <h2 class="section-title">Kedua Mempelai</h2>
+        <p class="section-desc">Dengan memohon berkat dan rahmat Tuhan, kami mengundang Bapak/Ibu/Saudara/i serta kerabat sekalian untuk menghadiri acara pernikahan kami.</p>
+      </div>
+
+      <div class="couple">
+        <!-- Mempelai Wanita -->
+        <div class="couple-card reveal">
+          <div class="photo-arch">
+            <!-- GANTI FOTO: ubah file assets/img/bride.jpg -->
+            <img src="assets/img/bride.jpg" alt="Dhina Christi Aprilia" loading="lazy">
+          </div>
+          <h3 class="couple-nick script">Dhina</h3>
+          <p class="couple-full">Dhina Christi Aprilia</p>
+          <p class="couple-parents">Putri dari<br>Bp. Mugiarto &amp; Ibu. Jupriyati</p>
+          <a class="btn btn-outline" href="https://instagram.com/dhinachristii" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+            @dhinachristii
+          </a>
+        </div>
+
+        <div class="amp reveal"><span class="script">&amp;</span></div>
+
+        <!-- Mempelai Pria -->
+        <div class="couple-card reveal">
+          <div class="photo-arch">
+            <!-- GANTI FOTO: ubah file assets/img/groom.jpg -->
+            <img src="assets/img/groom.jpg" alt="Christopha Matica Timothy" loading="lazy">
+          </div>
+          <h3 class="couple-nick script">Christo</h3>
+          <p class="couple-full">Christopha Matica Timothy</p>
+          <p class="couple-parents">Putra dari<br>(Alm.) Bp. Yochanan &amp; Ibu. Lastri Wulaningrum</p>
+          <a class="btn btn-outline" href="https://instagram.com/christo_timoty" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+            @christo_timoty
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         4. COUNTDOWN MENANTI HARI BAHAGIA
+         ============================================================ -->
+    <section id="countdown" class="section countdown-section">
+      <div class="reveal">
+        <h2 class="section-title small">Menanti Hari Bahagia</h2>
+        <p class="section-desc">Dengan memohon rahmat dan berkat Tuhan, kami menantikan momen sakral bersama Anda.</p>
+        <div class="countdown" id="countdown-timer">
+          <div class="cd-box"><span id="cd-days">00</span><small>Hari</small></div>
+          <div class="cd-box"><span id="cd-hours">00</span><small>Jam</small></div>
+          <div class="cd-box"><span id="cd-mins">00</span><small>Menit</small></div>
+          <div class="cd-box"><span id="cd-secs">00</span><small>Detik</small></div>
+        </div>
+        <a class="btn btn-gold" id="btn-calendar" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 10h17M8 2.8V7m8-4.2V7m-5.2 8.5l2 2 3.6-3.8"/></svg>
+          Simpan Tanggal
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         5. DETAIL ACARA
+         ============================================================ -->
+    <section id="acara" class="section">
+      <div class="section-head reveal">
+        <p class="eyebrow">Save The Date</p>
+        <h2 class="section-title">Rangkaian Acara</h2>
+        <p class="section-desc">Dengan hormat, kami mengundang Anda untuk hadir pada rangkaian acara pernikahan kami.</p>
+      </div>
+
+      <!-- Pemberkatan Nikah -->
+      <div class="event-card reveal">
+        <div class="event-icon">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l3.2 3.2c.5.5.5 1.4 0 1.9L12 11.8 8.8 8.6c-.5-.5-.5-1.4 0-1.9L12 3.5z"/><path d="M12 11.8V21M12 6.6v3.2"/><path d="M7.5 16.5c2.9 0 4.5-2.2 4.5-4.7 0 2.5 1.6 4.7 4.5 4.7"/></svg>
+        </div>
+        <h3 class="event-title">Pemberkatan Nikah</h3>
+        <p class="event-day">Sabtu, 05 Desember 2026</p>
+        <p class="event-time">Pukul 08.00 WIB</p>
+        <p class="event-loc">Mranggen Kidul RT 05 RW 01,<br>Bansari, Temanggung</p>
+        <a class="btn btn-outline" href="https://maps.app.goo.gl/Yq513gMgsVoVvzsC8?g_st=awb" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.3-6.5-10a6.5 6.5 0 1113 0c0 4.7-6.5 10-6.5 10z"/><circle cx="12" cy="10.6" r="2.3"/></svg>
+          Lihat Lokasi
+        </a>
+      </div>
+
+      <!-- Resepsi -->
+      <div class="event-card reveal">
+        <div class="event-icon">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5c0 4.5 1.2 6.5 3 6.5s3-2 3-6.5"/><path d="M12 10v6.5"/><path d="M7.5 20.5h9c-1.8-1.4-2.4-2.6-2.4-4.2 0-1.4.9-2.3.9-3.8 0-1.2-1-2-2.5-2h-1c-1.5 0-2.5.8-2.5 2 0 1.5.9 2.4.9 3.8 0 1.6-.6 2.8-2.4 4.2z"/></svg>
+        </div>
+        <h3 class="event-title">Resepsi</h3>
+        <p class="event-day">Minggu, 06 Desember 2026</p>
+        <p class="event-time">Pukul 13.00 WIB - Selesai</p>
+        <p class="event-loc">Mranggen Kidul RT 05 RW 01,<br>Bansari, Temanggung</p>
+        <a class="btn btn-outline" href="https://maps.app.goo.gl/Yq513gMgsVoVvzsC8?g_st=awb" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.3-6.5-10a6.5 6.5 0 1113 0c0 4.7-6.5 10-6.5 10z"/><circle cx="12" cy="10.6" r="2.3"/></svg>
+          Lihat Lokasi
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         6. LOVE STORY
+         ============================================================ -->
+    <section id="story" class="section story-section">
+      <div class="section-head reveal">
+        <p class="eyebrow">Dari teman masa kecil, menjadi teman hidup selamanya</p>
+        <h2 class="section-title">Our Love Story</h2>
+      </div>
+
+      <div class="story">
+        <div class="story-item reveal">
+          <div class="story-num script">1</div>
+          <h3 class="story-title">Awal Cerita &mdash; Teman di Masa Kecil</h3>
+          <p>Semua berawal dari sebuah masa sederhana, ketika kami masih mengenakan seragam sekolah dan belum mengenal arti cinta. Kami hanyalah dua teman yang pernah berbagi cerita, tawa, dan kenangan di masa kecil. Saat itu, kami tidak pernah menyangka bahwa seseorang yang pernah menjadi bagian dari cerita masa sekolah akan menjadi bagian terpenting dalam kehidupan kami.</p>
+        </div>
+
+        <div class="story-item reveal">
+          <div class="story-num script">2</div>
+          <h3 class="story-title">Pertemuan Kembali &mdash; Takdir yang Menyapa</h3>
+          <p>Waktu berlalu, kami tumbuh dengan jalan kehidupan masing-masing. Hingga suatu hari, takdir kembali mempertemukan kami. Dari sapaan sederhana, percakapan kecil, hingga akhirnya tumbuh rasa yang berbeda. Kami mulai menyadari bahwa mungkin pertemuan ini bukan sekadar kebetulan, melainkan bagian dari rencana indah Tuhan.</p>
+        </div>
+
+        <div class="story-item reveal">
+          <div class="story-num script">3</div>
+          <h3 class="story-title">Menjadi Satu &mdash; Janji Seumur Hidup</h3>
+          <p>Kini, teman kecil yang dahulu hanya berbagi cerita di bangku sekolah akan menjadi teman hidup untuk selamanya. Bukan lagi sekadar teman berbagi tawa, tetapi seseorang yang akan menemani setiap langkah, melewati suka dan duka, serta membangun masa depan bersama. Dengan penuh rasa syukur, kami memilih untuk mengikat janji suci dalam sebuah pernikahan.</p>
+        </div>
+
+        <div class="story-finale reveal">
+          <p class="finale-intro">And finally&hellip;</p>
+          <p>Siapa sangka, seseorang yang dahulu hanya menjadi bagian dari kenangan masa sekolah, kini menjadi seseorang yang akan menemani seluruh perjalanan hidup.</p>
+          <p class="finale-line">Dari teman kecil, menjadi teman hidup.<br>
+          Dari sebuah pertemanan, tumbuh menjadi cinta.<br>
+          Dan kini, kami siap menulis cerita selamanya. &#129757;</p>
+          <p class="finale-quote">"We were once just childhood friends, but destiny had written a beautiful ending for us &mdash; to be together forever."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         7. GALERI FOTO
+         GANTI FOTO: assets/img/gallery-1.jpg s/d gallery-4.jpg
+         ============================================================ -->
+    <section id="galeri" class="section">
+      <div class="section-head reveal">
+        <p class="eyebrow">Momen Kami</p>
+        <h2 class="section-title">Galeri Foto</h2>
+      </div>
+      <div class="gallery reveal">
+        <a href="assets/img/gallery-1.jpg" class="g-item g-1"><img src="assets/img/gallery-1.jpg" alt="Galeri 1" loading="lazy"></a>
+        <a href="assets/img/gallery-2.jpg" class="g-item g-2"><img src="assets/img/gallery-2.jpg" alt="Galeri 2" loading="lazy"></a>
+        <a href="assets/img/gallery-3.jpg" class="g-item g-3"><img src="assets/img/gallery-3.jpg" alt="Galeri 3" loading="lazy"></a>
+        <a href="assets/img/gallery-4.jpg" class="g-item g-4"><img src="assets/img/gallery-4.jpg" alt="Galeri 4" loading="lazy"></a>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         8. INFORMASI REKENING / WEDDING GIFT
+         ============================================================ -->
+    <section id="gift" class="section gift-section">
+      <div class="section-head reveal">
+        <p class="eyebrow">Wedding Gift</p>
+        <h2 class="section-title">Amplop Digital</h2>
+        <p class="section-desc">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberikan kado secara cashless.</p>
+      </div>
+
+      <div class="bank-card reveal">
+        <div class="bank-top">
+          <div class="bank-logo">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3.5 6.5L12 2.8l8.5 3.7v1.9H3.5V6.5zM5 10h2.6v7.6H5V10zm5.7 0h2.6v7.6h-2.6V10zm5.7 0H19v7.6h-2.6V10zM3.5 19.2h17V21h-17v-1.8z"/></svg>
+            <span>BCA</span>
+          </div>
+          <div class="bank-chip">
+            <svg viewBox="0 0 32 24" width="30" height="22"><rect x="0.5" y="0.5" width="31" height="23" rx="4" fill="#e9ddc4" stroke="#b08d57"/><path d="M0.5 9.5h9m13 0h9M0.5 14.5h9m13 0h9M10.5 0.5v23m11-23v23" stroke="#b08d57" fill="none"/></svg>
+          </div>
+        </div>
+        <p class="bank-number">1550 3589 61</p>
+        <p class="bank-name">Christopha Matica Timothy</p>
+        <button class="btn btn-gold btn-copy" data-rekening="1550358961">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 5.5v-1a2 2 0 00-2-2h-9a2 2 0 00-2 2v9a2 2 0 002 2h1"/></svg>
+          Salin Nomor Rekening
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         9. RSVP & UCAPAN (tersimpan ke Google Spreadsheet)
+         Konfigurasi URL di file: js/config.js
+         ============================================================ -->
+    <section id="rsvp" class="section">
+      <div class="section-head reveal">
+        <p class="eyebrow">RSVP</p>
+        <h2 class="section-title">Ucapkan Sesuatu</h2>
+        <p class="section-desc">Berikan ucapan, doa restu, dan konfirmasi kehadiran Anda melalui form di bawah ini.</p>
+      </div>
+
+      <form id="rsvp-form" class="rsvp-form reveal" autocomplete="off">
+        <div class="form-group">
+          <label for="f-nama">Nama Lengkap</label>
+          <input type="text" id="f-nama" name="nama" placeholder="Tulis nama Anda" required maxlength="60">
+        </div>
+        <div class="form-group">
+          <label>Konfirmasi Kehadiran</label>
+          <div class="radio-row">
+            <label class="radio-pill"><input type="radio" name="kehadiran" value="Hadir" required><span>Hadir</span></label>
+            <label class="radio-pill"><input type="radio" name="kehadiran" value="Tidak Hadir"><span>Tidak Hadir</span></label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="f-ucapan">Ucapan &amp; Doa Restu</label>
+          <textarea id="f-ucapan" name="ucapan" rows="4" placeholder="Tuliskan ucapan dan doa terbaik untuk kami&hellip;" required maxlength="500"></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold btn-submit" id="btn-submit">
+          <span class="btn-submit-text">Kirim Ucapan</span>
+        </button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="ucapan-wrap reveal">
+        <div class="ucapan-head">
+          <h3>Ucapan &amp; Doa Restu <span id="ucapan-count" class="ucapan-count"></span></h3>
+        </div>
+        <div class="ucapan-list" id="ucapan-list">
+          <p class="ucapan-loading">Memuat ucapan&hellip;</p>
+        </div>
+        <button class="btn btn-outline btn-more" id="btn-more" hidden>Muat Ucapan Lainnya</button>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         10. PENUTUP
+         ============================================================ -->
+    <section id="penutup" class="section closing">
+      <div class="reveal">
+        <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami sekeluarga apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kami.</p>
+        <p>Atas kehadiran serta doa restunya, kami ucapkan terima kasih.</p>
+        <p class="closing-sign">Kami yang berbahagia,</p>
+        <h2 class="closing-names script-lg">Dhina &amp; Christo<br><span>serta keluarga besar</span></h2>
+        <div class="ornament">
+          <span class="line"></span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 21s-7-4.4-9-8.6C1.6 9 3.5 6 6.6 6c1.9 0 3.5 1 5.4 2.9C13.9 7 15.5 6 17.4 6c3.1 0 5 3 3.6 6.4C19 16.6 12 21 12 21z"/></svg>
+          <span class="line"></span>
+        </div>
+      </div>
+      <footer class="site-footer">
+        <p>The Wedding of Dhina &amp; Christo &bull; 05.12.2026</p>
+      </footer>
+    </section>
+  </main>
+
+  <!-- LIGHTBOX GALERI -->
+  <div id="lightbox" class="lightbox" hidden>
+    <button class="lb-close" aria-label="Tutup">&times;</button>
+    <img src="" alt="Foto galeri" id="lightbox-img">
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
