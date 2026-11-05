@@ -10,7 +10,7 @@
 
     <script src="/_cdn/cdn.tailwindcss.com"></script>
 <link href="/_cdn/fonts.googleapis.com/css-bdedc62f68.css" rel="stylesheet">
-    
+
     <style>
         * {
             box-sizing: border-box;
@@ -110,15 +110,40 @@
             border-top: 2px dashed #000;
             margin: 40px 0;
         }
+        .divider-short { width: 90px; margin: 18px auto; }
+
+        /* Bagian Quote */
+        .quote-section { text-align: center; padding: 10px 0 0; }
+        .quote-text {
+            font-size: 13.5px;
+            line-height: 1.9;
+            font-style: italic;
+            color: #333;
+        }
+        .quote-source { font-size: 13px; margin-top: 10px; font-weight: 700; }
+
+        /* Bagian Mempelai */
+        .couple-section { text-align: center; }
+        .couple-name {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 26px;
+            margin-top: 6px;
+        }
+        .couple-full { font-size: 13px; letter-spacing: 1px; margin-top: 4px; color: #333; }
+        .couple-parents { font-size: 12.5px; color: #555; margin-top: 6px; line-height: 1.7; }
+        .couple-amp {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 30px;
+            margin: 18px 0;
+        }
 
         /* Bagian Detail Acara */
-        .wedding-details {
-            text-align: center;
-        }
+        .wedding-details { text-align: center; }
         .detail-title {
             font-size: 22px;
-            margin-bottom: 20px;
+            margin-bottom: 6px;
         }
+        .detail-sub { font-size: 12px; color: #666; letter-spacing: 1px; }
         .detail-box {
             display: flex;
             justify-content: space-around;
@@ -129,13 +154,74 @@
             flex: 1;
             padding: 10px;
         }
-        .vertical-line {
-            border-left: 2px solid #000;
+        .vertical-line { border-left: 2px solid #000; }
+        .event-card {
+            border: 2px dashed #000;
+            border-radius: 14px;
+            padding: 18px 14px;
+            margin-top: 20px;
         }
+        .event-card h4 {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 20px;
+        }
+        .event-card .hari-tanggal { font-size: 13.5px; font-weight: 700; margin-top: 8px; }
+        .event-card .jam { font-size: 13px; margin-top: 4px; }
+        .event-card .tempat { font-size: 13px; margin-top: 8px; line-height: 1.6; }
+        .btn-maps, .btn-cal {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 18px;
+            border: 2px solid #000;
+            border-radius: 16px;
+            background: transparent;
+            color: #000;
+            font-family: 'Nunito', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .btn-maps:hover, .btn-cal:hover { background: #000; color: #fff; }
+
+        /* Penutup */
+        .closing-section { text-align: center; padding-bottom: 10px; }
+        .closing-text { font-size: 13px; line-height: 1.9; color: #333; }
+        .closing-thanks {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 20px;
+            margin-top: 14px;
+        }
+        .stempel { font-size: 12px; color: #666; margin-top: 8px; }
+
+        /* Merpatinnya */
+        .sketch-icon { font-size: 26px; margin: 4px auto; }
             /* Perbaikan layout RSVP & footer yang disuntikkan rsvp.js */
         body > [data-bernaung-rsvp-auto] { width: 100%; display: flex; justify-content: center; }
         body > [data-bernaung-rsvp-auto] > * { width: 100%; max-width: 450px; }
         .rsvp-slot { width: 100%; padding: 10px 0 30px; }
+        /* RSVP konsisten gaya sketsa: putih + garis putus-putus */
+        .rsvp-slot form, [data-bernaung-rsvp-auto] > * {
+            background: #fff !important;
+            border: 2px dashed #000 !important;
+            border-radius: 14px !important;
+            color: #000 !important;
+        }
+        .rsvp-slot input, .rsvp-slot textarea, .rsvp-slot select {
+            border: 1.5px solid #000 !important;
+            border-radius: 8px !important;
+            background: #fff !important;
+            color: #000 !important;
+        }
+        .rsvp-slot .bng-send, .rsvp-slot button {
+            background: transparent !important;
+            border: 2px solid #000 !important;
+            border-radius: 16px !important;
+            color: #000 !important;
+            font-weight: 700 !important;
+        }
+        .rsvp-slot .bng-send:hover, .rsvp-slot button:hover { background: #000 !important; color: #fff !important; }
     </style>
 </head>
 <body>
@@ -148,7 +234,7 @@
 
         <section class="cover-section">
             <h1 class="handwritten save-the-date">SAVE THE DATE</h1>
-            
+
             <div class="heart-illustration handwritten">
                 <div>08</div>
                 <div>12</div>
@@ -156,15 +242,37 @@
             </div>
 
             <h2 class="handwritten nama-mempelai">Dewi & Bagas</h2>
-            
+
             <a href="#content" class="btn-open">Open</a>
+        </section>
+
+        <hr class="divider">
+
+        <section class="quote-section">
+            <p class="quote-text">&ldquo;Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;</p>
+            <p class="quote-source">QS. Ar-Rum : 21</p>
+        </section>
+
+        <hr class="divider">
+
+        <section class="couple-section">
+            <p class="detail-sub">DENGAN MEMOHON RAHMAT DAN RIDHO ALLAH SWT, KAMI MENGUNDANG BAPAK/IBU/SAUDARA/I UNTUK HADIR DI ACARA PERNIKAHAN KAMI</p>
+            <hr class="divider divider-short">
+            <div class="couple-name">Dewi Lestari</div>
+            <div class="couple-full">Dewi Cantika Lestari, S.Pd.</div>
+            <div class="couple-parents">Putri dari Bapak Budi Santoso<br>&amp; Ibu Sari Wulandari</div>
+            <div class="couple-amp">&amp;</div>
+            <div class="couple-name">Bagas Pratama</div>
+            <div class="couple-full">Bagas Pratama Wijaya, S.T.</div>
+            <div class="couple-parents">Putra dari Bapak Andi Wijaya<br>&amp; Ibu Rina Marlina</div>
         </section>
 
         <hr class="divider">
 
         <section id="content" class="wedding-details">
             <h3 class="handwritten detail-title">Wedding Details</h3>
-            
+            <p class="detail-sub">YANG AKAN DILAKSANAKAN PADA:</p>
+
             <div class="detail-box">
                 <div class="detail-item">
                     <p style="font-weight: bold;">Akad</p>
@@ -172,9 +280,9 @@
                     <p>Gedung Serbaguna Contoh</p>
                     <p>Sleman, Yogyakarta</p>
                 </div>
-                
+
                 <div class="vertical-line"></div>
-                
+
                 <div class="detail-item">
                     <p style="font-weight: bold;">Resepsi</p>
                     <p>11.00 - 16.00</p>
@@ -182,8 +290,37 @@
                     <p>Sleman, Yogyakarta</p>
                 </div>
             </div>
-                <div class="rsvp-slot" data-bernaung-rsvp></div>
-    </section>
+
+            <div class="event-card">
+                <h4>Akad Nikah</h4>
+                <p class="hari-tanggal">Senin, 08 Desember 2025</p>
+                <p class="jam">Pukul 08.00 WIB - Selesai</p>
+                <p class="tempat">Gedung Serbaguna Contoh<br>Jl. Kemerdekaan No. 10, Sleman, Yogyakarta</p>
+                <a class="btn-maps" href="https://www.google.com/maps/?hl=id" target="_blank" rel="noopener">LIHAT LOKASI</a>
+            </div>
+
+            <div class="event-card">
+                <h4>Resepsi</h4>
+                <p class="hari-tanggal">Senin, 08 Desember 2025</p>
+                <p class="jam">Pukul 11.00 - 16.00 WIB</p>
+                <p class="tempat">Gedung Serbaguna Contoh<br>Jl. Kemerdekaan No. 10, Sleman, Yogyakarta</p>
+                <a class="btn-maps" href="https://www.google.com/maps/?hl=id" target="_blank" rel="noopener">LIHAT LOKASI</a>
+                <br>
+                <a class="btn-cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding%20-%20Dewi%20%26%20Bagas&details=Resepsi%20Pernikahan%20Dewi%20%26%20Bagas&dates=20251208T010000Z%2F20251209T010000Z" target="_blank" rel="noopener">SIMPAN TANGGAL</a>
+            </div>
+
+            <div class="rsvp-slot" data-bernaung-rsvp></div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="closing-section">
+            <p class="closing-text">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.</p>
+            <p class="closing-text">Atas kehadiran dan doanya, kami ucapkan terima kasih.</p>
+            <p class="closing-thanks">Kami yang berbahagia</p>
+            <p class="handwritten" style="font-size:24px">Dewi &amp; Bagas</p>
+            <p class="stempel">Beserta keluarga besar kedua mempelai</p>
+        </section>
     </div>
 
 <link rel="stylesheet" href="/assets.bernaung.id/footer.css">

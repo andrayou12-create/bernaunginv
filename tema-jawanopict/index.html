@@ -379,7 +379,7 @@ margin-right: 15px;
 					<div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-e642c2a" data-id="e642c2a" data-element_type="column" data-e-type="column">
 			<div class="elementor-widget-wrap elementor-element-populated">
 					<div class="elementor-background-overlay"></div>
-						<section class="elementor-section elementor-inner-section elementor-element elementor-element-5f8f911 elementor-section-full_width elementor-section-height-min-height elementor-section-content-middle motionSection elementor-section-height-default" data-id="5f8f911" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;video&quot;,&quot;background_video_link&quot;:&quot;https:\/\/the.invisimple.id\/wp-content\/uploads\/2024\/12\/Motion-Jawa.mp4&quot;,&quot;background_play_once&quot;:&quot;yes&quot;,&quot;background_play_on_mobile&quot;:&quot;yes&quot;,&quot;jet_parallax_layout_list&quot;:[]}">
+						<section class="elementor-section elementor-inner-section elementor-element elementor-element-5f8f911 elementor-section-full_width elementor-section-height-min-height elementor-section-content-middle motionSection elementor-section-height-default" data-id="5f8f911" data-element_type="section" data-e-type="section" data-settings="{&quot;background_background&quot;:&quot;video&quot;,&quot;background_video_link&quot;:&quot;/_cdn/the.invisimple.id/wp-content/uploads/2024/12/Motion-Jawa.mp4&quot;,&quot;background_play_once&quot;:&quot;yes&quot;,&quot;background_play_on_mobile&quot;:&quot;yes&quot;,&quot;jet_parallax_layout_list&quot;:[]}">
 								<div class="elementor-background-video-container">
 													<video class="elementor-background-video-hosted" role="presentation" autoplay muted playsinline></video>
 											</div>
@@ -2199,8 +2199,92 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/envitto.invisimple.id\/wp
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+	/* wedding/js/theme-boot.js */
+(function () {
+  var SEL = '#bukaUndangan,#openInvitation,#btnOpen,.btn-buka,.open-invitation,[data-action="open"]';
+
+  function buka() {
+    var cover = document.querySelector('#cover,#envelope,.cover,.sampul,#sampul');
+    if (cover) {
+      cover.classList.add('open', 'opened', 'terbuka');   // tema pakai class berbeda → beri semua
+      cover.style.pointerEvents = 'none';
+    }
+    document.body.classList.add('invitation-open');
+    document.body.style.overflow = '';                    // buka kunci scroll
+    document.documentElement.style.overflow = '';
+    window.scrollTo({ top: 0, behavior: 'auto' });        // ke atas, bukan scroll manual
+    var musik = document.querySelector('audio');
+    if (musik && musik.src) musik.play().catch(function () {});
+    if (typeof window.mulaiUndangan === 'function') window.mulaiUndangan();
+    if (typeof window.bukaUndanganHandler === 'function') window.bukaUndanganHandler();
+  }
+
+  document.addEventListener('click', function (ev) {
+    if (ev.target.closest(SEL)) { ev.preventDefault(); buka(); }
+  }, true);
+
+  window.addEventListener('DOMContentLoaded', function () {
+    window.scrollTo(0, 0); // paksa mulai dari cover, bukan posisi scroll lama
+  });
+})();
 </script>
 
+
+<script>
+/* ===== FIX BUKA UNDANGAN — pengganti animasi jQuery yang macet di halaman statis ===== */
+(function () {
+  var done = false;
+  function buka() {
+    if (done) return; done = true;
+    var cover = document.getElementById('cover');
+    /* buka kunci scroll */
+    window.onscroll = null;
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    document.body.style.height = '';
+    if (cover) {
+      cover.style.pointerEvents = 'none';
+      cover.style.position = 'absolute';
+      cover.style.left = '0'; cover.style.right = '0'; cover.style.top = '0';
+      cover.style.zIndex = '999';
+      cover.style.transition = 'opacity .8s ease, top .8s ease';
+      requestAnimationFrame(function () {
+        cover.style.opacity = '0';
+        cover.style.top = '-100vh';
+      });
+      setTimeout(function () { cover.style.display = 'none'; }, 900);
+    }
+    /* tampilkan animasi scroll (tema ilustrasi) */
+    var as = document.getElementById('animateScroll');
+    if (as) as.style.display = 'block';
+    /* putar video intro & musik latar */
+    document.querySelectorAll('video').forEach(function (v) {
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+    });
+    var audio = document.querySelector('audio');
+    if (audio) { var pa = audio.play(); if (pa && pa.catch) pa.catch(function () {}); }
+    if (typeof window.mulaiUndangan === 'function') window.mulaiUndangan();
+    if (typeof window.bukaUndanganHandler === 'function') window.bukaUndanganHandler();
+    /* konten kolomPertama tampil menyusul video intro (desain tema) */
+    var kol = document.querySelector('.kolomPertama');
+    if (kol && getComputedStyle(kol).display === 'none') {
+      var t = parseInt(kol.getAttribute('data-delay-time') || '9500', 10);
+      setTimeout(function () { kol.style.display = 'block'; }, isNaN(t) ? 9500 : t);
+    }
+  }
+  function bind() {
+    var btn = document.getElementById('btn_open');
+    if (!btn) return;
+    btn.addEventListener('click', buka, true);
+    var a = btn.querySelector('a.elementor-button');
+    if (a) a.addEventListener('click', buka, true);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+})();
+</script>
+
+<script src="/assets.bernaung.id/guest.js"></script>
 </body>
 </html>
 <!-- Performance optimized by Redis Object Cache. Learn more: https://wprediscache.com -->
