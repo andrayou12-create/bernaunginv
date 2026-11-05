@@ -152,7 +152,7 @@
     {
       "id": "tema-vintage",
       "name": "Tema Vintage",
-      "classification": "Tema Baru",
+      "classification": "Premium",
       "price": 180000,
       "order": 14,
       "visible": true,
