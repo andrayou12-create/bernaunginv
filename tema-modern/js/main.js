@@ -97,7 +97,7 @@
       'Pemberkatan Nikah: Sabtu, 05 Desember 2026, 08.00 WIB\\n' +
       'Resepsi: Minggu, 06 Desember 2026, 13.00 WIB - Selesai\\n' +
       'Lokasi: Mranggen Kidul RT 05 RW 01, Bansari, Temanggung\\n\\n' +
-      'Google Maps: https://maps.app.goo.gl/Yq513gMgsVoVvzsC8';
+      'Google Maps: /_cdn/maps.app.goo.gl/Yq513gMgsVoVvzsC8';
     const url =
       'https://calendar.google.com/calendar/render?action=TEMPLATE' +
       '&text=' + encodeURIComponent('Pernikahan Dhina & Christo') +

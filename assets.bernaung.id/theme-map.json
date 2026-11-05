@@ -1,5 +1,5 @@
 {
-  "_doc": "Mapping frasa demo -> nilai form untuk generator undangan admin. Kunci foto: fotoCover/fotoGroom/fotoBride/fotoCouple/fotoGalleryN diganti dengan URL foto customer yang diisi di panel admin. loveStory: slot cerita per tema; 'judul'/'cerita' = frasa demo yang diganti, 'marker' = penanda slot kosong (teks disisipkan ke dalamnya).",
+  "_doc": "Mapping frasa demo -> nilai form untuk generator undangan admin. Kunci foto: fotoCover/fotoGroom/fotoBride/fotoCouple/fotoGalleryN diganti dengan URL foto customer yang diisi di panel admin.",
   "themes": {
     "tema-jawa": {
       "label": "Tema Jawa",
@@ -154,24 +154,6 @@
           "k": "fotoGallery13",
           "f": "/tema-jawa/images/Foto 13.jpeg"
         }
-      ],
-      "loveStory": [
-        {
-          "judul": "Awal pertemuan",
-          "cerita": "Pertama kali kami bertemu di sebuah acara keluarga"
-        },
-        {
-          "judul": "Menjalin hubungan.",
-          "cerita": "Dari sekadar teman berbincang, kami mulai saling mendoakan"
-        },
-        {
-          "judul": "Lamaran",
-          "cerita": "Dengan restu kedua keluarga, kami sepakat mengikat janji suci"
-        },
-        {
-          "judul": "Pernikahan",
-          "cerita": null
-        }
       ]
     },
     "tema-jawa2": {
@@ -297,30 +279,6 @@
           "k": "fotoGallery9",
           "f": "assets.bernaung.id/images/galleries/Foto 9.jpeg"
         }
-      ],
-      "loveStory": [
-        {
-          "judul": "Awal Cerita",
-          "cerita": "Kami berkenalan di Telaga, tepat di Wonosobo saat senja 21 Deseber 2023"
-        },
-        {
-          "judul": "Lamaran",
-          "cerita": "Pada 3 Februari 2025, dalam khitbah sederhana di rumah"
-        },
-        {
-          "judul": "Pernikahan",
-          "cerita": "Bismillah, 21 Desember 2026 di Temanggung"
-        },
-        {
-          "judul": null,
-          "cerita": null,
-          "marker": "data-ls-index=\"3\""
-        },
-        {
-          "judul": null,
-          "cerita": null,
-          "marker": "data-ls-index=\"4\""
-        }
       ]
     },
     "tema-jawanopict": {
@@ -392,8 +350,7 @@
           "f": "Bagas & Dewi",
           "p": ""
         }
-      ],
-      "loveStory": []
+      ]
     },
     "tema-deluxe": {
       "label": "Tema Deluxe",
@@ -528,20 +485,6 @@
           "k": "fotoGallery10",
           "f": "/tema-deluxe/images/Foto10.jpg"
         }
-      ],
-      "loveStory": [
-        {
-          "judul": "Pertemuan",
-          "cerita": "Tidak ada yang kebetulan di dunia ini. Semua sudah tersusun dengan sangat rapi oleh Sang Maha Kuasa. Kami bertemu pertama kalinya tanpa sengaja pada tahun 2017."
-        },
-        {
-          "judul": "Lamaran",
-          "cerita": "Kehendak-Nya menuntun kami pada sebuah pertemuan yang tak pernah disangka, hingga akhirnya pada 11 September 2027 membawa kami pada ikatan yang di-Ridhoi."
-        },
-        {
-          "judul": "Pernikahan",
-          "cerita": "Bukan karena bertemu lalu berjodoh, tapi karena berjodohlah kami bertemu. Kami memutuskan untuk mengikrarkan janji suci pernikahan pada 12 September 2027."
-        }
       ]
     },
     "tema-netflix": {
@@ -612,20 +555,6 @@
         {
           "k": "fotoCover",
           "f": "assets.bernaung.id/images/invitation/Cover.jpeg"
-        }
-      ],
-      "loveStory": [
-        {
-          "judul": "Episode 1: Pertemuan tak terduga di salah satu taman Kota Tangerang",
-          "cerita": "Diawali dengan sebuah pertemanan di instagram, kami melanjutkan obrolan singkat di sebuah warkop"
-        },
-        {
-          "judul": "Episode 2: Kejutan kecil di hari ulang tahun",
-          "cerita": "Di tengah kesibukan kantor, dia memberikan kejutan manis di hari ulang tahunku"
-        },
-        {
-          "judul": "Episode 3: Janji Sehidup Semati",
-          "cerita": "Dengan keyakinan hati serta dukungan dr keluarga, kami melangsungkan acara lamaran"
         }
       ]
     },
@@ -705,104 +634,60 @@
           "k": "gift1Number",
           "f": "1234 5678 90"
         }
-      ],
-      "loveStory": [
-        {
-          "judul": "Awal Cerita &mdash; Teman di Masa Kecil",
-          "cerita": "Semua berawal dari sebuah masa sederhana, ketika kami masih mengenakan seragam sekolah"
-        },
-        {
-          "judul": "Pertemuan Kembali &mdash; Takdir yang Menyapa",
-          "cerita": "Waktu berlalu, kami tumbuh dengan jalan kehidupan masing-masing"
-        },
-        {
-          "judul": "Menjadi Satu &mdash; Janji Seumur Hidup",
-          "cerita": "Kini, teman kecil yang dahulu hanya berbagi cerita di bangku sekolah"
-        }
       ]
     },
     "tema-simple": {
       "label": "Tema Minimalis Sketsa",
       "map": [
         {
-          "k": "title",
-          "f": "Undangan Pernikahan - Dewi & Bagas"
+          "f": "Undangan Pernikahan - Dewi & Bagas",
+          "k": "title"
         },
         {
-          "k": "heroNames",
-          "f": "Dewi & Bagas"
+          "f": "Dewi & Bagas",
+          "k": "heroNames"
         },
         {
-          "k": "brideNick",
-          "f": "Dewi"
+          "f": "Dewi Lestari",
+          "k": "brideFull"
         },
         {
-          "k": "brideFull",
-          "f": "Dewi Cantika Lestari, S.Pd."
+          "f": "Putri dari Bapak Sulistyo & Ibu Kartini",
+          "k": "brideParents"
         },
         {
-          "k": "brideFather",
-          "f": "Bapak Budi Santoso"
+          "f": "Bagas Pratama",
+          "k": "groomFull"
         },
         {
-          "k": "brideMother",
-          "f": "Ibu Sari Wulandari"
+          "f": "Putra dari Bapak Hendra & Ibu Wulandari",
+          "k": "groomParents"
         },
         {
-          "k": "brideParents",
-          "f": "Putri dari Bapak Budi Santoso"
+          "f": "Minggu, 21 Desember 2026",
+          "k": "akadDayDate"
         },
         {
-          "k": "groomNick",
-          "f": "Bagas"
+          "f": "Pukul 08.00 - 10.00 WIB",
+          "k": "akadTime"
         },
         {
-          "k": "groomFull",
-          "f": "Bagas Pratama Wijaya, S.T."
+          "f": "Masjid Al-Ikhlas",
+          "k": "akadPlace"
         },
         {
-          "k": "groomFather",
-          "f": "Bapak Andi Wijaya"
+          "f": "Pukul 11.00 - 14.00 WIB",
+          "k": "resTime"
         },
         {
-          "k": "groomMother",
-          "f": "Ibu Rina Marlina"
+          "f": "Gedung Serbaguna Contoh",
+          "k": "resPlace"
         },
         {
-          "k": "groomParents",
-          "f": "Putra dari Bapak Andi Wijaya"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Senin, 08 Desember 2025"
-        },
-        {
-          "k": "akadTime",
-          "f": "08.00 - Selesai",
-          "p": "Pukul "
-        },
-        {
-          "k": "akadPlace",
-          "f": "Gedung Serbaguna Contoh"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Senin, 08 Desember 2025"
-        },
-        {
-          "k": "resTime",
-          "f": "11.00 - 16.00"
-        },
-        {
-          "k": "resPlace",
-          "f": "Gedung Serbaguna Contoh"
-        },
-        {
-          "k": "address",
-          "f": "Jl. Kemerdekaan No. 10, Sleman, Yogyakarta"
+          "f": "Sleman, Yogyakarta",
+          "k": "address"
         }
-      ],
-      "loveStory": []
+      ]
     },
     "tema-simple2": {
       "label": "Tema Minimalis Biru",
@@ -863,20 +748,6 @@
         {
           "k": "gift2Number",
           "f": "0987654321"
-        }
-      ],
-      "loveStory": [
-        {
-          "judul": null,
-          "cerita": "Berawal dari sebuah pertemuan yang sederhana, kami tidak pernah menyangka"
-        },
-        {
-          "judul": null,
-          "cerita": "Perjalanan kami tentu tidak selalu mudah. Ada berbagai tantangan yang mengajarkan kami"
-        },
-        {
-          "judul": null,
-          "cerita": "Kini, dengan penuh rasa syukur, kami melangkah menuju babak baru"
         }
       ]
     },
@@ -961,20 +832,6 @@
           "k": "kadoPhone",
           "f": "+6281234567890"
         }
-      ],
-      "loveStory": [
-        {
-          "judul": "25 AGUSTUS 2023",
-          "cerita": "Berawal dari tempat pekerjaan Cianjur-2023, kami mengenal satu sama lain"
-        },
-        {
-          "judul": "03 JUNI 2024",
-          "cerita": "Setelah cukup mengenal satu sama lain, satu tahun kurang lebih nya kami menjalin hubungan"
-        },
-        {
-          "judul": "29 DESEMBER 2025",
-          "cerita": null
-        }
       ]
     },
     "tema-spotify": {
@@ -1050,8 +907,7 @@
           "k": "fotoGallery1",
           "f": "assets.bernaung.id/images/galleries/confirm.jpeg"
         }
-      ],
-      "loveStory": []
+      ]
     },
     "tema-punakawan-luxury01": {
       "label": "Tema Luxury 01",
@@ -1096,20 +952,6 @@
         {
           "k": "fotoBride",
           "f": "/_cdn/inv.punakawandigital.id/wp-content/uploads/2026/06/sm-WANITA-e1725510489585.jpg"
-        }
-      ],
-      "loveStory": [
-        {
-          "judul": "Awal Cerita",
-          "cerita": "Berawal dari pertemuan sederhana, kami saling mengenal dan mulai berbagi banyak cerita"
-        },
-        {
-          "judul": "Lamaran",
-          "cerita": "Dengan niat yang tulus dan restu keluarga, kami memutuskan untuk melangkah ke tahap yang lebih serius"
-        },
-        {
-          "judul": "Pernikahan",
-          "cerita": "Kini kami sampai pada hari yang kami nantikan"
         }
       ]
     },
@@ -1195,20 +1037,6 @@
         {
           "k": "fotoBride",
           "f": "assets/foto/sm-WANITA-e1725510489585.jpg"
-        }
-      ],
-      "loveStory": [
-        {
-          "judul": "Awal Cerita",
-          "cerita": "Semua berawal dari sebuah pertemuan sederhana. Dari percakapan kecil dan tawa yang hangat"
-        },
-        {
-          "judul": "Pertemuan Kembali",
-          "cerita": "Waktu berlalu, kami tumbuh dengan jalan kehidupan masing-masing. Hingga suatu hari, takdir kembali mempertemukan kami"
-        },
-        {
-          "judul": "Menjadi Satu",
-          "cerita": null
         }
       ]
     }

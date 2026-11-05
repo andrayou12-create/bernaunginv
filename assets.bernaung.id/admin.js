@@ -108,9 +108,6 @@
   }
   function downloadText(filename, text) {
     var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    downloadBlob(filename, blob);
-  }
-  function downloadBlob(filename, blob) {
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = filename;
@@ -326,9 +323,6 @@
   $('c_theme').addEventListener('change', function () {
     autoFillDefaults();
     updateGalleryHint();
-    renumberLoveStories();
-    _themeHtmlCache = {}; /* ganti tema = muat ulang sumber */
-    scheduleLivePreview();
   });
   function autoFillDefaults() {
     var g = $('c_groomNick').value.trim(), b = $('c_brideNick').value.trim();
@@ -350,37 +344,115 @@
   if (!$('c_wa').value) $('c_wa').value = '6282324137816';
   updateRsvpFields();
 
-  /* ---------- PRATINJAU LANGSUNG & TOMBOL ---------- */
   $('btnPreviewTheme').addEventListener('click', function () {
     var theme = $('c_theme').value;
     $('genPreview').innerHTML = '<iframe class="iframe-prev" src="/' + theme + '/index.html"></iframe>';
   });
-  $('livePreviewRefresh').addEventListener('click', function () {
-    _themeHtmlCache = {};
-    renderLivePreview();
-  });
-  $('livePreviewOn').addEventListener('change', function () {
-    if (this.checked) renderLivePreview();
-  });
-  $('lsAdd').addEventListener('click', function () {
-    addLoveStoryRow('', '');
-    scheduleLivePreview();
-  });
-  $('c_musicFile').addEventListener('change', function () {
-    if (this.files && this.files[0]) {
-      $('c_musicInfo').value = '(baru) ' + this.files[0].name;
-      toast('Musik dipilih: ' + this.files[0].name + ' — akan dipasang saat undangan dibuat.');
+
+  /* ================= LOVE STORY DINAMIS ================= */
+  function addStoryRow(findVal, repVal) {
+    var box = document.createElement('div');
+    box.className = 'grid2';
+    box.style.cssText = 'align-items:start;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px';
+    box.innerHTML =
+      '<div><label class="f">Teks di tema (yang diganti)</label>' +
+      '<input class="f ls-find" placeholder="mis. Episode 1: Pertemuan tak terduga" value="' + esc(findVal || '') + '"></div>' +
+      '<div><label class="f">Cerita / judul baru</label>' +
+      '<textarea class="f ls-rep" placeholder="mis. Episode 1: Dipertemukan di kampus pada 2022" style="min-height:56px">' + esc(repVal || '') + '</textarea>' +
+      '<button type="button" class="btn btn-red btn-sm" style="margin-top:6px">HAPUS</button></div>';
+    box.querySelector('button').addEventListener('click', function () { box.remove(); });
+    $('loveStoryList').appendChild(box);
+  }
+  $('btnAddStory').addEventListener('click', function () { addStoryRow('', ''); });
+  function collectLoveStories() {
+    var out = [];
+    document.querySelectorAll('#loveStoryList .grid2').forEach(function (row) {
+      var f = row.querySelector('.ls-find').value.trim();
+      var r = row.querySelector('.ls-rep').value.trim();
+      if (f && r) out.push({ find: f, rep: r });
+    });
+    return out;
+  }
+  function fillLoveStories(arr) {
+    $('loveStoryList').innerHTML = '';
+    (arr || []).forEach(function (s) { addStoryRow(s.find, s.rep); });
+  }
+  addStoryRow('', ''); /* satu baris awal */
+
+  /* ================= MUSIK ================= */
+  function musicExtOf(name) {
+    var m = String(name || '').toLowerCase().match(/\.(mp3|ogg|m4a|wav)$/);
+    return m ? m[1] : 'mp3';
+  }
+  async function resolveMusic(file, slug) {
+    if (!file) return null;
+    if (!hasToken() && file.size > 4 * 1024 * 1024) {
+      toast('File musik ' + Math.round(file.size / 1048576) + ' MB — tanpa Token maks 4 MB (disematkan ke halaman). Pasang Token agar diunggah sebagai file.', true);
+      return null;
+    }
+    var dataUrl = await readAsDataURL(file);
+    if (hasToken()) {
+      var path = 'customer/' + slug + '/music.' + musicExtOf(file.name);
+      return { value: '/' + path, upload: { path: path, content: dataUrl, encoding: 'base64' } };
+    }
+    return { value: dataUrl, upload: null };
+  }
+  function applyMusic(html, musicVal) {
+    if (!musicVal) return html;
+    /* ganti src tag audio & source mp3 */
+    html = html.replace(/(<audio[^>]*\ssrc=")[^"]+(")/i, '$1' + musicVal + '$2');
+    html = html.replace(/(<source[^>]*\ssrc=")[^"]*\.mp3(")/i, '$1' + musicVal + '$2');
+    /* tema dengan player JS: new Audio('...') / MUSIC_FILE */
+    html = html.replace(/(new\s+Audio\(\s*['"])[^'"]+\.mp3(['"])/i, '$1' + musicVal + '$2');
+    return html;
+  }
+
+  /* ================= PRATINJAU LIVE ================= */
+  async function buildPreviewHTML() {
+    var data = collectCustomerData();
+    if (!data.values.groomNick && !data.values.brideNick) { toast('Isi minimal nama mempelai untuk pratinjau.'); return null; }
+    var themeCfg = (S.themeMap.themes || {})[data.theme] || {};
+    var raw = await fetchThemeFile(data.theme + '/index.html');
+    if (!data.values.heroNames) data.values.heroNames = ((data.values.brideNick || '') + ' & ' + (data.values.groomNick || '')).trim();
+    if (!data.values.title) data.values.title = 'Wedding - ' + data.values.heroNames;
+    /* musik dari file yang dipilih (tanpa unggah) */
+    var mfile = $('c_musicFile').files && $('c_musicFile').files[0];
+    var musicVal = $('c_musicUrl').value.trim();
+    if (mfile && !hasToken() && mfile.size <= 4 * 1024 * 1024) musicVal = await readAsDataURL(mfile);
+    var res = applyReplacements(raw, themeCfg, data);
+    var html = remapPaths(res.html, data.theme);
+    html = applyMusic(html, musicVal);
+    /* <base> agar path absolut (/tema/..., /_cdn/...) termuat dari server */
+    if (/<head[^>]*>/i.test(html)) html = html.replace(/<head[^>]*>/i, function (m) { return m + '\n<base href="/">'; });
+    return html;
+  }
+  function isBusy() { return !$('busy').classList.contains('hidden'); }
+  var liveTimer = null;
+  async function renderLiveView() {
+    busy(true, 'MEMBANGUN PRATINJAU LIVE...');
+    try {
+      var html = await buildPreviewHTML();
+      busy(false);
+      if (html == null) return;
+      $('liveWrap').classList.remove('hidden');
+      var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var fr = $('liveFrame');
+      if (fr._objUrl) URL.revokeObjectURL(fr._objUrl);
+      fr._objUrl = url; fr.src = url;
+      $('liveWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (e) { busy(false); toast('Pratinjau gagal: ' + e.message, true); }
+  }
+  $('btnLiveView').addEventListener('click', renderLiveView);
+  $('liveAuto').addEventListener('change', function () {
+    clearInterval(liveTimer);
+    if (this.checked) {
+      liveTimer = setInterval(function () {
+        if (!$('liveWrap').classList.contains('hidden') && !isBusy()) renderLiveView();
+      }, 2500);
+      renderLiveView();
     }
   });
-  /* semua input form memicu pratinjau (debounce) */
-  $('tab-baru').addEventListener('input', function (ev) {
-    if (ev.target && ev.target.id === 'livePreviewFrame') return;
-    scheduleLivePreview();
-  });
-  $('tab-baru').addEventListener('change', function (ev) {
-    if (ev.target && ev.target.type === 'file') scheduleLivePreview();
-  });
-  addLoveStoryRow('', ''); /* satu baris awal */
 
   /* ---------- GENERATOR ---------- */
   function markRegex(phrase) {
@@ -444,12 +516,12 @@
         fotoGroom: v('c_fotoGroom'), fotoBride: v('c_fotoBride')
       },
       fotoGallery: v('c_fotoGallery'),
-      loveStories: collectLoveStories(),
-      musicFile: ($('c_musicFile') && $('c_musicFile').files && $('c_musicFile').files[0]) || null,
       sheet: v('c_sheet'),
       rsvpMode: $('c_rsvpMode').value,
       wa: v('c_wa').replace(/\D/g, ''),
-      extra: v('c_extra')
+      extra: v('c_extra'),
+      musicUrl: v('c_musicUrl'),
+      loveStories: collectLoveStories()
     };
   }
 
@@ -489,6 +561,11 @@
       if (parts.length >= 2 && parts[0].trim()) {
         rules.push({ find: parts[0].trim(), val: htmlEsc(parts.slice(1).join('|').trim()), k: '_extra' });
       }
+    });
+
+    /* love story dinamis (form) */
+    (data.loveStories || []).forEach(function (s, i) {
+      rules.push({ find: s.find, val: htmlEsc(s.rep).replace(/\n/g, '<br>'), k: '_story' + (i + 1) });
     });
 
     /* urutkan: frasa terpanjang dulu (aturan plain terakhir agar tak bentrok) */
@@ -555,8 +632,7 @@
   }
 
   function remapPaths(html, theme) {
-    /* termasuk data-thumbnail/data-src/poster (galeri Elementor memakai atribut ini) */
-    html = html.replace(/(src|href|data-src|data-thumbnail|poster|data-bg)="(?!https?:|\/|#|data:|javascript:|mailto:|tel:)([^"]+)"/g,
+    html = html.replace(/(src|href)="(?!https?:|\/|#|data:|javascript:|mailto:|tel:)([^"]+)"/g,
       function (m0, attr, path) { return attr + '="/' + theme + '/' + path + '"'; });
     html = html.replace(/url\(\s*'([^']+)'\s*\)/g, function (m0, path) {
       if (/^(https?:|\/|data:|#)/.test(path)) return m0;
@@ -567,184 +643,6 @@
       return 'url("/' + theme + '/' + path + '")';
     });
     return html;
-  }
-
-  /* ================= LOVE STORY (BARIS DINAMIS) ================= */
-  function addLoveStoryRow(judul, cerita) {
-    var box = $('lsRows');
-    var row = document.createElement('div');
-    row.className = 'ls-row';
-    var n = box.querySelectorAll('.ls-row').length + 1;
-    row.innerHTML =
-      '<div class="ls-head"><span class="ls-num">CERITA #' + n + '</span>' +
-      '<button class="btn-icon" type="button">HAPUS</button></div>' +
-      '<div class="grid2" style="gap:10px">' +
-      '<div><label class="f">Judul / Momen (mis. Awal Cerita, Lamaran, 2023)</label>' +
-      '<input class="f ls-judul" placeholder="mis. Lamaran"></div>' +
-      '<div><label class="f">Tahun / Keterangan singkat (opsional)</label>' +
-      '<input class="f ls-tahun" placeholder="mis. 2025"></div></div>' +
-      '<label class="f" style="margin-top:8px">Cerita</label>' +
-      '<textarea class="f ls-cerita" placeholder="Ceritakan momennya&hellip;"></textarea>';
-    row.querySelector('.ls-judul').value = judul || '';
-    row.querySelector('.ls-tahun').value = (cerita && cerita.tahun) || '';
-    row.querySelector('.ls-cerita').value = (cerita && cerita.teks) || cerita || '';
-    row.querySelector('.btn-icon').addEventListener('click', function () {
-      row.remove(); renumberLoveStories(); scheduleLivePreview();
-    });
-    box.appendChild(row);
-    renumberLoveStories();
-  }
-  function renumberLoveStories() {
-    $('lsRows').querySelectorAll('.ls-row').forEach(function (r, i) {
-      r.querySelector('.ls-num').textContent = 'CERITA #' + (i + 1);
-    });
-    var slots = loveStorySlots($('c_theme').value);
-    var rows = $('lsRows').querySelectorAll('.ls-row').length;
-    var el = $('lsSlots');
-    if (!slots) el.textContent = 'Tema ini tidak punya bagian love story — baris cerita tidak akan dipakai.';
-    else el.textContent = 'Tema ini punya ' + slots + ' slot love story. Saat ini ' + rows + ' baris terisi.';
-  }
-  function loveStorySlots(theme) {
-    var cfg = (S.themeMap && S.themeMap.themes && S.themeMap.themes[theme]) || {};
-    var ls = cfg.loveStory;
-    if (!ls || !ls.length) return 0;
-    return ls.length;
-  }
-  function collectLoveStories() {
-    var out = [];
-    $('lsRows').querySelectorAll('.ls-row').forEach(function (r) {
-      var judul = r.querySelector('.ls-judul').value.trim();
-      var tahun = r.querySelector('.ls-tahun').value.trim();
-      var teks = r.querySelector('.ls-cerita').value.trim();
-      if (judul || teks) out.push({ judul: judul, tahun: tahun, teks: teks });
-    });
-    return out;
-  }
-  /* Terapkan love story ke html tema sesuai slot theme-map */
-  function applyLoveStories(html, themeCfg, data) {
-    var notes = [];
-    var slots = (themeCfg && themeCfg.loveStory) || [];
-    var stories = data.loveStories || [];
-    if (!slots.length) {
-      if (stories.length) notes.push('Tema ini tidak punya bagian love story — ' + stories.length + ' cerita tidak dipakai.');
-      return { html: html, notes: notes };
-    }
-    var used = 0;
-    slots.forEach(function (slot, i) {
-      var row = stories[i];
-      if (!row && stories.length) row = stories[stories.length - 1]; /* slot sisa diisi cerita terakhir */
-      if (!row) return;
-      used++;
-      if (slot.judul && row.judul) {
-        var re = markRegex(slot.judul);
-        html = html.replace(re, function () { return htmlEsc(row.judul + (row.tahun ? ' — ' + row.tahun : '')); });
-      }
-      if (row.teks) {
-        if (slot.cerita) {
-          var re2 = markRegex(slot.cerita);
-          html = html.replace(re2, function () { return htmlEsc(row.teks); });
-        } else if (slot.marker) {
-          var pat = slot.marker + '></span>';
-          if (html.indexOf(pat) !== -1) {
-            html = html.split(pat).join(slot.marker + '><span class="niku-multiline">' + htmlEsc(row.teks) + '</span></span>');
-          }
-        }
-      }
-    });
-    if (stories.length > slots.length) {
-      notes.push('Tema hanya punya ' + slots.length + ' slot cerita — cerita ke-' + (slots.length + 1) + ' dst tidak dipakai.');
-    }
-    return { html: html, notes: notes };
-  }
-
-  /* ================= MUSIK ================= */
-  function musicExtOf(name) {
-    var m = String(name || '').toLowerCase().match(/\.(mp3|m4a|wav|ogg)$/);
-    return m ? m[1] : 'mp3';
-  }
-  /* Ganti seluruh sumber audio tema dengan musik customer */
-  function applyMusic(html, musicPath) {
-    if (!musicPath) return html;
-    html = html.replace(/(<source\b[^>]*?\bsrc=")[^"]*("[^>]*?\btype="audio[^"]*"[^>]*>)/gi,
-      function (m0, a, b) { return a + musicPath + b; });
-    html = html.replace(/(<source\b[^>]*?\btype="audio[^"]*"[^>]*?\bsrc=")[^"]*("[^>]*>)/gi,
-      function (m0, a, b) { return a + musicPath + b; });
-    html = html.replace(/(<audio\b[^>]*?\bsrc=")[^"]*("[^>]*>)/gi,
-      function (m0, a, b) { return a + musicPath + b; });
-    html = html.replace(/MUSIC_FILE\s*:\s*'[^']*'/gi, "MUSIC_FILE: '" + musicPath + "'");
-    return html;
-  }
-
-  /* ================= LIVE PREVIEW (SINKRON FORM) ================= */
-  var _themeHtmlCache = {};
-  var _liveTimer = null;
-  async function getThemeHtml(theme) {
-    if (_themeHtmlCache[theme]) return _themeHtmlCache[theme];
-    var raw = await fetchThemeFile(theme + '/index.html');
-    _themeHtmlCache[theme] = raw;
-    return raw;
-  }
-  function buildPreviewData() {
-    var data = collectCustomerData();
-    /* pratinjau tidak butuh slug valid */
-    if (!data.slug) data.slug = 'pratinjau';
-    if (!data.values.groomNick && !data.values.brideNick) {
-      data.values.groomNick = data.values.groomNick || '';
-    }
-    if (!data.values.heroNames) {
-      data.values.heroNames = (data.values.brideNick && data.values.groomNick)
-        ? data.values.brideNick + ' & ' + data.values.groomNick : '';
-    }
-    if (!data.values.title) data.values.title = 'Pratinjau Undangan';
-    return data;
-  }
-  async function renderLivePreview() {
-    var frame = $('livePreviewFrame');
-    var status = $('livePreviewStatus');
-    if (!$('livePreviewOn').checked) { status.textContent = 'Pratinjau otomatis dimatikan — centang kotak untuk mengaktifkan.'; return; }
-    var theme = $('c_theme').value;
-    if (!theme || !S.themeMap) return;
-    status.textContent = 'Menyusun pratinjau tema ' + theme + '…';
-    try {
-      var raw = await getThemeHtml(theme);
-      var data = buildPreviewData();
-      var themeCfg = (S.themeMap.themes || {})[theme] || {};
-      var res = applyReplacements(raw, themeCfg, data);
-      var html = res.html;
-      var ls = applyLoveStories(html, themeCfg, data);
-      html = ls.html;
-      html = remapPaths(html, theme);
-      /* pratinjau foto: file picker -> dataURL agar langsung terlihat */
-      var fMap = [['c_fotoCoverFile', 'fotoCover'], ['c_fotoCoupleFile', 'fotoCouple'],
-        ['c_fotoGroomFile', 'fotoGroom'], ['c_fotoBrideFile', 'fotoBride']];
-      for (var i = 0; i < fMap.length; i++) {
-        var inp = $(fMap[i][0]);
-        if (inp && inp.files && inp.files[0]) {
-          var du = await readAsDataURL(inp.files[0]);
-          var cfg = (themeCfg.map || []).filter(function (m) { return m.k === fMap[i][1]; })[0];
-          if (cfg && cfg.f) html = html.split(cfg.f).join(du);
-        }
-      }
-      var ginp = $('c_fotoGalleryFiles');
-      if (ginp && ginp.files && ginp.files.length) {
-        var gmap = (themeCfg.map || []).filter(function (m) { return /^fotoGallery\d+$/.test(m.k || ''); });
-        for (var gi = 0; gi < ginp.files.length && gi < gmap.length; gi++) {
-          var gdu = await readAsDataURL(ginp.files[gi]);
-          html = html.split(gmap[gi].f).join(gdu);
-        }
-      }
-      frame.srcdoc = html;
-      var ok = res.report.ok.length, miss = res.report.miss.length;
-      status.innerHTML = 'Pratinjau aktif — <b>' + ok + '</b> frasa terpasang' +
-        (miss ? ', <span style="color:var(--red)">' + miss + ' kolom belum cocok di tema (data demo)</span>' : '') +
-        (ls.notes.length ? '<br>' + ls.notes.map(esc).join('<br>') : '');
-    } catch (e) {
-      status.textContent = 'Gagal menyusun pratinjau: ' + e.message;
-    }
-  }
-  function scheduleLivePreview() {
-    clearTimeout(_liveTimer);
-    _liveTimer = setTimeout(renderLivePreview, 600);
   }
 
   function buildDataJS(data) {
@@ -762,8 +660,6 @@
         resepsi: { kapan: vals.resDayDate, jam: vals.resTime, tempat: vals.resPlace },
         alamat: vals.address, gmaps: vals.gmaps
       },
-      loveStory: data.loveStories || [],
-      musik: data.musicPath || '',
       gift: [
         { bank: vals.gift1Bank || '', nomor: vals.gift1Number, atasNama: vals.gift1Name },
         { nomor: vals.gift2Number, atasNama: vals.gift2Name },
@@ -874,32 +770,19 @@
       }
 
       var res = applyReplacements(raw, themeCfg, data);
-      var html = res.html;
+      var html = remapPaths(res.html, data.theme);
 
-      /* --- love story (baris dinamis) --- */
-      var lsRes = applyLoveStories(html, themeCfg, data);
-      html = lsRes.html;
-
-      /* --- musik (unggahan) --- */
+      /* --- musik (file picker / URL) --- */
       var musicUpload = null;
-      if (data.musicFile) {
-        busy(true, 'MEMPROSES MUSIK ' + data.musicFile.name.toUpperCase() + '...');
-        var musicPath = 'customer/' + data.slug + '/musik.' + musicExtOf(data.musicFile.name);
-        if (hasToken()) {
-          var mDataUrl = await readAsDataURL(data.musicFile);
-          musicUpload = { path: musicPath, content: mDataUrl, encoding: 'base64' };
-          data.musicPath = '/' + musicPath;
-        } else {
-          /* mode manual: file musik diunduh terpisah agar tidak membebani HTML */
-          data.musicPath = '/' + musicPath;
-          data._musicManualFile = data.musicFile;
-        }
-        html = applyMusic(html, data.musicPath);
-      } else {
-        data.musicPath = (S.editingCustomer && S.catalog.customers.find(function (c) { return c.slug === S.editingCustomer; }) || {}).musik || '';
+      var mFile = $('c_musicFile').files && $('c_musicFile').files[0];
+      var musicVal = data.values.musicUrl || '';
+      if (mFile) {
+        busy(true, 'MENGUNGGAH MUSIK ' + mFile.name.toUpperCase() + '...');
+        var rm = await resolveMusic(mFile, data.slug);
+        if (rm) { musicVal = rm.value; if (rm.upload) musicUpload = rm.upload; }
       }
-
-      var html = remapPaths(html, data.theme);
+      html = applyMusic(html, musicVal);
+      if (musicUpload) photoUploads.push(musicUpload);
 
       /* --- RSVP mode --- */
       var hasUniversalRsvp = html.indexOf('/assets.bernaung.id/rsvp.js') !== -1;
@@ -935,7 +818,7 @@
         var override = '<script>window.CONFIG = Object.assign(window.CONFIG || {}, {' +
           "RSVP_API_URL: '" + apiOverride + "'," +
           (cdISO ? "COUNTDOWN_TARGET: '" + cdISO + "'," : '') +
-          "MUSIC_FILE: '" + (data.musicPath || '/' + data.theme + '/assets/audio/music.mp3') + "'});<\/script>";
+          "MUSIC_FILE: '/" + data.theme + "/assets/audio/music.mp3'});<\/script>";
         html = html.replace('<script src="/' + data.theme + '/js/main.js">',
           override + '\n<script src="/' + data.theme + '/js/main.js">');
       }
@@ -948,23 +831,15 @@
       ];
       /* foto terunggah disertakan dulu agar link foto valid saat halaman dibuka */
       photoUploads.forEach(function (u) { files.unshift(u); });
-      /* musik terunggah (mode token) */
-      if (musicUpload) files.unshift(musicUpload);
 
       /* catat ke catalog.customers */
-      var prevEntry = {};
-      if (S.editingCustomer) {
-        var pe = S.catalog.customers.find(function (c) { return c.slug === S.editingCustomer; });
-        if (pe) prevEntry = pe;
-      }
       var entry = {
         slug: data.slug, theme: data.theme, name: data.values.heroNames,
         title: data.values.title, status: 'unpaid', createdAt: new Date().toISOString(),
         eventDate: data.values.akadDayDate || data.values.resDayDate || '',
         rsvp: { mode: data.rsvpMode || 'demo', wa: data.wa || '', appscript: data.values.rsvpUrl, sheet: data.sheet },
         values: data.values, fotoGallery: data.fotoGallery, extra: data.extra,
-        loveStories: data.loveStories || [],
-        musik: data.musicPath || prevEntry.musik || ''
+        loveStories: data.loveStories, music: musicVal || undefined
       };
       if (S.editingCustomer) {
         var idx = S.catalog.customers.findIndex(function (c) { return c.slug === S.editingCustomer; });
@@ -977,13 +852,8 @@
 
       window.__BNG_LAST_FILES = files; /* untuk inspeksi/unduhan ulang */
       var commitMode = await commitFiles(files, 'Undangan ' + data.slug + ':');
-      /* mode manual + musik: unduh file musik terpisah */
-      if (data._musicManualFile) {
-        downloadBlob('musik.' + musicExtOf(data._musicManualFile.name), data._musicManualFile);
-        toast('File musik diunduh — unggah ke folder customer/' + data.slug + '/ dengan nama sama.', true);
-      }
       busy(false);
-      showReport(res.report, lsRes.notes);
+      showReport(res.report);
       var url = location.origin + '/customer/' + data.slug + '/index.html';
       var rsvpInfo = data.rsvpMode === 'wa' ? 'RSVP: WhatsApp internal (' + data.wa + ')'
         : data.rsvpMode === 'sheet' ? 'RSVP: Google Spreadsheet'
@@ -998,16 +868,14 @@
     }
   });
 
-  function showReport(rep, lsNotes) {
+  function showReport(rep) {
     var box = $('genReport');
-    var okHtml = rep.ok.map(function (o) { return '<li>' + esc(o.k) + ' → "' + esc(o.find) + '" (' + o.n + '×)</li>'; }).join('');
+    var okHtml = rep.ok.map(function (o) { return '<li>' + esc(o.k) + ' → "' + esc(o.find) + '" (' + o.n + '×</li>'; }).join('');
     var missHtml = rep.miss.map(function (o) { return '<li>' + esc(o.k) + ' → "' + esc(o.find) + '"</li>'; }).join('');
-    var lsHtml = (lsNotes || []).map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('');
     box.innerHTML =
       '<div class="card" style="margin-top:14px"><h2>LAPORAN PENGGANTIAN DATA</h2>' +
       '<p class="desc"><b style="color:var(--green)">Berhasil diganti:</b> ' + rep.ok.length + ' frasa.</p>' +
       (okHtml ? '<ul class="hint">' + okHtml + '</ul>' : '') +
-      (lsHtml ? '<p class="desc" style="margin-top:10px"><b style="color:var(--gold)">Catatan love story:</b></p><ul class="hint">' + lsHtml + '</ul>' : '') +
       (missHtml ? '<p class="desc" style="margin-top:10px"><b style="color:var(--red)">Tidak ditemukan (data tema masih demo):</b></p><ul class="hint">' + missHtml + '</ul>' +
         '<p class="hint">Isi bagian <b>Penggantian Tambahan</b> di form dengan format <code>teks demo | teks baru</code> lalu buat ulang undangan.</p>' : '') +
       '</div>';
@@ -1053,8 +921,7 @@
   function themeName(id) {
     /* nama tema lama yang sudah diarsipkan/hapus dari katalog */
     var ARCHIVE = { 'tema-elegan': 'Tema Elegan (arsip)', 'tema-3dmotion': 'Tema 3D Motion (arsip)',
-      'tema-jawanopict2': 'Tema Jawa Tanpa Foto 2 (arsip)', 'tema-nisa': 'Tema Minimalis Emas (arsip)',
-      'tema-invisim': 'Tema Minimalis Putih (arsip)' };
+      'tema-jawanopict2': 'Tema Jawa Tanpa Foto 2 (arsip)' };
     var t = S.catalog.themes.find(function (x) { return x.id === id; });
     if (t) return t.name;
     return ARCHIVE[id] || id;
@@ -1110,16 +977,10 @@
     $('c_wa').value = (c.rsvp && c.rsvp.wa) || '6282324137816';
     updateRsvpFields();
     $('c_extra').value = c.extra || '';
-    /* love story */
-    $('lsRows').innerHTML = '';
-    (c.loveStories && c.loveStories.length ? c.loveStories : [{}]).forEach(function (ls) {
-      addLoveStoryRow(ls.judul || '', { tahun: ls.tahun || '', teks: ls.teks || '' });
-    });
-    /* musik */
-    $('c_musicFile').value = '';
-    $('c_musicInfo').value = c.musik || '';
-    renumberLoveStories();
-    scheduleLivePreview();
+    /* love story & musik */
+    fillLoveStories(c.loveStories && c.loveStories.length ? c.loveStories : [{ find: '', rep: '' }]);
+    $('c_musicUrl').value = (c.music && String(c.music).indexOf('data:') !== 0) ? c.music : '';
+    if ($('c_musicFile')) $('c_musicFile').value = '';
     toast('Mengedit "' + c.slug + '" — ubah data lalu klik BUAT UNDANGAN untuk membuat ulang filenya.', true);
   }
 
@@ -1193,8 +1054,6 @@
       renderCustomers();
       renderCustMini();
       toast('Panel siap ✓');
-      renumberLoveStories();
-      renderLivePreview();
     } catch (e) {
       busy(false);
       toast('Gagal memuat data: ' + e.message, true);

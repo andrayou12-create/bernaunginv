@@ -309,7 +309,7 @@ var initMusic = function initMusic() {
   // Setup awal untuk YouTube audio
   if (YTMusic) {
     var tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
+    tag.src = "/_cdn/www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName("script")[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   }

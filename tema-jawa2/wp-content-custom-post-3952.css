@@ -53,39 +53,24 @@ body.elementor-page{
 .elementor-element-5f84180a .elementor-button:hover{transform:translateY(-2px);background:var(--jw-gold2)}
 
 /* ---------- HERO / SAVE THE DATE ---------- */
+/* Hero mobile: layar penuh, konten di tengah, overlay gelap agar teks terbaca */
+.slideAwal{position:relative;min-height:100vh}
+.slideAwal .aw{
+  position:relative;z-index:2;min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:56px 18px 48px;box-sizing:border-box;
+}
+.slideAwal .elementor-background-video-container{inset:0;z-index:0}
+.slideAwal .elementor-background-video-container::after{
+  content:'';position:absolute;inset:0;z-index:1;
+  background:radial-gradient(ellipse at center,rgba(24,16,9,.55) 0%,rgba(24,16,9,.32) 55%,rgba(24,16,9,.5) 100%);
+}
+.slideAwal .elementor-widget{width:100%;max-width:100%}
 .elementor-element-10f8c8d1,.date{min-height:92vh;justify-content:center}
 .elementor-element-10f8c8d1 .elementor-widget-wrap{align-items:center}
 .elementor-element-10f8c8d1 .elementor-heading-title,
 .elementor-element-10f8c8d1 .elementor-widget-text-editor{
   color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5);text-align:center;
-}
-
-/* ---------- INTRO SLIDE (VIDEO) ---------- */
-.slideAwal{min-height:100vh;justify-content:center;position:relative}
-.slideAwal .elementor-heading-title,.slideAwal .elementor-widget-text-editor{
-  color:#fff;text-align:center;text-shadow:0 2px 14px rgba(0,0,0,.65),0 1px 3px rgba(0,0,0,.5);
-}
-/* pastikan semua teks intro putih (timpa warna emas bawaan) */
-.slideAwal .elementor-heading-title,
-.slideAwal h2.elementor-heading-title,
-.slideAwal .elementor-widget-container{color:#fff!important}
-/* scrim gelap halus agar teks selalu terbaca di atas video */
-.slideAwal::after{
-  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(35,22,12,.30) 0%,rgba(35,22,12,.42) 45%,rgba(35,22,12,.55) 100%);
-}
-.slideAwal .elementor-element-65a058d8{position:relative;z-index:2}
-.slideAwal .elementor-background-video-container{z-index:0}
-.elementor-element-63a7487 .elementor-heading-title{
-  font-family:'hello-amelia',cursive;font-size:26px;letter-spacing:3px;font-weight:400;
-}
-.slideAwal .elementor-element-414f9a7e,
-.slideAwal .elementor-element-414f9a7e .elementor-widget-container,
-.elementor-element-414f9a7e .niku-multiline{
-  font-family:'aston-script','playball',cursive !important;font-size:54px;line-height:1.2;font-weight:400;letter-spacing:1px;
-}
-.elementor-element-3f3a980d .elementor-heading-title{
-  font-size:22px;letter-spacing:8px;font-weight:300;
 }
 .elementor-element-1aef118f .elementor-heading-title{
   font-family:'hello-amelia',cursive;font-size:24px;letter-spacing:3px;font-weight:400;
@@ -93,7 +78,24 @@ body.elementor-page{
 .elementor-element-54652e68 .elementor-heading-title{
   font-family:'aston-script','playball',cursive;font-size:54px;font-weight:400;line-height:1.15;
 }
-.elementor-element-3f3a980d .elementor-heading-title{font-size:22px;letter-spacing:8px;font-weight:300}
+/* Hero (mobile) — nama mempelai di atas video: font script putih agar terbaca */
+.elementor-element-63a7487 .elementor-heading-title{
+  font-family:'hello-amelia',cursive;font-size:24px;letter-spacing:4px;font-weight:400;color:#fff;
+  text-shadow:0 2px 12px rgba(0,0,0,.55);
+}
+.elementor-element-414f9a7e{
+  font-family:'aston-script','playball',cursive;font-size:54px;font-weight:400;line-height:1.2;
+  letter-spacing:1px;color:#fff;text-shadow:0 3px 16px rgba(0,0,0,.6);text-align:center;
+}
+.elementor-element-3f3a980d .elementor-heading-title{
+  font-family:'hello-amelia',cursive;font-size:22px;letter-spacing:7px;font-weight:600;color:#fff;
+  text-shadow:0 2px 12px rgba(0,0,0,.75),0 0 24px rgba(0,0,0,.4);
+}
+@media (max-width:767px){
+  .elementor-element-414f9a7e{font-size:46px}
+  .elementor-element-63a7487 .elementor-heading-title{font-size:20px}
+  .elementor-element-3f3a980d .elementor-heading-title{font-size:18px;letter-spacing:5px}
+}
 .elementor-element-1510615 .elementor-button{
   background:transparent!important;color:#fff!important;border:1.5px solid #fff;border-radius:999px;
   padding:11px 30px;font-size:12.5px;letter-spacing:2px;font-weight:600;transition:all .3s;
@@ -210,7 +212,22 @@ body.elementor-page{
 }
 .elementor-element-3aaa4087{text-align:center;color:var(--jw-muted)}
 
+/* ---------- EMOJI WORDPRESS (hati "Made with love") ---------- */
+img.emoji{display:inline-block!important;height:1em!important;width:1em!important;
+  max-height:1em!important;max-width:1em!important;margin:0 .07em!important;
+  vertical-align:-0.1em!important;background:transparent!important;padding:0!important;
+  box-shadow:none!important;border:0!important;border-radius:0!important}
+
 /* ---------- RSVP / UCAPAN ---------- */
+.elementor-widget-weddingpress-kit2 .cui-wrapper{overflow:visible}
+.cui-wrapper .cui-widget-form{width:100%}
+.cui-wrapper .success{margin:10px 0 0;padding:10px 14px;border-radius:10px;
+  background:rgba(62,207,142,.12);border:1px solid rgba(62,207,142,.5);color:#1d7a55;
+  font-size:12.5px;text-align:center}
+.cui-wrapper .cui-comment{width:100%}
+.cui-comment-item,.cui-comment-list li{word-wrap:break-word;overflow-wrap:break-word}
+.cui-wrapper label{font-size:12px;color:var(--jw-muted);letter-spacing:.5px;display:block;margin-bottom:4px}
+.cui-comment-list{margin:0;padding:0;list-style:none}
 .elementor-element-40ff965a .elementor-heading-title,
 .elementor-element-5d38d784 .elementor-heading-title{
   font-family:'playball',cursive;font-size:30px;color:var(--jw-gold2);text-align:center;font-weight:400;

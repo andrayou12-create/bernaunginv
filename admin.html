@@ -84,25 +84,6 @@
   .dl-list code { color:var(--blue); word-break:break-all; }
   .warn { color:var(--red); font-size:12px; margin-top:8px; }
   .iframe-prev { width:100%; height:420px; border:1px solid var(--line); border-radius:12px; background:#0f1620; }
-
-  /* ---------- LIVE PREVIEW ---------- */
-  .live-wrap { display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap; }
-  .phone-frame {
-    width:290px; height:600px; flex:0 0 auto; position:relative; margin:0 auto;
-    border:10px solid #0b121c; border-radius:38px; box-shadow:0 18px 44px rgba(0,0,0,.5);
-    background:#0f1620; overflow:hidden;
-  }
-  .phone-frame::after { /* notch */
-    content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
-    width:110px; height:16px; background:#0b121c; border-radius:0 0 14px 14px; z-index:5;
-  }
-  .phone-frame iframe { width:390px; height:802px; border:0; transform:scale(0.735); transform-origin:0 0; background:#fff; }
-  .live-side { flex:1; min-width:250px; }
-  .ls-row { background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:12px; margin-bottom:10px; }
-  .ls-row .ls-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
-  .ls-row .ls-num { font-size:11px; color:var(--gold); letter-spacing:1px; font-weight:700; }
-  .btn-icon { background:transparent; border:1px solid var(--red); color:var(--red); border-radius:7px; padding:4px 10px; cursor:pointer; font-size:11px; font-weight:700; }
-  .btn-icon:hover { background:rgba(255,107,107,.12); }
 </style>
 </head>
 <body>
@@ -162,25 +143,6 @@
 
     <!-- ============ TAB CUSTOMER BARU ============ -->
     <section id="tab-baru" class="hidden">
-      <div class="card" id="livePreviewCard">
-        <h2>PRATINJAU LANGSUNG (LIVE VIEW)</h2>
-        <p class="desc">Pratinjau ini <b>sinkron otomatis</b> dengan data yang Anda isi di form di bawah &mdash; pilih tema, ketik nama, tanggal, love story, dan lihat hasilnya langsung seperti tamu melihat undangannya. Foto yang diunggah lewat tombol <b>Pilih File</b> juga ikut tampil.</p>
-        <div class="live-wrap">
-          <div class="phone-frame"><iframe id="livePreviewFrame" title="Pratinjau undangan"></iframe></div>
-          <div class="live-side">
-            <label class="f" style="display:flex;align-items:center;gap:8px;cursor:pointer">
-              <input type="checkbox" id="livePreviewOn" checked> Aktifkan pratinjau otomatis (live view)
-            </label>
-            <div class="hint" id="livePreviewStatus">Memuat tema&hellip;</div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-              <button class="btn btn-line" id="livePreviewRefresh">SEGERA SEGARKAN</button>
-              <button class="btn btn-line" id="btnPreviewTheme">PRATINJAU TEMA (DEMO)</button>
-            </div>
-            <p class="hint" style="margin-top:12px">Catatan: pratinjau memakai data demo bila kolom masih kosong. Tombol <b>BUAT UNDANGAN</b> tetap menghasilkan file final.</p>
-          </div>
-        </div>
-        <div id="genPreview" style="margin-top:14px"></div>
-      </div>
       <div class="card">
         <h2>BUAT UNDANGAN CUSTOMER BARU</h2>
         <p class="desc">Pilih tema, isi detail acara baru, lalu klik <b>Buat Undangan</b>. Sistem akan menyalin tema, mengganti seluruh data demo dengan data customer, menautkan RSVP (Apps Script), dan mencatatnya ke daftar customer.</p>
@@ -264,30 +226,6 @@
         </fieldset>
 
         <fieldset>
-          <legend>LOVE STORY (BISA DITAMBAH / DIKURANGI)</legend>
-          <p class="desc">Isi perjalanan cinta pasangan. Jumlah baris bisa <b>ditambah atau dikurangi</b> sesuai kebutuhan &mdash; slot yang tersedia di tema akan diisi berurutan (bila baris lebih sedikit dari slot tema, slot tersisa diisi cerita terakhir).</p>
-          <div id="lsRows"></div>
-          <button class="btn btn-line" id="lsAdd" type="button">+ TAMBAH CERITA</button>
-          <div class="hint" id="lsSlots">Pilih tema untuk melihat jumlah slot love story.</div>
-        </fieldset>
-
-        <fieldset>
-          <legend>MUSIK UNDANGAN</legend>
-          <div class="grid2">
-            <div>
-              <label class="f">Unggah Musik (MP3)</label>
-              <input type="file" id="c_musicFile" accept="audio/*" style="font-size:12px;color:var(--muted)">
-              <div class="hint">Disimpan ke <code>customer/&lt;slug&gt;/musik.mp3</code> dan otomatis menggantikan musik tema. Mode token: langsung terunggah ke GitHub. Mode manual: file musik ikut terunduh untuk diunggah bersama HTML.</div>
-            </div>
-            <div>
-              <label class="f">Musik saat ini</label>
-              <input class="f" id="c_musicInfo" readonly placeholder="(musik bawaan tema)">
-              <div class="hint">Saat mengedit customer, kolom ini menampilkan musik yang terpasang. Pilih file baru untuk mengganti.</div>
-            </div>
-          </div>
-        </fieldset>
-
-        <fieldset>
           <legend>ACARA</legend>
           <div class="grid3">
             <div><label class="f">Akad — Hari &amp; Tanggal</label><input class="f" id="c_akadDayDate" placeholder="Minggu, 05 Desember 2026"></div>
@@ -350,6 +288,22 @@
         </fieldset>
 
         <fieldset>
+          <legend>LOVE STORY (DINAMIS)</legend>
+          <p class="desc">Tambahkan cerita perjalanan cinta — jumlah bebas. Isi <b>Teks di tema</b> (kalimat demo yang mau diganti, bisa disalin dari pratinjau tema) dan <b>Cerita baru</b> sebagai penggantinya.</p>
+          <div id="loveStoryList"></div>
+          <button type="button" class="btn btn-line btn-sm" id="btnAddStory">+ TAMBAH CERITA</button>
+          <div class="hint">Contoh: teks tema <code>Episode 1: Pertemuan tak terduga</code> diganti <code>Episode 1: Dipertemukan di kampus</code>.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>MUSIK UNDANGAN</legend>
+          <div class="grid2">
+            <div><label class="f">Unggah Musik (mp3)</label><input type="file" id="c_musicFile" accept="audio/*" class="f" style="padding:7px"><div class="hint">Dengan Token: tersimpan ke <code>customer/&lt;slug&gt;/music.mp3</code>. Tanpa token: disematkan langsung ke halaman (maks 4 MB).</div></div>
+            <div><label class="f">atau URL Musik</label><input class="f" id="c_musicUrl" placeholder="https://.../lagu.mp3 (kosongkan jika upload)"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
           <legend>PENGGANTIAN TAMBAHAN (OPSIONAL)</legend>
           <label class="f">Satu per baris, format: <b>teks demo lama | teks baru</b></label>
           <textarea class="f" id="c_extra" placeholder="Keluarga Besar Bapak Mohamad Rasul | Keluarga Besar Bapak Ahmad&#10;Episode 1: Pertemuan | Bab 1: Awal Mula"></textarea>
@@ -357,8 +311,19 @@
 
         <div style="display:flex;gap:10px;flex-wrap:wrap">
           <button class="btn btn-gold" id="btnGenerate">BUAT UNDANGAN</button>
+          <button class="btn btn-line" id="btnPreviewTheme">PRATINJAU TEMA (DEMO)</button>
+          <button class="btn btn-green" id="btnLiveView">PRATINJAU LIVE (DATA FORM)</button>
+          <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><input type="checkbox" id="liveAuto"> Auto-perbarui saat mengisi form</label>
         </div>
         <div id="genReport"></div>
+        <div id="genPreview" style="margin-top:14px"></div>
+        <div id="liveWrap" class="hidden" style="margin-top:14px">
+          <div class="card" style="margin:0">
+            <h2>PRATINJAU LIVE — DATA FORM SAAT INI</h2>
+            <p class="desc">Tampilan mengikuti data di form (belum disimpan). Klik tombol di atas untuk memperbarui, atau aktifkan <b>Auto-perbarui</b>.</p>
+            <iframe class="iframe-prev" id="liveFrame" style="height:640px"></iframe>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -373,7 +338,6 @@
             <tbody></tbody>
           </table>
         </div>
-        <p class="hint" style="margin-top:10px">Tautan <b>Buka Undangan</b> membuka <code>/customer/&lt;slug&gt;/index.html</code> &mdash; untuk customer lama, file ini otomatis mengarahkan ke file undangan aslinya sekaligus meneruskan nama tamu (<code>?to=Nama</code>).</p>
       </div>
     </section>
 

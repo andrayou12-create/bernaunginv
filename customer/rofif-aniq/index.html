@@ -195,10 +195,10 @@ var aagb_local_object = {"ajax_url":"https://envitto.invisimple.id/wp-admin/admi
             });
         });
     });
-});</script><link rel="icon" href="/_cdn/andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg/" sizes="32x32" />
-<link rel="icon" href="/_cdn/andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg/" sizes="192x192" />
-<link rel="apple-touch-icon" href="/_cdn/andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg/" />
-<meta name="msapplication-TileImage" content="/_cdn/andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg/" />
+});</script><link rel="icon" href="/assets.bernaung.id/loading-bernaung.jpeg" sizes="32x32" />
+<link rel="icon" href="/assets.bernaung.id/loading-bernaung.jpeg" sizes="192x192" />
+<link rel="apple-touch-icon" href="/assets.bernaung.id/loading-bernaung.jpeg" />
+<meta name="msapplication-TileImage" content="/assets.bernaung.id/loading-bernaung.jpeg" />
 		<style id="wp-custom-css">
 			body{
 	margin: 0 auto;
@@ -763,7 +763,7 @@ Dusun Ngadiprono, Ngadimulyo, Kedu, Temanggung, Jawa Tengah</p>				</div>
 				<div data-dce-background-color="#E7A166" class="elementor-element elementor-element-c75cc47 elementor-align-center wdsdv-enabled--yes elementor-mobile-align-center elementor-widget elementor-widget-button" data-id="c75cc47" data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
 				<div class="elementor-widget-container">
 									<div class="elementor-button-wrapper">
-					<a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink" href="https://maps.app.goo.gl/ESGdpi6dNY7YFdHz5" target="_blank" rel="nofollow">
+					<a class="elementor-button elementor-button-link elementor-size-sm elementor-animation-shrink" href="/_cdn/maps.app.goo.gl/ESGdpi6dNY7YFdHz5" target="_blank" rel="nofollow">
 						<span class="elementor-button-content-wrapper">
 						<span class="elementor-button-icon">
 				<i aria-hidden="true" class="fas fa-map-marker-alt"></i>			</span>
@@ -1319,7 +1319,7 @@ btn_gift.onclick = function(){
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-0f864e4 elementor-widget__width-auto elementor-widget elementor-widget-image" data-id="0f864e4" data-element_type="widget" data-e-type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-															<img loading="lazy" width="1995" height="2000" src="/_cdn/andrayou12-create.github.io/bernaungid/assets.bernaung.id/loading-bernaung.jpeg" class="attachment-full size-full wp-image-327620" alt="" />															</div>
+															<img loading="lazy" width="1995" height="2000" src="/assets.bernaung.id/loading-bernaung.jpeg" class="attachment-full size-full wp-image-327620" alt="" />															</div>
 				</div>
 				<div data-dce-title-color="#FFFFFF" class="elementor-element elementor-element-2bb9a84 elementor-widget__width-auto elementor-widget elementor-widget-heading" data-id="2bb9a84" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
 				<div class="elementor-widget-container">
@@ -2183,62 +2183,6 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/envitto.invisimple.id\/wp
 <script src="/_cdn/the.invisimple.id/wp-content/plugins/elementor-pro/assets/js/frontend.min.js" id="elementor-pro-frontend-js"></script>
 <script src="/_cdn/the.invisimple.id/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js" id="pro-elements-handlers-js"></script>
 
-
-<script>
-/* ===== FIX BUKA UNDANGAN — pengganti animasi jQuery yang macet di halaman statis ===== */
-(function () {
-  var done = false;
-  function buka() {
-    if (done) return; done = true;
-    var cover = document.getElementById('cover');
-    /* buka kunci scroll */
-    window.onscroll = null;
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
-    document.body.style.height = '';
-    if (cover) {
-      cover.style.pointerEvents = 'none';
-      cover.style.position = 'absolute';
-      cover.style.left = '0'; cover.style.right = '0'; cover.style.top = '0';
-      cover.style.zIndex = '999';
-      cover.style.transition = 'opacity .8s ease, top .8s ease';
-      requestAnimationFrame(function () {
-        cover.style.opacity = '0';
-        cover.style.top = '-100vh';
-      });
-      setTimeout(function () { cover.style.display = 'none'; }, 900);
-    }
-    /* tampilkan animasi scroll (tema ilustrasi) */
-    var as = document.getElementById('animateScroll');
-    if (as) as.style.display = 'block';
-    /* putar video intro & musik latar */
-    document.querySelectorAll('video').forEach(function (v) {
-      var p = v.play(); if (p && p.catch) p.catch(function () {});
-    });
-    var audio = document.querySelector('audio');
-    if (audio) { var pa = audio.play(); if (pa && pa.catch) pa.catch(function () {}); }
-    if (typeof window.mulaiUndangan === 'function') window.mulaiUndangan();
-    if (typeof window.bukaUndanganHandler === 'function') window.bukaUndanganHandler();
-    /* konten kolomPertama tampil menyusul video intro (desain tema) */
-    var kol = document.querySelector('.kolomPertama');
-    if (kol && getComputedStyle(kol).display === 'none') {
-      var t = parseInt(kol.getAttribute('data-delay-time') || '9500', 10);
-      setTimeout(function () { kol.style.display = 'block'; }, isNaN(t) ? 9500 : t);
-    }
-  }
-  function bind() {
-    var btn = document.getElementById('btn_open');
-    if (!btn) return;
-    btn.addEventListener('click', buka, true);
-    var a = btn.querySelector('a.elementor-button');
-    if (a) a.addEventListener('click', buka, true);
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
-  else bind();
-})();
-</script>
-
-<script src="/assets.bernaung.id/guest.js"></script>
 </body>
 </html>
 <!-- Performance optimized by Redis Object Cache. Learn more: https://wprediscache.com -->
