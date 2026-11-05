@@ -201,16 +201,6 @@
       "note": "Data awal dari folder customer (backfill panel admin)"
     },
     {
-      "slug": "nita-amar",
-      "theme": "tema-modern",
-      "name": "Nita & Amar",
-      "eventDate": "Senin, 22 Maret 2027",
-      "status": "unpaid",
-      "title": "Wedding - Nita & Amar",
-      "createdAt": "2025-11-01T00:00:00.000Z",
-      "note": "Data awal dari folder customer (backfill panel admin)"
-    },
-    {
       "slug": "rofif-aniq",
       "theme": "tema-jawanopict",
       "name": "Rofif & Aniq",
