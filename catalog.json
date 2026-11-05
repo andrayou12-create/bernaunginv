@@ -187,7 +187,7 @@
       "theme": "tema-jawa2",
       "name": "Andra & Khusna",
       "eventDate": "Sabtu, 21 Desember 2026",
-      "status": "unpaid",
+      "status": "paid",
       "title": "Wedding - Andra & Khusna",
       "createdAt": "2025-11-01T00:00:00.000Z",
       "note": "Data awal dari folder customer (backfill panel admin)"
