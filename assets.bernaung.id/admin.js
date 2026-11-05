@@ -85,10 +85,11 @@
     if (j.content) content = decodeURIComponent(escape(atob(j.content.replace(/\n/g, ''))));
     return { sha: j.sha, content: content };
   }
-  async function ghPutFile(path, text, message) {
+  async function ghPutFile(path, text, message, encoding) {
     var existing = null;
     try { existing = await ghGetFile(path); } catch (e) {}
-    var b64 = btoa(unescape(encodeURIComponent(text)));
+    var b64 = (encoding === 'base64') ? String(text).replace(/^data:[^,]*,/, '')
+      : btoa(unescape(encodeURIComponent(text)));
     var body = {
       message: message || 'Update ' + path + ' via Panel Admin',
       content: b64,
@@ -128,11 +129,11 @@
     $('manualModal').classList.remove('hidden');
   }
   async function commitFiles(files, msgPrefix) {
-    /* files: [{path, content}] — token atau manual */
+    /* files: [{path, content, encoding?}] — token atau manual */
     if (hasToken()) {
       for (var i = 0; i < files.length; i++) {
         busy(true, 'MENYIMPAN ' + files[i].path + ' (' + (i + 1) + '/' + files.length + ')');
-        await ghPutFile(files[i].path, files[i].content, msgPrefix + ' ' + files[i].path);
+        await ghPutFile(files[i].path, files[i].content, msgPrefix + ' ' + files[i].path, files[i].encoding);
       }
       busy(false);
       toast(files.length + ' file tersimpan ke GitHub ✓');
@@ -255,16 +256,73 @@
   /* ================= TAB CUSTOMER BARU ================= */
   function fillThemeSelect() {
     var sel = $('c_theme');
+    var mode = ($('c_fotoMode') && $('c_fotoMode').value) || 'all';
+    var cur = sel.value;
     sel.innerHTML = '';
     S.catalog.themes.forEach(function (t) {
+      if (mode === 'dengan' && t.foto === false) return;
+      if (mode === 'tanpa' && t.foto !== false) return;
       var o = document.createElement('option');
       o.value = t.id; o.textContent = t.name + ' (' + t.classification + ')';
       sel.appendChild(o);
     });
+    if (cur && sel.querySelector('option[value="' + cur + '"]')) sel.value = cur;
+    updateGalleryHint();
   }
+
+  function gallerySlots(theme) {
+    var cfg = (S.themeMap && S.themeMap.themes && S.themeMap.themes[theme]) || {};
+    var n = 0;
+    (cfg.map || []).forEach(function (m) {
+      if (/^fotoGallery\d+$/.test(m.k || '')) n = Math.max(n, parseInt(m.k.replace('fotoGallery', ''), 10));
+    });
+    return n;
+  }
+  function updateGalleryHint() {
+    var el = $('gallerySlots');
+    if (!el) return;
+    var n = gallerySlots($('c_theme').value);
+    el.textContent = n ? ('Tema ini punya ' + n + ' slot foto galeri — isi ' + n + ' baris (urutan slot sama dengan urutan baris).')
+      : 'Tema ini tidak punya galeri foto khusus.';
+  }
+
+  /* ---------- unggah foto (file -> GitHub / dataURL) ---------- */
+  function readAsDataURL(file) {
+    return new Promise(function (res, rej) {
+      var r = new FileReader();
+      r.onload = function () { res(r.result); };
+      r.onerror = rej;
+      r.readAsDataURL(file);
+    });
+  }
+  function extOf(name) {
+    var m = String(name || '').toLowerCase().match(/\.(jpe?g|png|webp|gif)$/);
+    return m ? m[1] : 'jpg';
+  }
+  /* hasil: { value: 'url', upload: {path, content(base64)} | null } */
+  async function resolvePhoto(file, slug, base) {
+    if (!file) return null;
+    var dataUrl = await readAsDataURL(file);
+    if (hasToken()) {
+      var path = 'customer/' + slug + '/foto/' + base + '.' + extOf(file.name);
+      return { value: '/' + path, upload: { path: path, content: dataUrl, encoding: 'base64' } };
+    }
+    if (file.size > 400 * 1024) {
+      toast('File ' + file.name + ' cukup besar (' + Math.round(file.size / 1024) + ' KB) — mode manual akan menyematkannya langsung ke halaman. Pasang Token agar diunggah sebagai file.', true);
+    }
+    return { value: dataUrl, upload: null };
+  }
+
+  ['c_fotoMode'].forEach(function (id) {
+    $(id).addEventListener('change', function () {
+      fillThemeSelect();
+      autoFillDefaults();
+    });
+  });
 
   $('c_theme').addEventListener('change', function () {
     autoFillDefaults();
+    updateGalleryHint();
   });
   function autoFillDefaults() {
     var g = $('c_groomNick').value.trim(), b = $('c_brideNick').value.trim();
@@ -338,18 +396,21 @@
         title: v('c_title'), heroNames: v('c_heroNames'),
         groomNick: v('c_groomNick'), groomFull: v('c_groomFull'),
         groomFather: v('c_groomFather'), groomMother: v('c_groomMother'), groomParents: v('c_groomParents'),
-        groomIg: v('c_groomIg'), groom2Full: v('c_groom2Full'),
+        groomIg: v('c_groomIg'),
         brideNick: v('c_brideNick'), brideFull: v('c_brideFull'),
         brideFather: v('c_brideFather'), brideMother: v('c_brideMother'), brideParents: v('c_brideParents'),
-        brideIg: v('c_brideIg'), bride2Full: v('c_bride2Full'),
+        brideIg: v('c_brideIg'),
         akadDayDate: v('c_akadDayDate'), akadTime: v('c_akadTime'), akadPlace: v('c_akadPlace'),
         resDayDate: v('c_resDayDate'), resTime: v('c_resTime'), resPlace: v('c_resPlace'),
         address: v('c_address'), gmaps: v('c_gmaps'), countdownDate: v('c_countdown'),
         gift1Number: v('c_gift1Number'), gift1Name: v('c_gift1Name'), gift1Bank: v('c_gift1Bank'),
         gift2Number: v('c_gift2Number'), gift2Name: v('c_gift2Name'), gift3Number: v('c_gift3Number'),
         kadoName: v('c_kadoName'), kadoPhone: v('c_kadoPhone'), kadoAddress: v('c_kadoAddress'),
-        rsvpUrl: v('c_appscript')
+        rsvpUrl: v('c_appscript'),
+        fotoCover: v('c_fotoCover'), fotoCouple: v('c_fotoCouple'),
+        fotoGroom: v('c_fotoGroom'), fotoBride: v('c_fotoBride')
       },
+      fotoGallery: v('c_fotoGallery'),
       sheet: v('c_sheet'),
       rsvpMode: $('c_rsvpMode').value,
       wa: v('c_wa').replace(/\D/g, ''),
@@ -365,9 +426,26 @@
     /* susun rules dari theme-map + nilai form */
     map.forEach(function (m) {
       var val = data.values[m.k];
-      if (!val) return;
+      if (val == null) val = '';
       if (m.k === 'rsvpUrl') return; /* regex khusus, di bawah */
+      if (/^foto/.test(m.k)) {
+        /* foto: penggantian path/URL persis (bukan regex) */
+        rules.push({ find: m.f, val: String(val).trim(), k: m.k, plain: true });
+        return;
+      }
+      if (!val) return;
       rules.push({ find: m.f, val: (m.p || '') + htmlEsc(val), k: m.k });
+    });
+
+    /* foto galeri: baris ke-i form -> slot fotoGalleryN tema */
+    var galleryLines = String(data.fotoGallery || '').split('\n').map(function (s) { return s.trim(); })
+      .filter(function (s) { return s.length; });
+    var gslot = 0;
+    map.forEach(function (m) {
+      if (!/^fotoGallery\d+$/.test(m.k || '')) return;
+      gslot++;
+      var val = galleryLines[gslot - 1];
+      if (val) rules.push({ find: m.f, val: val, k: m.k, plain: true });
     });
 
     /* penggantian tambahan dari admin */
@@ -378,15 +456,25 @@
       }
     });
 
-    /* urutkan: frasa terpanjang dulu */
-    rules.sort(function (a, b) { return b.find.length - a.find.length; });
+    /* urutkan: frasa terpanjang dulu (aturan plain terakhir agar tak bentrok) */
+    rules.sort(function (a, b) {
+      if (!!a.plain !== !!b.plain) return a.plain ? 1 : -1;
+      return b.find.length - a.find.length;
+    });
 
     rules.forEach(function (r) {
-      var re = markRegex(r.find);
       var n = 0;
-      html = html.replace(re, function () { n++; return r.val; });
+      if (r.plain) {
+        if (r.val && html.indexOf(r.find) !== -1) {
+          n = html.split(r.find).length - 1;
+          html = html.split(r.find).join(r.val);
+        }
+      } else {
+        var re = markRegex(r.find);
+        html = html.replace(re, function () { n++; return r.val; });
+      }
       if (n) report.ok.push({ k: r.k, find: r.find, n: n });
-      else report.miss.push({ k: r.k, find: r.find });
+      else if (!r.plain || r.val) report.miss.push({ k: r.k, find: r.find });
     });
 
     /* --- aturan khusus --- */
@@ -538,6 +626,37 @@
         data.values.title = 'Wedding - ' + data.values.heroNames;
       }
 
+      /* --- unggah foto dari file picker (opsional) --- */
+      var photoUploads = [];
+      var fMap = [
+        ['c_fotoCoverFile', 'c_fotoCover', 'cover'],
+        ['c_fotoCoupleFile', 'c_fotoCouple', 'berdua'],
+        ['c_fotoGroomFile', 'c_fotoGroom', 'mempelai-pria'],
+        ['c_fotoBrideFile', 'c_fotoBride', 'mempelai-wanita']
+      ];
+      for (var fi = 0; fi < fMap.length; fi++) {
+        var finp = $(fMap[fi][0]);
+        var f = finp && finp.files && finp.files[0];
+        if (f) {
+          busy(true, 'MENGUNGGAH FOTO ' + f.name.toUpperCase() + '...');
+          var r1 = await resolvePhoto(f, data.slug, fMap[fi][2]);
+          if (r1) {
+            data.values[fMap[fi][1].replace('c_', '')] = r1.value;
+            if (r1.upload) photoUploads.push(r1.upload);
+          }
+        }
+      }
+      var ginp = $('c_fotoGalleryFiles');
+      if (ginp && ginp.files && ginp.files.length) {
+        var gLines = [];
+        for (var gi = 0; gi < ginp.files.length; gi++) {
+          busy(true, 'MENGUNGGAH GALERI ' + (gi + 1) + '/' + ginp.files.length + '...');
+          var r2 = await resolvePhoto(ginp.files[gi], data.slug, 'galeri-' + (gi + 1));
+          if (r2) { gLines.push(r2.value); if (r2.upload) photoUploads.push(r2.upload); }
+        }
+        if (gLines.length) data.fotoGallery = gLines.join('\n');
+      }
+
       var res = applyReplacements(raw, themeCfg, data);
       var html = remapPaths(res.html, data.theme);
 
@@ -586,6 +705,8 @@
         { path: 'customer/' + data.slug + '/data.js', content: buildDataJS(data) },
         { path: 'customer/' + data.slug + '/Code.gs', content: await fetchThemeFile('assets.bernaung.id/Code.gs') }
       ];
+      /* foto terunggah disertakan dulu agar link foto valid saat halaman dibuka */
+      photoUploads.forEach(function (u) { files.unshift(u); });
 
       /* catat ke catalog.customers */
       var entry = {
@@ -593,7 +714,7 @@
         title: data.values.title, status: 'unpaid', createdAt: new Date().toISOString(),
         eventDate: data.values.akadDayDate || data.values.resDayDate || '',
         rsvp: { mode: data.rsvpMode || 'demo', wa: data.wa || '', appscript: data.values.rsvpUrl, sheet: data.sheet },
-        values: data.values, extra: data.extra
+        values: data.values, fotoGallery: data.fotoGallery, extra: data.extra
       };
       if (S.editingCustomer) {
         var idx = S.catalog.customers.findIndex(function (c) { return c.slug === S.editingCustomer; });
@@ -673,8 +794,12 @@
     });
   }
   function themeName(id) {
+    /* nama tema lama yang sudah diarsipkan/hapus dari katalog */
+    var ARCHIVE = { 'tema-elegan': 'Tema Elegan (arsip)', 'tema-3dmotion': 'Tema 3D Motion (arsip)',
+      'tema-jawanopict2': 'Tema Jawa Tanpa Foto 2 (arsip)' };
     var t = S.catalog.themes.find(function (x) { return x.id === id; });
-    return t ? t.name : id;
+    if (t) return t.name;
+    return ARCHIVE[id] || id;
   }
 
   async function markPaid(i) {
@@ -707,14 +832,20 @@
     var v = c.values || {};
     var map = { c_title: 'title', c_heroNames: 'heroNames', c_groomNick: 'groomNick', c_groomFull: 'groomFull',
       c_groomFather: 'groomFather', c_groomMother: 'groomMother', c_groomParents: 'groomParents', c_groomIg: 'groomIg',
-      c_groom2Full: 'groom2Full', c_brideNick: 'brideNick', c_brideFull: 'brideFull', c_brideFather: 'brideFather',
-      c_brideMother: 'brideMother', c_brideParents: 'brideParents', c_brideIg: 'brideIg', c_bride2Full: 'bride2Full',
+      c_brideNick: 'brideNick', c_brideFull: 'brideFull', c_brideFather: 'brideFather',
+      c_brideMother: 'brideMother', c_brideParents: 'brideParents', c_brideIg: 'brideIg',
       c_akadDayDate: 'akadDayDate', c_akadTime: 'akadTime', c_akadPlace: 'akadPlace', c_resDayDate: 'resDayDate',
       c_resTime: 'resTime', c_resPlace: 'resPlace', c_address: 'address', c_gmaps: 'gmaps',
       c_gift1Number: 'gift1Number', c_gift1Name: 'gift1Name', c_gift1Bank: 'gift1Bank',
       c_gift2Number: 'gift2Number', c_gift2Name: 'gift2Name', c_gift3Number: 'gift3Number',
       c_kadoName: 'kadoName', c_kadoPhone: 'kadoPhone', c_kadoAddress: 'kadoAddress' };
     Object.keys(map).forEach(function (id) { if ($(id)) $(id).value = v[map[id]] || ''; });
+    $('c_fotoCover').value = v.fotoCover || '';
+    $('c_fotoCouple').value = v.fotoCouple || '';
+    $('c_fotoGroom').value = v.fotoGroom || '';
+    $('c_fotoBride').value = v.fotoBride || '';
+    $('c_fotoGallery').value = c.fotoGallery || '';
+    ['c_fotoCoverFile', 'c_fotoCoupleFile', 'c_fotoGroomFile', 'c_fotoBrideFile', 'c_fotoGalleryFiles'].forEach(function (id) { if ($(id)) $(id).value = ''; });
     $('c_appscript').value = (c.rsvp && c.rsvp.appscript && c.rsvp.appscript.indexOf('DISABLED') === -1 && c.rsvp.appscript.indexOf('__BERNAUNG_WA__') === -1) ? c.rsvp.appscript : '';
     $('c_sheet').value = (c.rsvp && c.rsvp.sheet) || '';
     $('c_rsvpMode').value = (c.rsvp && c.rsvp.mode) || 'demo';

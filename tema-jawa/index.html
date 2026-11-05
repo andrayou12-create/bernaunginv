@@ -5,12 +5,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!-- Optimasi Mesin Pencari oleh Rank Math - https://rankmath.com/ -->
-<title>Wedding - Bagas & Dewi </title>
+<title>Wedding - Bagas &amp; Dewi</title>
+<link rel="icon" type="image/png" href="/assets.bernaung.id/favicon.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/assets.bernaung.id/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets.bernaung.id/apple-touch-icon.png">
+
 <meta name="description" content="Wedding - Bagas & Dewi "/>
 <meta name="robots" content="follow, noindex"/>
 <meta property="og:locale" content="id_ID" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Wedding - Bagas & Dewi " />
+<meta property="og:title" content="Wedding - Bagas &amp; Dewi" />
 <meta property="og:description" content="Dengan berbahagia kami mengundang Bapak/Ibu dalam acara pernikahan kami" />
 <meta property="og:image" content="/tema-jawa/images/Foto 1.jpeg" />
 <meta property="og:image:secure_url" content="/tema-jawa/images/Foto 1.jpeg" />
@@ -183,11 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-</script><link rel="icon" href="/assets.bernaung.id/loading-bernaung.jpeg" sizes="32x32" />
-<link rel="icon" href="/assets.bernaung.id/loading-bernaung.jpeg" sizes="192x192" />
-<link rel="apple-touch-icon" href="/assets.bernaung.id/loading-bernaung.jpeg" />
-<meta name="msapplication-TileImage" content="/assets.bernaung.id/loading-bernaung.jpeg" />
-		<style id="wp-custom-css">
+</script><style id="wp-custom-css">
 			body{
 	margin: 0 auto;
 }
@@ -2918,6 +2918,89 @@ function muatUcapan() {
             <p class="text-[10px] font-main text-gray-500">&copy; 2026 Bernaung Invitation.</p>
         </footer>
 <script src="/assets.bernaung.id/rsvp.js"></script>
+<style id="bng-anim-css">
+/* Keyframes entri (dipakai fallback animasi Bernaung) */
+@keyframes bng-fadeInLeft{from{opacity:0;transform:translate3d(-40px,0,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInRight{from{opacity:0;transform:translate3d(40px,0,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInUp{from{opacity:0;transform:translate3d(0,40px,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInDown{from{opacity:0;transform:translate3d(0,-40px,0)}to{opacity:1;transform:none}}
+@keyframes bng-zoomIn{from{opacity:0;transform:scale3d(.85,.85,.85)}to{opacity:1;transform:none}}
+@keyframes bng-fadeIn{from{opacity:0}to{opacity:1}}
+.animated{animation-duration:1.15s;animation-fill-mode:both}
+.animated.bng-fadeInLeft{animation-name:bng-fadeInLeft}
+.animated.bng-fadeInRight{animation-name:bng-fadeInRight}
+.animated.bng-fadeInUp{animation-name:bng-fadeInUp}
+.animated.bng-fadeInDown{animation-name:bng-fadeInDown}
+.animated.bng-zoomIn{animation-name:bng-zoomIn}
+.animated.bng-fadeIn{animation-name:bng-fadeIn}
+</style>
+
+<style id="bng-anim-css">
+/* Keyframes entri (dipakai fallback animasi Bernaung) */
+@keyframes bng-fadeInLeft{from{opacity:0;transform:translate3d(-40px,0,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInRight{from{opacity:0;transform:translate3d(40px,0,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInUp{from{opacity:0;transform:translate3d(0,40px,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInDown{from{opacity:0;transform:translate3d(0,-40px,0)}to{opacity:1;transform:none}}
+@keyframes bng-zoomIn{from{opacity:0;transform:scale3d(.85,.85,.85)}to{opacity:1;transform:none}}
+@keyframes bng-fadeIn{from{opacity:0}to{opacity:1}}
+.animated{animation-duration:1.15s;animation-fill-mode:both}
+.animated.bng-fadeInLeft{animation-name:bng-fadeInLeft}
+.animated.bng-fadeInRight{animation-name:bng-fadeInRight}
+.animated.bng-fadeInUp{animation-name:bng-fadeInUp}
+.animated.bng-fadeInDown{animation-name:bng-fadeInDown}
+.animated.bng-zoomIn{animation-name:bng-zoomIn}
+.animated.bng-fadeIn{animation-name:bng-fadeIn}
+</style>
+<script id="bng-anim-fallback">
+/* Fallback animasi entri Elementor (scroll-check, tanpa IntersectionObserver) */
+(function () {
+  function mapAnim(name) {
+    if (/fadeInLeft/.test(name)) return 'bng-fadeInLeft';
+    if (/fadeInRight/.test(name)) return 'bng-fadeInRight';
+    if (/fadeInUp/.test(name)) return 'bng-fadeInUp';
+    if (/fadeInDown/.test(name)) return 'bng-fadeInDown';
+    if (/zoomIn/.test(name)) return 'bng-zoomIn';
+    return 'bng-fadeIn';
+  }
+  var els = [];
+  function collect() {
+    els = [].slice.call(document.querySelectorAll('.elementor-invisible')).filter(function (el) { return !el.__bngDone; });
+  }
+  function reveal(el) {
+    if (el.__bngDone) return;
+    el.__bngDone = true;
+    var s = {};
+    try { s = JSON.parse(el.getAttribute('data-settings') || '{}'); } catch (e) {}
+    var anim = mapAnim(s._animation || 'fadeIn');
+    var delay = parseInt(s._animation_delay, 10) || 0;
+    el.classList.remove('elementor-invisible');
+    el.style.visibility = '';
+    if (delay) el.style.animationDelay = delay + 'ms';
+    el.classList.add('animated', anim);
+  }
+  function check() {
+    for (var i = els.length - 1; i >= 0; i--) {
+      var el = els[i];
+      if (!document.contains(el)) { els.splice(i, 1); continue; }
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.96 && r.bottom > 0) { reveal(el); els.splice(i, 1); }
+    }
+    if (!els.length) { window.removeEventListener('scroll', onScroll); }
+  }
+  var onScroll = function () { requestAnimationFrame(check); };
+  function init() {
+    collect();
+    check();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    /* jaring pengaman: pastikan semua tampil setelah 6 detik */
+    setTimeout(function () { els.forEach(reveal); els = []; }, 6000);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
 </body>
 </html>
 <!-- Performance optimized by Redis Object Cache. Learn more: https://wprediscache.com -->

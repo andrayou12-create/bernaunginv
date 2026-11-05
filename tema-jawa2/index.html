@@ -10,12 +10,16 @@
         </style>
         
 <!-- Optimasi Mesin Pencari oleh Rank Math - https://rankmath.com/ -->
-<title>Tema Jawa2</title>
+<title>Wedding - Bagas &amp; Dewi</title>
+<link rel="icon" type="image/png" href="/assets.bernaung.id/favicon.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/assets.bernaung.id/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets.bernaung.id/apple-touch-icon.png">
+
 <meta name="description" content="Buat undangan website untuk pernikahanmu secara mudah, murah dan cepat. Jadikan acara kamu jadi lebih berkesan !"/>
 <meta name="robots" content="nofollow, noindex, noarchive, noimageindex, nosnippet"/>
 <meta property="og:locale" content="id_ID" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Tema Jawa2" />
+<meta property="og:title" content="Wedding - Bagas &amp; Dewi" />
 <meta property="og:description" content="Buat undangan website untuk pernikahanmu secara mudah, murah dan cepat. Jadikan acara kamu jadi lebih berkesan !" />
 <meta property="og:url" content="/_cdn/placeholder.svg" />
 <meta property="og:site_name" content="Bernaung Invitation" />
@@ -162,7 +166,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 <link rel='stylesheet' id='e-transitions-css' href='/_cdn/inv.rumahundangan.in/wp-content/plugins/elementor-pro/assets/css/conditionals/transitions.min.css' media='all' />
 <link rel='stylesheet' id='e-animation-shrink-css' href='/_cdn/inv.rumahundangan.in/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-shrink.min.css' media='all' />
 <link rel='stylesheet' id='e-sticky-css' href='/_cdn/inv.rumahundangan.in/wp-content/plugins/elementor-pro/assets/css/modules/sticky.min.css' media='all' />
-<link rel='stylesheet' id='elementor-post-3952-css' href='/_cdn/inv.rumahundangan.in/wp-content/uploads/elementor/css/post-3952.css' media='all' />
+<link rel='stylesheet' id='elementor-post-3952-css' href='/tema-jawa2/wp-content-custom-post-3952.css' media='all' />
 <link rel='stylesheet' id='idb-reveal-style-css' href='/_cdn/inv.rumahundangan.in/wp-content/plugins/bisdev-pro/css/reveal.css' media='all' />
 <link rel='stylesheet' id='idb-wedding-event-dates-css' href='/_cdn/inv.rumahundangan.in/wp-content/plugins/bisdev-pro/css/idb-wedding-event-dates.css' media='all' />
 <link rel='stylesheet' id='elementor-gf-local-roboto-css' href='/_cdn/inv.rumahundangan.in/wp-content/uploads/elementor/google-fonts/css/roboto.css' media='all' />
@@ -344,11 +348,7 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
     background-repeat: no-repeat !important;
 }
 </style>
-<link rel="icon" href="/_cdn/placeholder.svg" sizes="32x32" />
-<link rel="icon" href="/_cdn/placeholder.svg" sizes="192x192" />
-<link rel="apple-touch-icon" href="/_cdn/placeholder.svg" />
-<meta name="msapplication-TileImage" content="/_cdn/placeholder.svg" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" /></head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" /></head>
 <body class="wp-singular page-template-default page page-id-3952 wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-canvas elementor-kit-6 elementor-page elementor-page-3952">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover maximum-scale=1.0, user-scalable=no">
 <meta name="format-detection" content="telephone=no">
@@ -618,12 +618,29 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 	</div>
 
 
-	<script type="text/javascript">
-	jQuery(document).ready(function ($) {
-		'use strict';
-		$("#wpkoi-elements-countdown-5c54a107").countdown();
-	});
-	</script>
+<script type="text/javascript">
+/* Countdown mandiri (plugin jQuery asli tidak tersedia) */
+(function () {
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tick() {
+    var el = document.getElementById('wpkoi-elements-countdown-5c54a107');
+    if (!el) return;
+    var target = new Date(el.getAttribute('data-date') || 'Dec 21 2026 10:00:00').getTime();
+    var now = new Date().getTime();
+    var d = Math.max(0, target - now);
+    var q = function (sel, val) {
+      var n = el.querySelector(sel);
+      if (n) n.textContent = pad(val);
+    };
+    q('[data-days]', Math.floor(d / 86400000));
+    q('[data-hours]', Math.floor(d / 3600000) % 24);
+    q('[data-minutes]', Math.floor(d / 60000) % 60);
+    q('[data-seconds]', Math.floor(d / 1000) % 60);
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
 	
 					</div>
 				</div>
@@ -2001,7 +2018,7 @@ function playAudio(){var isYT=!1;if(document.body.contains(document.getElementBy
 <script id="weddingpress-qr-js" src="/_cdn/inv.rumahundangan.in/wp-content/plugins/weddingpress/assets/js/qr-code.js"></script>
 <script id="exad-main-script-js" src="/_cdn/inv.rumahundangan.in/wp-content/plugins/weddingpress/assets/js/exad-scripts.min.js"></script>
 <script id="qr-code-styling-js" src="/_cdn/unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-<script id="kirimkit-js" src="/_cdn/placeholder.svg"></script>
+
 <script id="cui_js_script-js-extra">
 var CUI_WP = {"ajaxurl":"https://inv.rumahundangan.in/wp-admin/admin-ajax.php","cuiNonce":"7dd626c6cd","jpages":"true","jPagesNum":"10","textCounter":"true","textCounterNum":"500","widthWrap":"","autoLoad":"true","thanksComment":"Thanks for your comment!","thanksReplyComment":"Thanks for answering the comment!","duplicateComment":"You might have left one of the fields blank, or duplicate comments","accept":"Accept","cancel":"Cancel","reply":"Reply","textWriteComment":"Ucapan","classPopularComment":"cui-popular-comment","textToDisplay":"Text to display","textCharacteresMin":"2 characters minimum","textNavNext":"Next","textNavPrev":"Previous","textMsgDeleteComment":"Do you want delete this comment?","textLoadMore":"Load more"};
 //# sourceURL=cui_js_script-js-extra
@@ -2044,7 +2061,7 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/inv.rumahundangan.in\/wp-
 <script id="pro-elements-handlers-js" src="/_cdn/inv.rumahundangan.in/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js"></script>
 <script id="bdt-uikit-js" src="/_cdn/inv.rumahundangan.in/wp-content/plugins/weddingpress/assets/js/modules/bdt-uikit.js"></script>
 <script id="weddingpress-wdp-js-extra">
-var cevar = {"ajax_url":"https://inv.rumahundangan.in/wp-admin/admin-ajax.php","plugin_url":"https://inv.rumahundangan.in/wp-content/plugins/weddingpress/"};
+var cevar = {"ajax_url":"https://inv.rumahundangan.in/wp-admin/admin-ajax.php","plugin_url":"/_cdn/inv.rumahundangan.in/wp-content/plugins/weddingpress/"};
 //# sourceURL=weddingpress-wdp-js-extra
 </script>
 <script id="weddingpress-wdp-js" src="/_cdn/inv.rumahundangan.in/wp-content/plugins/weddingpress/assets/js/wdp.min.js"></script>
@@ -2152,5 +2169,88 @@ function isYoutubeVideoLink(url){var regExp=/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|
             <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" class="text-sm text-white font-main font-bold tracking-widest hover:text-gray-300 transition-colors block mb-4">HUBUNGI KAMI</a>
             <p class="text-[10px] font-main text-gray-500">&copy; 2026 Bernaung Invitation.</p>
         </footer>
+<style id="bng-anim-css">
+/* Keyframes entri (dipakai fallback animasi Bernaung) */
+@keyframes bng-fadeInLeft{from{opacity:0;transform:translate3d(-40px,0,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInRight{from{opacity:0;transform:translate3d(40px,0,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInUp{from{opacity:0;transform:translate3d(0,40px,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInDown{from{opacity:0;transform:translate3d(0,-40px,0)}to{opacity:1;transform:none}}
+@keyframes bng-zoomIn{from{opacity:0;transform:scale3d(.85,.85,.85)}to{opacity:1;transform:none}}
+@keyframes bng-fadeIn{from{opacity:0}to{opacity:1}}
+.animated{animation-duration:1.15s;animation-fill-mode:both}
+.animated.bng-fadeInLeft{animation-name:bng-fadeInLeft}
+.animated.bng-fadeInRight{animation-name:bng-fadeInRight}
+.animated.bng-fadeInUp{animation-name:bng-fadeInUp}
+.animated.bng-fadeInDown{animation-name:bng-fadeInDown}
+.animated.bng-zoomIn{animation-name:bng-zoomIn}
+.animated.bng-fadeIn{animation-name:bng-fadeIn}
+</style>
+
+<style id="bng-anim-css">
+/* Keyframes entri (dipakai fallback animasi Bernaung) */
+@keyframes bng-fadeInLeft{from{opacity:0;transform:translate3d(-40px,0,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInRight{from{opacity:0;transform:translate3d(40px,0,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInUp{from{opacity:0;transform:translate3d(0,40px,0)}to{opacity:1;transform:none}}
+@keyframes bng-fadeInDown{from{opacity:0;transform:translate3d(0,-40px,0)}to{opacity:1;transform:none}}
+@keyframes bng-zoomIn{from{opacity:0;transform:scale3d(.85,.85,.85)}to{opacity:1;transform:none}}
+@keyframes bng-fadeIn{from{opacity:0}to{opacity:1}}
+.animated{animation-duration:1.15s;animation-fill-mode:both}
+.animated.bng-fadeInLeft{animation-name:bng-fadeInLeft}
+.animated.bng-fadeInRight{animation-name:bng-fadeInRight}
+.animated.bng-fadeInUp{animation-name:bng-fadeInUp}
+.animated.bng-fadeInDown{animation-name:bng-fadeInDown}
+.animated.bng-zoomIn{animation-name:bng-zoomIn}
+.animated.bng-fadeIn{animation-name:bng-fadeIn}
+</style>
+<script id="bng-anim-fallback">
+/* Fallback animasi entri Elementor (scroll-check, tanpa IntersectionObserver) */
+(function () {
+  function mapAnim(name) {
+    if (/fadeInLeft/.test(name)) return 'bng-fadeInLeft';
+    if (/fadeInRight/.test(name)) return 'bng-fadeInRight';
+    if (/fadeInUp/.test(name)) return 'bng-fadeInUp';
+    if (/fadeInDown/.test(name)) return 'bng-fadeInDown';
+    if (/zoomIn/.test(name)) return 'bng-zoomIn';
+    return 'bng-fadeIn';
+  }
+  var els = [];
+  function collect() {
+    els = [].slice.call(document.querySelectorAll('.elementor-invisible')).filter(function (el) { return !el.__bngDone; });
+  }
+  function reveal(el) {
+    if (el.__bngDone) return;
+    el.__bngDone = true;
+    var s = {};
+    try { s = JSON.parse(el.getAttribute('data-settings') || '{}'); } catch (e) {}
+    var anim = mapAnim(s._animation || 'fadeIn');
+    var delay = parseInt(s._animation_delay, 10) || 0;
+    el.classList.remove('elementor-invisible');
+    el.style.visibility = '';
+    if (delay) el.style.animationDelay = delay + 'ms';
+    el.classList.add('animated', anim);
+  }
+  function check() {
+    for (var i = els.length - 1; i >= 0; i--) {
+      var el = els[i];
+      if (!document.contains(el)) { els.splice(i, 1); continue; }
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.96 && r.bottom > 0) { reveal(el); els.splice(i, 1); }
+    }
+    if (!els.length) { window.removeEventListener('scroll', onScroll); }
+  }
+  var onScroll = function () { requestAnimationFrame(check); };
+  function init() {
+    collect();
+    check();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    /* jaring pengaman: pastikan semua tampil setelah 6 detik */
+    setTimeout(function () { els.forEach(reveal); els = []; }, 6000);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
 </body>
 </html>

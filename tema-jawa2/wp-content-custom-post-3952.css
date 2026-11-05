@@ -1,0 +1,241 @@
+/* ============================================================
+   POST-3952.CSS — REKONSTRUKSI DESIGN TEMA JAWA 2 (v2)
+   Nuansa "adat jawa": krem-emas-cokelat, font script elegan.
+   ============================================================ */
+:root{
+  --jw-bg:#f7f1e6; --jw-bg2:#f1e6d2; --jw-text:#4a3728; --jw-muted:#8a7a63;
+  --jw-gold:#b98a3e; --jw-gold2:#a76b3b; --jw-cream:#fffdf7;
+}
+html{scroll-behavior:smooth}
+body.elementor-page{
+  --e-global-color-accent:#b98a3e;
+  --e-global-color-primary:#a76b3b;
+  background:var(--jw-bg); color:var(--jw-text);
+  font-family:'Poppins','Segoe UI',sans-serif; overflow-x:hidden;
+}
+.elementor-page a{color:var(--jw-gold2)}
+.elementor-page h1,.elementor-page h2,.elementor-page h3{font-weight:600}
+
+/* ---------- LAYOUT DASAR ---------- */
+.e-con.e-flex{display:flex;flex-direction:column}
+.e-con.e-flex>.elementor-widget{width:100%;max-width:100%}
+.e-con.e-flex>.elementor-widget-wrap{display:flex;flex-direction:column;width:100%}
+.elementor-element-6d1a580e,.elementor-element-2c990533,#kolom{
+  display:flex!important;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  min-height:100vh;
+}
+.elementor-section .elementor-container{max-width:1140px}
+.elementor-widget-wrap{padding:10px}
+.elementor-widget:not(:last-child){margin-block-end:16px}
+.elementor-heading-title{margin:0;line-height:1.4}
+.elementor-widget-text-editor{line-height:1.85;font-size:14.5px;color:var(--jw-text)}
+.elementor-widget-text-editor p{margin:0 0 6px}
+.elementor-widget-spacer .elementor-spacer-inner{height:26px}
+
+/* ---------- COVER (layar nama tamu) ---------- */
+.elementor-element-6d1a580e{min-height:100vh;justify-content:center}
+#kolom.elementor-element-2c990533,#kolom{min-height:100vh;justify-content:center}
+.elementor-element-2c990533 .elementor-widget-wrap{align-items:center}
+#kolom .elementor-heading-title{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.45)}
+.elementor-element-6d9b44c9 .elementor-heading-title{
+  font-family:'hello-amelia',cursive;font-size:26px;letter-spacing:3px;font-weight:400;
+}
+.elementor-element-63cb07b1 .elementor-heading-title{
+  font-family:'aston-script','playball',cursive;font-size:56px;font-weight:400;line-height:1.15;
+}
+.elementor-element-3c72ea50 .elementor-heading-title{font-size:15px;letter-spacing:2px;opacity:.92}
+.elementor-element-1c64adb2 .elementor-heading-title{font-size:23px;font-weight:600;letter-spacing:1px}
+.elementor-element-5f84180a .elementor-button{
+  background:var(--jw-gold)!important;color:#fff!important;border-radius:999px;padding:13px 36px;
+  font-weight:600;letter-spacing:2px;font-size:13.5px;border:0;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);transition:all .3s;
+}
+.elementor-element-5f84180a .elementor-button:hover{transform:translateY(-2px);background:var(--jw-gold2)}
+
+/* ---------- HERO / SAVE THE DATE ---------- */
+.elementor-element-10f8c8d1,.date{min-height:92vh;justify-content:center}
+.elementor-element-10f8c8d1 .elementor-widget-wrap{align-items:center}
+.elementor-element-10f8c8d1 .elementor-heading-title,
+.elementor-element-10f8c8d1 .elementor-widget-text-editor{
+  color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5);text-align:center;
+}
+.elementor-element-1aef118f .elementor-heading-title{
+  font-family:'hello-amelia',cursive;font-size:24px;letter-spacing:3px;font-weight:400;
+}
+.elementor-element-54652e68 .elementor-heading-title{
+  font-family:'aston-script','playball',cursive;font-size:54px;font-weight:400;line-height:1.15;
+}
+.elementor-element-414f9a7e,.elementor-element-3f3a980d{font-size:26px;letter-spacing:8px;font-weight:300}
+.elementor-element-1510615 .elementor-button{
+  background:transparent!important;color:#fff!important;border:1.5px solid #fff;border-radius:999px;
+  padding:11px 30px;font-size:12.5px;letter-spacing:2px;font-weight:600;transition:all .3s;
+}
+.elementor-element-1510615 .elementor-button:hover{background:#fff;color:var(--jw-text)}
+
+/* ---------- QUOTE ---------- */
+.elementor-element-10b9f681,.elementor-element-68dc9565{text-align:center;font-style:italic;color:var(--jw-muted);font-size:14px}
+.elementor-element-3c79d13c,.elementor-element-43dc9193{text-align:center;color:var(--jw-gold2);letter-spacing:1px}
+
+/* ---------- MEMPELAI ---------- */
+.elementor-element-20e014a7 .elementor-heading-title{
+  font-family:'playball',cursive;font-size:36px;color:var(--jw-gold2);text-align:center;font-weight:400;
+}
+.elementor-element-24c2132d{text-align:center;color:var(--jw-muted)}
+.elementor-element-7f6a7333 .elementor-heading-title,
+.elementor-element-e61d8fb .elementor-heading-title{
+  font-family:'playball',cursive;font-size:32px;color:var(--jw-text);text-align:center;font-weight:400;
+}
+.elementor-element-14645091 .elementor-heading-title{
+  font-family:'playball',cursive;font-size:28px;color:var(--jw-gold2);text-align:center;font-weight:400;
+}
+.elementor-element-595bce77,.elementor-element-47bb6bc8{text-align:center;font-size:14px}
+.elementor-element-6d1897ca,.elementor-element-4d560660,.elementor-element-793c01bd{
+  max-width:290px;margin:0 auto;border-radius:16px;overflow:hidden;
+  box-shadow:0 12px 30px rgba(74,55,40,.18);
+}
+.elementor-element-6d1897ca img,.elementor-element-4d560660 img,.elementor-element-793c01bd img{width:100%}
+.elementor-element-5ef66bdf,.elementor-element-1677c381{max-width:300px;margin:0 auto;border-radius:16px;overflow:hidden}
+.elementor-element-5ef66bdf img,.elementor-element-1677c381 img{width:100%}
+
+/* ---------- COUNTDOWN ---------- */
+.elementor-element-3e12a842 .elementor-heading-title{
+  font-family:'playball',cursive;font-size:30px;color:#fff;text-align:center;font-weight:400;
+  text-shadow:0 2px 8px rgba(0,0,0,.4);
+}
+.wpkoi-elements-countdown-wrapper{padding:10px 0}
+.wpkoi-elements-countdown-container{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.wpkoi-elements-countdown-items{display:flex;gap:10px;list-style:none;margin:0;padding:0}
+.wpkoi-elements-countdown-item{
+  background:rgba(255,253,247,.94);border:1px solid rgba(169,107,59,.35);border-radius:14px;
+  min-width:72px;padding:14px 8px 10px;text-align:center;box-shadow:0 4px 14px rgba(74,55,40,.14);
+}
+.wpkoi-elements-countdown-digits{display:block;font-size:30px;font-weight:700;color:var(--jw-gold2);font-variant-numeric:tabular-nums;line-height:1}
+.wpkoi-elements-countdown-label{display:block;margin-top:6px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--jw-muted)}
+
+/* ---------- ACARA (akad & resepsi) ---------- */
+.elementor-element-19022d65{text-align:center}
+.elementor-element-67a6f7ff .elementor-heading-title,
+.elementor-element-30f21723 .elementor-heading-title{
+  font-family:'playball',cursive;font-size:30px;color:var(--jw-gold2);text-align:center;font-weight:400;
+}
+.elementor-element-7b5b4f16,.elementor-element-75121e41{text-align:center;font-weight:600}
+.elementor-element-363ea419,.elementor-element-580745d0{text-align:center}
+.elementor-element-38422b43,.elementor-element-914cbd7{text-align:center;color:var(--jw-muted)}
+.elementor-widget-divider .elementor-divider{display:flex;justify-content:center}
+.elementor-widget-divider .elementor-divider-separator{width:110px;border-top:1px solid rgba(169,107,59,.5)}
+.elementor-widget-divider .elementor-divider__element{position:absolute;top:-13px;left:50%;transform:translateX(-50%);color:var(--jw-gold)}
+.elementor-element-7e4c2a14 .elementor-button,.elementor-element-77cc1e3e .elementor-button{
+  background:var(--jw-gold);color:#fff;border-radius:999px;padding:11px 30px;font-size:13px;
+  letter-spacing:1px;font-weight:600;border:0;transition:all .3s;
+}
+.elementor-element-7e4c2a14 .elementor-button:hover,.elementor-element-77cc1e3e .elementor-button:hover{background:var(--jw-gold2)}
+
+/* ---------- LOVE STORY ---------- */
+.elementor-element-1623d108 .elementor-heading-title{
+  font-family:'playball',cursive;font-size:36px;color:var(--jw-gold2);text-align:center;font-weight:400;
+}
+.elementor-element-421aeb51,.elementor-element-7366263d,.elementor-element-d79d224{
+  text-align:center;font-weight:600;color:var(--jw-gold2);letter-spacing:1px;
+}
+.elementor-element-5d904ddb,.elementor-element-798c314c,.elementor-element-62775a7a{
+  text-align:center;color:var(--jw-muted);font-size:14px;
+}
+.elementor-element-5a07a75f,.elementor-element-4ba30a8d{max-width:300px;margin:0 auto;border-radius:16px;overflow:hidden;box-shadow:0 10px 26px rgba(74,55,40,.16)}
+.elementor-element-5a07a75f img,.elementor-element-4ba30a8d img{width:100%}
+
+/* ---------- GALERI ---------- */
+.elementor-element-51d1b3f4 .elementor-heading-title{
+  font-family:'playball',cursive;font-size:36px;color:var(--jw-gold2);text-align:center;font-weight:400;
+}
+.elementor-widget-gallery .e-gallery-grid .e-gallery-item{padding:4px}
+.elementor-widget-gallery .e-gallery-image{background-size:cover;background-position:center;height:230px;border-radius:12px}
+
+/* ---------- LIVE STREAMING ---------- */
+.elementor-element-8d3788c .elementor-heading-title{
+  font-family:'playball',cursive;font-size:34px;color:var(--jw-gold2);text-align:center;font-weight:400;
+}
+.elementor-element-f8b9cf4,.elementor-element-57a8fee1,.elementor-element-5e639029{text-align:center;color:var(--jw-muted)}
+.elementor-element-769184c5 .elementor-button{
+  background:var(--jw-gold);color:#fff;border-radius:999px;padding:11px 30px;font-size:13px;letter-spacing:1px;font-weight:600;border:0;
+}
+
+/* ---------- WEDDING GIFT ---------- */
+.elementor-element-754ef715 .elementor-heading-title{
+  font-family:'playball',cursive;font-size:36px;color:var(--jw-gold2);text-align:center;font-weight:400;
+}
+.elementor-element-71c0213c{text-align:center;color:var(--jw-muted)}
+.elementor-widget-weddingpress-copy-text .wdp-copy-text,.wdp-copy-text{
+  background:var(--jw-cream);border:1px dashed rgba(169,107,59,.5);border-radius:12px;
+  padding:14px 18px;margin:6px 0;display:flex;justify-content:space-between;align-items:center;gap:10px;
+  max-width:420px;margin-left:auto;margin-right:auto;
+}
+.wdp-copy-number{font-size:20px;font-weight:700;color:var(--jw-gold2);letter-spacing:1px}
+.wdp-copy-btn,.elementor-widget-weddingpress-copy-text button{
+  background:var(--jw-gold);color:#fff;border:0;border-radius:999px;padding:7px 18px;font-size:12px;cursor:pointer;letter-spacing:1px;
+}
+.elementor-element-4db98600 .elementor-heading-title,.elementor-element-31956515 .elementor-heading-title{font-size:22px;font-weight:700;color:var(--jw-gold2);letter-spacing:1px;text-align:center}
+.elementor-element-623c7196 .elementor-heading-title,.elementor-element-471bfb24 .elementor-heading-title{text-align:center;color:var(--jw-muted);font-size:14px}
+.elementor-element-3f24cc47,.elementor-element-3f7ef0a1{max-width:420px;margin:0 auto}
+.elementor-element-3f24cc47 img,.elementor-element-3f7ef0a1 img{width:100%;border-radius:12px}
+.elementor-element-48192e1c .elementor-heading-title{
+  font-family:'playball',cursive;font-size:28px;color:var(--jw-gold2);text-align:center;font-weight:400;
+}
+.elementor-element-3aaa4087{text-align:center;color:var(--jw-muted)}
+
+/* ---------- RSVP / UCAPAN ---------- */
+.elementor-element-40ff965a .elementor-heading-title,
+.elementor-element-5d38d784 .elementor-heading-title{
+  font-family:'playball',cursive;font-size:30px;color:var(--jw-gold2);text-align:center;font-weight:400;
+}
+.elementor-widget-weddingpress-kit2 .cui-wrapper,.wds_rsvp{
+  background:var(--jw-cream);border:1px solid rgba(169,107,59,.3);border-radius:16px;
+  padding:18px;max-width:520px;margin:0 auto;
+}
+.cui-wrapper input[type=text],.cui-wrapper textarea,.cui-wrapper select,
+.wds_rsvp input[type=text],.wds_rsvp textarea,.wds_rsvp select{
+  width:100%;border:1px solid rgba(169,107,59,.35);border-radius:10px;padding:11px 14px;
+  font-family:inherit;font-size:13.5px;margin-bottom:10px;background:#fff;color:var(--jw-text);
+}
+.cui-wrapper button,.wds_rsvp button[type=submit]{
+  background:var(--jw-gold);color:#fff;border:0;border-radius:999px;padding:11px 30px;font-weight:600;letter-spacing:1px;cursor:pointer;
+}
+.cui-wrapper .cui-comment-item{border-bottom:1px solid rgba(169,107,59,.2);padding:10px 0}
+
+/* ---------- PENUTUP ---------- */
+.elementor-element-4d0c54ce,.elementor-element-41e9ed7{text-align:center;color:var(--jw-muted);font-style:italic}
+.elementor-element-54fc039b .elementor-heading-title{
+  font-family:'aston-script','playball',cursive;font-size:40px;color:var(--jw-text);text-align:center;font-weight:400;
+}
+.elementor-element-432659de{max-width:330px;margin:0 auto;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(74,55,40,.18)}
+.elementor-element-432659de img{width:100%}
+.elementor-element-3288306d{text-align:center;color:var(--jw-muted);font-size:12.5px}
+
+/* ---------- IKON SOSIAL ---------- */
+.elementor-widget-social-icons .elementor-social-icon{
+  background:var(--jw-gold);color:#fff;border-radius:50%;width:40px;height:40px;
+  display:inline-flex;align-items:center;justify-content:center;margin:0 6px;
+}
+.elementor-widget-social-icons .elementor-social-icon:hover{background:var(--jw-gold2)}
+
+/* ---------- AUDIO ---------- */
+.elementor-widget-weddingpress-audio .wdp-audio-wrap{position:fixed;right:16px;bottom:18px;z-index:90}
+.wdp-audio-icon{width:44px;height:44px;border-radius:50%;background:var(--jw-gold);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.25);cursor:pointer}
+
+/* ---------- LOTTIE / ICON ---------- */
+.elementor-widget-lottie{max-height:220px}
+.elementor-widget-icon .elementor-icon{color:var(--jw-gold);font-size:34px}
+
+/* ---------- ANIMASI ---------- */
+.elementor-invisible{visibility:hidden}
+.elementor-animation-shrink{transition:transform .3s}
+.elementor-animation-shrink:hover{transform:scale(.94)}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:767px){
+  .wpkoi-elements-countdown-item{min-width:62px;padding:10px 6px 8px}
+  .wpkoi-elements-countdown-digits{font-size:24px}
+  .elementor-widget-gallery .e-gallery-image{height:150px}
+  .elementor-section .elementor-container{padding:0 10px}
+  .elementor-element-63cb07b1 .elementor-heading-title{font-size:44px}
+  .elementor-element-54652e68 .elementor-heading-title{font-size:42px}
+}

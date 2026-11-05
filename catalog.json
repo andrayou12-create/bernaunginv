@@ -14,6 +14,7 @@
       "order": 1,
       "visible": true,
       "note": "Dengan foto",
+      "foto": true,
       "path": "tema-jawa/index.html"
     },
     {
@@ -22,8 +23,9 @@
       "classification": "Adat Jawa",
       "price": 100000,
       "order": 2,
-      "visible": false,
+      "visible": true,
       "note": "Dengan foto",
+      "foto": true,
       "path": "tema-jawa2/index.html"
     },
     {
@@ -32,58 +34,42 @@
       "classification": "Adat Jawa",
       "price": 100000,
       "order": 3,
-      "visible": false,
-      "note": "Tanpa foto",
+      "visible": true,
+      "note": "Tanpa foto, 1 pasang mempelai",
+      "foto": false,
       "path": "tema-jawanopict/index.html"
     },
     {
-      "id": "tema-jawanopict2",
-      "name": "Tema Jawa Tanpa Foto 2",
-      "classification": "Adat Jawa",
-      "price": 66000,
-      "order": 4,
-      "visible": false,
-      "note": "Tanpa foto",
-      "path": "tema-jawanopict2/index.html"
-    },
-    {
       "id": "tema-deluxe",
-      "name": "Tema Deluxe 1",
+      "name": "Tema Deluxe",
       "classification": "Premium",
       "price": 100000,
-      "order": 5,
+      "order": 4,
       "visible": true,
-      "note": "",
+      "note": "Dengan foto",
+      "foto": true,
       "path": "tema-deluxe/index.html"
     },
     {
-      "id": "tema-elegan",
-      "name": "Tema Elegan",
+      "id": "tema-special03",
+      "name": "Tema Premium Ilustrasi",
       "classification": "Premium",
-      "price": 100000,
-      "order": 6,
-      "visible": false,
-      "note": "",
-      "path": "tema-elegan/index.html"
-    },
-    {
-      "id": "tema-invisim",
-      "name": "Tema Invisim",
-      "classification": "Premium",
-      "price": 100000,
-      "order": 7,
-      "visible": false,
-      "note": "",
-      "path": "tema-invisim/index.html"
+      "price": 130000,
+      "order": 5,
+      "visible": true,
+      "note": "Tanpa foto, ilustrasi 3D",
+      "foto": false,
+      "path": "tema-special03/index.html"
     },
     {
       "id": "tema-spotify",
       "name": "Tema Spotify",
       "classification": "Musik",
       "price": 180000,
-      "order": 8,
+      "order": 6,
       "visible": true,
       "note": "Tampilan pemutar musik",
+      "foto": true,
       "path": "tema-spotify/index.html"
     },
     {
@@ -91,81 +77,220 @@
       "name": "Tema Netflix",
       "classification": "Musik",
       "price": 180000,
-      "order": 9,
+      "order": 7,
       "visible": true,
       "note": "Tampilan streaming",
+      "foto": true,
       "path": "tema-netflix/index.html"
     },
     {
       "id": "tema-modern",
-      "name": "Tema Sederhana",
+      "name": "Tema Minimalis Bunga",
       "classification": "Minimalis",
       "price": 180000,
-      "order": 10,
+      "order": 8,
       "visible": true,
-      "note": "",
+      "note": "Dengan foto, hitung mundur",
+      "foto": true,
       "path": "tema-modern/index.html"
     },
     {
+      "id": "tema-invisim",
+      "name": "Tema Minimalis Putih",
+      "classification": "Minimalis",
+      "price": 100000,
+      "order": 9,
+      "visible": true,
+      "note": "Dengan foto, putih bersih",
+      "foto": true,
+      "path": "tema-invisim/index.html"
+    },
+    {
       "id": "tema-nisa",
-      "name": "Tema Nisa",
-      "classification": "Modern",
+      "name": "Tema Minimalis Emas",
+      "classification": "Minimalis",
       "price": 150000,
-      "order": 11,
-      "visible": false,
-      "note": "",
+      "order": 10,
+      "visible": true,
+      "note": "Tanpa foto, aksen emas",
+      "foto": false,
       "path": "tema-nisa/index.html"
     },
     {
       "id": "tema-simple",
-      "name": "Tema Simple",
+      "name": "Tema Minimalis Sketsa",
       "classification": "Minimalis",
       "price": 100000,
-      "order": 12,
-      "visible": false,
-      "note": "Tanpa foto",
+      "order": 11,
+      "visible": true,
+      "note": "Tanpa foto, gaya sketsa",
+      "foto": false,
       "path": "tema-simple/index.html"
     },
     {
       "id": "tema-simple2",
-      "name": "Tema Simple",
+      "name": "Tema Minimalis Biru",
       "classification": "Minimalis",
       "price": 80000,
-      "order": 13,
+      "order": 12,
       "visible": true,
-      "note": "",
+      "note": "Tanpa foto, gaya biru",
+      "foto": false,
       "path": "tema-simple2/index.html"
-    },
-    {
-      "id": "tema-special03",
-      "name": "Tema Special 03",
-      "classification": "Ilustrasi",
-      "price": 130000,
-      "order": 14,
-      "visible": false,
-      "note": "Tanpa foto",
-      "path": "tema-special03/index.html"
-    },
-    {
-      "id": "tema-3dmotion",
-      "name": "Tema 3D Motion",
-      "classification": "3D Motion",
-      "price": 150000,
-      "order": 15,
-      "visible": false,
-      "note": "Tanpa foto",
-      "path": "tema-3dmotion/index.html"
     },
     {
       "id": "tema-punakawan-luxury01",
       "name": "Tema Luxury 01",
       "classification": "Minimalis",
       "price": 100000,
-      "order": 16,
+      "order": 13,
       "visible": true,
-      "note": "Salinan tema punakawan — tanpa foto",
+      "note": "Dengan foto",
+      "foto": true,
       "path": "tema-punakawan-luxury01/index.html"
+    },
+    {
+      "id": "tema-vintage",
+      "name": "Tema Vintage",
+      "classification": "Tema Baru",
+      "price": 180000,
+      "order": 14,
+      "visible": true,
+      "note": "Dengan foto, desain vintage",
+      "foto": true,
+      "path": "tema-vintage/index.html"
     }
   ],
-  "customers": []
+  "customers": [
+    {
+      "slug": "agung-ulfi",
+      "theme": "tema-elegan",
+      "name": "Ulfi & Agung",
+      "eventDate": "25 Oktober 2026",
+      "status": "paid",
+      "title": "Wedding - Ulfi & Agung",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "amar-nita",
+      "theme": "tema-jawa",
+      "name": "Amar & Nita",
+      "eventDate": "Selasa, 9 Juni 2026",
+      "status": "paid",
+      "title": "Wedding - Amar & Nita",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "andra-khusna",
+      "theme": "tema-jawa2",
+      "name": "Andra & Khusna",
+      "eventDate": "Sabtu, 21 Desember 2026",
+      "status": "unpaid",
+      "title": "Wedding - Andra & Khusna",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "difa-ridwan",
+      "theme": "tema-simple",
+      "name": "Difa & Ridwan",
+      "eventDate": "",
+      "status": "unpaid",
+      "title": "Wedding - Difa & Ridwan",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "fajar-rahma",
+      "theme": "tema-jawa2",
+      "name": "Fajar & Rahma",
+      "eventDate": "Minggu, 19 Juli 2026",
+      "status": "paid",
+      "title": "Wedding - Fajar & Rahma",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "kembar",
+      "theme": "tema-jawanopict",
+      "name": "Wedding Kembar",
+      "eventDate": "07 Desember 2025",
+      "status": "unpaid",
+      "title": "Wedding - Wedding Kembar",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "latif-erna",
+      "theme": "tema-jawa",
+      "name": "Latif & Erna",
+      "eventDate": "Selasa, 9 Juni 2026",
+      "status": "paid",
+      "title": "Wedding - Latif & Erna",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "nisa-hendra",
+      "theme": "tema-nisa",
+      "name": "Annisa & Hendra",
+      "eventDate": "Sabtu, 1 Agustus 2026",
+      "status": "paid",
+      "title": "Wedding - Annisa & Hendra",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "nita-amar",
+      "theme": "tema-modern",
+      "name": "Nita & Amar",
+      "eventDate": "Senin, 22 Maret 2027",
+      "status": "unpaid",
+      "title": "Wedding - Nita & Amar",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "rofif-aniq",
+      "theme": "tema-jawanopict",
+      "name": "Rofif & Aniq",
+      "eventDate": "07 Desember 2025",
+      "status": "paid",
+      "title": "Wedding - Rofif & Aniq",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "vira-didik",
+      "theme": "tema-deluxe",
+      "name": "Vira & Didik",
+      "eventDate": "26 Juni 2026",
+      "status": "unpaid",
+      "title": "Wedding - Vira & Didik",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "yoga-annisa",
+      "theme": "tema-special03",
+      "name": "Yoga & Annisa",
+      "eventDate": "Minggu, 20 September 2026",
+      "status": "paid",
+      "title": "Wedding - Yoga & Annisa",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    },
+    {
+      "slug": "dhina-christo",
+      "theme": "tema-vintage",
+      "name": "Dhina & Christo",
+      "eventDate": "Sabtu, 05 Desember 2026",
+      "status": "unpaid",
+      "title": "Wedding - Dhina & Christo",
+      "createdAt": "2025-11-01T00:00:00.000Z",
+      "note": "Data awal dari folder customer (backfill panel admin)"
+    }
+  ]
 }
