@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator Link Tamu — Nita &amp; Amar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Poppins', 'Segoe UI', sans-serif; background: #16202c; color: #f1f5f9; min-height: 100vh; display: flex; justify-content: center; padding: 30px 16px; }
+  .wrap { width: 100%; max-width: 760px; }
+  header { text-align: center; margin-bottom: 22px; }
+  .logo { width: 64px; height: 64px; border-radius: 50%; background-size: cover; border: 3px solid #fff; margin: 0 auto 12px; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+  h1 { font-size: 20px; letter-spacing: 1px; }
+  .sub { color: #94a3b8; font-size: 13px; margin-top: 6px; }
+  .card { background: #1f2c3b; border: 1px solid #33475e; border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+  label { display: block; font-size: 12px; letter-spacing: 1px; color: #cbd5e1; margin-bottom: 6px; }
+  textarea { width: 100%; min-height: 120px; background: #16202c; color: #f1f5f9; border: 1px solid #3b5067; border-radius: 10px; padding: 12px; font-family: inherit; font-size: 14px; resize: vertical; }
+  textarea:focus { outline: none; border-color: #6ea8fe; }
+  button { cursor: pointer; border: 0; border-radius: 10px; font-family: inherit; font-weight: 700; letter-spacing: 1px; transition: transform .15s, opacity .15s; }
+  button:hover { transform: translateY(-1px); }
+  .btn-main { width: 100%; margin-top: 12px; padding: 13px; background: #e8c687; color: #16202c; font-size: 14px; }
+  .btn-copy { padding: 8px 14px; background: #33475e; color: #e8c687; font-size: 12px; margin-top: 10px; }
+  .list { margin-top: 8px; }
+  .item { display: flex; gap: 10px; align-items: center; background: #16202c; border: 1px solid #2c3e53; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
+  .item .nm { font-weight: 600; font-size: 13.5px; min-width: 130px; }
+  .item a { color: #8ab4f8; font-size: 12px; word-break: break-all; flex: 1; text-decoration: none; }
+  .item a:hover { text-decoration: underline; }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #0f1720; color: #e8c687; border: 1px solid #e8c687; padding: 10px 18px; border-radius: 999px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .toast.show { opacity: 1; }
+  .hint { font-size: 12px; color: #94a3b8; margin-top: 8px; line-height: 1.6; }
+  footer { text-align: center; color: #64748b; font-size: 11px; margin-top: 18px; }
+  footer a { color: #94a3b8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo" style="background-image:url('/assets.bernaung.id/loading-bernaung.jpeg')"></div>
+    <h1>GENERATOR LINK TAMU</h1>
+    <div class="sub">Nita &amp; Amar &mdash; tulis nama tamu (satu nama per baris), lalu buat link undangan pribadi.</div>
+  </header>
+
+  <div class="card">
+    <label>DAFTAR NAMA TAMU</label>
+    <textarea id="nama" placeholder="Keluarga Bpk. Ahmad&#10;Budi &amp; Keluarga&#10;Alumni SMA 1 Yogyakarta"></textarea>
+    <button class="btn-main" id="buat">BUAT LINK</button>
+    <div class="hint">
+      &bull; Link dibuat otomatis dengan format <b>?to=Nama%20Tamu</b> &mdash; nama tamu tampil di undangan.<br>
+      &bull; Salin link lalu kirim lewat WhatsApp ke masing-masing tamu.
+    </div>
+    <button class="btn-copy" id="salinSemua">SALIN SEMUA LINK</button>
+  </div>
+
+  <div class="card">
+    <label>HASIL LINK TAMU</label>
+    <div class="list" id="hasil"><div class="hint">Belum ada link. Isi daftar nama lalu klik BUAT LINK.</div></div>
+  </div>
+
+  <footer>
+    &copy; 2026 <a href="/">Bernaung Invitation</a>
+  </footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  var BASE = 'https://bernaunginv.my.id/customer/nita-amar/index.html';
+  var hasil = document.getElementById('hasil');
+  var semua = [];
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function () { t.classList.remove('show'); }, 1800);
+  }
+
+  document.getElementById('buat').addEventListener('click', function () {
+    var baris = document.getElementById('nama').value.split('\n')
+      .map(function (s) { return s.trim(); }).filter(Boolean);
+    if (!baris.length) { toast('Tulis dulu daftar nama tamu.'); return; }
+    semua = [];
+    hasil.innerHTML = '';
+    baris.forEach(function (nm) {
+      var link = BASE + '?to=' + encodeURIComponent(nm);
+      semua.push(nm + ' -> ' + link);
+      var row = document.createElement('div');
+      row.className = 'item';
+      row.innerHTML = '<span class="nm">' + esc(nm) + '</span>' +
+        '<a href="' + esc(link) + '" target="_blank" rel="noopener">' + esc(link) + '</a>' +
+        '<button class="btn-copy" style="margin-top:0">SALIN</button>';
+      row.querySelector('button').addEventListener('click', function () {
+        navigator.clipboard.writeText(link).then(function () { toast('Link ' + nm + ' disalin.'); });
+      });
+      hasil.appendChild(row);
+    });
+    toast(baris.length + ' link dibuat.');
+  });
+
+  document.getElementById('salinSemua').addEventListener('click', function () {
+    if (!semua.length) { toast('Belum ada link.'); return; }
+    navigator.clipboard.writeText(semua.join('\n')).then(function () { toast('Semua link disalin.'); });
+  });
+})();
+</script>
+</body>
+</html>
