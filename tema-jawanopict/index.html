@@ -2199,6 +2199,34 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/envitto.invisimple.id\/wp
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+	/* wedding/js/theme-boot.js */
+(function () {
+  var SEL = '#bukaUndangan,#openInvitation,#btnOpen,.btn-buka,.open-invitation,[data-action="open"]';
+
+  function buka() {
+    var cover = document.querySelector('#cover,#envelope,.cover,.sampul,#sampul');
+    if (cover) {
+      cover.classList.add('open', 'opened', 'terbuka');   // tema pakai class berbeda → beri semua
+      cover.style.pointerEvents = 'none';
+    }
+    document.body.classList.add('invitation-open');
+    document.body.style.overflow = '';                    // buka kunci scroll
+    document.documentElement.style.overflow = '';
+    window.scrollTo({ top: 0, behavior: 'auto' });        // ke atas, bukan scroll manual
+    var musik = document.querySelector('audio');
+    if (musik && musik.src) musik.play().catch(function () {});
+    if (typeof window.mulaiUndangan === 'function') window.mulaiUndangan();
+    if (typeof window.bukaUndanganHandler === 'function') window.bukaUndanganHandler();
+  }
+
+  document.addEventListener('click', function (ev) {
+    if (ev.target.closest(SEL)) { ev.preventDefault(); buka(); }
+  }, true);
+
+  window.addEventListener('DOMContentLoaded', function () {
+    window.scrollTo(0, 0); // paksa mulai dari cover, bukan posisi scroll lama
+  });
+})();
 </script>
 
 </body>
