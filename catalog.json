@@ -265,7 +265,7 @@
       "theme": "tema-vintage",
       "name": "Dhina & Christo",
       "eventDate": "Sabtu, 05 Desember 2026",
-      "status": "unpaid",
+      "status": "paid",
       "title": "Wedding - Dhina & Christo",
       "createdAt": "2025-11-01T00:00:00.000Z",
       "note": "Data awal dari folder customer (backfill panel admin)"
