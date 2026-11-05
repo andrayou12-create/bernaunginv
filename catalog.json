@@ -191,16 +191,6 @@
       "note": "Data awal dari folder customer (backfill panel admin)"
     },
     {
-      "slug": "kembar",
-      "theme": "tema-jawanopict",
-      "name": "Wedding Kembar",
-      "eventDate": "07 Desember 2025",
-      "status": "unpaid",
-      "title": "Wedding - Wedding Kembar",
-      "createdAt": "2025-11-01T00:00:00.000Z",
-      "note": "Data awal dari folder customer (backfill panel admin)"
-    },
-    {
       "slug": "latif-erna",
       "theme": "tema-jawa",
       "name": "Latif & Erna",
