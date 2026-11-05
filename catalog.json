@@ -95,11 +95,40 @@
       "path": "tema-modern/index.html"
     },
     {
+<<<<<<< HEAD
+=======
+      "id": "tema-invisim",
+      "name": "Tema Minimalis Putih",
+      "classification": "Minimalis",
+      "price": 50000,
+      "order": 9,
+      "visible": true,
+      "note": "Dengan foto, putih bersih",
+      "foto": true,
+      "path": "tema-invisim/index.html"
+    },
+    {
+      "id": "tema-nisa",
+      "name": "Tema Minimalis Emas",
+      "classification": "Minimalis",
+      "price": 50000,
+      "order": 10,
+      "visible": true,
+      "note": "Tanpa foto, aksen emas",
+      "foto": false,
+      "path": "tema-nisa/index.html"
+    },
+    {
+>>>>>>> 3b0ea03c32d094b53c617ab93a013fe7e5f9747b
       "id": "tema-simple",
       "name": "Tema Minimalis Sketsa",
       "classification": "Minimalis",
       "price": 50000,
+<<<<<<< HEAD
       "order": 9,
+=======
+      "order": 11,
+>>>>>>> 3b0ea03c32d094b53c617ab93a013fe7e5f9747b
       "visible": true,
       "note": "Tanpa foto, gaya sketsa",
       "foto": false,
@@ -121,7 +150,11 @@
       "name": "Tema Luxury 01",
       "classification": "Minimalis",
       "price": 80000,
+<<<<<<< HEAD
       "order": 11,
+=======
+      "order": 13,
+>>>>>>> 3b0ea03c32d094b53c617ab93a013fe7e5f9747b
       "visible": true,
       "note": "Dengan foto",
       "foto": true,
@@ -132,7 +165,11 @@
       "name": "Tema Vintage",
       "classification": "Premium",
       "price": 100000,
+<<<<<<< HEAD
       "order": 12,
+=======
+      "order": 14,
+>>>>>>> 3b0ea03c32d094b53c617ab93a013fe7e5f9747b
       "visible": true,
       "note": "Dengan foto, desain vintage",
       "foto": true,
