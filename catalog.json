@@ -245,7 +245,7 @@
       "theme": "tema-deluxe",
       "name": "Vira & Didik",
       "eventDate": "26 Juni 2026",
-      "status": "unpaid",
+      "status": "paid",
       "title": "Wedding - Vira & Didik",
       "createdAt": "2025-11-01T00:00:00.000Z",
       "note": "Data awal dari folder customer (backfill panel admin)"
