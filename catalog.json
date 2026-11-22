@@ -148,28 +148,6 @@
       "note": "Dengan foto, kelopak 3D & parallax",
       "foto": true,
       "path": "tema-motion01/index.html"
-    },
-    {
-      "id": "tema-art01",
-      "name": "Tema Art Eksklusif",
-      "classification": "Tema Baru",
-      "price": 90000,
-      "order": 14,
-      "visible": true,
-      "note": "Gaya art pastel ala invisimple, lottie burung & ornamen melayang",
-      "foto": true,
-      "path": "tema-art01/index.html"
-    },
-    {
-      "id": "tema-motion02",
-      "name": "Tema Motion Terracotta",
-      "classification": "Tema Baru",
-      "price": 90000,
-      "order": 15,
-      "visible": true,
-      "note": "Video motion latar + kelopak bunga, gaya invisimple",
-      "foto": true,
-      "path": "tema-motion02/index.html"
     }
   ],
   "customers": [
