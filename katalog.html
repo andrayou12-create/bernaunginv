@@ -48,8 +48,12 @@
   .preview .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 16px; background: linear-gradient(180deg, transparent 62%, rgba(16,24,35,.88)); opacity: 0; transition: opacity .25s; }
   .card-theme:hover .overlay { opacity: 1; }
   @media (hover: none) { .preview .overlay { opacity: 1; } }
-  .overlay .ov-name { color: #fff; font-size: 12.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; text-shadow: 0 1px 6px rgba(0,0,0,.7); margin-bottom: 9px; }
+  .overlay .ov-name { color: #fff; font-size: 12.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; text-shadow: 0 1px 6px rgba(0,0,0,.7); margin-bottom: 4px; }
+  .overlay .ov-price { color: var(--gold); font-size: 14.5px; font-weight: 700; letter-spacing: .5px; text-shadow: 0 1px 6px rgba(0,0,0,.7); margin-bottom: 9px; }
   .overlay .btn-try { background: var(--gold); color: #16202c; font-weight: 700; font-size: 13px; padding: 10px 22px; border-radius: 999px; letter-spacing: 1px; }
+
+  /* Badge harga selalu tampak di pojok kartu (juga sebelum hover) */
+  .price-badge { position: absolute; top: 10px; right: 10px; z-index: 2; background: rgba(232,198,135,.95); color: #16202c; font-weight: 700; font-size: 12.5px; padding: 6px 13px; border-radius: 999px; letter-spacing: .5px; box-shadow: 0 3px 10px rgba(0,0,0,.35); pointer-events: none; }
 
   .empty { text-align: center; color: var(--muted); padding: 60px 0; font-size: 14px; }
 
@@ -121,6 +125,11 @@
 
   document.getElementById('logo').style.backgroundImage = "url('/assets.bernaung.id/loading-bernaung.jpeg')";
 
+  function rp(n) {
+    try { return 'Rp ' + Number(n).toLocaleString('id-ID'); }
+    catch (e) { return 'Rp ' + n; }
+  }
+
   function card(t) {
     var el = document.createElement('div');
     el.className = 'card-theme';
@@ -130,7 +139,8 @@
       '<a class="preview" href="/' + t.path + '" target="_blank" rel="noopener" aria-label="Lihat ' + t.name + '">' +
       '  <img src="' + thumb + '" alt="Pratinjau ' + t.name + '" loading="lazy" ' +
       '       onerror="this.style.display=\'none\'">' +
-      '  <span class="overlay"><span class="ov-name">' + t.name + '</span><span class="btn-try">LIHAT PREVIEW</span></span>' +
+      '  <span class="price-badge">' + rp(t.price) + '</span>' +
+      '  <span class="overlay"><span class="ov-name">' + t.name + '</span><span class="ov-price">' + rp(t.price) + '</span><span class="btn-try">LIHAT PREVIEW</span></span>' +
       '</a>';
     return el;
   }

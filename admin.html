@@ -239,7 +239,14 @@
             <div><label class="f">Alamat Lengkap</label><input class="f" id="c_address" placeholder="Jl. Merdeka No. 10, Yogyakarta"></div>
             <div><label class="f">Link Google Maps</label><input class="f" id="c_gmaps" placeholder="https://maps.app.goo.gl/..."></div>
           </div>
-          <div class="hint" style="margin-top:8px">Hitung mundur, judul situs (tab browser), dan tanggal layar pembuka diisi otomatis dari data akad di atas.</div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">Tanggal &amp; Jam Hitung Mundur (opsional)</label><input class="f" id="c_countdown" type="datetime-local">
+              <div class="hint">Kosongkan = otomatis dari tanggal Akad jam 08.00 WIB. Diisi = hitung mundur tema &amp; slide pembuka mengikuti tanggal ini.</div>
+            </div>
+            <div style="display:flex;align-items:flex-end">
+              <div class="hint">Hitung mundur, judul situs (tab browser), tanggal layar pembuka, dan angka hari/jam/bulan pada tema (mis. Tema Jawa Tanpa Foto) terisi otomatis dari data akad/resepsi di atas.</div>
+            </div>
+          </div>
           </div>
         </details>
 
@@ -419,6 +426,6 @@
 <div id="toast"></div>
 
 <script src="/assets.bernaung.id/admin-auth.js"></script>
-<script src="/assets.bernaung.id/admin.js?v=4"></script>
+<script src="/assets.bernaung.id/admin.js?v=5"></script>
 </body>
 </html>
