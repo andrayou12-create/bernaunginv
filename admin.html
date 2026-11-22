@@ -63,6 +63,20 @@
 
   fieldset { border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:16px; }
   legend { padding:0 10px; color:var(--gold); font-size:12px; letter-spacing:1px; }
+
+  /* ---------- ACCORDION (form ringkas) ---------- */
+  details.acc { border:1px solid var(--line); border-radius:12px; margin-bottom:12px; background:rgba(20,29,40,.45); }
+  details.acc summary { list-style:none; cursor:pointer; padding:14px 16px; display:flex; align-items:center; gap:10px; user-select:none; }
+  details.acc summary::-webkit-details-marker { display:none; }
+  details.acc summary .no { width:24px; height:24px; flex:0 0 24px; border-radius:50%; background:var(--gold); color:#16202c; font-size:11.5px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  details.acc summary .ttl { color:var(--gold); font-size:12.5px; letter-spacing:1px; font-weight:600; flex:1; }
+  details.acc summary .tag { font-size:10px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:3px 10px; letter-spacing:.5px; white-space:nowrap; }
+  details.acc summary .chev { color:var(--muted); font-size:11px; transition:transform .2s; }
+  details.acc[open] summary .chev { transform:rotate(90deg); }
+  details.acc[open] summary { border-bottom:1px solid rgba(49,70,94,.5); }
+  details.acc .acc-body { padding:6px 16px 16px; }
+  details.acc.sub-acc summary { padding:10px 14px; }
+  details.acc.sub-acc summary .ttl { font-size:11.5px; }
   label.f { display:block; font-size:11px; color:var(--muted); letter-spacing:.5px; margin:10px 0 4px; }
   input.f, select.f, textarea.f { width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:8px; padding:9px 11px; font-family:inherit; font-size:13px; }
   input.f:focus, textarea.f:focus { outline:none; border-color:var(--gold); }
@@ -145,10 +159,11 @@
     <section id="tab-baru" class="hidden">
       <div class="card">
         <h2>BUAT UNDANGAN CUSTOMER BARU</h2>
-        <p class="desc">Pilih tema, isi detail acara baru, lalu klik <b>Buat Undangan</b>. Sistem akan menyalin tema, mengganti seluruh data demo dengan data customer, menautkan RSVP (Apps Script), dan mencatatnya ke daftar customer.</p>
+        <p class="desc">Pilih tema, isi detail acara, lalu klik <b>Buat Undangan</b>. Form kini berbentuk langkah yang bisa dilipat — wajib diisi hanya <b>1&#8211;4</b>; bagian lain (foto, amplop, RSVP, musik, dsb.) opsional dan tinggal dibuka saat perlu. Sistem akan menyalin tema, mengganti seluruh data demo dengan data customer, menautkan RSVP, dan mencatatnya ke daftar customer dalam <b>satu commit</b>.</p>
 
-        <fieldset>
-          <legend>IDENTITAS UNDANGAN</legend>
+        <details class="acc" open>
+          <summary><span class="no">1</span><span class="ttl">IDENTITAS UNDANGAN</span><span class="tag">wajib</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
           <div class="grid2">
             <div><label class="f">Nama Customer / Folder (slug)</label><input class="f" id="c_slug" placeholder="mis. budi-sari"><div class="hint">Jadi alamat undangan: <code>/customer/&lt;slug&gt;/index.html</code>. Huruf kecil &amp; tanda minus.</div></div>
             <div><label class="f">Tema Undangan</label><select class="f" id="c_theme"></select></div>
@@ -168,29 +183,12 @@
             <div><label class="f">Nama Pasangan (hero)</label><input class="f" id="c_heroNames" placeholder="Budi &amp; Sari"></div>
             <div>&nbsp;</div>
           </div>
-        </fieldset>
+          </div>
+        </details>
 
-        <fieldset>
-          <legend>FOTO UNDANGAN (UNTUK TEMA DENGAN FOTO)</legend>
-          <p class="desc">Isi URL foto, atau lebih mudah: klik <b>Pilih File</b> untuk mengunggah langsung ke folder customer <code>customer/&lt;slug&gt;/foto/</code> (butuh Token GitHub terpasang di tab Pengaturan; tanpa token foto di-embed langsung ke dalam halaman).</p>
-          <div class="grid2">
-            <div><label class="f">Foto Cover / Latar</label><input class="f" id="c_fotoCover" placeholder="URL atau kosongkan"><input type="file" id="c_fotoCoverFile" accept="image/*" style="margin-top:6px;font-size:12px;color:var(--muted)"></div>
-            <div><label class="f">Foto Berdua</label><input class="f" id="c_fotoCouple" placeholder="URL atau kosongkan"><input type="file" id="c_fotoCoupleFile" accept="image/*" style="margin-top:6px;font-size:12px;color:var(--muted)"></div>
-          </div>
-          <div class="grid2" style="margin-top:10px">
-            <div><label class="f">Foto Mempelai Pria</label><input class="f" id="c_fotoGroom" placeholder="URL atau kosongkan"><input type="file" id="c_fotoGroomFile" accept="image/*" style="margin-top:6px;font-size:12px;color:var(--muted)"></div>
-            <div><label class="f">Foto Mempelai Wanita</label><input class="f" id="c_fotoBride" placeholder="URL atau kosongkan"><input type="file" id="c_fotoBrideFile" accept="image/*" style="margin-top:6px;font-size:12px;color:var(--muted)"></div>
-          </div>
-          <div style="margin-top:10px">
-            <label class="f">Foto Galeri (satu URL per baris, sesuai jumlah slot tema)</label>
-            <textarea class="f" id="c_fotoGallery" placeholder="https://.../foto1.jpg&#10;https://.../foto2.jpg"></textarea>
-            <input type="file" id="c_fotoGalleryFiles" accept="image/*" multiple style="margin-top:6px;font-size:12px;color:var(--muted)">
-            <div class="hint" id="gallerySlots">Pilih tema untuk melihat jumlah slot galeri.</div>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>MEMPELAI WANITA</legend>
+        <details class="acc" open>
+          <summary><span class="no">2</span><span class="ttl">MEMPELAI WANITA</span><span class="tag">wajib</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
           <div class="grid2">
             <div><label class="f">Nama Panggilan</label><input class="f" id="c_brideNick" placeholder="Sari"></div>
             <div><label class="f">Nama Lengkap</label><input class="f" id="c_brideFull" placeholder="Sari Amelia Putri"></div>
@@ -205,10 +203,12 @@
           <div style="margin-top:10px">
             <div><label class="f">Instagram (tanpa @)</label><input class="f" id="c_brideIg" placeholder="instagram_wanita"></div>
           </div>
-        </fieldset>
+          </div>
+        </details>
 
-        <fieldset>
-          <legend>MEMPELAI PRIA</legend>
+        <details class="acc" open>
+          <summary><span class="no">3</span><span class="ttl">MEMPELAI PRIA</span><span class="tag">wajib</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
           <div class="grid2">
             <div><label class="f">Nama Panggilan</label><input class="f" id="c_groomNick" placeholder="Budi"></div>
             <div><label class="f">Nama Lengkap</label><input class="f" id="c_groomFull" placeholder="Budi Santoso"></div>
@@ -223,10 +223,12 @@
           <div style="margin-top:10px">
             <div><label class="f">Instagram (tanpa @)</label><input class="f" id="c_groomIg" placeholder="instagram_pria"></div>
           </div>
-        </fieldset>
+          </div>
+        </details>
 
-        <fieldset>
-          <legend>ACARA</legend>
+        <details class="acc" open>
+          <summary><span class="no">4</span><span class="ttl">ACARA</span><span class="tag">wajib</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
           <div class="grid3">
             <div><label class="f">Akad — Hari &amp; Tanggal</label><input class="f" id="c_akadDayDate" placeholder="Minggu, 05 Desember 2026"></div>
             <div><label class="f">Akad — Jam</label><input class="f" id="c_akadTime" placeholder="08.00 WIB"></div>
@@ -245,10 +247,33 @@
             <div><label class="f">Hitung Mundur (untuk tema Modern)</label><input class="f" id="c_countdown" type="datetime-local"><div class="hint">Boleh kosong — otomatis diisi dari akad bila bisa dibaca.</div></div>
             <div>&nbsp;</div>
           </div>
-        </fieldset>
+          </div>
+        </details>
 
-        <fieldset>
-          <legend>AMPLOP DIGITAL / KADO</legend>
+        <details class="acc">
+          <summary><span class="no">5</span><span class="ttl">FOTO UNDANGAN</span><span class="tag">opsional — tema dengan foto</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
+          <p class="desc">Isi URL foto, atau lebih mudah: klik <b>Pilih File</b> untuk mengunggah langsung ke folder customer <code>customer/&lt;slug&gt;/foto/</code> (butuh Token GitHub terpasang di tab Pengaturan; tanpa token foto di-embed langsung ke dalam halaman).</p>
+          <div class="grid2">
+            <div><label class="f">Foto Cover / Latar</label><input class="f" id="c_fotoCover" placeholder="URL atau kosongkan"><input type="file" id="c_fotoCoverFile" accept="image/*" style="margin-top:6px;font-size:12px;color:var(--muted)"></div>
+            <div><label class="f">Foto Berdua</label><input class="f" id="c_fotoCouple" placeholder="URL atau kosongkan"><input type="file" id="c_fotoCoupleFile" accept="image/*" style="margin-top:6px;font-size:12px;color:var(--muted)"></div>
+          </div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">Foto Mempelai Pria</label><input class="f" id="c_fotoGroom" placeholder="URL atau kosongkan"><input type="file" id="c_fotoGroomFile" accept="image/*" style="margin-top:6px;font-size:12px;color:var(--muted)"></div>
+            <div><label class="f">Foto Mempelai Wanita</label><input class="f" id="c_fotoBride" placeholder="URL atau kosongkan"><input type="file" id="c_fotoBrideFile" accept="image/*" style="margin-top:6px;font-size:12px;color:var(--muted)"></div>
+          </div>
+          <div style="margin-top:10px">
+            <label class="f">Foto Galeri (satu URL per baris, sesuai jumlah slot tema)</label>
+            <textarea class="f" id="c_fotoGallery" placeholder="https://.../foto1.jpg&#10;https://.../foto2.jpg"></textarea>
+            <input type="file" id="c_fotoGalleryFiles" accept="image/*" multiple style="margin-top:6px;font-size:12px;color:var(--muted)">
+            <div class="hint" id="gallerySlots">Pilih tema untuk melihat jumlah slot galeri.</div>
+          </div>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary><span class="no">6</span><span class="ttl">AMPLOP DIGITAL / KADO</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
           <div class="grid3">
             <div><label class="f">Rekening 1 — Nomor</label><input class="f" id="c_gift1Number" placeholder="1234567890"></div>
             <div><label class="f">Rekening 1 — a.n.</label><input class="f" id="c_gift1Name" placeholder="Nama Pemilik"></div>
@@ -264,10 +289,12 @@
             <div><label class="f">Penerima Kado — No. HP</label><input class="f" id="c_kadoPhone" placeholder="+6281234567890"></div>
             <div><label class="f">Penerima Kado — Alamat</label><input class="f" id="c_kadoAddress" placeholder="Jl. ..."></div>
           </div>
-        </fieldset>
+          </div>
+        </details>
 
-        <fieldset>
-          <legend>RSVP — PILIH METODE</legend>
+        <details class="acc">
+          <summary><span class="no">7</span><span class="ttl">RSVP — PILIH METODE</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
           <div class="grid3">
             <div><label class="f">Metode RSVP</label>
               <select class="f" id="c_rsvpMode">
@@ -285,29 +312,36 @@
             <input class="f" id="c_appscript" placeholder="https://script.google.com/macros/s/AKfyc.../exec">
             <div class="hint">Ikuti panduan di tab Pengaturan. Jika tema sudah memiliki form RSVP sendiri yang berfungsi, URL ini menggantikan endpoint lamanya.</div>
           </div>
-        </fieldset>
+          </div>
+        </details>
 
-        <fieldset>
-          <legend>LOVE STORY (DINAMIS)</legend>
+        <details class="acc">
+          <summary><span class="no">8</span><span class="ttl">LOVE STORY (DINAMIS)</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
           <p class="desc">Tambahkan cerita perjalanan cinta — jumlah bebas. Isi <b>Teks di tema</b> (kalimat demo yang mau diganti, bisa disalin dari pratinjau tema) dan <b>Cerita baru</b> sebagai penggantinya.</p>
           <div id="loveStoryList"></div>
           <button type="button" class="btn btn-line btn-sm" id="btnAddStory">+ TAMBAH CERITA</button>
           <div class="hint">Contoh: teks tema <code>Episode 1: Pertemuan tak terduga</code> diganti <code>Episode 1: Dipertemukan di kampus</code>.</div>
-        </fieldset>
+          </div>
+        </details>
 
-        <fieldset>
-          <legend>MUSIK UNDANGAN</legend>
+        <details class="acc">
+          <summary><span class="no">9</span><span class="ttl">MUSIK UNDANGAN</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
           <div class="grid2">
             <div><label class="f">Unggah Musik (mp3)</label><input type="file" id="c_musicFile" accept="audio/*" class="f" style="padding:7px"><div class="hint">Dengan Token: tersimpan ke <code>customer/&lt;slug&gt;/music.mp3</code>. Tanpa token: disematkan langsung ke halaman (maks 4 MB).</div></div>
             <div><label class="f">atau URL Musik</label><input class="f" id="c_musicUrl" placeholder="https://.../lagu.mp3 (kosongkan jika upload)"></div>
           </div>
-        </fieldset>
+          </div>
+        </details>
 
-        <fieldset>
-          <legend>PENGGANTIAN TAMBAHAN (OPSIONAL)</legend>
+        <details class="acc">
+          <summary><span class="no">10</span><span class="ttl">PENGGANTIAN TAMBAHAN</span><span class="tag">opsional — teks lain</span><span class="chev">&#9654;</span></summary>
+          <div class="acc-body">
           <label class="f">Satu per baris, format: <b>teks demo lama | teks baru</b></label>
           <textarea class="f" id="c_extra" placeholder="Keluarga Besar Bapak Mohamad Rasul | Keluarga Besar Bapak Ahmad&#10;Episode 1: Pertemuan | Bab 1: Awal Mula"></textarea>
-        </fieldset>
+          </div>
+        </details>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap">
           <button class="btn btn-gold" id="btnGenerate">BUAT UNDANGAN</button>

@@ -65,7 +65,11 @@
     }).join('');
   }
 
-  /* ================= GITHUB API ================= */
+  /* ================= GITHUB API =================
+     Penulisan file memakai Git Data API (blobs -> tree -> commit -> ref)
+     sehingga SEMUA file tersimpan dalam SATU commit atomik.
+     Jauh lebih andal dibanding Contents API per-file (dulu sering gagal
+     di tengah jalan karena sha conflict / file besar > 1 MB). */
   function ghHeaders() {
     return {
       'Authorization': 'Bearer ' + S.settings.token,
@@ -73,38 +77,73 @@
       'X-GitHub-Api-Version': '2022-11-28'
     };
   }
-  async function ghGetFile(path) {
-    var url = 'https://api.github.com/repos/' + S.settings.repo + '/contents/' + path +
-      '?ref=' + encodeURIComponent(S.settings.branch || 'main');
-    var r = await fetch(url, { headers: ghHeaders() });
-    if (r.status === 404) return null;
-    if (r.status === 401) throw new Error('Token GitHub tidak valid (401). Periksa tab Pengaturan.');
-    if (!r.ok) throw new Error('GitHub API ' + r.status + ' saat membaca ' + path);
-    var j = await r.json();
-    var content = '';
-    if (j.content) content = decodeURIComponent(escape(atob(j.content.replace(/\n/g, ''))));
-    return { sha: j.sha, content: content };
+  function ghUrl(endpoint) {
+    return 'https://api.github.com/repos/' + S.settings.repo + endpoint;
   }
-  async function ghPutFile(path, text, message, encoding) {
-    var existing = null;
-    try { existing = await ghGetFile(path); } catch (e) {}
-    var b64 = (encoding === 'base64') ? String(text).replace(/^data:[^,]*,/, '')
-      : btoa(unescape(encodeURIComponent(text)));
-    var body = {
-      message: message || 'Update ' + path + ' via Panel Admin',
-      content: b64,
-      branch: S.settings.branch || 'main'
-    };
-    if (existing && existing.sha) body.sha = existing.sha;
-    var r = await fetch('https://api.github.com/repos/' + S.settings.repo + '/contents/' + path, {
-      method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body)
+  async function ghApi(endpoint, opts) {
+    opts = opts || {};
+    var r = await fetch(ghUrl(endpoint), {
+      method: opts.method || 'GET',
+      headers: ghHeaders(),
+      body: opts.body ? JSON.stringify(opts.body) : undefined
     });
     if (!r.ok) {
-      var errText = '';
-      try { errText = (await r.json()).message; } catch (e) {}
-      throw new Error('Gagal menulis ' + path + ' (' + r.status + ' ' + errText + ')');
+      var msg = '';
+      try { msg = (await r.json()).message; } catch (e) {}
+      var err = new Error('GitHub API ' + r.status + (msg ? ': ' + msg : '') + ' (' + endpoint + ')');
+      err.status = r.status;
+      throw err;
     }
-    return true;
+    return r.json();
+  }
+  async function ghGetFile(path) {
+    var branch = S.settings.branch || 'main';
+    try {
+      var j = await ghApi('/contents/' + path + '?ref=' + encodeURIComponent(branch));
+      var content = '';
+      if (j.content) content = decodeURIComponent(escape(atob(j.content.replace(/\n/g, ''))));
+      return { sha: j.sha, content: content };
+    } catch (e) {
+      if (e.status === 404) return null;
+      /* Fallback: file > 1 MB tidak bisa lewat Contents API — coba raw
+         (repo publik). Mencegah gagal simpan saat catalog.json membesar. */
+      try {
+        var r2 = await fetch('https://raw.githubusercontent.com/' + S.settings.repo + '/' + branch + '/' + path, { cache: 'no-store' });
+        if (r2.ok) return { sha: null, content: await r2.text() };
+      } catch (e2) {}
+      if (e.status === 401) throw new Error('Token GitHub tidak valid (401). Periksa tab Pengaturan.');
+      throw e;
+    }
+  }
+  /* Satu commit untuk banyak file. Ulangi 1x bila terjadi konflik
+     (branch berubah di tengah jalan). */
+  async function ghCommitBatch(files, message, onProgress) {
+    var branch = S.settings.branch || 'main';
+    var MAX_TRIES = 3;
+    for (var attempt = 1; attempt <= MAX_TRIES; attempt++) {
+      try {
+        var ref = await ghApi('/git/ref/heads/' + encodeURIComponent(branch));
+        var baseSha = ref.object.sha;
+        var baseCommit = await ghApi('/git/commits/' + baseSha);
+        var items = [];
+        for (var i = 0; i < files.length; i++) {
+          if (onProgress) onProgress(i + 1, files.length);
+          var enc = files[i].encoding === 'base64' ? 'base64' : 'utf-8';
+          var payload = String(files[i].content);
+          if (enc === 'base64') payload = payload.replace(/^data:[^,]*,/, '');
+          var blob = await ghApi('/git/blobs', { method: 'POST', body: { content: payload, encoding: enc } });
+          items.push({ path: files[i].path, mode: '100644', type: 'blob', sha: blob.sha });
+        }
+        var tree = await ghApi('/git/trees', { method: 'POST', body: { base_tree: baseCommit.tree.sha, tree: items } });
+        var commit = await ghApi('/git/commits', { method: 'POST', body: { message: message, tree: tree.sha, parents: [baseSha] } });
+        await ghApi('/git/refs/heads/' + encodeURIComponent(branch), { method: 'PATCH', body: { sha: commit.sha, force: false } });
+        return commit.sha;
+      } catch (e) {
+        /* 409 = ref berubah (dipicu commit lain) — coba ulang; error lain lempar */
+        if (e.status === 409 && attempt < MAX_TRIES) continue;
+        throw e;
+      }
+    }
   }
   function downloadText(filename, text) {
     var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
@@ -129,14 +168,15 @@
     $('manualModal').classList.remove('hidden');
   }
   async function commitFiles(files, msgPrefix) {
-    /* files: [{path, content, encoding?}] — token atau manual */
+    /* files: [{path, content, encoding?}] — token atau manual.
+       Mode token: semua file dalam SATU commit atomik (Git Data API). */
     if (hasToken()) {
-      for (var i = 0; i < files.length; i++) {
-        busy(true, 'MENYIMPAN ' + files[i].path + ' (' + (i + 1) + '/' + files.length + ')');
-        await ghPutFile(files[i].path, files[i].content, msgPrefix + ' ' + files[i].path, files[i].encoding);
-      }
-      busy(false);
-      toast(files.length + ' file tersimpan ke GitHub ✓');
+      busy(true, 'MENYIMPAN ' + files.length + ' FILE KE GITHUB (1 COMMIT)...');
+      try {
+        await ghCommitBatch(files, msgPrefix + ' ' + files.length + ' file via Panel Admin',
+          function (i, n) { busy(true, 'MENYIAPKAN FILE ' + i + '/' + n + '...'); });
+      } finally { busy(false); }
+      toast(files.length + ' file tersimpan ke GitHub ✓ (1 commit atomik)');
       return 'committed';
     } else {
       busy(false);
@@ -1045,14 +1085,26 @@
       /* foto terunggah disertakan dulu agar link foto valid saat halaman dibuka */
       photoUploads.forEach(function (u) { files.unshift(u); });
 
-      /* catat ke catalog.customers */
+      /* catat ke catalog.customers.
+         PENTING: nilai foto/musik berupa dataURL (mode tanpa token) JANGAN
+         ikut disimpan — catalog.json membengkak > 1 MB dan GitHub Contents
+         API gagal membacanya saat simpan berikutnya (penyebab "gagal
+         menambah customer"). Data tetap utuh di halaman undangannya. */
+      var storedValues = {};
+      Object.keys(data.values).forEach(function (k) {
+        var v = data.values[k];
+        storedValues[k] = (typeof v === 'string' && v.indexOf('data:') === 0) ? '' : v;
+      });
+      var storedGallery = String(data.fotoGallery || '').split('\n')
+        .map(function (s) { return s.indexOf('data:') === 0 ? '' : s; }).join('\n');
       var entry = {
         slug: data.slug, theme: data.theme, name: data.values.heroNames,
         title: data.values.title, status: 'unpaid', createdAt: new Date().toISOString(),
         eventDate: data.values.akadDayDate || data.values.resDayDate || '',
         rsvp: { mode: data.rsvpMode || 'demo', wa: data.wa || '', appscript: data.values.rsvpUrl, sheet: data.sheet },
-        values: data.values, fotoGallery: data.fotoGallery, extra: data.extra,
-        loveStories: data.loveStories, music: musicVal || undefined
+        values: storedValues, fotoGallery: storedGallery, extra: data.extra,
+        loveStories: data.loveStories,
+        music: (musicVal && String(musicVal).indexOf('data:') !== 0) ? musicVal : undefined
       };
       if (S.editingCustomer) {
         var idx = S.catalog.customers.findIndex(function (c) { return c.slug === S.editingCustomer; });
@@ -1194,7 +1246,8 @@
     fillLoveStories(c.loveStories && c.loveStories.length ? c.loveStories : [{ find: '', rep: '' }]);
     $('c_musicUrl').value = (c.music && String(c.music).indexOf('data:') !== 0) ? c.music : '';
     if ($('c_musicFile')) $('c_musicFile').value = '';
-    toast('Mengedit "' + c.slug + '" — ubah data lalu klik BUAT UNDANGAN untuk membuat ulang filenya.', true);
+    toast('Mengedit "' + c.slug + '" — ubah data lalu klik BUAT UNDANGAN untuk membuat ulang filenya. ' +
+      'Foto/musik yang sebelumnya disematkan (mode tanpa token) tidak tersimpan di data — pilih ulang bila ingin mengganti.', true);
   }
 
   async function deleteCustomer(i) {

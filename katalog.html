@@ -42,10 +42,13 @@
 
   .card-theme { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform .25s, box-shadow .25s; }
   .card-theme:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(0,0,0,.35); }
-  .preview { position: relative; height: 340px; overflow: hidden; background: #101823; border-bottom: 1px solid var(--line); }
-  .preview iframe { width: 375px; height: 1360px; border: 0; transform: scale(1); transform-origin: top left; position: absolute; top: 0; left: 50%; translate: -50% 0; pointer-events: none; }
+  /* Pratinjau = screenshot statis (tanpa scroll, tanpa iframe).
+     Mengetuk kartu/tombol langsung menuju halaman tema. */
+  .preview { position: relative; height: 340px; overflow: hidden; background: #101823; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .preview img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
   .preview .overlay { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 14px; background: linear-gradient(180deg, transparent 65%, rgba(16,24,35,.85)); opacity: 0; transition: opacity .25s; }
   .card-theme:hover .overlay { opacity: 1; }
+  @media (hover: none) { .preview .overlay { opacity: 1; } }
   .overlay .btn-try { background: var(--gold); color: #16202c; font-weight: 700; font-size: 13px; padding: 10px 22px; border-radius: 999px; letter-spacing: 1px; }
   .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .body .row1 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
@@ -84,7 +87,7 @@
 <header class="site">
   <div class="logo" id="logo"></div>
   <h1>KATALOG UNDANGAN DIGITAL</h1>
-  <p>Pilih tema undangan pernikahan digital favoritmu. Klik <b>Lihat Undangan</b> untuk mencoba contoh &mdash; semua tema sudah mendukung nama tamu, hitung mundur, galeri, amplop digital, dan RSVP.</p>
+  <p>Pilih tema undangan pernikahan digital favoritmu. Klik <b>Lihat Preview</b> untuk membuka halaman temanya langsung &mdash; semua tema sudah mendukung nama tamu, hitung mundur, galeri, amplop digital, dan RSVP.</p>
 </header>
 
 <div class="filterbar">
@@ -144,56 +147,23 @@
   function card(t) {
     var el = document.createElement('div');
     el.className = 'card-theme';
+    var thumb = '/assets.bernaung.id/thumbs/' + t.id + '.jpg';
     el.innerHTML =
-      '<div class="preview" data-path="' + t.path + '"><div class="skeleton"><div class="shim"></div></div></div>' +
+      '<a class="preview" href="/' + t.path + '" target="_blank" rel="noopener" aria-label="Lihat ' + t.name + '">' +
+      '  <img src="' + thumb + '" alt="Pratinjau ' + t.name + '" loading="lazy" ' +
+      '       onerror="this.style.display=\'none\'">' +
+      '  <span class="overlay"><span class="btn-try">LIHAT PREVIEW</span></span>' +
+      '</a>' +
       '<div class="body">' +
       '  <div class="row1"><h3>' + t.name + '</h3><span class="badge">' + t.classification + '</span></div>' +
       '  <div class="note">' + (t.note || '') + '</div>' +
       '  <div class="price">' + rp(t.price) + '</div>' +
       '  <div class="actions">' +
-      '    <a class="btn btn-primary" target="_blank" rel="noopener" href="' + t.path + '">LIHAT UNDANGAN</a>' +
+      '    <a class="btn btn-primary" target="_blank" rel="noopener" href="/' + t.path + '">LIHAT UNDANGAN</a>' +
       '    <a class="btn btn-wa" target="_blank" rel="noopener" href="' + waLink(t) + '">PESAN</a>' +
       '  </div>' +
       '</div>';
     return el;
-  }
-
-  /* Bisukan seluruh media di dalam iframe pratinjau. Tanpa ini, begitu
-     pengunjung sekali berinteraksi dengan halaman katalog, musik DEMO dari
-     semua tema ikut berbunyi bersamaan (autoplay diizinkan untuk iframe
-     same-origin setelah gesture pada halaman induk). */
-  function silenceIframe(f) {
-    try {
-      var doc = f.contentDocument;
-      if (!doc) return;
-      doc.querySelectorAll('audio, video').forEach(function (m) {
-        m.removeAttribute('autoplay');
-        m.muted = true;
-        try { m.pause(); } catch (e) {}
-      });
-    } catch (e) {}
-  }
-
-  function lazyPreview(box) {
-    var path = box.getAttribute('data-path');
-    if (!path || path === 'undefined') return;
-    var iframe = document.createElement('iframe');
-    iframe.loading = 'lazy';
-    iframe.setAttribute('tabindex', '-1');
-    iframe.setAttribute('aria-hidden', 'true');
-    /* sandbox tanpa allow-scripts: JS tema pratinjau tidak berjalan,
-       sehingga tidak ada pemutar musik/hitung mundur yang aktif di kartu */
-    iframe.setAttribute('sandbox', 'allow-same-origin');
-    iframe.style.transform = 'scale(0.86)';
-    iframe.src = path;
-    iframe.addEventListener('load', function () {
-      silenceIframe(iframe);
-      setTimeout(function () { silenceIframe(iframe); }, 1200);
-      var sk = box.querySelector('.skeleton');
-      if (sk) sk.remove();
-    });
-    iframe.addEventListener('error', function () { box.innerHTML = '<div class="skeleton"></div>'; });
-    box.appendChild(iframe);
   }
 
   function render() {
@@ -219,7 +189,6 @@
       g.items.push(t);
     });
 
-    var lazyBoxes = [];
     groups.forEach(function (g) {
       var sec = document.createElement('section');
       sec.className = 'group';
@@ -229,15 +198,7 @@
       g.items.forEach(function (t) { grid.appendChild(card(t)); });
       sec.appendChild(grid);
       main.appendChild(sec);
-      grid.querySelectorAll('.preview').forEach(function (b) { lazyBoxes.push(b); });
     });
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { lazyPreview(en.target); io.unobserve(en.target); }
-      });
-    }, { rootMargin: '600px 0px' });
-    lazyBoxes.forEach(function (b) { io.observe(b); });
   }
 
   function renderChips() {
