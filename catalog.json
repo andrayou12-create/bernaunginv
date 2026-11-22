@@ -19,12 +19,12 @@
     },
     {
       "id": "tema-jawa2",
-      "name": "Tema Jawa 2",
-      "classification": "Adat Jawa",
+      "name": "Tema Premium Motion 09",
+      "classification": "Premium",
       "price": 100000,
       "order": 2,
       "visible": true,
-      "note": "Dengan foto",
+      "note": "Video motion",
       "foto": true,
       "path": "tema-jawa2/index.html"
     },

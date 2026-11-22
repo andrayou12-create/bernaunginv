@@ -1,67 +1,85 @@
 ============================================================
-BERNAUNG INVITATION — CATATAN UPDATE
+BERNAUNG INVITATION — CATATAN UPDATE (6 BAGIAN ZIP)
 ============================================================
 
-Isi ZIP ini adalah kondisi TERBARU seluruh situs. Cara pakai:
-ekstrak, lalu salin SEMUA file/folder ke repo bernaunginv
-(ganti file lama), commit & push. Folder Wedding TIDAK diubah.
+ZIP lama (320 MB / 33 MB) TIDAK BISA diunduh karena ukurannya.
+Update ini dipecah jadi 6 ZIP KECIL. Cara pakai:
 
-1) TEMA
-   - DIHAPUS   : tema-luxury02, tema-interaktif01, tema-nofoto01
-                 (sesuai permintaan; 3D Motion Rose / tema-motion01 dipertahankan)
-   - TETAP     : 13 tema lama + tema-motion01 (3D Motion Rose)
-   - BARU      : tema-art01    "Tema Art Eksklusif"     (gaya Art pastel,
-                 lottie burung, ornamen melayang, font signature)
-                 tema-motion02 "Tema Motion Terracotta" (video motion di hero,
-                 kelopak bunga jatuh, lottie mouse, gaya invisimple)
-                 Keduanya sudah punya footer Bernaung, RSVP universal,
-                 nama tamu (?to=), countdown, amplop, dan sudah terdaftar
-                 di catalog.json + theme-map.json (siap dipakai panel admin).
+1) Unduh keenam file ZIP (1-6).
+2) Ekstrak SEMUANYA ke folder repo bernaunginv di PC kamu
+   (klik kanan -> Extract Here di dalam folder repo, atau
+   seret isinya ke folder repo). Struktur folder akan
+   menyatu otomatis, timpa file lama bila ditanya.
+3) Buka GitHub Desktop -> commit & push.
+4) Folder Wedding TIDAK disertakan karena TIDAK ADA
+   perubahan isinya — biarkan apa adanya di GitHub.
 
-2) KATALOG (katalog.html) — gaya rumahundangan.in
-   - Pratinjau kini SCREENSHOT STATIS tanpa scroll (tanpa iframe).
-   - Screenshot tiap tema: assets.bernaung.id/thumbs/<id>.jpg (15 file).
-   - Tombol LIHAT PREVIEW / LIHAT UNDANGAN langsung menuju halaman tema.
-   - Musik demo tidak lagi bisa berbunyi dari katalog (tidak ada iframe).
+ISI TIAP BAGIAN
+---------------
+1-root    : admin.html, katalog.html, index.html, catalog.json,
+            assets.bernaung.id/admin.js, theme-map.json,
+            screenshot katalog (assets.bernaung.id/thumbs/, 15 file)
+2-foto    : foto demo (assets.bernaung.id/images/, 22 file) —
+            mencegah tema dengan foto tampil kacau/404
+3-musik   : musik demo (Glory.mp3, music.mp3, music.mp3.mp3)
+4-tema    : tema baru (tema-art01, tema-motion01/3D Motion Rose,
+            tema-motion02/Terracotta) + tema-jawa2/assets
+5-tema    : perbaikan tema lama (tema-jawa2, tema-jawanopict,
+            tema-netflix, tema-punakawan-luxury01, tema-special03,
+            tema-spotify — index.html)
+6-customer: perbaikan path foto halaman customer (8 index.html)
 
-3) PANEL ADMIN (admin.html + assets.bernaung.id/admin.js)
-   - Form Customer Baru diringkas jadi ACCORDION 10 langkah;
-     wajib hanya langkah 1-4 (Identitas, Mempelai, Acara),
-     sisanya opsional dan terlipat rapi.
-   - Perbaikan gagal tambah customer:
-     a. Penyimpanan kini 1 COMMIT ATOMIK via Git Data API
-        (blobs -> tree -> commit -> ref) + auto-retry konflik;
-        tidak lagi per-file Contents API yang sering 409/422.
-     b. Foto/musik berbasis dataURL TIDAK lagi disimpan ke catalog.json
-        (dulu membuat file > 1 MB sehingga simpan berikutnya gagal).
-     c. Baca catalog.json punya fallback raw.githubusercontent bila
-        file besar.
+YANG BARU DI UPDATE INI
+-----------------------
+0) TEMA JAWA 2 DIGANTI -> TEMA PREMIUM MOTION 09 (ZIP BAGIAN 7)
+   - Tema-jawa2 diganti total dengan master "Premium Motion 09"
+     (video motion VINTAGE-09 di layar pembuka, bunga vintage,
+     wayang gunungan, foto keluarga Habib & Adiba sebagai demo).
+   - Semua asset diunduh & di-host lokal (folder tema sendiri);
+     video & musik demo memakai /_cdn yang sudah ada.
+   - Rebranding Bernaung: judul/og tags, watermark, sosial media,
+     footer Bernaung; LOCK Rumah Undangan dihapus.
+   - Nama tamu ?to=, RSVP Bernaung (WhatsApp/spreadsheet), amplop
+     copy-rekening, kirim hadiah, love story, galeri 8 foto,
+     live streaming YouTube, hitung mundur otomatis dari tanggal
+     akad customer.
+   - Terdaftar di panel admin (theme-map.json 30 aturan) + katalog
+     (nama baru "Tema Premium Motion 09", klasifikasi Premium).
+   - CATATAN: 2 customer lama (andra-khusna, fajar-rahma) masih
+     memakai galeri demo lama di tema-jawa2/assets.bernaung.id/ —
+     folder itu DIPERTAHANKAN supaya halaman mereka tidak rusak.
 
-4) PERBAIKAN TEMA
-   - tema-special03 (Premium Ilustrasi): footer ganda dihapus
-     (footer Elementor bawaan dibuang, footer Bernaung tetap satu).
-   - tema-punakawan-luxury01 (Luxury 01): widget social footer bawaan
-     dihapus — kini hanya footer Bernaung.
-   - tema-jawa2: duplikat CSS animasi dihapus; semua asset animasi
-     master (bunga VINTAGE-09, video PREMIUM-VINTAGE-09, reveal)
-     terverifikasi tersedia.
-   - FOTO DEMO 404 DIPERBAIKI (penyebab tema dengan foto "kacau"):
-     tema-jawa2, tema-netflix, tema-spotify memakai path
-     assets.bernaung.id/images/galleries/... yang TIDAK ADA.
-     Sekarang folder assets.bernaung.id/images/galleries/ dibuat
-     lengkap (22 file demo) + semua path dibuat absolut.
-     Path di customer/andra-khusna/index.html ikut diperbaiki.
-   - Musik demo: assets.bernaung.id/Glory.mp3 (netflix),
-     assets.bernaung.id/music.mp3 + music.mp3.mp3 (spotify & customer).
-   - tema-art01 / tema-motion02 / tema-motion01: nomor kado demo dibuat
-     unik (+6289876543210) agar tidak tertukar dengan nomor rekening.
-   - theme-map.json: rule kadoPhone/groomParents diperbaiki
-     (tema-jawanopict, tema-art01, tema-motion02, tema-motion01),
-     rule mati address2 (tema-spotify) dihapus.
-   - Uji otomatis: generator admin mengganti 23/23 frasa pada
-     tema-art01 tanpa "miss".
+1) PANEL ADMIN — JUDUL SITUS OTOMATIS
+   - Kolom "Judul Situs (tab browser)" DIHAPUS dari form.
+   - Judul tab browser sekarang OTOMATIS = Nama Pasangan
+     (customer), mis. "Budi & Sari" — tanpa perlu mengisi manual.
+   - Kolom "Hitung Mundur" juga dihapus (otomatis dari tanggal
+     akad). Form makin ringkas: langkah wajib tinggal 1-4.
 
-5) LAIN-LAIN
-   - index.html: teks jumlah tema diperbarui menjadi 15.
-   - Folder Wedding: TIDAK ADA perubahan.
-============================================================
+2) KATALOG — SCREENSHOT SAJA
+   - Kartu katalog kini HANYA screenshot tanpa teks/tombol di
+     bawahnya. Mengetuk kartu langsung membuka halaman tema
+     (tab baru). Nama tema muncul saat kartu disentuh/di-hover.
+   - Tanpa iframe = musik demo tidak mungkin berbunyi dari
+     katalog, halaman ringan, tidak perlu folder baru.
+
+3) PERBAIKAN YANG SUDAH ADA DARI SEBELUMNYA (tetap berlaku)
+   - Tema dengan foto tidak kacau lagi (mapping foto diperbaiki
+     di theme-map.json + admin.js, foto demo dilengkapi).
+   - Gagal tambah customer diperbaiki: penyimpanan 1 commit
+     atomik via Git Data API + dataURL tidak lagi disimpan ke
+     catalog.json (penyebab file >1 MB dan simpan berikutnya
+     gagal).
+   - Double footer tema-special03 (Premium Ilustrasi) dan
+     tema-punakawan-luxury01 (Luxury 01) dihapus — kini hanya
+     footer Bernaung.
+   - Footer Bernaung ada di semua tema.
+
+VERIFIKASI CEPAT
+----------------
+1. Panel admin -> Customer Baru: kolom Judul Situs sudah tidak
+   ada; isi nama pasangan lalu PRATINJAU LIVE -> tab browser
+   pratinjau ikut memakai nama pasangan.
+2. Katalog: kartu hanya screenshot; klik membuka tema.
+3. Tambah customer baru dengan tema berfoto -> undangan jadi
+   tanpa laporan "tidak ditemukan".

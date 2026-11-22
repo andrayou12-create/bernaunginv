@@ -1,0 +1,28 @@
+@font-face {
+					font-family: 'alcantera-serif';
+					src: url('wp-content/uploads/useanyfont/611Alcantera-Serif.woff2') format('woff2'),
+						url('wp-content/uploads/useanyfont/611Alcantera-Serif.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'aston-script';
+					src: url('wp-content/uploads/useanyfont/3354Aston-Script.woff2') format('woff2'),
+						url('wp-content/uploads/useanyfont/3354Aston-Script.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'trajan';
+					src: url('wp-content/uploads/useanyfont/999trajan.woff2') format('woff2'),
+						url('wp-content/uploads/useanyfont/999trajan.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'snellbt';
+					src: url('wp-content/uploads/useanyfont/6612SnellBT.woff2') format('woff2'),
+						url('wp-content/uploads/useanyfont/6612SnellBT.woff') format('woff');
+					  font-display: auto;
+				}
+.alcantera-serif{font-family:'alcantera-serif' !important;}
+.aston-script{font-family:'aston-script' !important;}
+.trajan{font-family:'trajan' !important;}
+.snellbt{font-family:'snellbt' !important;}

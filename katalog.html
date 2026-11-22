@@ -40,27 +40,16 @@
   .group-head .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold2), transparent); }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
 
-  .card-theme { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; transition: transform .25s, box-shadow .25s; }
-  .card-theme:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(0,0,0,.35); }
-  /* Pratinjau = screenshot statis (tanpa scroll, tanpa iframe).
-     Mengetuk kartu/tombol langsung menuju halaman tema. */
-  .preview { position: relative; height: 340px; overflow: hidden; background: #101823; border-bottom: 1px solid var(--line); cursor: pointer; }
+  /* Pratinjau = SCREENSHOT SAJA (tanpa scroll, tanpa iframe).
+     Kartu = screenshot penuh; mengetuknya langsung membuka halaman tema. */
+  .preview { position: relative; height: 380px; overflow: hidden; background: #101823; border-radius: 16px; border: 1px solid var(--line); cursor: pointer; display: block; transition: transform .25s, box-shadow .25s; }
+  .card-theme:hover .preview { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(0,0,0,.35); }
   .preview img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
-  .preview .overlay { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 14px; background: linear-gradient(180deg, transparent 65%, rgba(16,24,35,.85)); opacity: 0; transition: opacity .25s; }
+  .preview .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 16px; background: linear-gradient(180deg, transparent 62%, rgba(16,24,35,.88)); opacity: 0; transition: opacity .25s; }
   .card-theme:hover .overlay { opacity: 1; }
   @media (hover: none) { .preview .overlay { opacity: 1; } }
+  .overlay .ov-name { color: #fff; font-size: 12.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; text-shadow: 0 1px 6px rgba(0,0,0,.7); margin-bottom: 9px; }
   .overlay .btn-try { background: var(--gold); color: #16202c; font-weight: 700; font-size: 13px; padding: 10px 22px; border-radius: 999px; letter-spacing: 1px; }
-  .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-  .body .row1 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-  .body h3 { font-size: 16.5px; }
-  .body .badge { font-size: 10.5px; letter-spacing: 1px; color: var(--muted); border: 1px solid var(--line); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
-  .body .note { color: var(--muted); font-size: 12.5px; }
-  .body .price { font-size: 20px; font-weight: 700; color: var(--gold); }
-  .body .actions { display: flex; gap: 10px; margin-top: auto; padding-top: 8px; }
-  .btn { flex: 1; text-align: center; padding: 10px 8px; border-radius: 10px; font-size: 12.5px; font-weight: 600; letter-spacing: .5px; }
-  .btn-primary { background: var(--gold); color: #16202c; }
-  .btn-wa { background: transparent; border: 1px solid var(--line); color: var(--muted); }
-  .btn-wa:hover { border-color: #25d366; color: #25d366; }
 
   .empty { text-align: center; color: var(--muted); padding: 60px 0; font-size: 14px; }
 
@@ -70,7 +59,7 @@
   html.embed main { padding-top: 14px; }
   html.embed body { background: var(--bg); }
 
-  .skeleton { height: 340px; }
+  .skeleton { height: 380px; }
   .skeleton .shim { width: 100%; height: 100%; background: linear-gradient(100deg, #1c2a3a 40%, #26384e 50%, #1c2a3a 60%); background-size: 200% 100%; animation: shine 1.4s infinite; }
   @keyframes shine { to { background-position: -200% 0; } }
 
@@ -87,7 +76,7 @@
 <header class="site">
   <div class="logo" id="logo"></div>
   <h1>KATALOG UNDANGAN DIGITAL</h1>
-  <p>Pilih tema undangan pernikahan digital favoritmu. Klik <b>Lihat Preview</b> untuk membuka halaman temanya langsung &mdash; semua tema sudah mendukung nama tamu, hitung mundur, galeri, amplop digital, dan RSVP.</p>
+  <p>Pilih tema favoritmu &mdash; ketuk <b>screenshot</b> untuk langsung membuka halaman undangannya. Semua tema mendukung nama tamu, hitung mundur, galeri, amplop digital, dan RSVP.</p>
 </header>
 
 <div class="filterbar">
@@ -105,7 +94,7 @@
   <div class="group-head"><h2>CARA PESAN</h2><div class="rule"></div></div>
   <div class="steps">
     <div class="step"><div class="n">01</div><h4>Pilih Tema</h4><p>Tentukan tema dari katalog di atas, lalu catat namanya.</p></div>
-    <div class="step"><div class="n">02</div><h4>Hubungi Kami</h4><p>Klik tombol WhatsApp pada tema pilihan atau hubungi admin untuk konfirmasi ketersediaan.</p></div>
+    <div class="step"><div class="n">02</div><h4>Hubungi Kami</h4><p>Ketuk tema pilihan untuk melihat previewnya, lalu hubungi admin lewat WhatsApp dan sebutkan nama tema yang dipilih.</p></div>
     <div class="step"><div class="n">03</div><h4>Kirim Data Acara</h4><p>Kirim detail acara: nama mempelai, tanggal, jam, lokasi, foto, dan rekening amplop digital.</p></div>
     <div class="step"><div class="n">04</div><h4>Undangan Dibuat</h4><p>Setelah pembayaran, undangan jadi + link tamu personal untuk disebar ke WhatsApp.</p></div>
   </div>
@@ -132,37 +121,17 @@
 
   document.getElementById('logo').style.backgroundImage = "url('/assets.bernaung.id/loading-bernaung.jpeg')";
 
-  function rp(n) {
-    try { return 'Rp ' + Number(n).toLocaleString('id-ID'); }
-    catch (e) { return 'Rp ' + n; }
-  }
-
-  function waLink(t) {
-    var brand = (DATA && DATA.brand) || {};
-    var phone = brand.wa || '6282324137816';
-    var txt = 'Halo, saya tertarik pesan undangan digital "' + t.name + '" (' + rp(t.price) + '). Apakah masih tersedia?';
-    return 'https://api.whatsapp.com/send/?phone=' + phone + '&text=' + encodeURIComponent(txt);
-  }
-
   function card(t) {
     var el = document.createElement('div');
     el.className = 'card-theme';
     var thumb = '/assets.bernaung.id/thumbs/' + t.id + '.jpg';
+    /* kartu = screenshot saja; seluruh kartu adalah tautan ke halaman tema */
     el.innerHTML =
       '<a class="preview" href="/' + t.path + '" target="_blank" rel="noopener" aria-label="Lihat ' + t.name + '">' +
       '  <img src="' + thumb + '" alt="Pratinjau ' + t.name + '" loading="lazy" ' +
       '       onerror="this.style.display=\'none\'">' +
-      '  <span class="overlay"><span class="btn-try">LIHAT PREVIEW</span></span>' +
-      '</a>' +
-      '<div class="body">' +
-      '  <div class="row1"><h3>' + t.name + '</h3><span class="badge">' + t.classification + '</span></div>' +
-      '  <div class="note">' + (t.note || '') + '</div>' +
-      '  <div class="price">' + rp(t.price) + '</div>' +
-      '  <div class="actions">' +
-      '    <a class="btn btn-primary" target="_blank" rel="noopener" href="/' + t.path + '">LIHAT UNDANGAN</a>' +
-      '    <a class="btn btn-wa" target="_blank" rel="noopener" href="' + waLink(t) + '">PESAN</a>' +
-      '  </div>' +
-      '</div>';
+      '  <span class="overlay"><span class="ov-name">' + t.name + '</span><span class="btn-try">LIHAT PREVIEW</span></span>' +
+      '</a>';
     return el;
   }
 

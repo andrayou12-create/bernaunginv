@@ -1,1497 +1,1502 @@
 {
-  "_doc": "Mapping frasa demo -> nilai form untuk generator undangan admin. Kunci foto: fotoCover/fotoGroom/fotoBride/fotoCouple/fotoGalleryN diganti dengan URL foto customer yang diisi di panel admin.",
-  "themes": {
-    "tema-jawa": {
-      "label": "Tema Jawa",
-      "map": [
-        {
-          "k": "title",
-          "f": "Wedding - Bagas & Dewi"
-        },
-        {
-          "k": "heroNames",
-          "f": "Bagas & Dewi"
-        },
-        {
-          "k": "heroDateLong",
-          "f": "Sabtu, 11 September 2027"
-        },
-        {
-          "k": "countdownDate",
-          "f": "27 Desember 2025"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomNick",
-          "f": "Bagas"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra dari Bapak Andi dan Ibu Rina"
-        },
-        {
-          "k": "groomIg",
-          "f": "instagram_pria"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Amelia"
-        },
-        {
-          "k": "brideNick",
-          "f": "Dewi"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri dari Bapak Budi dan Ibu Sari"
-        },
-        {
-          "k": "brideIg",
-          "f": "instagram_wanita"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Selasa 09 Juni 2026",
-          "p": "Akad Nikah "
-        },
-        {
-          "k": "akadTime",
-          "f": "08:00 WIB"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Selasa 09 Juni 2026",
-          "p": "Resepsi "
-        },
-        {
-          "k": "resTime",
-          "f": "10:00 WIB"
-        },
-        {
-          "k": "akadPlace",
-          "f": "Rumah Mempelai Wanita"
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "gift2Number",
-          "f": "0987654321"
-        },
-        {
-          "k": "kadoName",
-          "f": "Bagas / Dewi"
-        },
-        {
-          "k": "fotoGroom",
-          "f": "/tema-jawa/images/Foto 1.jpeg"
-        },
-        {
-          "k": "fotoBride",
-          "f": "/tema-jawa/images/Foto 2.jpeg"
-        },
-        {
-          "k": "fotoGallery1",
-          "f": "/tema-jawa/images/Foto 1.jpeg"
-        },
-        {
-          "k": "fotoGallery2",
-          "f": "/tema-jawa/images/Foto 2.jpeg"
-        },
-        {
-          "k": "fotoGallery3",
-          "f": "/tema-jawa/images/Foto 3.jpeg"
-        },
-        {
-          "k": "fotoGallery4",
-          "f": "/tema-jawa/images/Foto 4.jpeg"
-        },
-        {
-          "k": "fotoGallery5",
-          "f": "/tema-jawa/images/Foto 5.jpeg"
-        },
-        {
-          "k": "fotoGallery6",
-          "f": "/tema-jawa/images/Foto 6.jpeg"
-        },
-        {
-          "k": "fotoGallery7",
-          "f": "/tema-jawa/images/Foto 7.jpeg"
-        },
-        {
-          "k": "fotoGallery8",
-          "f": "/tema-jawa/images/Foto 8.jpeg"
-        },
-        {
-          "k": "fotoGallery9",
-          "f": "/tema-jawa/images/Foto 9.jpeg"
-        },
-        {
-          "k": "fotoGallery10",
-          "f": "/tema-jawa/images/Foto 10.jpeg"
-        },
-        {
-          "k": "fotoGallery11",
-          "f": "/tema-jawa/images/Foto 11.jpeg"
-        },
-        {
-          "k": "fotoGallery12",
-          "f": "/tema-jawa/images/Foto 12.jpeg"
-        },
-        {
-          "k": "fotoGallery13",
-          "f": "/tema-jawa/images/Foto 13.jpeg"
-        }
-      ]
+ "_doc": "Mapping frasa demo -> nilai form untuk generator undangan admin. Kunci foto: fotoCover/fotoGroom/fotoBride/fotoCouple/fotoGalleryN diganti dengan URL foto customer yang diisi di panel admin.",
+ "themes": {
+  "tema-jawa": {
+   "label": "Tema Jawa",
+   "map": [
+    {
+     "k": "title",
+     "f": "Wedding - Bagas & Dewi"
     },
-    "tema-jawa2": {
-      "label": "Tema Jawa 2",
-      "map": [
-        {
-          "k": "title",
-          "f": "Wedding - Bagas & Dewi"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomNick",
-          "f": "Bagas"
-        },
-        {
-          "k": "groomFather",
-          "f": "Bapak Andi"
-        },
-        {
-          "k": "groomMother",
-          "f": "Ibu Rina"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Lestari"
-        },
-        {
-          "k": "brideNick",
-          "f": "Dewi"
-        },
-        {
-          "k": "brideFather",
-          "f": "Bapak Budi"
-        },
-        {
-          "k": "brideMother",
-          "f": "Ibu Sari"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Sabtu, 11 September 2027",
-          "p": "Akad Nikah "
-        },
-        {
-          "k": "akadTime",
-          "f": "08:00 WIB",
-          "p": "Pukul : "
-        },
-        {
-          "k": "resDayDate",
-          "f": "Sabtu, 11 September 2027",
-          "p": "Resepsi "
-        },
-        {
-          "k": "resTime",
-          "f": "10:00 WIB"
-        },
-        {
-          "k": "akadPlace",
-          "f": "Kediaman Mempelai Wanita"
-        },
-        {
-          "k": "address",
-          "f": "Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "fotoGroom",
-          "f": "/assets.bernaung.id/images/galleries/Mempelai Pria.jpeg"
-        },
-        {
-          "k": "fotoBride",
-          "f": "/assets.bernaung.id/images/galleries/Mempelai Wanita.jpeg"
-        },
-        {
-          "k": "fotoCouple",
-          "f": "/assets.bernaung.id/images/galleries/Foto Berdua.jpeg"
-        },
-        {
-          "k": "fotoGallery1",
-          "f": "/assets.bernaung.id/images/galleries/Foto 1.jpeg"
-        },
-        {
-          "k": "fotoGallery2",
-          "f": "/assets.bernaung.id/images/galleries/Foto 2.jpeg"
-        },
-        {
-          "k": "fotoGallery3",
-          "f": "/assets.bernaung.id/images/galleries/Foto 3.jpeg"
-        },
-        {
-          "k": "fotoGallery4",
-          "f": "/assets.bernaung.id/images/galleries/Foto 4.jpeg"
-        },
-        {
-          "k": "fotoGallery5",
-          "f": "/assets.bernaung.id/images/galleries/Foto 5.jpeg"
-        },
-        {
-          "k": "fotoGallery6",
-          "f": "/assets.bernaung.id/images/galleries/Foto 6.jpeg"
-        },
-        {
-          "k": "fotoGallery7",
-          "f": "/assets.bernaung.id/images/galleries/Foto 7.jpeg"
-        },
-        {
-          "k": "fotoGallery8",
-          "f": "/assets.bernaung.id/images/galleries/Foto 8.jpeg"
-        },
-        {
-          "k": "fotoGallery9",
-          "f": "/assets.bernaung.id/images/galleries/Foto 9.jpeg"
-        }
-      ]
+    {
+     "k": "heroNames",
+     "f": "Bagas & Dewi"
     },
-    "tema-jawanopict": {
-      "label": "Tema Jawa Tanpa Foto",
-      "map": [
-        {
-          "k": "title",
-          "f": "Wedding - Bagas & Dewi"
-        },
-        {
-          "k": "groomFull",
-          "f": "Nur Bagas"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Nahdia Lu'lu Annawawie"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra Ketiga dari"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri Pertama dari Bapak Budi dan Ibu Sari"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Sabtu 11 Juli 2026",
-          "p": "Ngunduh Mantu "
-        },
-        {
-          "k": "resTime",
-          "f": "10:00 WIB"
-        },
-        {
-          "k": "resPlace",
-          "f": "Kediaman Mempelai Pria"
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "gift2Number",
-          "f": "0987654321"
-        },
-        {
-          "k": "gift3Number",
-          "f": "4567890123"
-        },
-        {
-          "k": "kadoName",
-          "f": "Bagas"
-        },
-        {
-          "k": "kadoPhone",
-          "f": "+6289876543210"
-        },
-        {
-          "k": "kadoAddress",
-          "f": "Dusun Ngadiprono, Desa Ngadimulyo Kec. Kedu, Kab. Temanggung"
-        },
-        {
-          "k": "heroNames",
-          "f": "Bagas & Dewi",
-          "p": ""
-        }
-      ]
+    {
+     "k": "heroDateLong",
+     "f": "Sabtu, 11 September 2027"
     },
-    "tema-deluxe": {
-      "label": "Tema Deluxe",
-      "map": [
-        {
-          "k": "title",
-          "f": "Wedding - Dewi & Bagas"
-        },
-        {
-          "k": "heroNames",
-          "f": "Dewi & Bagas"
-        },
-        {
-          "k": "heroDateShort",
-          "f": "28 . 06 . 2026"
-        },
-        {
-          "k": "heroDateShort2",
-          "f": "28 . 06 . 26"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra dari Bapak Andi dan Ibu Rina"
-        },
-        {
-          "k": "groomIg",
-          "f": "ig_mempelai_pria"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Lestari"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri dari Bapak Budi dan Almh. Ibu Sari"
-        },
-        {
-          "k": "brideIg",
-          "f": "ig_mempelai_wanita"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Jum'at, 26 Juni 2026",
-          "p": "Akad Nikah "
-        },
-        {
-          "k": "akadTime",
-          "f": "19:00 WIB"
-        },
-        {
-          "k": "akadPlace",
-          "f": "Masjid Contoh"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Minggu, 28 Juni 2026",
-          "p": "Resepsi "
-        },
-        {
-          "k": "resTime",
-          "f": "11:00 WIB"
-        },
-        {
-          "k": "resPlace",
-          "f": "Gedung Serbaguna Contoh"
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "gift2Number",
-          "f": "0987654321"
-        },
-        {
-          "k": "fotoCover",
-          "f": "/tema-deluxe/images/Cover.jpg"
-        },
-        {
-          "k": "fotoGroom",
-          "f": "/tema-deluxe/images/Pria.jpg"
-        },
-        {
-          "k": "fotoBride",
-          "f": "/tema-deluxe/images/Wanita.jpg"
-        },
-        {
-          "k": "fotoGallery1",
-          "f": "/tema-deluxe/images/Foto1.jpg"
-        },
-        {
-          "k": "fotoGallery2",
-          "f": "/tema-deluxe/images/Foto2.jpg"
-        },
-        {
-          "k": "fotoGallery3",
-          "f": "/tema-deluxe/images/Foto3.jpg"
-        },
-        {
-          "k": "fotoGallery4",
-          "f": "/tema-deluxe/images/Foto4.jpg"
-        },
-        {
-          "k": "fotoGallery5",
-          "f": "/tema-deluxe/images/Foto5.jpg"
-        },
-        {
-          "k": "fotoGallery6",
-          "f": "/tema-deluxe/images/Foto6.jpg"
-        },
-        {
-          "k": "fotoGallery7",
-          "f": "/tema-deluxe/images/Foto7.jpg"
-        },
-        {
-          "k": "fotoGallery8",
-          "f": "/tema-deluxe/images/Foto8.jpg"
-        },
-        {
-          "k": "fotoGallery9",
-          "f": "/tema-deluxe/images/Foto9.jpg"
-        },
-        {
-          "k": "fotoGallery10",
-          "f": "/tema-deluxe/images/Foto10.jpg"
-        }
-      ]
+    {
+     "k": "countdownDate",
+     "f": "27 Desember 2025"
     },
-    "tema-netflix": {
-      "label": "Tema Netflix",
-      "map": [
-        {
-          "k": "title",
-          "f": "Wedding - Bagas & Dewi"
-        },
-        {
-          "k": "heroNames",
-          "f": "Bagas & Dewi"
-        },
-        {
-          "k": "groomFull",
-          "f": "Nur Bagas"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra Ketiga dari Bapak Andi dan Ibu Rina"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Nahdia Lu'lu Annawawie"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri Pertama dari Bapak Budi dan Ibu Sari"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "28 May 2026",
-          "p": "Akad Nikah "
-        },
-        {
-          "k": "akadTime",
-          "f": "08.00 s.d 10.00"
-        },
-        {
-          "k": "resDayDate",
-          "f": "28 May 2026",
-          "p": "Resepsi "
-        },
-        {
-          "k": "resTime",
-          "f": "12.00 s.d 16.00"
-        },
-        {
-          "k": "akadPlace",
-          "f": "Kediaman Mempelai Wanita"
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Number",
-          "f": "0987654321"
-        },
-        {
-          "k": "gift1Name",
-          "f": "Dewi Nahdia Lulu A"
-        },
-        {
-          "k": "gift2Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "fotoCover",
-          "f": "/assets.bernaung.id/images/invitation/Cover.jpeg"
-        }
-      ]
+    {
+     "k": "groomFull",
+     "f": "Bagas Pratama"
     },
-    "tema-modern": {
-      "label": "Tema Modern",
-      "configOverride": true,
-      "map": [
-        {
-          "k": "title",
-          "f": "The Wedding of Dewi & Bagas"
-        },
-        {
-          "k": "heroNames",
-          "f": "Dewi & Bagas"
-        },
-        {
-          "k": "heroDateShort",
-          "f": "05.12.2026"
-        },
-        {
-          "k": "groomNick",
-          "f": "Bagas"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra dari (Alm.) Bp. Andi & Ibu. Rina"
-        },
-        {
-          "k": "groomIg",
-          "f": "instagram_pria"
-        },
-        {
-          "k": "brideNick",
-          "f": "Dewi"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Lestari"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri dari Bp. Budi & Ibu. Sari"
-        },
-        {
-          "k": "brideIg",
-          "f": "instagram_wanita"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Sabtu, 11 September 2027",
-          "p": "Akad "
-        },
-        {
-          "k": "akadTime",
-          "f": "08.00 WIB",
-          "p": "Pukul "
-        },
-        {
-          "k": "resDayDate",
-          "f": "Minggu, 12 September 2027",
-          "p": "Resepsi "
-        },
-        {
-          "k": "resTime",
-          "f": "13.00 WIB",
-          "p": "Pukul "
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234 5678 90"
-        }
-      ]
+    {
+     "k": "groomNick",
+     "f": "Bagas"
     },
-    "tema-simple": {
-      "label": "Tema Minimalis Sketsa",
-      "map": [
-        {
-          "f": "Undangan Pernikahan - Dewi & Bagas",
-          "k": "title"
-        },
-        {
-          "f": "Dewi & Bagas",
-          "k": "heroNames"
-        },
-        {
-          "f": "Dewi Lestari",
-          "k": "brideFull"
-        },
-        {
-          "f": "Putri dari Bapak Sulistyo & Ibu Kartini",
-          "k": "brideParents"
-        },
-        {
-          "f": "Bagas Pratama",
-          "k": "groomFull"
-        },
-        {
-          "f": "Putra dari Bapak Hendra & Ibu Wulandari",
-          "k": "groomParents"
-        },
-        {
-          "f": "Minggu, 21 Desember 2026",
-          "k": "akadDayDate"
-        },
-        {
-          "f": "Pukul 08.00 - 10.00 WIB",
-          "k": "akadTime"
-        },
-        {
-          "f": "Masjid Al-Ikhlas",
-          "k": "akadPlace"
-        },
-        {
-          "f": "Pukul 11.00 - 14.00 WIB",
-          "k": "resTime"
-        },
-        {
-          "f": "Gedung Serbaguna Contoh",
-          "k": "resPlace"
-        },
-        {
-          "f": "Sleman, Yogyakarta",
-          "k": "address"
-        }
-      ]
+    {
+     "k": "groomParents",
+     "f": "Putra dari Bapak Andi dan Ibu Rina"
     },
-    "tema-simple2": {
-      "label": "Tema Minimalis Biru",
-      "map": [
-        {
-          "k": "title",
-          "f": "Undangan Pernikahan - Bagas & Dewi"
-        },
-        {
-          "k": "heroNames",
-          "f": "Bagas & Dewi"
-        },
-        {
-          "k": "heroDateShort",
-          "f": "20 . 09 . 2026"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra dari Bpk. Andi & Ibu Rina"
-        },
-        {
-          "k": "groomIg",
-          "f": "instagram_pria"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Lestari"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri dari Bapak Budi & Ibu Sari"
-        },
-        {
-          "k": "brideIg",
-          "f": "instagram_wanita"
-        },
-        {
-          "k": "resDayDate",
-          "f": "12 September 2027"
-        },
-        {
-          "k": "resTime",
-          "f": "20.00 WITA",
-          "p": "Pukul "
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "gift2Number",
-          "f": "0987654321"
-        }
-      ]
+    {
+     "k": "groomIg",
+     "f": "instagram_pria"
     },
-    "tema-special03": {
-      "label": "Tema Premium Ilustrasi",
-      "map": [
-        {
-          "k": "title",
-          "f": "Tema Premium Ilustrasi"
-        },
-        {
-          "k": "heroNames",
-          "f": "Putri & Putra"
-        },
-        {
-          "k": "groomFull",
-          "f": "Putra Andika Pratama"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra Pertama dari Bapak Deni Bastian dan Ibu Aisha Dania"
-        },
-        {
-          "k": "groomIg",
-          "f": "user_ig_pria"
-        },
-        {
-          "k": "brideFull",
-          "f": "Putri Cantika Sari"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri Pertama dari Bapak Abdul Rozak dan Ibu Adelia Marni"
-        },
-        {
-          "k": "brideIg",
-          "f": "user_ig_wanita"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Minggu 28 2027 Desember",
-          "p": "Akad Nikah "
-        },
-        {
-          "k": "akadTime",
-          "f": "08:00 WIB"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Minggu 28 2027 Desember",
-          "p": "Resepsi "
-        },
-        {
-          "k": "resTime",
-          "f": "09:00 - 13:00 WIB"
-        },
-        {
-          "k": "akadPlace",
-          "f": "Menara 165"
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Number",
-          "f": "0987654321"
-        },
-        {
-          "k": "gift2Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "kadoName",
-          "f": "Putri / Putra"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Minggu, 28 Desember 2027",
-          "p": "Akad Nikah "
-        },
-        {
-          "k": "resDayDate",
-          "f": "Minggu, 28 Desember 2027",
-          "p": "Resepsi "
-        }
-      ]
+    {
+     "k": "brideFull",
+     "f": "Dewi Amelia"
     },
-    "tema-spotify": {
-      "label": "Tema Spotify",
-      "map": [
-        {
-          "k": "title",
-          "f": "Wedding - Bagas & Dewi"
-        },
-        {
-          "k": "heroNames",
-          "f": "Bagas & Dewi"
-        },
-        {
-          "k": "groomNick",
-          "f": "Bagas"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomFather",
-          "f": "Bapak Andi"
-        },
-        {
-          "k": "groomMother",
-          "f": "Ibu Rina"
-        },
-        {
-          "k": "brideNick",
-          "f": "Dewi"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Lestari"
-        },
-        {
-          "k": "brideFather",
-          "f": "Bapak Budi"
-        },
-        {
-          "k": "brideMother",
-          "f": "Ibu Sari"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Monday, 21 December 2026",
-          "p": "Akad Nikah "
-        },
-        {
-          "k": "akadTime",
-          "f": "08.00 - 12.00 WIB"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Monday, 21 December 2023",
-          "p": "Resepsi "
-        },
-        {
-          "k": "address",
-          "f": "Sleman, Yogyakarta"
-        },
-        {
-          "k": "fotoCover",
-          "f": "/assets.bernaung.id/images/invitation/Cover.jpeg"
-        },
-        {
-          "k": "fotoGallery1",
-          "f": "/assets.bernaung.id/images/galleries/confirm.jpeg"
-        }
-      ]
+    {
+     "k": "brideNick",
+     "f": "Dewi"
     },
-    "tema-punakawan-luxury01": {
-      "label": "Tema Luxury 01",
-      "map": [
-        {
-          "k": "title",
-          "f": "Undangan Website Minimalist Luxury 01"
-        },
-        {
-          "k": "heroNames",
-          "f": "Habib & Adiba"
-        },
-        {
-          "k": "heroDateShort",
-          "f": "28. 12. 2026"
-        },
-        {
-          "k": "groomFull",
-          "f": "Habib Yulianto"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra Kedua dari Bapak M. Dawam (Almh) Ibu Dewi Sudarwati"
-        },
-        {
-          "k": "brideFull",
-          "f": "Adiba Putri Syakila"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri Pertama dari Bapak Anas Rifai Ibu Kholifah"
-        },
-        {
-          "k": "kadoPhone",
-          "f": "No. HP : 1234567890",
-          "p": "No. HP : "
-        },
-        {
-          "k": "fotoGroom",
-          "f": "/_cdn/inv.punakawandigital.id/wp-content/uploads/2026/06/sm-PRIA-e1725510474400.jpg"
-        },
-        {
-          "k": "fotoBride",
-          "f": "/_cdn/inv.punakawandigital.id/wp-content/uploads/2026/06/sm-WANITA-e1725510489585.jpg"
-        }
-      ]
+    {
+     "k": "brideParents",
+     "f": "Putri dari Bapak Budi dan Ibu Sari"
     },
-    "tema-vintage": {
-      "label": "Tema Vintage",
-      "map": [
-        {
-          "k": "title",
-          "f": "The Wedding of Bagas & Dewi — 09 Juni 2026"
-        },
-        {
-          "k": "heroNames",
-          "f": "Bagas & Dewi"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomFather",
-          "f": "Bapak Andi"
-        },
-        {
-          "k": "groomMother",
-          "f": "Ibu Rina"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Amelia"
-        },
-        {
-          "k": "brideFather",
-          "f": "Bapak Budi"
-        },
-        {
-          "k": "brideMother",
-          "f": "Ibu Sari"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Selasa, 09 Juni 2026"
-        },
-        {
-          "k": "akadTime",
-          "f": "Pukul : 08.00 WIB"
-        },
-        {
-          "k": "akadPlace",
-          "f": "Gedung Serbaguna Contoh"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Selasa, 09 Juni 2026"
-        },
-        {
-          "k": "resTime",
-          "f": "Pukul : 13.00 WIB – Selesai"
-        },
-        {
-          "k": "resPlace",
-          "f": "Jl. Contoh Alamat No. 123"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "groomIg",
-          "f": "instagram_wanita"
-        },
-        {
-          "k": "brideIg",
-          "f": "instagram_wanita"
-        },
-        {
-          "k": "fotoCover",
-          "f": "assets/foto/cover.jpg"
-        },
-        {
-          "k": "fotoGroom",
-          "f": "assets/foto/pria.jpg"
-        },
-        {
-          "k": "fotoBride",
-          "f": "assets/foto/wanita.jpg"
-        }
-      ]
+    {
+     "k": "brideIg",
+     "f": "instagram_wanita"
     },
-    "tema-motion01": {
-      "map": [
-        {
-          "k": "title",
-          "f": "Wedding - Bagas & Dewi"
-        },
-        {
-          "k": "heroNames",
-          "f": "Bagas & Dewi"
-        },
-        {
-          "k": "heroDateLong",
-          "f": "Sabtu, 11 September 2027"
-        },
-        {
-          "k": "countdownDate",
-          "f": "27 Desember 2025"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomNick",
-          "f": "Bagas"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra dari Bapak Andi dan Ibu Rina"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Amelia"
-        },
-        {
-          "k": "brideNick",
-          "f": "Dewi"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri dari Bapak Budi dan Ibu Sari"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Sabtu, 11 September 2027",
-          "p": "Akad Nikah "
-        },
-        {
-          "k": "akadTime",
-          "f": "08:00 WIB"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Sabtu, 11 September 2027",
-          "p": "Resepsi "
-        },
-        {
-          "k": "resTime",
-          "f": "10:00 WIB"
-        },
-        {
-          "k": "akadPlace",
-          "f": "Kediaman Mempelai Wanita"
-        },
-        {
-          "k": "resPlace",
-          "f": "Gedung Serbaguna Contoh"
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Bank",
-          "f": "BCA"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "gift2Number",
-          "f": "0987654321"
-        },
-        {
-          "k": "kadoName",
-          "f": "Bagas / Dewi"
-        },
-        {
-          "k": "groomIg",
-          "f": "instagram_pria"
-        },
-        {
-          "k": "brideIg",
-          "f": "instagram_wanita"
-        },
-        {
-          "k": "fotoCover",
-          "f": "/tema-deluxe/images/Cover.jpg"
-        },
-        {
-          "k": "fotoGroom",
-          "f": "/assets.bernaung.id/mempelai/pria.webp"
-        },
-        {
-          "k": "fotoBride",
-          "f": "/assets.bernaung.id/mempelai/wanita.webp"
-        },
-        {
-          "k": "fotoGallery1",
-          "f": "/tema-deluxe/images/Foto1.jpg"
-        },
-        {
-          "k": "fotoGallery2",
-          "f": "/tema-deluxe/images/Foto2.jpg"
-        },
-        {
-          "k": "fotoGallery3",
-          "f": "/tema-deluxe/images/Foto3.jpg"
-        },
-        {
-          "k": "fotoGallery4",
-          "f": "/tema-deluxe/images/Foto4.jpg"
-        },
-        {
-          "k": "fotoGallery5",
-          "f": "/tema-deluxe/images/Foto5.jpg"
-        },
-        {
-          "k": "fotoGallery6",
-          "f": "/tema-deluxe/images/Foto6.jpg"
-        },
-        {
-          "k": "fotoGallery7",
-          "f": "/tema-deluxe/images/Foto7.jpg"
-        },
-        {
-          "k": "fotoGallery8",
-          "f": "/tema-deluxe/images/Foto8.jpg"
-        },
-        {
-          "k": "kadoPhone",
-          "f": "+6289876543210"
-        }
-      ]
+    {
+     "k": "akadDayDate",
+     "f": "Selasa 09 Juni 2026",
+     "p": "Akad Nikah "
     },
-    "tema-art01": {
-      "label": "Tema Art Eksklusif",
-      "map": [
-        {
-          "k": "title",
-          "f": "Wedding - Bagas & Dewi"
-        },
-        {
-          "k": "heroNames",
-          "f": "Bagas & Dewi"
-        },
-        {
-          "k": "heroDateLong",
-          "f": "Sabtu, 11 September 2027"
-        },
-        {
-          "k": "countdownDate",
-          "f": "27 Desember 2025"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "gift1Name",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomNick",
-          "f": "Bagas"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra dari Bapak Andi dan Ibu Rina"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Amelia"
-        },
-        {
-          "k": "gift2Name",
-          "f": "Dewi Amelia"
-        },
-        {
-          "k": "brideNick",
-          "f": "Dewi"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri dari Bapak Budi dan Ibu Sari"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Sabtu, 12 September 2027"
-        },
-        {
-          "k": "akadTime",
-          "f": "08:00 WIB"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Sabtu, 12 September 2027"
-        },
-        {
-          "k": "resTime",
-          "f": "10:00 WIB"
-        },
-        {
-          "k": "akadPlace",
-          "f": "Kediaman Mempelai Wanita"
-        },
-        {
-          "k": "resPlace",
-          "f": "Gedung Serbaguna Contoh"
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Bank",
-          "f": "BCA"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "gift2Number",
-          "f": "0987654321"
-        },
-        {
-          "k": "kadoName",
-          "f": "Bagas / Dewi"
-        },
-        {
-          "k": "kadoPhone",
-          "f": "+6289876543210"
-        },
-        {
-          "k": "kadoAddress",
-          "f": "Jl. Contoh Kado No. 45, Sleman, Yogyakarta"
-        },
-        {
-          "k": "groomIg",
-          "f": "instagram_pria"
-        },
-        {
-          "k": "brideIg",
-          "f": "instagram_wanita"
-        },
-        {
-          "k": "fotoCover",
-          "f": "/tema-deluxe/images/Cover.jpg"
-        },
-        {
-          "k": "fotoGroom",
-          "f": "/assets.bernaung.id/mempelai/pria.webp"
-        },
-        {
-          "k": "fotoBride",
-          "f": "/assets.bernaung.id/mempelai/wanita.webp"
-        },
-        {
-          "k": "fotoCouple",
-          "f": "/tema-deluxe/images/Cover.jpg"
-        },
-        {
-          "k": "fotoGallery1",
-          "f": "/tema-deluxe/images/Foto1.jpg"
-        },
-        {
-          "k": "fotoGallery2",
-          "f": "/tema-deluxe/images/Foto2.jpg"
-        },
-        {
-          "k": "fotoGallery3",
-          "f": "/tema-deluxe/images/Foto3.jpg"
-        },
-        {
-          "k": "fotoGallery4",
-          "f": "/tema-deluxe/images/Foto4.jpg"
-        },
-        {
-          "k": "fotoGallery5",
-          "f": "/tema-deluxe/images/Foto5.jpg"
-        },
-        {
-          "k": "fotoGallery6",
-          "f": "/tema-deluxe/images/Foto6.jpg"
-        },
-        {
-          "k": "fotoGallery7",
-          "f": "/tema-deluxe/images/Foto7.jpg"
-        },
-        {
-          "k": "fotoGallery8",
-          "f": "/tema-deluxe/images/Foto8.jpg"
-        }
-      ]
+    {
+     "k": "akadTime",
+     "f": "08:00 WIB"
     },
-    "tema-motion02": {
-      "label": "Tema Motion Terracotta",
-      "map": [
-        {
-          "k": "title",
-          "f": "Wedding - Bagas & Dewi"
-        },
-        {
-          "k": "heroNames",
-          "f": "Bagas & Dewi"
-        },
-        {
-          "k": "heroDateLong",
-          "f": "Sabtu, 11 September 2027"
-        },
-        {
-          "k": "countdownDate",
-          "f": "27 Desember 2025"
-        },
-        {
-          "k": "groomFull",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "gift1Name",
-          "f": "Bagas Pratama"
-        },
-        {
-          "k": "groomNick",
-          "f": "Bagas"
-        },
-        {
-          "k": "groomParents",
-          "f": "Putra dari Bapak Andi dan Ibu Rina"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Amelia"
-        },
-        {
-          "k": "gift2Name",
-          "f": "Dewi Amelia"
-        },
-        {
-          "k": "brideNick",
-          "f": "Dewi"
-        },
-        {
-          "k": "brideParents",
-          "f": "Putri dari Bapak Budi dan Ibu Sari"
-        },
-        {
-          "k": "akadDayDate",
-          "f": "Sabtu, 12 September 2027"
-        },
-        {
-          "k": "akadTime",
-          "f": "08:00 WIB"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Sabtu, 12 September 2027"
-        },
-        {
-          "k": "resTime",
-          "f": "10:00 WIB"
-        },
-        {
-          "k": "akadPlace",
-          "f": "Kediaman Mempelai Wanita"
-        },
-        {
-          "k": "resPlace",
-          "f": "Gedung Serbaguna Contoh"
-        },
-        {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
-        },
-        {
-          "k": "gift1Bank",
-          "f": "BCA"
-        },
-        {
-          "k": "gift1Number",
-          "f": "1234567890"
-        },
-        {
-          "k": "gift2Number",
-          "f": "0987654321"
-        },
-        {
-          "k": "kadoName",
-          "f": "Bagas / Dewi"
-        },
-        {
-          "k": "kadoPhone",
-          "f": "+6289876543210"
-        },
-        {
-          "k": "kadoAddress",
-          "f": "Jl. Contoh Kado No. 45, Sleman, Yogyakarta"
-        },
-        {
-          "k": "groomIg",
-          "f": "instagram_pria"
-        },
-        {
-          "k": "brideIg",
-          "f": "instagram_wanita"
-        },
-        {
-          "k": "fotoCover",
-          "f": "/tema-deluxe/images/Cover.jpg"
-        },
-        {
-          "k": "fotoGroom",
-          "f": "/assets.bernaung.id/mempelai/pria.webp"
-        },
-        {
-          "k": "fotoBride",
-          "f": "/assets.bernaung.id/mempelai/wanita.webp"
-        },
-        {
-          "k": "fotoGallery1",
-          "f": "/tema-deluxe/images/Foto1.jpg"
-        },
-        {
-          "k": "fotoGallery2",
-          "f": "/tema-deluxe/images/Foto2.jpg"
-        },
-        {
-          "k": "fotoGallery3",
-          "f": "/tema-deluxe/images/Foto3.jpg"
-        },
-        {
-          "k": "fotoGallery4",
-          "f": "/tema-deluxe/images/Foto4.jpg"
-        },
-        {
-          "k": "fotoGallery5",
-          "f": "/tema-deluxe/images/Foto5.jpg"
-        },
-        {
-          "k": "fotoGallery6",
-          "f": "/tema-deluxe/images/Foto6.jpg"
-        },
-        {
-          "k": "fotoGallery7",
-          "f": "/tema-deluxe/images/Foto7.jpg"
-        },
-        {
-          "k": "fotoGallery8",
-          "f": "/tema-deluxe/images/Foto8.jpg"
-        }
-      ]
+    {
+     "k": "resDayDate",
+     "f": "Selasa 09 Juni 2026",
+     "p": "Resepsi "
+    },
+    {
+     "k": "resTime",
+     "f": "10:00 WIB"
+    },
+    {
+     "k": "akadPlace",
+     "f": "Rumah Mempelai Wanita"
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "gift2Number",
+     "f": "0987654321"
+    },
+    {
+     "k": "kadoName",
+     "f": "Bagas / Dewi"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "/tema-jawa/images/Foto 1.jpeg"
+    },
+    {
+     "k": "fotoBride",
+     "f": "/tema-jawa/images/Foto 2.jpeg"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "/tema-jawa/images/Foto 1.jpeg"
+    },
+    {
+     "k": "fotoGallery2",
+     "f": "/tema-jawa/images/Foto 2.jpeg"
+    },
+    {
+     "k": "fotoGallery3",
+     "f": "/tema-jawa/images/Foto 3.jpeg"
+    },
+    {
+     "k": "fotoGallery4",
+     "f": "/tema-jawa/images/Foto 4.jpeg"
+    },
+    {
+     "k": "fotoGallery5",
+     "f": "/tema-jawa/images/Foto 5.jpeg"
+    },
+    {
+     "k": "fotoGallery6",
+     "f": "/tema-jawa/images/Foto 6.jpeg"
+    },
+    {
+     "k": "fotoGallery7",
+     "f": "/tema-jawa/images/Foto 7.jpeg"
+    },
+    {
+     "k": "fotoGallery8",
+     "f": "/tema-jawa/images/Foto 8.jpeg"
+    },
+    {
+     "k": "fotoGallery9",
+     "f": "/tema-jawa/images/Foto 9.jpeg"
+    },
+    {
+     "k": "fotoGallery10",
+     "f": "/tema-jawa/images/Foto 10.jpeg"
+    },
+    {
+     "k": "fotoGallery11",
+     "f": "/tema-jawa/images/Foto 11.jpeg"
+    },
+    {
+     "k": "fotoGallery12",
+     "f": "/tema-jawa/images/Foto 12.jpeg"
+    },
+    {
+     "k": "fotoGallery13",
+     "f": "/tema-jawa/images/Foto 13.jpeg"
     }
+   ]
+  },
+  "tema-jawa2": {
+   "label": "Tema Premium Motion 09",
+   "map": [
+    {
+     "k": "title",
+     "f": "Undangan Website Premium Motion 09"
+    },
+    {
+     "k": "heroNames",
+     "f": "Habib & Adiba"
+    },
+    {
+     "k": "groomNick",
+     "f": "Habib"
+    },
+    {
+     "k": "brideNick",
+     "f": "Adiba"
+    },
+    {
+     "k": "heroDateShort",
+     "f": "28. 12. 2026"
+    },
+    {
+     "k": "groomFull",
+     "f": "Habib Yulianto"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra Kedua dari Bapak M. Dawam (Almh) Ibu Dewi Sudarwati"
+    },
+    {
+     "k": "brideFull",
+     "f": "Adiba Putri Syakila"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri Pertama dari Bapak Anas Rifai Ibu Kholifah"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Senin, 28 Desember 2026"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Senin, 28 Desember 2026"
+    },
+    {
+     "k": "akadTime",
+     "f": "08.00 WIB"
+    },
+    {
+     "k": "resTime",
+     "f": "10.00 WIB – Selesai"
+    },
+    {
+     "k": "akadPlace",
+     "f": "KEDIAMAN MEMPELAI WANITA"
+    },
+    {
+     "k": "address",
+     "f": "Ds Pagu, Wates, Kediri, Jawa Timur"
+    },
+    {
+     "k": "gift1Number",
+     "f": "12345678"
+    },
+    {
+     "k": "kadoPhone",
+     "f": "1234567890"
+    },
+    {
+     "k": "kadoAddress",
+     "f": "Ds Pagu Kec.Wates Kab. Kediri"
+    },
+    {
+     "k": "fotoCover",
+     "f": "wp-content/uploads/2026/07/25TB014-8-e1756092846358.jpg"
+    },
+    {
+     "k": "fotoCouple",
+     "f": "wp-content/uploads/2026/07/25TB014-5-1-e1756093102728.jpg"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "wp-content/uploads/2026/07/25TB014-1-e1756092898274.jpg"
+    },
+    {
+     "k": "fotoBride",
+     "f": "wp-content/uploads/2026/07/25TB014-e1756093073260.jpg"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "wp-content/uploads/2026/07/25TB014-1.jpg"
+    },
+    {
+     "k": "fotoGallery2",
+     "f": "wp-content/uploads/2026/07/25TB014-2.jpg"
+    },
+    {
+     "k": "fotoGallery3",
+     "f": "wp-content/uploads/2026/07/25TB014-3.jpg"
+    },
+    {
+     "k": "fotoGallery4",
+     "f": "wp-content/uploads/2026/07/25TB014-4.jpg"
+    },
+    {
+     "k": "fotoGallery5",
+     "f": "wp-content/uploads/2026/07/25TB014-6.jpg"
+    },
+    {
+     "k": "fotoGallery6",
+     "f": "wp-content/uploads/2026/07/25TB014-7.jpg"
+    },
+    {
+     "k": "fotoGallery7",
+     "f": "wp-content/uploads/2026/07/25TB014-8.jpg"
+    },
+    {
+     "k": "fotoGallery8",
+     "f": "wp-content/uploads/2026/07/25TB014-9.jpg"
+    }
+   ]
+  },
+  "tema-jawanopict": {
+   "label": "Tema Jawa Tanpa Foto",
+   "map": [
+    {
+     "k": "title",
+     "f": "Wedding - Bagas & Dewi"
+    },
+    {
+     "k": "groomFull",
+     "f": "Nur Bagas"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Nahdia Lu'lu Annawawie"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra Ketiga dari"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri Pertama dari Bapak Budi dan Ibu Sari"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Sabtu 11 Juli 2026",
+     "p": "Ngunduh Mantu "
+    },
+    {
+     "k": "resTime",
+     "f": "10:00 WIB"
+    },
+    {
+     "k": "resPlace",
+     "f": "Kediaman Mempelai Pria"
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "gift2Number",
+     "f": "0987654321"
+    },
+    {
+     "k": "gift3Number",
+     "f": "4567890123"
+    },
+    {
+     "k": "kadoName",
+     "f": "Bagas"
+    },
+    {
+     "k": "kadoPhone",
+     "f": "+6289876543210"
+    },
+    {
+     "k": "kadoAddress",
+     "f": "Dusun Ngadiprono, Desa Ngadimulyo Kec. Kedu, Kab. Temanggung"
+    },
+    {
+     "k": "heroNames",
+     "f": "Bagas & Dewi",
+     "p": ""
+    }
+   ]
+  },
+  "tema-deluxe": {
+   "label": "Tema Deluxe",
+   "map": [
+    {
+     "k": "title",
+     "f": "Wedding - Dewi & Bagas"
+    },
+    {
+     "k": "heroNames",
+     "f": "Dewi & Bagas"
+    },
+    {
+     "k": "heroDateShort",
+     "f": "28 . 06 . 2026"
+    },
+    {
+     "k": "heroDateShort2",
+     "f": "28 . 06 . 26"
+    },
+    {
+     "k": "groomFull",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra dari Bapak Andi dan Ibu Rina"
+    },
+    {
+     "k": "groomIg",
+     "f": "ig_mempelai_pria"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Lestari"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri dari Bapak Budi dan Almh. Ibu Sari"
+    },
+    {
+     "k": "brideIg",
+     "f": "ig_mempelai_wanita"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Jum'at, 26 Juni 2026",
+     "p": "Akad Nikah "
+    },
+    {
+     "k": "akadTime",
+     "f": "19:00 WIB"
+    },
+    {
+     "k": "akadPlace",
+     "f": "Masjid Contoh"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Minggu, 28 Juni 2026",
+     "p": "Resepsi "
+    },
+    {
+     "k": "resTime",
+     "f": "11:00 WIB"
+    },
+    {
+     "k": "resPlace",
+     "f": "Gedung Serbaguna Contoh"
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "gift2Number",
+     "f": "0987654321"
+    },
+    {
+     "k": "fotoCover",
+     "f": "/tema-deluxe/images/Cover.jpg"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "/tema-deluxe/images/Pria.jpg"
+    },
+    {
+     "k": "fotoBride",
+     "f": "/tema-deluxe/images/Wanita.jpg"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "/tema-deluxe/images/Foto1.jpg"
+    },
+    {
+     "k": "fotoGallery2",
+     "f": "/tema-deluxe/images/Foto2.jpg"
+    },
+    {
+     "k": "fotoGallery3",
+     "f": "/tema-deluxe/images/Foto3.jpg"
+    },
+    {
+     "k": "fotoGallery4",
+     "f": "/tema-deluxe/images/Foto4.jpg"
+    },
+    {
+     "k": "fotoGallery5",
+     "f": "/tema-deluxe/images/Foto5.jpg"
+    },
+    {
+     "k": "fotoGallery6",
+     "f": "/tema-deluxe/images/Foto6.jpg"
+    },
+    {
+     "k": "fotoGallery7",
+     "f": "/tema-deluxe/images/Foto7.jpg"
+    },
+    {
+     "k": "fotoGallery8",
+     "f": "/tema-deluxe/images/Foto8.jpg"
+    },
+    {
+     "k": "fotoGallery9",
+     "f": "/tema-deluxe/images/Foto9.jpg"
+    },
+    {
+     "k": "fotoGallery10",
+     "f": "/tema-deluxe/images/Foto10.jpg"
+    }
+   ]
+  },
+  "tema-netflix": {
+   "label": "Tema Netflix",
+   "map": [
+    {
+     "k": "title",
+     "f": "Wedding - Bagas & Dewi"
+    },
+    {
+     "k": "heroNames",
+     "f": "Bagas & Dewi"
+    },
+    {
+     "k": "groomFull",
+     "f": "Nur Bagas"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra Ketiga dari Bapak Andi dan Ibu Rina"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Nahdia Lu'lu Annawawie"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri Pertama dari Bapak Budi dan Ibu Sari"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "28 May 2026",
+     "p": "Akad Nikah "
+    },
+    {
+     "k": "akadTime",
+     "f": "08.00 s.d 10.00"
+    },
+    {
+     "k": "resDayDate",
+     "f": "28 May 2026",
+     "p": "Resepsi "
+    },
+    {
+     "k": "resTime",
+     "f": "12.00 s.d 16.00"
+    },
+    {
+     "k": "akadPlace",
+     "f": "Kediaman Mempelai Wanita"
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Number",
+     "f": "0987654321"
+    },
+    {
+     "k": "gift1Name",
+     "f": "Dewi Nahdia Lulu A"
+    },
+    {
+     "k": "gift2Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "fotoCover",
+     "f": "/assets.bernaung.id/images/invitation/Cover.jpeg"
+    }
+   ]
+  },
+  "tema-modern": {
+   "label": "Tema Modern",
+   "configOverride": true,
+   "map": [
+    {
+     "k": "title",
+     "f": "The Wedding of Dewi & Bagas"
+    },
+    {
+     "k": "heroNames",
+     "f": "Dewi & Bagas"
+    },
+    {
+     "k": "heroDateShort",
+     "f": "05.12.2026"
+    },
+    {
+     "k": "groomNick",
+     "f": "Bagas"
+    },
+    {
+     "k": "groomFull",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra dari (Alm.) Bp. Andi & Ibu. Rina"
+    },
+    {
+     "k": "groomIg",
+     "f": "instagram_pria"
+    },
+    {
+     "k": "brideNick",
+     "f": "Dewi"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Lestari"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri dari Bp. Budi & Ibu. Sari"
+    },
+    {
+     "k": "brideIg",
+     "f": "instagram_wanita"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Sabtu, 11 September 2027",
+     "p": "Akad "
+    },
+    {
+     "k": "akadTime",
+     "f": "08.00 WIB",
+     "p": "Pukul "
+    },
+    {
+     "k": "resDayDate",
+     "f": "Minggu, 12 September 2027",
+     "p": "Resepsi "
+    },
+    {
+     "k": "resTime",
+     "f": "13.00 WIB",
+     "p": "Pukul "
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Number",
+     "f": "1234 5678 90"
+    }
+   ]
+  },
+  "tema-simple": {
+   "label": "Tema Minimalis Sketsa",
+   "map": [
+    {
+     "f": "Undangan Pernikahan - Dewi & Bagas",
+     "k": "title"
+    },
+    {
+     "f": "Dewi & Bagas",
+     "k": "heroNames"
+    },
+    {
+     "f": "Dewi Lestari",
+     "k": "brideFull"
+    },
+    {
+     "f": "Putri dari Bapak Sulistyo & Ibu Kartini",
+     "k": "brideParents"
+    },
+    {
+     "f": "Bagas Pratama",
+     "k": "groomFull"
+    },
+    {
+     "f": "Putra dari Bapak Hendra & Ibu Wulandari",
+     "k": "groomParents"
+    },
+    {
+     "f": "Minggu, 21 Desember 2026",
+     "k": "akadDayDate"
+    },
+    {
+     "f": "Pukul 08.00 - 10.00 WIB",
+     "k": "akadTime"
+    },
+    {
+     "f": "Masjid Al-Ikhlas",
+     "k": "akadPlace"
+    },
+    {
+     "f": "Pukul 11.00 - 14.00 WIB",
+     "k": "resTime"
+    },
+    {
+     "f": "Gedung Serbaguna Contoh",
+     "k": "resPlace"
+    },
+    {
+     "f": "Sleman, Yogyakarta",
+     "k": "address"
+    }
+   ]
+  },
+  "tema-simple2": {
+   "label": "Tema Minimalis Biru",
+   "map": [
+    {
+     "k": "title",
+     "f": "Undangan Pernikahan - Bagas & Dewi"
+    },
+    {
+     "k": "heroNames",
+     "f": "Bagas & Dewi"
+    },
+    {
+     "k": "heroDateShort",
+     "f": "20 . 09 . 2026"
+    },
+    {
+     "k": "groomFull",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra dari Bpk. Andi & Ibu Rina"
+    },
+    {
+     "k": "groomIg",
+     "f": "instagram_pria"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Lestari"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri dari Bapak Budi & Ibu Sari"
+    },
+    {
+     "k": "brideIg",
+     "f": "instagram_wanita"
+    },
+    {
+     "k": "resDayDate",
+     "f": "12 September 2027"
+    },
+    {
+     "k": "resTime",
+     "f": "20.00 WITA",
+     "p": "Pukul "
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "gift2Number",
+     "f": "0987654321"
+    }
+   ]
+  },
+  "tema-special03": {
+   "label": "Tema Premium Ilustrasi",
+   "map": [
+    {
+     "k": "title",
+     "f": "Tema Premium Ilustrasi"
+    },
+    {
+     "k": "heroNames",
+     "f": "Putri & Putra"
+    },
+    {
+     "k": "groomFull",
+     "f": "Putra Andika Pratama"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra Pertama dari Bapak Deni Bastian dan Ibu Aisha Dania"
+    },
+    {
+     "k": "groomIg",
+     "f": "user_ig_pria"
+    },
+    {
+     "k": "brideFull",
+     "f": "Putri Cantika Sari"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri Pertama dari Bapak Abdul Rozak dan Ibu Adelia Marni"
+    },
+    {
+     "k": "brideIg",
+     "f": "user_ig_wanita"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Minggu 28 2027 Desember",
+     "p": "Akad Nikah "
+    },
+    {
+     "k": "akadTime",
+     "f": "08:00 WIB"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Minggu 28 2027 Desember",
+     "p": "Resepsi "
+    },
+    {
+     "k": "resTime",
+     "f": "09:00 - 13:00 WIB"
+    },
+    {
+     "k": "akadPlace",
+     "f": "Menara 165"
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Number",
+     "f": "0987654321"
+    },
+    {
+     "k": "gift2Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "kadoName",
+     "f": "Putri / Putra"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Minggu, 28 Desember 2027",
+     "p": "Akad Nikah "
+    },
+    {
+     "k": "resDayDate",
+     "f": "Minggu, 28 Desember 2027",
+     "p": "Resepsi "
+    }
+   ]
+  },
+  "tema-spotify": {
+   "label": "Tema Spotify",
+   "map": [
+    {
+     "k": "title",
+     "f": "Wedding - Bagas & Dewi"
+    },
+    {
+     "k": "heroNames",
+     "f": "Bagas & Dewi"
+    },
+    {
+     "k": "groomNick",
+     "f": "Bagas"
+    },
+    {
+     "k": "groomFull",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "groomFather",
+     "f": "Bapak Andi"
+    },
+    {
+     "k": "groomMother",
+     "f": "Ibu Rina"
+    },
+    {
+     "k": "brideNick",
+     "f": "Dewi"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Lestari"
+    },
+    {
+     "k": "brideFather",
+     "f": "Bapak Budi"
+    },
+    {
+     "k": "brideMother",
+     "f": "Ibu Sari"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Monday, 21 December 2026",
+     "p": "Akad Nikah "
+    },
+    {
+     "k": "akadTime",
+     "f": "08.00 - 12.00 WIB"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Monday, 21 December 2023",
+     "p": "Resepsi "
+    },
+    {
+     "k": "address",
+     "f": "Sleman, Yogyakarta"
+    },
+    {
+     "k": "fotoCover",
+     "f": "/assets.bernaung.id/images/invitation/Cover.jpeg"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "/assets.bernaung.id/images/galleries/confirm.jpeg"
+    }
+   ]
+  },
+  "tema-punakawan-luxury01": {
+   "label": "Tema Luxury 01",
+   "map": [
+    {
+     "k": "title",
+     "f": "Undangan Website Minimalist Luxury 01"
+    },
+    {
+     "k": "heroNames",
+     "f": "Habib & Adiba"
+    },
+    {
+     "k": "heroDateShort",
+     "f": "28. 12. 2026"
+    },
+    {
+     "k": "groomFull",
+     "f": "Habib Yulianto"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra Kedua dari Bapak M. Dawam (Almh) Ibu Dewi Sudarwati"
+    },
+    {
+     "k": "brideFull",
+     "f": "Adiba Putri Syakila"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri Pertama dari Bapak Anas Rifai Ibu Kholifah"
+    },
+    {
+     "k": "kadoPhone",
+     "f": "No. HP : 1234567890",
+     "p": "No. HP : "
+    },
+    {
+     "k": "fotoGroom",
+     "f": "/_cdn/inv.punakawandigital.id/wp-content/uploads/2026/06/sm-PRIA-e1725510474400.jpg"
+    },
+    {
+     "k": "fotoBride",
+     "f": "/_cdn/inv.punakawandigital.id/wp-content/uploads/2026/06/sm-WANITA-e1725510489585.jpg"
+    }
+   ]
+  },
+  "tema-vintage": {
+   "label": "Tema Vintage",
+   "map": [
+    {
+     "k": "title",
+     "f": "The Wedding of Bagas & Dewi — 09 Juni 2026"
+    },
+    {
+     "k": "heroNames",
+     "f": "Bagas & Dewi"
+    },
+    {
+     "k": "groomFull",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "groomFather",
+     "f": "Bapak Andi"
+    },
+    {
+     "k": "groomMother",
+     "f": "Ibu Rina"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Amelia"
+    },
+    {
+     "k": "brideFather",
+     "f": "Bapak Budi"
+    },
+    {
+     "k": "brideMother",
+     "f": "Ibu Sari"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Selasa, 09 Juni 2026"
+    },
+    {
+     "k": "akadTime",
+     "f": "Pukul : 08.00 WIB"
+    },
+    {
+     "k": "akadPlace",
+     "f": "Gedung Serbaguna Contoh"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Selasa, 09 Juni 2026"
+    },
+    {
+     "k": "resTime",
+     "f": "Pukul : 13.00 WIB – Selesai"
+    },
+    {
+     "k": "resPlace",
+     "f": "Jl. Contoh Alamat No. 123"
+    },
+    {
+     "k": "gift1Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "groomIg",
+     "f": "instagram_wanita"
+    },
+    {
+     "k": "brideIg",
+     "f": "instagram_wanita"
+    },
+    {
+     "k": "fotoCover",
+     "f": "assets/foto/cover.jpg"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "assets/foto/pria.jpg"
+    },
+    {
+     "k": "fotoBride",
+     "f": "assets/foto/wanita.jpg"
+    }
+   ]
+  },
+  "tema-motion01": {
+   "map": [
+    {
+     "k": "title",
+     "f": "Wedding - Bagas & Dewi"
+    },
+    {
+     "k": "heroNames",
+     "f": "Bagas & Dewi"
+    },
+    {
+     "k": "heroDateLong",
+     "f": "Sabtu, 11 September 2027"
+    },
+    {
+     "k": "countdownDate",
+     "f": "27 Desember 2025"
+    },
+    {
+     "k": "groomFull",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "groomNick",
+     "f": "Bagas"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra dari Bapak Andi dan Ibu Rina"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Amelia"
+    },
+    {
+     "k": "brideNick",
+     "f": "Dewi"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri dari Bapak Budi dan Ibu Sari"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Sabtu, 11 September 2027",
+     "p": "Akad Nikah "
+    },
+    {
+     "k": "akadTime",
+     "f": "08:00 WIB"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Sabtu, 11 September 2027",
+     "p": "Resepsi "
+    },
+    {
+     "k": "resTime",
+     "f": "10:00 WIB"
+    },
+    {
+     "k": "akadPlace",
+     "f": "Kediaman Mempelai Wanita"
+    },
+    {
+     "k": "resPlace",
+     "f": "Gedung Serbaguna Contoh"
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Bank",
+     "f": "BCA"
+    },
+    {
+     "k": "gift1Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "gift2Number",
+     "f": "0987654321"
+    },
+    {
+     "k": "kadoName",
+     "f": "Bagas / Dewi"
+    },
+    {
+     "k": "groomIg",
+     "f": "instagram_pria"
+    },
+    {
+     "k": "brideIg",
+     "f": "instagram_wanita"
+    },
+    {
+     "k": "fotoCover",
+     "f": "/tema-deluxe/images/Cover.jpg"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "/assets.bernaung.id/mempelai/pria.webp"
+    },
+    {
+     "k": "fotoBride",
+     "f": "/assets.bernaung.id/mempelai/wanita.webp"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "/tema-deluxe/images/Foto1.jpg"
+    },
+    {
+     "k": "fotoGallery2",
+     "f": "/tema-deluxe/images/Foto2.jpg"
+    },
+    {
+     "k": "fotoGallery3",
+     "f": "/tema-deluxe/images/Foto3.jpg"
+    },
+    {
+     "k": "fotoGallery4",
+     "f": "/tema-deluxe/images/Foto4.jpg"
+    },
+    {
+     "k": "fotoGallery5",
+     "f": "/tema-deluxe/images/Foto5.jpg"
+    },
+    {
+     "k": "fotoGallery6",
+     "f": "/tema-deluxe/images/Foto6.jpg"
+    },
+    {
+     "k": "fotoGallery7",
+     "f": "/tema-deluxe/images/Foto7.jpg"
+    },
+    {
+     "k": "fotoGallery8",
+     "f": "/tema-deluxe/images/Foto8.jpg"
+    },
+    {
+     "k": "kadoPhone",
+     "f": "+6289876543210"
+    }
+   ]
+  },
+  "tema-art01": {
+   "label": "Tema Art Eksklusif",
+   "map": [
+    {
+     "k": "title",
+     "f": "Wedding - Bagas & Dewi"
+    },
+    {
+     "k": "heroNames",
+     "f": "Bagas & Dewi"
+    },
+    {
+     "k": "heroDateLong",
+     "f": "Sabtu, 11 September 2027"
+    },
+    {
+     "k": "countdownDate",
+     "f": "27 Desember 2025"
+    },
+    {
+     "k": "groomFull",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "gift1Name",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "groomNick",
+     "f": "Bagas"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra dari Bapak Andi dan Ibu Rina"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Amelia"
+    },
+    {
+     "k": "gift2Name",
+     "f": "Dewi Amelia"
+    },
+    {
+     "k": "brideNick",
+     "f": "Dewi"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri dari Bapak Budi dan Ibu Sari"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Sabtu, 12 September 2027"
+    },
+    {
+     "k": "akadTime",
+     "f": "08:00 WIB"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Sabtu, 12 September 2027"
+    },
+    {
+     "k": "resTime",
+     "f": "10:00 WIB"
+    },
+    {
+     "k": "akadPlace",
+     "f": "Kediaman Mempelai Wanita"
+    },
+    {
+     "k": "resPlace",
+     "f": "Gedung Serbaguna Contoh"
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Bank",
+     "f": "BCA"
+    },
+    {
+     "k": "gift1Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "gift2Number",
+     "f": "0987654321"
+    },
+    {
+     "k": "kadoName",
+     "f": "Bagas / Dewi"
+    },
+    {
+     "k": "kadoPhone",
+     "f": "+6289876543210"
+    },
+    {
+     "k": "kadoAddress",
+     "f": "Jl. Contoh Kado No. 45, Sleman, Yogyakarta"
+    },
+    {
+     "k": "groomIg",
+     "f": "instagram_pria"
+    },
+    {
+     "k": "brideIg",
+     "f": "instagram_wanita"
+    },
+    {
+     "k": "fotoCover",
+     "f": "/tema-deluxe/images/Cover.jpg"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "/assets.bernaung.id/mempelai/pria.webp"
+    },
+    {
+     "k": "fotoBride",
+     "f": "/assets.bernaung.id/mempelai/wanita.webp"
+    },
+    {
+     "k": "fotoCouple",
+     "f": "/tema-deluxe/images/Cover.jpg"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "/tema-deluxe/images/Foto1.jpg"
+    },
+    {
+     "k": "fotoGallery2",
+     "f": "/tema-deluxe/images/Foto2.jpg"
+    },
+    {
+     "k": "fotoGallery3",
+     "f": "/tema-deluxe/images/Foto3.jpg"
+    },
+    {
+     "k": "fotoGallery4",
+     "f": "/tema-deluxe/images/Foto4.jpg"
+    },
+    {
+     "k": "fotoGallery5",
+     "f": "/tema-deluxe/images/Foto5.jpg"
+    },
+    {
+     "k": "fotoGallery6",
+     "f": "/tema-deluxe/images/Foto6.jpg"
+    },
+    {
+     "k": "fotoGallery7",
+     "f": "/tema-deluxe/images/Foto7.jpg"
+    },
+    {
+     "k": "fotoGallery8",
+     "f": "/tema-deluxe/images/Foto8.jpg"
+    }
+   ]
+  },
+  "tema-motion02": {
+   "label": "Tema Motion Terracotta",
+   "map": [
+    {
+     "k": "title",
+     "f": "Wedding - Bagas & Dewi"
+    },
+    {
+     "k": "heroNames",
+     "f": "Bagas & Dewi"
+    },
+    {
+     "k": "heroDateLong",
+     "f": "Sabtu, 11 September 2027"
+    },
+    {
+     "k": "countdownDate",
+     "f": "27 Desember 2025"
+    },
+    {
+     "k": "groomFull",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "gift1Name",
+     "f": "Bagas Pratama"
+    },
+    {
+     "k": "groomNick",
+     "f": "Bagas"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra dari Bapak Andi dan Ibu Rina"
+    },
+    {
+     "k": "brideFull",
+     "f": "Dewi Amelia"
+    },
+    {
+     "k": "gift2Name",
+     "f": "Dewi Amelia"
+    },
+    {
+     "k": "brideNick",
+     "f": "Dewi"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri dari Bapak Budi dan Ibu Sari"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Sabtu, 12 September 2027"
+    },
+    {
+     "k": "akadTime",
+     "f": "08:00 WIB"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Sabtu, 12 September 2027"
+    },
+    {
+     "k": "resTime",
+     "f": "10:00 WIB"
+    },
+    {
+     "k": "akadPlace",
+     "f": "Kediaman Mempelai Wanita"
+    },
+    {
+     "k": "resPlace",
+     "f": "Gedung Serbaguna Contoh"
+    },
+    {
+     "k": "address",
+     "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+    },
+    {
+     "k": "gift1Bank",
+     "f": "BCA"
+    },
+    {
+     "k": "gift1Number",
+     "f": "1234567890"
+    },
+    {
+     "k": "gift2Number",
+     "f": "0987654321"
+    },
+    {
+     "k": "kadoName",
+     "f": "Bagas / Dewi"
+    },
+    {
+     "k": "kadoPhone",
+     "f": "+6289876543210"
+    },
+    {
+     "k": "kadoAddress",
+     "f": "Jl. Contoh Kado No. 45, Sleman, Yogyakarta"
+    },
+    {
+     "k": "groomIg",
+     "f": "instagram_pria"
+    },
+    {
+     "k": "brideIg",
+     "f": "instagram_wanita"
+    },
+    {
+     "k": "fotoCover",
+     "f": "/tema-deluxe/images/Cover.jpg"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "/assets.bernaung.id/mempelai/pria.webp"
+    },
+    {
+     "k": "fotoBride",
+     "f": "/assets.bernaung.id/mempelai/wanita.webp"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "/tema-deluxe/images/Foto1.jpg"
+    },
+    {
+     "k": "fotoGallery2",
+     "f": "/tema-deluxe/images/Foto2.jpg"
+    },
+    {
+     "k": "fotoGallery3",
+     "f": "/tema-deluxe/images/Foto3.jpg"
+    },
+    {
+     "k": "fotoGallery4",
+     "f": "/tema-deluxe/images/Foto4.jpg"
+    },
+    {
+     "k": "fotoGallery5",
+     "f": "/tema-deluxe/images/Foto5.jpg"
+    },
+    {
+     "k": "fotoGallery6",
+     "f": "/tema-deluxe/images/Foto6.jpg"
+    },
+    {
+     "k": "fotoGallery7",
+     "f": "/tema-deluxe/images/Foto7.jpg"
+    },
+    {
+     "k": "fotoGallery8",
+     "f": "/tema-deluxe/images/Foto8.jpg"
+    }
+   ]
   }
+ }
 }

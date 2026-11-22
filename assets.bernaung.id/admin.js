@@ -367,7 +367,6 @@
   function autoFillDefaults() {
     var g = $('c_groomNick').value.trim(), b = $('c_brideNick').value.trim();
     if (!$('c_heroNames').value && (g || b)) $('c_heroNames').value = (b && g) ? b + ' & ' + g : (b || g);
-    if (!$('c_title').value && (g || b)) $('c_title').value = 'Wedding - ' + (b && g ? b + ' & ' + g : (b || g));
   }
   ['c_groomNick', 'c_brideNick'].forEach(function (id) {
     $(id).addEventListener('blur', autoFillDefaults);
@@ -454,7 +453,8 @@
     var themeCfg = (S.themeMap.themes || {})[data.theme] || {};
     var raw = await fetchThemeFile(data.theme + '/index.html');
     if (!data.values.heroNames) data.values.heroNames = ((data.values.brideNick || '') + ' & ' + (data.values.groomNick || '')).trim();
-    if (!data.values.title) data.values.title = 'Wedding - ' + data.values.heroNames;
+    /* judul situs (tab browser) otomatis = nama customer (nama pasangan) */
+    if (!data.values.title) data.values.title = data.values.heroNames;
     /* musik dari file yang dipilih (tanpa unggah) */
     var mfile = $('c_musicFile').files && $('c_musicFile').files[0];
     var musicVal = $('c_musicUrl').value.trim();
@@ -674,7 +674,7 @@
   }
 
   function collectCustomerData() {
-    var v = function (id) { return $(id).value.trim(); };
+    var v = function (id) { var el = $(id); return el ? el.value.trim() : ''; };
     var vals = {
       title: v('c_title'), heroNames: v('c_heroNames'),
       groomNick: v('c_groomNick'), groomFull: v('c_groomFull'),
@@ -725,7 +725,8 @@
     }
     /* judul & nama hero otomatis bila kosong */
     if (!vals.heroNames) vals.heroNames = ((vals.brideNick || '') + ' & ' + (vals.groomNick || '')).trim();
-    if (!vals.title && vals.heroNames) vals.title = 'Wedding - ' + vals.heroNames;
+    /* judul situs (tab browser) otomatis = nama customer */
+    if (!vals.title && vals.heroNames) vals.title = vals.heroNames;
 
     return {
       slug: slugify(v('c_slug')),
@@ -885,8 +886,13 @@
   }
 
   function remapPaths(html, theme) {
-    html = html.replace(/(src|href)="(?!https?:|\/|#|data:|javascript:|mailto:|tel:)([^"]+)"/g,
-      function (m0, attr, path) { return attr + '="/' + theme + '/' + path + '"'; });
+    /* kutip ganda & tunggal (master tema Elementor kerap memakai href='...') */
+    html = html.replace(/(src|href)=("([^"]*)"|'([^']*)')/g,
+      function (m0, attr, q2, d, s) {
+        var path = (d !== undefined) ? d : s;
+        if (/^(https?:|\/|#|data:|javascript:|mailto:|tel:)/i.test(path)) return m0;
+        return attr + '="/' + theme + '/' + path + '"';
+      });
     html = html.replace(/url\(\s*'([^']+)'\s*\)/g, function (m0, path) {
       if (/^(https?:|\/|data:|#)/.test(path)) return m0;
       return "url('/" + theme + '/' + path + "')";
@@ -983,12 +989,12 @@
       var themeCfg = (S.themeMap.themes || {})[data.theme] || {};
       var raw = await fetchThemeFile(data.theme + '/index.html');
 
-      /* nilai otomatis: heroNames & title */
+      /* nilai otomatis: heroNames & title (judul situs = nama customer) */
       if (!data.values.heroNames) {
         data.values.heroNames = ((data.values.brideNick || '') + ' & ' + (data.values.groomNick || '')).trim();
       }
       if (!data.values.title) {
-        data.values.title = 'Wedding - ' + data.values.heroNames;
+        data.values.title = data.values.heroNames;
       }
 
       /* --- unggah foto dari file picker (opsional) --- */
