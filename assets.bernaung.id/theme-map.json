@@ -53,18 +53,8 @@
           "f": "instagram_wanita"
         },
         {
-          "k": "akadDayDate",
-          "f": "Selasa 09 Juni 2026",
-          "p": "Akad Nikah "
-        },
-        {
           "k": "akadTime",
           "f": "08:00 WIB"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Selasa 09 Juni 2026",
-          "p": "Resepsi "
         },
         {
           "k": "resTime",
@@ -149,6 +139,69 @@
         {
           "k": "fotoGallery13",
           "f": "/tema-jawa/images/Foto 13.jpeg"
+        },
+        {
+          "k": "akadDayName",
+          "f": "Selasa"
+        },
+        {
+          "k": "akadDayNum",
+          "f": "09"
+        },
+        {
+          "k": "akadMonthYear",
+          "f": "Juni 2026"
+        },
+        {
+          "k": "resDayName",
+          "f": "Selasa"
+        },
+        {
+          "k": "resDayNum",
+          "f": "09"
+        },
+        {
+          "k": "resMonthYear",
+          "f": "Juni 2026"
+        },
+        {
+          "k": "akadDayDate",
+          "f": "Selasa, 09 Juni 2026"
+        },
+        {
+          "k": "resDayDate",
+          "f": "Selasa, 09 Juni 2026"
+        },
+        {
+          "k": "countdownUnix",
+          "f": "1820624400"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "gift2Number"
+          ],
+          "f": [
+            "Wedding Gift"
+          ]
+        },
+        {
+          "k": [
+            "kadoName"
+          ],
+          "f": [
+            "Kado"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Love Story"
+          ]
         }
       ]
     },
@@ -274,6 +327,28 @@
         {
           "k": "fotoGallery8",
           "f": "/tema-deluxe/images/Foto8.jpg"
+        },
+        {
+          "k": "countdownMs",
+          "f": "1789165200000"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number"
+          ],
+          "f": [
+            "Amplop Digital"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Love Story"
+          ]
         }
       ]
     },
@@ -299,11 +374,6 @@
         {
           "k": "brideParents",
           "f": "Putri Pertama dari Bapak Budi dan Ibu Sari"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Sabtu 11 Juli 2026",
-          "p": "Ngunduh Mantu "
         },
         {
           "k": "resTime",
@@ -345,6 +415,52 @@
           "k": "heroNames",
           "f": "Bagas & Dewi",
           "p": ""
+        },
+        {
+          "k": "resDayName",
+          "f": "Sabtu"
+        },
+        {
+          "k": "resDayNum",
+          "f": "11"
+        },
+        {
+          "k": "resMonthYear",
+          "f": "Juli 2026"
+        },
+        {
+          "k": "heroDateShort",
+          "f": "11 . 07 . 2026"
+        },
+        {
+          "k": "countdownUnix",
+          "f": "1820624400"
+        },
+        {
+          "k": "brideFull",
+          "f": "Dewi Nahdia Lu'lu Annawwie"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "gift2Number",
+            "gift3Number"
+          ],
+          "f": [
+            "Wedding Gift"
+          ]
+        },
+        {
+          "k": [
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
+          ],
+          "f": [
+            "Kado"
+          ]
         }
       ]
     },
@@ -393,8 +509,7 @@
         },
         {
           "k": "akadDayDate",
-          "f": "Jum'at, 26 Juni 2026",
-          "p": "Akad Nikah "
+          "f": "Jum'at, 26 Juni 2026"
         },
         {
           "k": "akadTime",
@@ -406,8 +521,7 @@
         },
         {
           "k": "resDayDate",
-          "f": "Minggu, 28 Juni 2026",
-          "p": "Resepsi "
+          "f": "Minggu, 28 Juni 2026"
         },
         {
           "k": "resTime",
@@ -481,6 +595,35 @@
           "k": "fotoGallery10",
           "f": "/tema-deluxe/images/Foto10.jpg"
         }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "gift2Number"
+          ],
+          "f": [
+            "Wedding Gift"
+          ]
+        },
+        {
+          "k": [
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
+          ],
+          "f": [
+            "Kirim Hadiah"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Love Story"
+          ]
+        }
       ]
     },
     "tema-netflix": {
@@ -512,8 +655,7 @@
         },
         {
           "k": "akadDayDate",
-          "f": "28 May 2026",
-          "p": "Akad Nikah "
+          "f": "28 May 2026"
         },
         {
           "k": "akadTime",
@@ -521,8 +663,7 @@
         },
         {
           "k": "resDayDate",
-          "f": "28 May 2026",
-          "p": "Resepsi "
+          "f": "28 May 2026"
         },
         {
           "k": "resTime",
@@ -604,8 +745,7 @@
         },
         {
           "k": "akadDayDate",
-          "f": "Sabtu, 11 September 2027",
-          "p": "Akad "
+          "f": "Sabtu, 11 September 2027"
         },
         {
           "k": "akadTime",
@@ -614,8 +754,7 @@
         },
         {
           "k": "resDayDate",
-          "f": "Minggu, 12 September 2027",
-          "p": "Resepsi "
+          "f": "Minggu, 12 September 2027"
         },
         {
           "k": "resTime",
@@ -629,6 +768,19 @@
         {
           "k": "gift1Number",
           "f": "1234 5678 90"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number"
+          ],
+          "f": [
+            "Amplop Digital"
+          ],
+          "sec": [
+            "#gift"
+          ]
         }
       ]
     },
@@ -682,6 +834,10 @@
         {
           "f": "Sleman, Yogyakarta",
           "k": "address"
+        },
+        {
+          "k": "countdownIso",
+          "f": "2026-12-21T08:00:00+07:00"
         }
       ]
     },
@@ -783,18 +939,8 @@
           "f": "user_ig_wanita"
         },
         {
-          "k": "akadDayDate",
-          "f": "Minggu 28 2027 Desember",
-          "p": "Akad Nikah "
-        },
-        {
           "k": "akadTime",
           "f": "08:00 WIB"
-        },
-        {
-          "k": "resDayDate",
-          "f": "Minggu 28 2027 Desember",
-          "p": "Resepsi "
         },
         {
           "k": "resTime",
@@ -822,13 +968,72 @@
         },
         {
           "k": "akadDayDate",
-          "f": "Minggu, 28 Desember 2027",
-          "p": "Akad Nikah "
+          "f": "Minggu, 28 Desember 2027"
         },
         {
           "k": "resDayDate",
-          "f": "Minggu, 28 Desember 2027",
-          "p": "Resepsi "
+          "f": "Minggu, 28 Desember 2027"
+        },
+        {
+          "k": "akadDayName",
+          "f": "Minggu"
+        },
+        {
+          "k": "akadDayNum",
+          "f": "28"
+        },
+        {
+          "k": "akadMonthName",
+          "f": "Desember"
+        },
+        {
+          "k": "akadYearNum",
+          "f": "2027"
+        },
+        {
+          "k": "resDayName",
+          "f": "Minggu"
+        },
+        {
+          "k": "resDayNum",
+          "f": "28"
+        },
+        {
+          "k": "resMonthName",
+          "f": "Desember"
+        },
+        {
+          "k": "resYearNum",
+          "f": "2027"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "gift2Number"
+          ],
+          "f": [
+            "Wedding Gift"
+          ]
+        },
+        {
+          "k": [
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
+          ],
+          "f": [
+            "Kado"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Love Story"
+          ]
         }
       ]
     },
@@ -877,8 +1082,7 @@
         },
         {
           "k": "akadDayDate",
-          "f": "Monday, 21 December 2026",
-          "p": "Akad Nikah "
+          "f": "Monday, 21 December 2026"
         },
         {
           "k": "akadTime",
@@ -886,8 +1090,7 @@
         },
         {
           "k": "resDayDate",
-          "f": "Monday, 21 December 2023",
-          "p": "Resepsi "
+          "f": "Monday, 21 December 2023"
         },
         {
           "k": "address",
@@ -946,6 +1149,21 @@
         {
           "k": "fotoBride",
           "f": "/_cdn/inv.punakawandigital.id/wp-content/uploads/2026/06/sm-WANITA-e1725510489585.jpg"
+        },
+        {
+          "k": "countdownMs",
+          "f": "1798426800000"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "kadoPhone"
+          ],
+          "f": [
+            "Amplop Digital",
+            "Kirim Hadiah"
+          ]
         }
       ]
     },
@@ -1031,6 +1249,28 @@
         {
           "k": "fotoBride",
           "f": "assets/foto/wanita.jpg"
+        },
+        {
+          "k": "countdownMs",
+          "f": "1796432400000"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number"
+          ],
+          "f": [
+            "Amplop Digital"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Love Story"
+          ]
         }
       ]
     },
@@ -1078,8 +1318,7 @@
         },
         {
           "k": "akadDayDate",
-          "f": "Sabtu, 11 September 2027",
-          "p": "Akad Nikah "
+          "f": "Sabtu, 11 September 2027"
         },
         {
           "k": "akadTime",
@@ -1087,8 +1326,7 @@
         },
         {
           "k": "resDayDate",
-          "f": "Sabtu, 11 September 2027",
-          "p": "Resepsi "
+          "f": "Sabtu, 11 September 2027"
         },
         {
           "k": "resTime",
@@ -1177,6 +1415,34 @@
         {
           "k": "kadoPhone",
           "f": "+6289876543210"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "gift2Number"
+          ],
+          "f": [
+            "Amplop Digital"
+          ]
+        },
+        {
+          "k": [
+            "kadoName",
+            "kadoPhone"
+          ],
+          "f": [
+            "Kirim Kado"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Our Love Story"
+          ]
         }
       ]
     },
@@ -1294,6 +1560,31 @@
         {
           "k": "fotoGallery6",
           "f": "/tema-deluxe/images/Foto6.jpg"
+        },
+        {
+          "k": "countdownMs",
+          "f": "1789165200000"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "kadoPhone",
+            "kadoAddress"
+          ],
+          "f": [
+            "Amplop Digital",
+            "Kirim Hadiah"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Love Story"
+          ]
         }
       ]
     },
@@ -1419,6 +1710,31 @@
         {
           "k": "fotoGallery8",
           "f": "/tema-deluxe/images/Foto8.jpg"
+        },
+        {
+          "k": "countdownMs",
+          "f": "1789165200000"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "kadoPhone",
+            "kadoAddress"
+          ],
+          "f": [
+            "Amplop Digital",
+            "Kirim Hadiah"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Love Story"
+          ]
         }
       ]
     },
@@ -1560,6 +1876,23 @@
         {
           "k": "fotoGallery12",
           "f": "/tema-deluxe/images/Foto2.jpg"
+        },
+        {
+          "k": "countdownMs",
+          "f": "1789165200000"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "kadoPhone",
+            "kadoAddress"
+          ],
+          "f": [
+            "Amplop Digital",
+            "Kirim Hadiah"
+          ]
         }
       ]
     }

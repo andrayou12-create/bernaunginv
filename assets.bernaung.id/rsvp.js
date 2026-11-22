@@ -207,6 +207,16 @@
   }
 
   function place() {
+    /* Mode tanpa RSVP (data.js rsvp.hide=true): sembunyikan widget RSVP vendor
+       dan jangan tampilkan form apa pun — bagian RSVP hilang dari undangan. */
+    if (CFG.hide) {
+      try {
+        document.querySelectorAll('.wds_rsvp, [data-widget_type*="wds_rsvp"], [data-widget_type*="niku-rsvp"], .rsvp-comments-wrap')
+          .forEach(function (el) { el.style.display = 'none'; });
+      } catch (e) {}
+      return;
+    }
+
     var root = buildForm();
     if (isLightBg()) root.classList.add('bng-light');
 

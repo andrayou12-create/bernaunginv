@@ -746,17 +746,67 @@ window.__ADMIN_JS_V2 = true;
        heroDateShort -> "07 . 02 . 2027" ; heroDateShort2 -> "07 . 02 . 27"
        countdownText -> tanggal bahasa Indonesia untuk countdown HTML
        (countdownDate tetap apa adanya dari form untuk kebutuhan ISO tema modern) */
+    var HARI_ID = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", 'Sabtu'];
+    var BULAN_NAMA = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli',
+      'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    function dateParts(y, m, d) {
+      var dt = new Date(Date.UTC(y, m - 1, d));
+      return {
+        dayName: HARI_ID[dt.getUTCDay()],
+        dayNum: String(d),
+        monthName: BULAN_NAMA[m - 1],
+        yearNum: String(y),
+        monthYear: BULAN_NAMA[m - 1] + ' ' + y
+      };
+    }
     var heroDate = vals.resDayDate || vals.akadDayDate;
     if (heroDate) vals.heroDateLong = heroDate;
     var pd = parseDateID(vals.akadDayDate || vals.resDayDate);
     if (pd) {
-      var BULAN_NAMA = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli',
-        'Agustus', 'September', 'Oktober', 'November', 'Desember'];
       vals.heroDateShort = pad(pd.d) + ' . ' + pad(pd.m) + ' . ' + pd.y;
       vals.heroDateShort2 = pad(pd.d) + ' . ' + pad(pd.m) + ' . ' + String(pd.y).slice(-2);
-      var tanggalID = pd.d + ' ' + BULAN_NAMA[pd.m - 1] + ' ' + pd.y;
-      vals.countdownText = tanggalID;
-      if (!vals.countdownDate) vals.countdownDate = tanggalID;
+    }
+
+    /* --- pecahan tanggal per elemen (tema dgn slot hari/tanggal/bulan terpisah) --- */
+    var pak = parseDateID(vals.akadDayDate);
+    if (pak) {
+      var pa = dateParts(pak.y, pak.m, pak.d);
+      vals.akadDayName = pa.dayName; vals.akadDayNum = pa.dayNum;
+      vals.akadMonthName = pa.monthName; vals.akadYearNum = pa.yearNum;
+      vals.akadMonthYear = pa.monthYear;
+    }
+    var prs = parseDateID(vals.resDayDate || vals.akadDayDate);
+    if (prs) {
+      var pr = dateParts(prs.y, prs.m, prs.d);
+      vals.resDayName = pr.dayName; vals.resDayNum = pr.dayNum;
+      vals.resMonthName = pr.monthName; vals.resYearNum = pr.yearNum;
+      vals.resMonthYear = pr.monthYear;
+    }
+
+    /* --- HITUNG MUNDUR ---
+       Input tanggal hitung mundur (datetime-local) bila diisi; kalau kosong
+       otomatis dari tanggal Akad/Resepsi jam 08.00 WIB.
+       Menghasilkan countdownUnix (detik), countdownMs (milidetik),
+       countdownIso (ISO +07:00) + teks tanggal Indonesia. */
+    var cdText = null;
+    if (vals.countdownDate) {
+      var dtc = new Date(vals.countdownDate);
+      if (!isNaN(dtc.getTime())) cdText = dtc;
+    }
+    var cdBase = null;
+    if (cdText) {
+      cdBase = { y: cdText.getFullYear(), m: cdText.getMonth() + 1, d: cdText.getDate(), hh: cdText.getHours(), mm: cdText.getMinutes() };
+    } else if (pd) {
+      cdBase = { y: pd.y, m: pd.m, d: pd.d, hh: 8, mm: 0 };
+    }
+    if (cdBase) {
+      var epoch = Math.floor(Date.UTC(cdBase.y, cdBase.m - 1, cdBase.d, cdBase.hh, cdBase.mm, 0) / 1000) - 7 * 3600; /* WIB = UTC+7 */
+      vals.countdownUnix = String(epoch);
+      vals.countdownMs = String(epoch * 1000);
+      vals.countdownIso = cdBase.y + '-' + pad(cdBase.m) + '-' + pad(cdBase.d) + 'T' + pad(cdBase.hh) + ':' + pad(cdBase.mm) + ':00+07:00';
+      var tanggalCD = cdBase.d + ' ' + BULAN_NAMA[cdBase.m - 1] + ' ' + cdBase.y;
+      vals.countdownText = tanggalCD;
+      vals.countdownDate = tanggalCD; /* tema berteks (mis. tema-jawa) selalu dapat teks Indonesia */
     }
     /* judul & nama hero otomatis bila kosong */
     if (!vals.heroNames) vals.heroNames = ((vals.brideNick || '') + ' & ' + (vals.groomNick || '')).trim();
@@ -776,6 +826,76 @@ window.__ADMIN_JS_V2 = true;
       musicUrl: v('c_musicUrl'),
       loveStories: collectLoveStories()
     };
+  }
+
+  /* ================= SEMBUNYIKAN BAGIAN OPSIONAL YANG KOSONG =================
+     Bagian opsional tema (amplop digital/wedding gift, kado, love story, dsb.)
+     tidak boleh tampil dengan data demo bila admin tidak mengisinya di panel.
+     Konfigurasi per tema ada di theme-map.json (array "hide"):
+       { k: [kunci form], f: [frasa penanda bagian], sec: [selector opsional] }
+     Bila SEMUA kunci kosong, elemen bagian (data-id / hasil mencari frasa)
+     disembunyikan dengan style display:none. */
+  function hideSectionOf(dom, el) {
+    /* naik ke ancestor blok terluar yang hanya membungkus bagian ini */
+    var cls = function (e) { return ' ' + ((e && e.className) || '').toString() + ' '; };
+    var s = el, guard = 0;
+    while (s && s !== dom.body && guard++ < 12) {
+      if (s.tagName === 'SECTION' || /elementor-section|e-parent/.test(cls(s))) break;
+      s = s.parentElement;
+    }
+    if (!s || s === dom.body) { el.style.display = 'none'; return; }
+    /* cek apakah ancestor di atasnya hanya pembungkus bagian ini saja */
+    var up = 0;
+    while (up++ < 8) {
+      var p = s.parentElement, found = null;
+      while (p && p !== dom.body) {
+        if (p.tagName === 'SECTION' || /elementor-section|e-parent/.test(cls(p))) { found = p; break; }
+        p = p.parentElement;
+      }
+      if (!found) break;
+      var inner = found.querySelectorAll('.elementor-section, section');
+      /* inner mencakup found sendiri -> bila hanya 1 berarti found tak punya
+         bagian lain, jadi aman naik (membawa dekorasi latar ikut disembunyikan) */
+      if (inner.length === 1) s = found; else break;
+    }
+    s.style.display = 'none';
+  }
+  function applyHideRules(dom, themeCfg, data) {
+    var rules = (themeCfg && themeCfg.hide) || [];
+    if (!rules.length) return;
+    rules.forEach(function (rule) {
+      var ks = Array.isArray(rule.k) ? rule.k : [rule.k];
+      var kosong = ks.every(function (k) {
+        if (k === '_love') return !(data.loveStories || []).length;
+        var v = data.values[k];
+        return v == null || String(v).trim() === '';
+      });
+      if (!kosong) return;
+      /* penanda berdasarkan data-id / selector eksplisit */
+      var done = false;
+      (Array.isArray(rule.sec) ? rule.sec : (rule.sec ? [rule.sec] : [])).forEach(function (sel) {
+        try {
+          var el = dom.querySelector(sel) || dom.querySelector('[data-id="' + sel + '"]');
+          if (el) { el.style.display = 'none'; done = true; }
+        } catch (e) {}
+      });
+      if (done) return;
+      /* penanda berdasarkan frasa demo -> temukan elemen terkecil lalu naik ke blok */
+      (Array.isArray(rule.f) ? rule.f : [rule.f]).forEach(function (phrase) {
+        var norm = htmlUnescape(String(phrase)).replace(/\s+/g, ' ').trim().toLowerCase();
+        if (!norm) return;
+        var best = null, bestLen = 1e9;
+        var all = dom.querySelectorAll('h1,h2,h3,h4,p,span,div,li,button,a');
+        for (var i = 0; i < all.length; i++) {
+          var t = normText(all[i].textContent);
+          if (t && t.indexOf(norm) !== -1 && t.length < bestLen) {
+            best = all[i]; bestLen = t.length;
+            if (t.length <= norm.length + 4) break;
+          }
+        }
+        if (best) hideSectionOf(dom, best);
+      });
+    });
   }
 
   function applyReplacements(html, themeCfg, data) {
@@ -853,6 +973,8 @@ window.__ADMIN_JS_V2 = true;
         else report.miss.push({ k: r.k, find: r.find });
       });
     });
+    /* --- PASS 1.5: sembunyikan bagian opsional yang tidak diisi --- */
+    applyHideRules(dom, themeCfg, data);
     html = '<!DOCTYPE html>\n' + dom.documentElement.outerHTML;
 
     /* --- PASS 2: foto (path persis). Bila beberapa slot memakai file demo
@@ -983,7 +1105,7 @@ window.__ADMIN_JS_V2 = true;
         { nomor: vals.gift3Number }
       ],
       kado: { nama: vals.kadoName, hp: vals.kadoPhone, alamat: vals.kadoAddress },
-      rsvp: { mode: mode, wa: '', appscript: vals.rsvpUrl, sheet: data.sheet }
+      rsvp: { mode: mode, wa: '', appscript: vals.rsvpUrl, sheet: data.sheet, hide: mode !== 'sheet' }
     }, null, 2) + ';\n';
     return js;
   }
@@ -1080,15 +1202,18 @@ window.__ADMIN_JS_V2 = true;
       }
       /* tema modern (config-driven): override CONFIG */
       if (themeCfg.configOverride) {
-        var cd = data.values.countdownDate;
-        var cdISO = '';
-        if (cd) {
-          var dt = new Date(cd);
-          cdISO = dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate()) +
-            'T' + pad(dt.getHours()) + ':' + pad(dt.getMinutes()) + ':00+07:00';
-        } else {
-          var pd = parseDateID(data.values.akadDayDate);
-          if (pd) cdISO = pd.y + '-' + pad(pd.m) + '-' + pad(pd.d) + 'T08:00:00+07:00';
+        var cdISO = data.values.countdownIso || '';
+        if (!cdISO) {
+          var cd = data.values.countdownDate;
+          if (cd) {
+            var dt = new Date(cd);
+            if (!isNaN(dt.getTime())) cdISO = dt.getFullYear() + '-' + pad(dt.getMonth() + 1) + '-' + pad(dt.getDate()) +
+              'T' + pad(dt.getHours()) + ':' + pad(dt.getMinutes()) + ':00+07:00';
+          }
+          if (!cdISO) {
+            var pd = parseDateID(data.values.akadDayDate);
+            if (pd) cdISO = pd.y + '-' + pad(pd.m) + '-' + pad(pd.d) + 'T08:00:00+07:00';
+          }
         }
         var apiOverride = '';
         if (data.rsvpMode === 'sheet' && data.values.rsvpUrl) apiOverride = data.values.rsvpUrl;
