@@ -170,6 +170,39 @@
       "note": "Video motion latar + kelopak bunga, gaya invisimple",
       "foto": true,
       "path": "tema-motion02/index.html"
+    },
+    {
+      "id": "tema-pmotion01",
+      "name": "Tema Premium Motion 01",
+      "classification": "Premium",
+      "price": 100000,
+      "order": 16,
+      "visible": true,
+      "note": "Video motion latar, gaya botanical",
+      "foto": true,
+      "path": "tema-pmotion01/index.html"
+    },
+    {
+      "id": "tema-pmotion04",
+      "name": "Tema Premium Motion 04",
+      "classification": "Premium",
+      "price": 100000,
+      "order": 17,
+      "visible": true,
+      "note": "Video motion latar, gaya vintage mewah",
+      "foto": true,
+      "path": "tema-pmotion04/index.html"
+    },
+    {
+      "id": "tema-pmotion07",
+      "name": "Tema Premium Motion 07",
+      "classification": "Premium",
+      "price": 100000,
+      "order": 18,
+      "visible": true,
+      "note": "Video motion latar, gaya klasik hijau",
+      "foto": true,
+      "path": "tema-pmotion07/index.html"
     }
   ],
   "customers": [

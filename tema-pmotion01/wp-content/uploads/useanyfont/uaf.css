@@ -1,0 +1,30 @@
+@font-face {
+					font-family: 'adinekir';
+					src: url('8588adinekir.woff2') format('woff2'),
+						url('8588adinekir.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'anabele';
+					src: url('8965Anabele.woff2') format('woff2'),
+						url('8965Anabele.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'analogue';
+					src: url('5141Analogue.woff2') format('woff2'),
+						url('5141Analogue.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'hatolie';
+					src: url('544Hatolie.woff2') format('woff2'),
+						url('544Hatolie.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'spring-in-may';
+					src: url('6210Spring-in-may.woff2') format('woff2'),
+						url('6210Spring-in-may.woff') format('woff');
+					  font-display: auto;
+				}

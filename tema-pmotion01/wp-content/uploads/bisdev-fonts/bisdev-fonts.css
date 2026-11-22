@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'Adinekir';
+  src: url('adinekir-B8bHkN.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Anabele';
+  src: url('anabele-4xNZbd.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Analogue';
+  src: url('analogue-nOg9jT.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Hatolie';
+  src: url('hatolie-ogARs4.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

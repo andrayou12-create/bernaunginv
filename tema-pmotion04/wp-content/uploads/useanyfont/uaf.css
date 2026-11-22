@@ -1,0 +1,12 @@
+@font-face {
+					font-family: 'collina-regular';
+					src: url('7581Collina-Regular.woff2') format('woff2'),
+						url('7581Collina-Regular.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'iskry-regular';
+					src: url('7017Iskry-Regular.woff2') format('woff2'),
+						url('7017Iskry-Regular.woff') format('woff');
+					  font-display: auto;
+				}

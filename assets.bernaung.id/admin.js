@@ -1,3 +1,4 @@
+window.__ADMIN_JS_V2 = true;
 /* ============================================================
    BERNAUNG INVITATION — admin.js
    ------------------------------------------------------------
@@ -598,6 +599,14 @@
       var whole = lower === findNorm;
       var at = lower.indexOf(findNorm);
       if (at === -1) return 0;
+      /* frasa murni angka: tolak kecocokan di tengah deretan digit lain
+         (mis. "12345678" di dalam "081234567890") supaya nomor kado/rekening
+         tidak saling merusak. */
+      if (/^\d+$/.test(findNorm)) {
+        var bch = at > 0 ? lower.charAt(at - 1) : '';
+        var ach = lower.charAt(at + findNorm.length) || '';
+        if (/\d/.test(bch) || /\d/.test(ach)) return 0;
+      }
       if (whole) { setElementText(el, value); return 1; }
       if (spliceSpanApply(mm, at, findNorm.length, value)) return 1;
     }
@@ -638,11 +647,23 @@
     if (maxTake == null) maxTake = Infinity;
     var count = 0;
     var els = Array.prototype.slice.call(dom.querySelectorAll('*'));
+    var isDigit = /^\d+$/.test(findStr);
     for (var i = 0; i < els.length && count < maxTake; i++) {
       var attrs = Array.prototype.slice.call(els[i].attributes);
       for (var j = 0; j < attrs.length && count < maxTake; j++) {
         var a = attrs[j];
         if (a.nodeValue && a.nodeValue.indexOf(findStr) !== -1) {
+          if (isDigit) {
+            /* batas digit: jangan ganti di tengah deretan angka lain */
+            var pos = a.nodeValue.indexOf(findStr), valid = false;
+            while (pos !== -1) {
+              var bch = pos > 0 ? a.nodeValue.charAt(pos - 1) : '';
+              var ach = a.nodeValue.charAt(pos + findStr.length) || '';
+              if (!/\d/.test(bch) && !/\d/.test(ach)) { valid = true; break; }
+              pos = a.nodeValue.indexOf(findStr, pos + 1);
+            }
+            if (!valid) continue;
+          }
           a.nodeValue = a.nodeValue.split(findStr).join(String(value));
           count++;
         }
@@ -798,7 +819,10 @@
        tertukar dan data tidak menyebar ke slot lain. */
     var textByFind = {};
     textRules.forEach(function (r) {
-      var key = htmlUnescape(String(r.find)).replace(/\s+/g, ' ').trim().toLowerCase();
+      /* awali 'k' agar kunci murni angka (mis. "12345678") tidak diurutkan
+         ulang JS sebagai kunci indeks integer — urutan sort terpanjang dulu
+         harus tetap terjaga (nomor kado vs nomor rekening). */
+      var key = 'k' + htmlUnescape(String(r.find)).replace(/\s+/g, ' ').trim().toLowerCase();
       (textByFind[key] = textByFind[key] || []).push(r);
     });
 
@@ -848,6 +872,10 @@
     textRules.concat(photoRules).forEach(function (r) {
       var val = data.values[r.k];
       if (!val) return;
+      /* frasa murni angka: encodeURIComponent() tidak mengubahnya, dan
+         replace global di sini dapat menyentuh nomor kado/rekening lain
+         yang mengandung digit demo di tengah — lewati (tidak butuh encoded). */
+      if (/^\d+$/.test(String(r.find))) return;
       var enc = encodeURIComponent(r.find);
       if (html.indexOf(enc) !== -1 && r.k !== '_extra' && !/^_story/.test(r.k)) {
         var m = (map || []).find(function (x) { return x.k === r.k && x.f === r.find; });
@@ -869,7 +897,9 @@
     if (cal) {
       html = html.replace(/dates=\d{8}T\d{6}Z(?:%2F|\/)\d{8}T\d{6}Z/g, 'dates=' + cal);
     }
-    /* Clipboard: nomor demo -> nomor customer (tanpa format) */
+    /* Clipboard: nomor demo -> nomor customer (tanpa format).
+       Ganti hanya jika demo berdiri sendiri (bukan potongan deretan angka
+       lain — mis. "12345678" tidak boleh mengganti isi "081234567890"). */
     ['gift1Number', 'gift2Number', 'gift3Number', 'kadoPhone'].forEach(function (k) {
       var demo = (map || []).find(function (m) { return m.k === k; });
       var val = data.values[k];
@@ -877,7 +907,21 @@
       var demoPlain = demo.f.replace(/\D/g, '');
       var valPlain = String(val).replace(/\D/g, '');
       if (demoPlain && valPlain && demoPlain !== valPlain) {
-        html = html.split(demoPlain).join(valPlain);
+        var out = '', i = 0;
+        while (true) {
+          var at = html.indexOf(demoPlain, i);
+          if (at === -1) { out += html.slice(i); break; }
+          var bch = at > 0 ? html.charAt(at - 1) : '';
+          var ach = html.charAt(at + demoPlain.length) || '';
+          if (!/\d/.test(bch) && !/\d/.test(ach)) {
+            out += html.slice(i, at) + valPlain;
+            i = at + demoPlain.length;
+          } else {
+            out += html.slice(i, at + 1);
+            i = at + 1;
+          }
+        }
+        html = out;
       }
     });
     /* Bank khusus (teks) — bila tema punya frasa bank terpisah, admin

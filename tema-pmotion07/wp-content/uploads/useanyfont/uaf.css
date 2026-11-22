@@ -1,0 +1,24 @@
+@font-face {
+					font-family: 'analogue';
+					src: url('5141Analogue.woff2') format('woff2'),
+						url('5141Analogue.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'aston-script';
+					src: url('3354Aston-Script.woff2') format('woff2'),
+						url('3354Aston-Script.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'parisienne';
+					src: url('3444Parisienne.woff2') format('woff2'),
+						url('3444Parisienne.woff') format('woff');
+					  font-display: auto;
+				}
+@font-face {
+					font-family: 'romauntgaolines';
+					src: url('6330RomauntGaolines.woff2') format('woff2'),
+						url('6330RomauntGaolines.woff') format('woff');
+					  font-display: auto;
+				}

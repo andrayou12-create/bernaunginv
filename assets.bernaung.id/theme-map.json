@@ -1497,6 +1497,389 @@
      "f": "/tema-deluxe/images/Foto8.jpg"
     }
    ]
+  },
+  "tema-pmotion01": {
+   "label": "Tema Premium Motion 01",
+   "map": [
+    {
+     "k": "title",
+     "f": "Undangan Website Premium Motion 01"
+    },
+    {
+     "k": "heroNames",
+     "f": "Habib & Adiba"
+    },
+    {
+     "k": "groomNick",
+     "f": "Habib"
+    },
+    {
+     "k": "brideNick",
+     "f": "Adiba"
+    },
+    {
+     "k": "heroDateShort",
+     "f": "28. 12. 2026"
+    },
+    {
+     "k": "groomFull",
+     "f": "Habib Yulianto"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra Kedua dari Bapak M. Dawam (Almh) Ibu Dewi Sudarwati"
+    },
+    {
+     "k": "brideFull",
+     "f": "Adiba Putri Syakila"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri Pertama dari Bapak Anas Rifai Ibu Kholifah"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Senin, 28 Desember 2026"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Senin, 28 Desember 2026"
+    },
+    {
+     "k": "akadTime",
+     "f": "08.00 WIB"
+    },
+    {
+     "k": "resTime",
+     "f": "10.00 WIB – Selesai"
+    },
+    {
+     "k": "akadPlace",
+     "f": "KEDIAMAN MEMPELAI WANITA"
+    },
+    {
+     "k": "address",
+     "f": "Ds Pagu, Wates, Kediri, Jawa Timur"
+    },
+    {
+     "k": "gift1Number",
+     "f": "12345678"
+    },
+    {
+     "k": "kadoPhone",
+     "f": "1234567890"
+    },
+    {
+     "k": "kadoAddress",
+     "f": "Ds Pagu Kec.Wates Kab. Kediri"
+    },
+    {
+     "k": "fotoCover",
+     "f": "wp-content/uploads/2026/07/44-5-e1689578884725-1.jpg"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "wp-content/uploads/2026/07/PRIA-e1689575693830-1.jpg"
+    },
+    {
+     "k": "fotoBride",
+     "f": "wp-content/uploads/2026/07/WANITA-e1689575718872-1.jpg"
+    },
+    {
+     "k": "fotoCouple",
+     "f": "wp-content/uploads/2026/07/44-4-e1689578017594-1-1.jpg"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "wp-content/uploads/2026/07/44-1-1.jpg"
+    },
+    {
+     "k": "fotoGallery2",
+     "f": "wp-content/uploads/2026/07/44-2-2.jpg"
+    },
+    {
+     "k": "fotoGallery3",
+     "f": "wp-content/uploads/2026/07/44-3-2.jpg"
+    },
+    {
+     "k": "fotoGallery4",
+     "f": "wp-content/uploads/2026/07/44-4-e1689578017594-1.jpg"
+    },
+    {
+     "k": "fotoGallery5",
+     "f": "wp-content/uploads/2026/07/44-6-1.jpg"
+    },
+    {
+     "k": "fotoGallery6",
+     "f": "wp-content/uploads/2026/07/44-5-e1689578884725-1.jpg"
+    }
+   ]
+  },
+  "tema-pmotion04": {
+   "label": "Tema Premium Motion 04",
+   "map": [
+    {
+     "k": "title",
+     "f": "Undangan Website Premium Motion 04"
+    },
+    {
+     "k": "heroNames",
+     "f": "Habib & Adiba"
+    },
+    {
+     "k": "groomNick",
+     "f": "Habib"
+    },
+    {
+     "k": "brideNick",
+     "f": "Adiba"
+    },
+    {
+     "k": "heroDateShort",
+     "f": "28. 12. 2026"
+    },
+    {
+     "k": "groomFull",
+     "f": "Habib Yulianto"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra Kedua dari Bapak M. Dawam (Almh) Ibu Dewi Sudarwati"
+    },
+    {
+     "k": "brideFull",
+     "f": "Adiba Putri Syakila"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri Pertama dari Bapak Anas Rifai Ibu Kholifah"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Senin, 28 Desember 2026"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Senin, 28 Desember 2026"
+    },
+    {
+     "k": "akadTime",
+     "f": "08.00 WIB"
+    },
+    {
+     "k": "resTime",
+     "f": "10.00 WIB – Selesai"
+    },
+    {
+     "k": "akadPlace",
+     "f": "KEDIAMAN MEMPELAI WANITA"
+    },
+    {
+     "k": "address",
+     "f": "Ds Pagu, Wates, Kediri, Jawa Timur"
+    },
+    {
+     "k": "gift1Number",
+     "f": "12345678"
+    },
+    {
+     "k": "kadoPhone",
+     "f": "1234567890"
+    },
+    {
+     "k": "kadoAddress",
+     "f": "Ds Pagu Kec.Wates Kab. Kediri"
+    },
+    {
+     "k": "fotoCover",
+     "f": "wp-content/uploads/2026/07/Mini-AWAL-e1680582212176.jpg"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "wp-content/uploads/2026/07/Picture3-2.webp"
+    },
+    {
+     "k": "fotoBride",
+     "f": "wp-content/uploads/2026/07/Picture4-2.webp"
+    },
+    {
+     "k": "fotoCouple",
+     "f": "wp-content/uploads/2026/07/sm-K-10-1.jpg"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "wp-content/uploads/2026/07/sm-K-11-1.jpg"
+    },
+    {
+     "k": "fotoGallery2",
+     "f": "wp-content/uploads/2026/07/sm-K-5-1.jpg"
+    },
+    {
+     "k": "fotoGallery3",
+     "f": "wp-content/uploads/2026/07/sm-K-1-1-1.jpg"
+    },
+    {
+     "k": "fotoGallery4",
+     "f": "wp-content/uploads/2026/07/sm-K-2-1.jpg"
+    },
+    {
+     "k": "fotoGallery5",
+     "f": "wp-content/uploads/2026/07/sm-K-4-1.jpg"
+    },
+    {
+     "k": "fotoGallery6",
+     "f": "wp-content/uploads/2026/07/sm-K-7-1-1.jpg"
+    },
+    {
+     "k": "fotoGallery7",
+     "f": "wp-content/uploads/2026/07/sm-K-6-1.jpg"
+    },
+    {
+     "k": "fotoGallery8",
+     "f": "wp-content/uploads/2026/07/sm-K-10-1.jpg"
+    }
+   ]
+  },
+  "tema-pmotion07": {
+   "label": "Tema Premium Motion 07",
+   "map": [
+    {
+     "k": "title",
+     "f": "Undangan Website Premium Motion 07"
+    },
+    {
+     "k": "heroNames",
+     "f": "Habib & Adiba"
+    },
+    {
+     "k": "groomNick",
+     "f": "Habib"
+    },
+    {
+     "k": "brideNick",
+     "f": "Adiba"
+    },
+    {
+     "k": "heroDateShort",
+     "f": "28. 12. 2026"
+    },
+    {
+     "k": "groomFull",
+     "f": "Habib Yulianto"
+    },
+    {
+     "k": "groomParents",
+     "f": "Putra Kedua dari Bapak M. Dawam (Almh) Ibu Dewi Sudarwati"
+    },
+    {
+     "k": "brideFull",
+     "f": "Adiba Putri Syakila"
+    },
+    {
+     "k": "brideParents",
+     "f": "Putri Pertama dari Bapak Anas Rifai Ibu Kholifah"
+    },
+    {
+     "k": "akadDayDate",
+     "f": "Senin, 28 Desember 2026"
+    },
+    {
+     "k": "resDayDate",
+     "f": "Senin, 28 Desember 2026"
+    },
+    {
+     "k": "akadTime",
+     "f": "08.00 WIB"
+    },
+    {
+     "k": "resTime",
+     "f": "10.00 WIB"
+    },
+    {
+     "k": "akadPlace",
+     "f": "KEDIAMAN MEMPELAI WANITA"
+    },
+    {
+     "k": "address",
+     "f": "Ds Pagu, Wates, Kediri, Jawa Timur"
+    },
+    {
+     "k": "gift1Number",
+     "f": "12345678"
+    },
+    {
+     "k": "kadoPhone",
+     "f": "1234567890"
+    },
+    {
+     "k": "kadoAddress",
+     "f": "Ds Pagu Kec.Wates Kab. Kediri"
+    },
+    {
+     "k": "fotoCover",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-9-1-e1730097922583-1.jpg"
+    },
+    {
+     "k": "fotoGroom",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-P-PII-1.webp"
+    },
+    {
+     "k": "fotoBride",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-W-PII-1.webp"
+    },
+    {
+     "k": "fotoCouple",
+     "f": "wp-content/uploads/2026/07/SUJA-AND-PII.webp"
+    },
+    {
+     "k": "fotoGallery1",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-1-1.jpg"
+    },
+    {
+     "k": "fotoGallery2",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-14.jpg"
+    },
+    {
+     "k": "fotoGallery3",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-13.jpg"
+    },
+    {
+     "k": "fotoGallery4",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-12.jpg"
+    },
+    {
+     "k": "fotoGallery5",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-11.jpg"
+    },
+    {
+     "k": "fotoGallery6",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-9-1.jpg"
+    },
+    {
+     "k": "fotoGallery7",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-8-1.jpg"
+    },
+    {
+     "k": "fotoGallery8",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-7-1.jpg"
+    },
+    {
+     "k": "fotoGallery9",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-6-1.jpg"
+    },
+    {
+     "k": "fotoGallery10",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-4-1.jpg"
+    },
+    {
+     "k": "fotoGallery11",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-3-1.jpg"
+    },
+    {
+     "k": "fotoGallery12",
+     "f": "wp-content/uploads/2026/07/SUJA-24SK1173-PII-2-1.jpg"
+    }
+   ]
   }
  }
 }
