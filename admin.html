@@ -165,7 +165,7 @@
           <summary><span class="no">1</span><span class="ttl">IDENTITAS UNDANGAN</span><span class="tag">wajib</span><span class="chev">&#9654;</span></summary>
           <div class="acc-body">
           <div class="grid2">
-            <div><label class="f">Nama Customer / Folder (slug)</label><input class="f" id="c_slug" placeholder="mis. budi-sari"><div class="hint">Jadi alamat undangan: <code>/customer/&lt;slug&gt;/index.html</code>. Huruf kecil &amp; tanda minus.</div></div>
+            <div><label class="f">Nama Customer / Folder (slug)</label><input class="f" id="c_slug" placeholder="mis. budi-sari"><div class="hint">Otomatis terisi dari nama panggilan mempelai (pria-wanita). Jadi alamat undangan: <code>/customer/&lt;slug&gt;/index.html</code>. Huruf kecil &amp; tanda minus.</div></div>
             <div><label class="f">Tema Undangan</label><select class="f" id="c_theme"></select></div>
           </div>
           <div class="grid2" style="margin-top:12px">
@@ -177,7 +177,7 @@
               </select>
               <div class="hint">Memfilter daftar tema sesuai jenis undangan yang diinginkan customer.</div>
             </div>
-            <div><label class="f">Nama Pasangan (hero)</label><input class="f" id="c_heroNames" placeholder="Budi &amp; Sari"><div class="hint">Otomatis menjadi <b>Judul Situs</b> (tab browser) sekaligus nama customer — tidak perlu mengisi judul manual.</div></div>
+            <div><label class="f">Nama Pasangan (hero)</label><input class="f" id="c_heroNames" placeholder="Budi &amp; Sari"><div class="hint">Otomatis terisi dari nama panggilan mempelai pria &amp; wanita — tidak perlu mengisi manual. Sekaligus menjadi <b>Judul Situs</b> (tab browser) dan nama customer.</div></div>
           </div>
           </div>
         </details>
@@ -286,20 +286,17 @@
         </details>
 
         <details class="acc">
-          <summary><span class="no">7</span><span class="ttl">RSVP — PILIH METODE</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
+          <summary><span class="no">7</span><span class="ttl">RSVP (GOOGLE SPREADSHEET)</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
           <div class="acc-body">
-          <div class="grid3">
+          <div class="grid2">
             <div><label class="f">Metode RSVP</label>
               <select class="f" id="c_rsvpMode">
-                <option value="wa" selected>WhatsApp — internal, tanpa spreadsheet</option>
-                <option value="sheet">Google Spreadsheet (Apps Script)</option>
-                <option value="demo">Tanpa RSVP (demo saja)</option>
+                <option value="sheet" selected>Google Spreadsheet (Apps Script)</option>
+                <option value="demo">Tanpa RSVP (pratinjau saja)</option>
               </select>
             </div>
-            <div id="waField"><label class="f">WhatsApp Tujuan (format 62...)</label><input class="f" id="c_wa" placeholder="6282324137816"></div>
             <div><label class="f">Link Google Spreadsheet (catatan admin)</label><input class="f" id="c_sheet" placeholder="https://docs.google.com/spreadsheets/..."></div>
           </div>
-          <div id="waHint" class="hint" style="margin-top:10px"><b>WhatsApp (internal):</b> ucapan &amp; konfirmasi tamu terkirim langsung ke WhatsApp keluarga — customer tidak perlu membuat spreadsheet. Form RSVP tampil normal di undangan.</div>
           <div id="sheetFields" style="margin-top:10px">
             <label class="f">URL Apps Script (berakhiran /exec)</label>
             <input class="f" id="c_appscript" placeholder="https://script.google.com/macros/s/AKfyc.../exec">
@@ -338,16 +335,14 @@
 
         <div style="display:flex;gap:10px;flex-wrap:wrap">
           <button class="btn btn-gold" id="btnGenerate">BUAT UNDANGAN</button>
-          <button class="btn btn-line" id="btnPreviewTheme">PRATINJAU TEMA (DEMO)</button>
-          <button class="btn btn-green" id="btnLiveView">PRATINJAU LIVE (DATA FORM)</button>
-          <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><input type="checkbox" id="liveAuto"> Auto-perbarui saat mengisi form</label>
+          <button class="btn btn-green" id="btnLiveView">PRATINJAU UNDANGAN (SESUAI DATA)</button>
+          <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><input type="checkbox" id="liveAuto" checked> Auto-perbarui saat mengisi form</label>
         </div>
         <div id="genReport"></div>
-        <div id="genPreview" style="margin-top:14px"></div>
         <div id="liveWrap" class="hidden" style="margin-top:14px">
           <div class="card" style="margin:0">
-            <h2>PRATINJAU LIVE — DATA FORM SAAT INI</h2>
-            <p class="desc">Tampilan mengikuti data di form (belum disimpan). Klik tombol di atas untuk memperbarui, atau aktifkan <b>Auto-perbarui</b>.</p>
+            <h2>PRATINJAU UNDANGAN — DATA FORM SAAT INI</h2>
+            <p class="desc">Tampilan persis mengikuti data yang Anda isi di form (belum disimpan). Aktifkan <b>Auto-perbarui</b> agar pratinjau ikut berubah setiap kali data berubah.</p>
             <iframe class="iframe-prev" id="liveFrame" style="height:640px"></iframe>
           </div>
         </div>
@@ -424,6 +419,6 @@
 <div id="toast"></div>
 
 <script src="/assets.bernaung.id/admin-auth.js"></script>
-<script src="/assets.bernaung.id/admin.js?v=3"></script>
+<script src="/assets.bernaung.id/admin.js?v=4"></script>
 </body>
 </html>

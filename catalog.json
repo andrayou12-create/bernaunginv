@@ -150,28 +150,6 @@
       "path": "tema-motion01/index.html"
     },
     {
-      "id": "tema-art01",
-      "name": "Tema Art Eksklusif",
-      "classification": "Tema Baru",
-      "price": 90000,
-      "order": 14,
-      "visible": false,
-      "note": "Gaya art pastel ala invisimple, lottie burung & ornamen melayang",
-      "foto": true,
-      "path": "tema-art01/index.html"
-    },
-    {
-      "id": "tema-motion02",
-      "name": "Tema Motion Terracotta",
-      "classification": "Tema Baru",
-      "price": 90000,
-      "order": 15,
-      "visible": false,
-      "note": "Video motion latar + kelopak bunga, gaya invisimple",
-      "foto": true,
-      "path": "tema-motion02/index.html"
-    },
-    {
       "id": "tema-pmotion01",
       "name": "Tema Motion 1",
       "classification": "Tema Baru",
