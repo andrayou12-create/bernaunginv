@@ -454,19 +454,161 @@
     }
   });
 
-  /* ---------- GENERATOR ---------- */
-  function markRegex(phrase) {
-    /* regex toleran markup antar kata; '&' cocok dengan &amp; */
-    var words = phrase.trim().split(/\s+/).map(function (w) {
-      var e = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      e = e.replace(/&/g, '(?:&amp;|&#0?38;|&)').replace(/'/g, "(?:'|&#0?39;|&#8217;|&rsquo;|&lsquo;)");
-      return e;
-    });
-    var SEP = '(?:\\s|&nbsp;|<br\\s*\\/?>|<[^>]+>)*';
-    return new RegExp(words.join(SEP), 'gi');
+  /* ---------- GENERATOR ----------
+     Mesin penggantian teks berbasis DOM.
+     Alasan: regex lama (markRegex) mengizinkan frasa "melompat" melewati
+     tag HTML apa pun tanpa batas, sehingga satu frasa bisa menelan puluhan
+     baris markup antara dua kata dan merusak layout tema dengan foto.
+     Pendekatan baru: frasa dicari pada TEKS ELEMEN (teks yang diratakan),
+     lalu hanya karakter teks di dalam rentang frasa yang diubah — tag
+     pembungkus, <div>, <p>, dan gambar TIDAK tersentuh. */
+
+  var BLOCK_RE = /^(DIV|P|H[1-6]|SECTION|ARTICLE|HEADER|FOOTER|LI|UL|OL|TR|TD|TH|TABLE|BLOCKQUOTE|FIGURE|FIGCAPTION|MAIN|ASIDE|NAV|PRE|ADDRESS|DL|DT|DD)$/;
+
+  /* Ratakan teks elemen menjadi string normal (spasi tunggal).
+     Hasil: { norm: teks, segs: [{ch, node, off, br}] per karakter norm —
+     node=null untuk spasi sintetis (batas <br>/blok), br=elemen <br>. } */
+  function buildNormMap(el) {
+    var norm = '', segs = [], lastWasSpace = true;
+    function emit(ch, node, off, br) {
+      norm += ch; segs.push({ ch: ch, node: node || null, off: off, br: br || null });
+    }
+    function walk(n) {
+      if (n.nodeType === 3) {
+        var v = n.nodeValue;
+        for (var i = 0; i < v.length; i++) {
+          if (/\s/.test(v[i])) {
+            if (!lastWasSpace) { emit(' ', n, i); lastWasSpace = true; }
+          } else { emit(v[i], n, i); lastWasSpace = false; }
+        }
+        return;
+      }
+      if (n.nodeType !== 1) return;
+      if (n.tagName === 'BR' || n.tagName === 'HR') {
+        if (!lastWasSpace) { emit(' ', n, -1, n); lastWasSpace = true; }
+        return;
+      }
+      var block = BLOCK_RE.test(n.tagName);
+      if (block && !lastWasSpace) { emit(' ', null, -1); lastWasSpace = true; }
+      Array.prototype.forEach.call(n.childNodes, walk);
+      if (block && !lastWasSpace) { emit(' ', null, -1); lastWasSpace = true; }
+    }
+    Array.prototype.forEach.call(el.childNodes, walk);
+    return { norm: norm, segs: segs };
   }
-  function htmlEsc(s) {
-    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  /* Ganti seluruh isi elemen dengan teks baru (\n menjadi <br>) */
+  function setElementText(el, value) {
+    while (el.firstChild) el.removeChild(el.firstChild);
+    var doc = el.ownerDocument;
+    String(value).split('\n').forEach(function (p, i) {
+      if (i) el.appendChild(doc.createElement('br'));
+      if (p) el.appendChild(doc.createTextNode(p));
+    });
+  }
+
+  /* Splice: ganti rentang [at, at+len) pada norm dengan value.
+     Hanya karakter teks yang disentuh; <br> di dalam rentang dihapus;
+     elemen pembungkus dan struktur blok dipertahankan. */
+  function spliceSpanApply(mm, at, len, value) {
+    var end = at + len;
+    var firstNode = null, firstOff = 0;
+    var nodeRanges = [], brs = [];
+    for (var i = at; i < end; i++) {
+      var s = mm.segs[i];
+      if (s.br) { brs.push(s.br); continue; }
+      if (!s.node) continue;
+      var r = null;
+      for (var j = 0; j < nodeRanges.length; j++) if (nodeRanges[j].node === s.node) { r = nodeRanges[j]; break; }
+      if (!r) { r = { node: s.node, start: s.off, end: s.off + 1 }; nodeRanges.push(r); }
+      else { r.start = Math.min(r.start, s.off); r.end = Math.max(r.end, s.off + 1); }
+      if (!firstNode) { firstNode = s.node; firstOff = s.off; }
+    }
+    if (!firstNode) return false;
+    /* prefix node pertama */
+    var prefix = firstNode.nodeValue.slice(0, firstOff);
+    /* suffix: node terakhir */
+    var lastRange = nodeRanges[nodeRanges.length - 1];
+    var suffix = (lastRange.node === firstNode)
+      ? firstNode.nodeValue.slice(lastRange.end)
+      : lastRange.node.nodeValue.slice(lastRange.end);
+    /* kosongkan semua node tersentuh */
+    nodeRanges.forEach(function (r) { r.node.nodeValue = ''; });
+    /* hapus <br> di dalam rentang */
+    brs.forEach(function (b) { if (b.parentElement) b.parentElement.removeChild(b); });
+    /* tulis nilai: prefix + value(\n → <br>) + suffix pada node pertama */
+    var doc = firstNode.ownerDocument;
+    var frag = doc.createDocumentFragment();
+    frag.appendChild(doc.createTextNode(prefix));
+    String(value).split('\n').forEach(function (p, i) {
+      if (i) frag.appendChild(doc.createElement('br'));
+      if (p) frag.appendChild(doc.createTextNode(p));
+    });
+    frag.appendChild(doc.createTextNode(suffix));
+    firstNode.parentElement.insertBefore(frag, firstNode);
+    firstNode.parentElement.removeChild(firstNode);
+    return true;
+  }
+
+  /* Ganti SATU kemunculan frasa pada satu elemen (whole atau part) */
+  function replaceInElement(el, findNorm, value) {
+    for (var guard = 0; guard < 20; guard++) {
+      var mm = buildNormMap(el);
+      var lower = mm.norm.toLowerCase();
+      var whole = lower === findNorm;
+      var at = lower.indexOf(findNorm);
+      if (at === -1) return 0;
+      if (whole) { setElementText(el, value); return 1; }
+      if (spliceSpanApply(mm, at, findNorm.length, value)) return 1;
+    }
+    return 0;
+  }
+
+  /* Ganti frasa di seluruh dokumen — teks saja, markup aman.
+     maxTake: batas jumlah kemunculan yang diganti (untuk pembagian slot
+     yang memakai frasa demo sama, mis. tanggal akad vs resepsi). */
+  function domReplacePhrase(dom, find, value, maxTake) {
+    var findNorm = htmlUnescape(String(find)).replace(/\s+/g, ' ').trim().toLowerCase();
+    if (!findNorm || value == null || String(value).length === 0) return 0;
+    if (maxTake == null) maxTake = Infinity;
+    var count = 0;
+    /* elemen urut dari TERDALAM ke terluar agar elemen terkecil yang menangani */
+    var all = Array.prototype.slice.call(dom.querySelectorAll('*'));
+    var byDepth = {};
+    all.forEach(function (el) {
+      var d = 0, n = el;
+      while (n.parentElement) { d++; n = n.parentElement; }
+      (byDepth[d] = byDepth[d] || []).push(el);
+    });
+    var depths = Object.keys(byDepth).map(Number).sort(function (a, b) { return b - a; });
+    for (var di = 0; di < depths.length && count < maxTake; di++) {
+      var bucket = byDepth[depths[di]];
+      for (var ei = 0; ei < bucket.length && count < maxTake; ei++) {
+        count += replaceInElement(bucket[ei], findNorm, String(value));
+      }
+    }
+    return count;
+  }
+
+  /* Ganti frasa pada NILAI ATRIBUT (meta og:title, alt, title, dsb.) —
+     pencocokan persis, tidak menyentuh markup */
+  function domReplaceAttrs(dom, find, value, maxTake) {
+    var findStr = htmlUnescape(String(find));
+    if (!findStr || value == null || String(value).length === 0) return 0;
+    if (maxTake == null) maxTake = Infinity;
+    var count = 0;
+    var els = Array.prototype.slice.call(dom.querySelectorAll('*'));
+    for (var i = 0; i < els.length && count < maxTake; i++) {
+      var attrs = Array.prototype.slice.call(els[i].attributes);
+      for (var j = 0; j < attrs.length && count < maxTake; j++) {
+        var a = attrs[j];
+        if (a.nodeValue && a.nodeValue.indexOf(findStr) !== -1) {
+          a.nodeValue = a.nodeValue.split(findStr).join(String(value));
+          count++;
+        }
+      }
+    }
+    return count;
   }
 
   function parseDateID(text) {
@@ -493,28 +635,63 @@
 
   function collectCustomerData() {
     var v = function (id) { return $(id).value.trim(); };
+    var vals = {
+      title: v('c_title'), heroNames: v('c_heroNames'),
+      groomNick: v('c_groomNick'), groomFull: v('c_groomFull'),
+      groomFather: v('c_groomFather'), groomMother: v('c_groomMother'), groomParents: v('c_groomParents'),
+      groomIg: v('c_groomIg'),
+      brideNick: v('c_brideNick'), brideFull: v('c_brideFull'),
+      brideFather: v('c_brideFather'), brideMother: v('c_brideMother'), brideParents: v('c_brideParents'),
+      brideIg: v('c_brideIg'),
+      akadDayDate: v('c_akadDayDate'), akadTime: v('c_akadTime'), akadPlace: v('c_akadPlace'),
+      resDayDate: v('c_resDayDate'), resTime: v('c_resTime'), resPlace: v('c_resPlace'),
+      address: v('c_address'), gmaps: v('c_gmaps'), countdownDate: v('c_countdown'),
+      gift1Number: v('c_gift1Number'), gift1Name: v('c_gift1Name'), gift1Bank: v('c_gift1Bank'),
+      gift2Number: v('c_gift2Number'), gift2Name: v('c_gift2Name'), gift3Number: v('c_gift3Number'),
+      kadoName: v('c_kadoName'), kadoPhone: v('c_kadoPhone'), kadoAddress: v('c_kadoAddress'),
+      rsvpUrl: v('c_appscript'),
+      fotoCover: v('c_fotoCover'), fotoCouple: v('c_fotoCouple'),
+      fotoGroom: v('c_fotoGroom'), fotoBride: v('c_fotoBride')
+    };
+
+    /* komposisi otomatis "Putra/Putri dari ..." bila kolom orang tua terisi
+       tetapi frasa gabungan tema kosong — supaya bagian detail pengantin
+       selalu sesuai tema */
+    if (!vals.groomParents && (vals.groomFather || vals.groomMother)) {
+      vals.groomParents = 'Putra dari ' + [vals.groomFather, vals.groomMother]
+        .filter(function (x) { return x; }).join(' dan ');
+    }
+    if (!vals.brideParents && (vals.brideFather || vals.brideMother)) {
+      vals.brideParents = 'Putri dari ' + [vals.brideFather, vals.brideMother]
+        .filter(function (x) { return x; }).join(' dan ');
+    }
+
+    /* turunan tanggal untuk slot hero/countdown tema:
+       heroDateLong  -> "Minggu, 07 Februari 2027"
+       heroDateShort -> "07 . 02 . 2027" ; heroDateShort2 -> "07 . 02 . 27"
+       countdownText -> tanggal bahasa Indonesia untuk countdown HTML
+       (countdownDate tetap apa adanya dari form untuk kebutuhan ISO tema modern) */
+    var heroDate = vals.resDayDate || vals.akadDayDate;
+    if (heroDate) vals.heroDateLong = heroDate;
+    var pd = parseDateID(vals.akadDayDate || vals.resDayDate);
+    if (pd) {
+      var BULAN_NAMA = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli',
+        'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      vals.heroDateShort = pad(pd.d) + ' . ' + pad(pd.m) + ' . ' + pd.y;
+      vals.heroDateShort2 = pad(pd.d) + ' . ' + pad(pd.m) + ' . ' + String(pd.y).slice(-2);
+      var tanggalID = pd.d + ' ' + BULAN_NAMA[pd.m - 1] + ' ' + pd.y;
+      vals.countdownText = tanggalID;
+      if (!vals.countdownDate) vals.countdownDate = tanggalID;
+    }
+    /* judul & nama hero otomatis bila kosong */
+    if (!vals.heroNames) vals.heroNames = ((vals.brideNick || '') + ' & ' + (vals.groomNick || '')).trim();
+    if (!vals.title && vals.heroNames) vals.title = 'Wedding - ' + vals.heroNames;
+
     return {
       slug: slugify(v('c_slug')),
       theme: $('c_theme').value,
       name: v('c_heroNames') || (v('c_brideNick') + ' & ' + v('c_groomNick')),
-      values: {
-        title: v('c_title'), heroNames: v('c_heroNames'),
-        groomNick: v('c_groomNick'), groomFull: v('c_groomFull'),
-        groomFather: v('c_groomFather'), groomMother: v('c_groomMother'), groomParents: v('c_groomParents'),
-        groomIg: v('c_groomIg'),
-        brideNick: v('c_brideNick'), brideFull: v('c_brideFull'),
-        brideFather: v('c_brideFather'), brideMother: v('c_brideMother'), brideParents: v('c_brideParents'),
-        brideIg: v('c_brideIg'),
-        akadDayDate: v('c_akadDayDate'), akadTime: v('c_akadTime'), akadPlace: v('c_akadPlace'),
-        resDayDate: v('c_resDayDate'), resTime: v('c_resTime'), resPlace: v('c_resPlace'),
-        address: v('c_address'), gmaps: v('c_gmaps'), countdownDate: v('c_countdown'),
-        gift1Number: v('c_gift1Number'), gift1Name: v('c_gift1Name'), gift1Bank: v('c_gift1Bank'),
-        gift2Number: v('c_gift2Number'), gift2Name: v('c_gift2Name'), gift3Number: v('c_gift3Number'),
-        kadoName: v('c_kadoName'), kadoPhone: v('c_kadoPhone'), kadoAddress: v('c_kadoAddress'),
-        rsvpUrl: v('c_appscript'),
-        fotoCover: v('c_fotoCover'), fotoCouple: v('c_fotoCouple'),
-        fotoGroom: v('c_fotoGroom'), fotoBride: v('c_fotoBride')
-      },
+      values: vals,
       fotoGallery: v('c_fotoGallery'),
       sheet: v('c_sheet'),
       rsvpMode: $('c_rsvpMode').value,
@@ -527,8 +704,8 @@
 
   function applyReplacements(html, themeCfg, data) {
     var report = { ok: [], miss: [] };
-    var rules = [];
     var map = (themeCfg && themeCfg.map) || [];
+    var textRules = [], photoRules = [];
 
     /* susun rules dari theme-map + nilai form */
     map.forEach(function (m) {
@@ -537,11 +714,11 @@
       if (m.k === 'rsvpUrl') return; /* regex khusus, di bawah */
       if (/^foto/.test(m.k)) {
         /* foto: penggantian path/URL persis (bukan regex) */
-        rules.push({ find: m.f, val: String(val).trim(), k: m.k, plain: true });
+        photoRules.push({ find: m.f, val: String(val).trim(), k: m.k });
         return;
       }
       if (!val) return;
-      rules.push({ find: m.f, val: (m.p || '') + htmlEsc(val), k: m.k });
+      textRules.push({ find: m.f, val: (m.p || '') + val, k: m.k });
     });
 
     /* foto galeri: baris ke-i form -> slot fotoGalleryN tema */
@@ -552,50 +729,86 @@
       if (!/^fotoGallery\d+$/.test(m.k || '')) return;
       gslot++;
       var val = galleryLines[gslot - 1];
-      if (val) rules.push({ find: m.f, val: val, k: m.k, plain: true });
+      if (val) photoRules.push({ find: m.f, val: val, k: m.k });
     });
 
     /* penggantian tambahan dari admin */
     (data.extra || '').split('\n').forEach(function (line) {
       var parts = line.split('|');
       if (parts.length >= 2 && parts[0].trim()) {
-        rules.push({ find: parts[0].trim(), val: htmlEsc(parts.slice(1).join('|').trim()), k: '_extra' });
+        textRules.push({ find: parts[0].trim(), val: parts.slice(1).join('|').trim(), k: '_extra' });
       }
     });
 
     /* love story dinamis (form) */
     (data.loveStories || []).forEach(function (s, i) {
-      rules.push({ find: s.find, val: htmlEsc(s.rep).replace(/\n/g, '<br>'), k: '_story' + (i + 1) });
+      textRules.push({ find: s.find, val: s.rep, k: '_story' + (i + 1) });
     });
 
-    /* urutkan: frasa terpanjang dulu (aturan plain terakhir agar tak bentrok) */
-    rules.sort(function (a, b) {
-      if (!!a.plain !== !!b.plain) return a.plain ? 1 : -1;
-      return b.find.length - a.find.length;
+    /* urutkan: frasa terpanjang dulu (stabil — urutan map dipertahankan
+       untuk frasa sama panjang) */
+    textRules.sort(function (a, b) { return b.find.length - a.find.length; });
+    photoRules.sort(function (a, b) { return b.find.length - a.find.length; });
+
+    /* kelompokkan aturan teks yang memakai frasa demo yang sama (mis.
+       tanggal akad = tanggal resepsi, IG pria = IG wanita). Kemunculan
+       dibagi rata sesuai urutan: aturan awal mengambil kemunculan awal,
+       aturan terakhir mengambil sisanya — label Akad/Resepsi tidak lagi
+       tertukar dan data tidak menyebar ke slot lain. */
+    var textByFind = {};
+    textRules.forEach(function (r) {
+      var key = htmlUnescape(String(r.find)).replace(/\s+/g, ' ').trim().toLowerCase();
+      (textByFind[key] = textByFind[key] || []).push(r);
     });
 
-    rules.forEach(function (r) {
-      var n = 0;
-      if (r.plain) {
-        if (r.val && html.indexOf(r.find) !== -1) {
-          n = html.split(r.find).length - 1;
-          html = html.split(r.find).join(r.val);
+    /* --- PASS 1: teks berbasis DOM — frasa hanya diganti pada TEKS,
+           tag/struktur markup tidak pernah ikut terhapus --- */
+    var dom = new DOMParser().parseFromString(html, 'text/html');
+    Object.keys(textByFind).forEach(function (key) {
+      var rs = textByFind[key];
+      rs.forEach(function (r, i) {
+        var maxTake = (rs.length > 1 && i < rs.length - 1) ? 1 : Infinity;
+        var n = domReplacePhrase(dom, r.find, r.val, maxTake) +
+                domReplaceAttrs(dom, r.find, r.val, maxTake);
+        if (n) report.ok.push({ k: r.k, find: r.find, n: n });
+        else report.miss.push({ k: r.k, find: r.find });
+      });
+    });
+    html = '<!DOCTYPE html>\n' + dom.documentElement.outerHTML;
+
+    /* --- PASS 2: foto (path persis). Bila beberapa slot memakai file demo
+           yang sama (mis. foto pria = galeri 1), kemunculan dibagi rata:
+           slot pertama mengambil kemunculan pertama, slot terakhir mengambil
+           sisanya — foto tidak lagi tertukar/menyebar ke slot lain. --- */
+    var photoByFind = {};
+    photoRules.forEach(function (r) { if (r.val) (photoByFind[r.find] = photoByFind[r.find] || []).push(r); });
+    Object.keys(photoByFind).forEach(function (find) {
+      var rs = photoByFind[find];
+      var pos = 0;
+      rs.forEach(function (r, i) {
+        if (i < rs.length - 1) {
+          var idx = html.indexOf(find, pos);
+          if (idx === -1) { report.miss.push({ k: r.k, find: find }); return; }
+          html = html.slice(0, idx) + r.val + html.slice(idx + find.length);
+          pos = idx + r.val.length;
+          report.ok.push({ k: r.k, find: find, n: 1 });
+        } else {
+          var seg = html.slice(pos);
+          var n2 = seg.split(find).length - 1;
+          if (n2) html = html.slice(0, pos) + seg.split(find).join(r.val);
+          if (n2) report.ok.push({ k: r.k, find: find, n: n2 });
+          else report.miss.push({ k: r.k, find: find });
         }
-      } else {
-        var re = markRegex(r.find);
-        html = html.replace(re, function () { n++; return r.val; });
-      }
-      if (n) report.ok.push({ k: r.k, find: r.find, n: n });
-      else if (!r.plain || r.val) report.miss.push({ k: r.k, find: r.find });
+      });
     });
 
     /* --- aturan khusus --- */
     /* URL-encoded variant per rule (untuk calendar URL, og:image, dsb.) */
-    rules.forEach(function (r) {
+    textRules.concat(photoRules).forEach(function (r) {
       var val = data.values[r.k];
       if (!val) return;
       var enc = encodeURIComponent(r.find);
-      if (html.indexOf(enc) !== -1 && r.k !== '_extra') {
+      if (html.indexOf(enc) !== -1 && r.k !== '_extra' && !/^_story/.test(r.k)) {
         var m = (map || []).find(function (x) { return x.k === r.k && x.f === r.find; });
         html = html.split(enc).join(encodeURIComponent((m && m.p ? m.p : '') + val));
       }

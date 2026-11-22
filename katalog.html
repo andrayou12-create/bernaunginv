@@ -60,6 +60,13 @@
   .btn-wa:hover { border-color: #25d366; color: #25d366; }
 
   .empty { text-align: center; color: var(--muted); padding: 60px 0; font-size: 14px; }
+
+  /* Mode embed: katalog ditampilkan di dalam iframe pada halaman utama
+     (bagian atas/bawah halaman disembunyikan agar ringkas) */
+  html.embed header.site, html.embed .howto, html.embed body > footer { display: none !important; }
+  html.embed main { padding-top: 14px; }
+  html.embed body { background: var(--bg); }
+
   .skeleton { height: 340px; }
   .skeleton .shim { width: 100%; height: 100%; background: linear-gradient(100deg, #1c2a3a 40%, #26384e 50%, #1c2a3a 60%); background-size: 200% 100%; animation: shine 1.4s infinite; }
   @keyframes shine { to { background-position: -200% 0; } }
@@ -117,6 +124,9 @@
   var activeCls = 'Semua';
   var q = '';
 
+  /* Mode embed (dipanggil dari halaman utama) */
+  if (/[?&]embed=1/.test(location.search)) document.documentElement.classList.add('embed');
+
   document.getElementById('logo').style.backgroundImage = "url('/assets.bernaung.id/loading-bernaung.jpeg')";
 
   function rp(n) {
@@ -148,6 +158,22 @@
     return el;
   }
 
+  /* Bisukan seluruh media di dalam iframe pratinjau. Tanpa ini, begitu
+     pengunjung sekali berinteraksi dengan halaman katalog, musik DEMO dari
+     semua tema ikut berbunyi bersamaan (autoplay diizinkan untuk iframe
+     same-origin setelah gesture pada halaman induk). */
+  function silenceIframe(f) {
+    try {
+      var doc = f.contentDocument;
+      if (!doc) return;
+      doc.querySelectorAll('audio, video').forEach(function (m) {
+        m.removeAttribute('autoplay');
+        m.muted = true;
+        try { m.pause(); } catch (e) {}
+      });
+    } catch (e) {}
+  }
+
   function lazyPreview(box) {
     var path = box.getAttribute('data-path');
     if (!path || path === 'undefined') return;
@@ -155,9 +181,14 @@
     iframe.loading = 'lazy';
     iframe.setAttribute('tabindex', '-1');
     iframe.setAttribute('aria-hidden', 'true');
+    /* sandbox tanpa allow-scripts: JS tema pratinjau tidak berjalan,
+       sehingga tidak ada pemutar musik/hitung mundur yang aktif di kartu */
+    iframe.setAttribute('sandbox', 'allow-same-origin');
     iframe.style.transform = 'scale(0.86)';
     iframe.src = path;
     iframe.addEventListener('load', function () {
+      silenceIframe(iframe);
+      setTimeout(function () { silenceIframe(iframe); }, 1200);
       var sk = box.querySelector('.skeleton');
       if (sk) sk.remove();
     });

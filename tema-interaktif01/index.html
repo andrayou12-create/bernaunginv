@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding - Bagas &amp; Dewi</title>
+<meta name="description" content="Wedding - Bagas &amp; Dewi - Sabtu, 11 September 2027. Undangan pernikahan digital Bernaung Invitation.">
+<meta property="og:title" content="Wedding - Bagas &amp; Dewi" />
+<meta property="og:image" content="/tema-deluxe/images/Cover.jpg" />
+<link rel="icon" type="image/png" href="/assets.bernaung.id/favicon.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/assets.bernaung.id/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets.bernaung.id/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets.bernaung.id/footer.css">
+<style>
+
+:root { --krem:#f5efe4; --krem2:#efe6d4; --cokel:#3d2c1e; --cokel2:#6b5442; --emas:#b98a2f; --teks:#33261a; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Segoe UI',Tahoma,sans-serif; background:linear-gradient(180deg,var(--krem),var(--krem2)); color:var(--teks); overflow-x:hidden; }
+body.terbuka { overflow-y:auto; height:auto; }
+img { max-width:100%; display:block; }
+
+#cover { position:fixed; inset:0; z-index:60; background:linear-gradient(180deg,#e9dfc9,#ddceac); display:flex; align-items:center; justify-content:center; transition:opacity .8s; }
+#cover.tertutup { opacity:0; pointer-events:none; }
+.amplop { position:relative; width:min(340px,86vw); height:230px; }
+.amplop .badan { position:absolute; inset:0; background:linear-gradient(180deg,#f7f1e2,#e7dcc2); border-radius:12px; box-shadow:0 18px 40px rgba(61,44,30,.35); }
+.amplop .flap { position:absolute; top:0; left:0; right:0; height:0; border-left:170px solid transparent; border-right:170px solid transparent; border-top:130px solid #d9c69a; transform-origin:top; transition:transform .7s ease; z-index:3; filter:drop-shadow(0 4px 6px rgba(61,44,30,.25)); }
+.amplop.buka .flap { transform:rotateX(180deg); z-index:0; }
+.amplop .stempel { position:absolute; left:50%; top:74px; transform:translateX(-50%); width:54px; height:54px; border-radius:50%; background:var(--emas); color:#fff; display:flex; align-items:center; justify-content:center; font-family:Georgia,serif; font-size:22px; z-index:4; box-shadow:0 6px 16px rgba(61,44,30,.4); transition:opacity .4s; }
+.amplop.buka .stempel { opacity:0; }
+.amplop .kartu-dalam { position:absolute; left:6%; right:6%; top:16px; background:#fffdf7; border-radius:10px; padding:18px 14px 20px; text-align:center; z-index:2; transition:transform .7s ease .15s; box-shadow:0 6px 18px rgba(61,44,30,.18); }
+.amplop.buka .kartu-dalam { transform:translateY(-64px); }
+.kartu-dalam .kecil { font-size:10px; letter-spacing:3px; color:var(--cokel2); text-transform:uppercase; }
+.kartu-dalam h1 { font-family:Georgia,serif; font-size:26px; color:var(--cokel); margin-top:6px; }
+.kartu-dalam .kepada { font-size:11px; color:var(--cokel2); margin-top:10px; }
+.kartu-dalam .kepada b { display:block; font-size:17px; font-family:Georgia,serif; color:var(--cokel); }
+#bukaBtn { position:absolute; left:50%; bottom:-64px; transform:translateX(-50%); white-space:nowrap; background:var(--cokel); color:#f7f1e2; border:0; padding:13px 30px; border-radius:999px; letter-spacing:2px; font-size:12.5px; font-weight:700; cursor:pointer; box-shadow:0 10px 24px rgba(61,44,30,.35); }
+
+#musikBtn { position:fixed; right:16px; top:16px; z-index:55; width:44px; height:44px; border-radius:50%; border:1px solid var(--emas); background:rgba(255,253,247,.9); cursor:pointer; display:flex; align-items:flex-end; justify-content:center; gap:3px; padding-bottom:12px; }
+#musikBtn.sembunyi { display:none; }
+#musikBtn span { width:3px; background:var(--emas); border-radius:2px; height:12px; animation:ngantuk 1s infinite ease-in-out; }
+#musikBtn span:nth-child(2){animation-delay:.15s} #musikBtn span:nth-child(3){animation-delay:.3s} #musikBtn span:nth-child(4){animation-delay:.45s}
+#musikBtn.putar span { animation-name:joget; }
+@keyframes ngantuk { 0%,100%{height:6px} 50%{height:12px} }
+@keyframes joget { 0%,100%{height:6px} 50%{height:16px} }
+
+main { max-width:640px; margin:0 auto; }
+.sec { padding:56px 22px; opacity:0; transform:translateY(24px); transition:all .8s ease; }
+.sec.tampak { opacity:1; transform:none; }
+.kepala { display:flex; align-items:center; gap:14px; justify-content:center; margin-bottom:14px; }
+.kepala h2 { font-family:Georgia,serif; font-weight:normal; letter-spacing:3px; color:var(--emas); font-size:21px; white-space:nowrap; }
+.garis { width:60px; height:1px; background:var(--emas); opacity:.6; }
+.sub { text-align:center; color:var(--cokel2); font-size:13.5px; line-height:1.8; max-width:470px; margin:0 auto 24px; }
+.sub.sekaligus { margin-bottom:0; }
+
+#hero { text-align:center; padding-top:76px; }
+#hero .nama-hero { font-family:Georgia,serif; font-size:44px; color:var(--cokel); line-height:1.25; }
+#hero .nama-hero i { font-style:normal; color:var(--emas); display:block; font-size:26px; }
+#hero .tgl-hero { color:var(--cokel2); letter-spacing:2px; margin-top:10px; font-size:14px; }
+#countdown { display:flex; gap:10px; justify-content:center; margin-top:24px; }
+#countdown div { background:#fffdf7; border:1px solid #e2d5b4; border-radius:12px; min-width:70px; padding:12px 8px; box-shadow:0 6px 16px rgba(61,44,30,.12); }
+#countdown b { display:block; font-family:Georgia,serif; font-size:24px; color:var(--emas); }
+#countdown i { font-style:normal; font-size:10px; letter-spacing:1.5px; color:var(--cokel2); text-transform:uppercase; }
+
+.pasangan { display:flex; flex-direction:column; gap:22px; max-width:400px; margin:0 auto; }
+.orang { background:#fffdf7; border:1px solid #e2d5b4; border-radius:18px; padding:22px; text-align:center; box-shadow:0 8px 24px rgba(61,44,30,.1); }
+.orang img { width:180px; height:200px; object-fit:cover; border-radius:100px 100px 12px 12px; border:2px solid var(--emas); margin:0 auto; }
+.orang h3 { font-family:Georgia,serif; font-size:24px; color:var(--cokel); margin-top:14px; }
+.orang .nama-lengkap { color:var(--emas); margin-top:2px; }
+.orang .ortu { color:var(--cokel2); font-size:12.5px; line-height:1.7; margin-top:8px; }
+.ig-link { display:inline-flex; align-items:center; gap:7px; margin-top:10px; color:var(--cokel); font-size:12.5px; text-decoration:none; border:1px solid #d9c69a; padding:7px 16px; border-radius:999px; }
+.dan-tengah { text-align:center; font-family:Georgia,serif; font-size:38px; color:var(--emas); margin:-4px 0; }
+
+.kartu-acara { background:#fffdf7; border:1px solid #e2d5b4; border-radius:18px; max-width:430px; margin:0 auto 18px; padding:28px 22px; text-align:center; box-shadow:0 8px 24px rgba(61,44,30,.1); }
+.badge-acara { display:inline-block; background:var(--emas); color:#fff; font-size:10.5px; letter-spacing:2.5px; text-transform:uppercase; font-weight:700; border-radius:999px; padding:6px 18px; }
+.kartu-acara .hari { font-family:Georgia,serif; font-size:19px; color:var(--cokel); margin-top:14px; }
+.kartu-acara .jam { color:var(--emas); margin-top:4px; }
+.kartu-acara .lokasi { font-weight:700; margin-top:12px; }
+.kartu-acara .alamat { color:var(--cokel2); font-size:12.5px; line-height:1.7; margin-top:4px; }
+.btn-map, .btn-kal { display:inline-block; margin:14px 5px 0; padding:10px 20px; border-radius:999px; font-size:12px; letter-spacing:1px; text-decoration:none; }
+.btn-map { background:var(--cokel); color:#f7f1e2; font-weight:700; }
+.btn-kal { border:1px solid var(--emas); color:var(--emas); }
+
+.story-item { max-width:440px; margin:0 auto 20px; text-align:center; background:#fffdf7; border-radius:16px; padding:20px; border:1px solid #e2d5b4; }
+.story-item h3 { color:var(--emas); font-family:Georgia,serif; font-weight:normal; font-size:16.5px; margin-bottom:8px; }
+.story-item p { color:var(--cokel2); font-size:13px; line-height:1.8; }
+
+.galeri-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; max-width:480px; margin:0 auto; }
+.galeri-item { width:100%; height:170px; object-fit:cover; border-radius:12px; border:1px solid #e2d5b4; }
+
+.kartu-rek { background:#fffdf7; border:1px solid #e2d5b4; border-radius:18px; max-width:400px; margin:0 auto 16px; padding:24px; text-align:center; box-shadow:0 8px 24px rgba(61,44,30,.1); }
+.kartu-rek h3 { font-family:Georgia,serif; color:var(--emas); letter-spacing:2px; }
+.no-rek { font-size:21px; letter-spacing:3px; color:var(--cokel); margin-top:10px; }
+.an { color:var(--cokel2); font-size:13px; margin-top:4px; }
+.btn-salin { margin-top:14px; background:var(--emas); border:0; color:#fff; padding:10px 24px; border-radius:999px; font-size:11.5px; letter-spacing:1.5px; font-weight:700; cursor:pointer; }
+.kartu-kado { max-width:400px; margin:0 auto; text-align:center; border:1px dashed #c9b27e; border-radius:18px; padding:20px; color:var(--cokel2); font-size:13px; line-height:1.9; background:#fffdf7; }
+.kartu-kado h3 { font-family:Georgia,serif; color:var(--emas); font-weight:normal; font-size:17px; margin-bottom:6px; }
+
+.ttd { text-align:center; color:var(--cokel2); font-size:13px; }
+.nama-ttd { text-align:center; font-family:Georgia,serif; font-size:34px; color:var(--emas); margin:8px 0 14px; }
+
+</style>
+</head>
+<body>
+<audio id="song" loop preload="auto" src="/tema-deluxe/nuca-masaini.mp3"></audio>
+
+<div id="cover">
+  <div class="amplop" id="amplopCover">
+    <div class="badan"></div>
+    <div class="kartu-dalam">
+      <div class="kecil">The Wedding Of</div>
+      <h1>Bagas &amp; Dewi</h1>
+      <div class="kepada">Kepada Yth.<b data-guest>Tamu Undangan</b></div>
+    </div>
+    <div class="flap"></div>
+    <div class="stempel">B&amp;D</div>
+    <button id="bukaBtn" type="button">BUKA UNDANGAN</button>
+  </div>
+</div>
+
+<button id="musikBtn" class="sembunyi" type="button" aria-label="Putar / jeda musik">
+  <span class="garis-m1"></span><span class="garis-m2"></span><span class="garis-m3"></span><span class="garis-m4"></span>
+</button>
+
+<main id="konten">
+
+  <section class="sec muncul" id="hero">
+    <p class="sub">Dengan penuh syukur atas karunia Tuhan, kami mengundang Anda untuk merayakan hari bahagia kami</p>
+    <h2 class="nama-hero">Bagas<i>&amp;</i>Dewi</h2>
+    <p class="tgl-hero">Sabtu, 11 September 2027</p>
+    <div id="countdown" data-countdown="27 Desember 2025">
+      <div><b id="cd-hari">00</b><i>Hari</i></div>
+      <div><b id="cd-jam">00</b><i>Jam</i></div>
+      <div><b id="cd-menit">00</b><i>Menit</i></div>
+      <div><b id="cd-detik">00</b><i>Detik</i></div>
+    </div>
+  </section>
+
+  <section class="sec muncul" id="mempelai">
+    <div class="kepala"><span class="garis"></span><h2>Mempelai</h2><span class="garis"></span></div>
+    <p class="sub">Kami bermaksud menyelenggarakan pernikahan putra-putri kami tercinta:</p>
+    <div class="pasangan">
+      <div class="orang">
+        <img src="/assets.bernaung.id/mempelai/pria.webp" alt="Mempelai Pria">
+        <h3>Bagas</h3>
+        <p class="nama-lengkap">Bagas Pratama</p>
+        <p class="ortu">Putra dari Bapak Andi dan Ibu Rina</p>
+              <a class="ig-link" href="https://instagram.com/instagram_pria" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        @instagram_pria
+      </a>
+      </div>
+      <div class="dan-tengah">&amp;</div>
+      <div class="orang">
+        <img src="/assets.bernaung.id/mempelai/wanita.webp" alt="Mempelai Wanita">
+        <h3>Dewi</h3>
+        <p class="nama-lengkap">Dewi Amelia</p>
+        <p class="ortu">Putri dari Bapak Budi dan Ibu Sari</p>
+              <a class="ig-link" href="https://instagram.com/instagram_wanita" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        @instagram_wanita
+      </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec muncul" id="acara">
+    <div class="kepala"><span class="garis"></span><h2>Waktu &amp; Tempat</h2><span class="garis"></span></div>
+    <p class="sub">Dengan memohon rahmat dan ridha Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara berikut:</p>
+
+    <div class="kartu-acara ">
+      <span class="badge-acara">Akad Nikah</span>
+      <p class="hari">Sabtu, 11 September 2027</p>
+      <p class="jam">08:00 WIB</p>
+      <p class="lokasi">Kediaman Mempelai Wanita</p>
+      <p class="alamat">Jl. Contoh Alamat No. 123, Sleman, Yogyakarta</p>
+      <a class="btn-map" href="https://maps.app.goo.gl/bernaungDemo" target="_blank" rel="noopener">Lihat Lokasi</a>
+      <a class="btn-kal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding+Bagas+%26+Dewi&dates=20270911T010000Z%2F20270912T010000Z" target="_blank" rel="noopener">Simpan Tanggal</a>
+    </div>
+
+    <div class="kartu-acara ">
+      <span class="badge-acara">Resepsi</span>
+      <p class="hari">Sabtu, 11 September 2027</p>
+      <p class="jam">10:00 WIB</p>
+      <p class="lokasi">Gedung Serbaguna Contoh</p>
+      <p class="alamat">Jl. Contoh Alamat No. 123, Sleman, Yogyakarta</p>
+      <a class="btn-map" href="https://maps.app.goo.gl/bernaungDemo" target="_blank" rel="noopener">Lihat Lokasi</a>
+    </div>
+  </section>
+
+  <section class="sec muncul" id="story">
+    <div class="kepala"><span class="garis"></span><h2>Our Love Story</h2><span class="garis"></span></div>
+    <div class="story-item">
+      <h3>Episode 1: Pertemuan Tak Terduga</h3>
+      <p>Kami dipertemukan secara tak terduga pada suatu sore di acara kampus. Obrolan singkat yang awalnya canggung berubah menjadi percakapan yang tak ingin berakhir.</p>
+    </div>
+    <div class="story-item">
+      <h3>Episode 2: Masa-Masa Menjalin Kasih</h3>
+      <p>Dari sekadar teman berbagi cerita, kami mulai saling mengenal lebih dalam. Perjalanan panjang penuh tawa, doa, dan dukungan keluarga membawa kami semakin dekat.</p>
+    </div>
+    <div class="story-item">
+      <h3>Episode 3: Lanjut Menuju Pelaminan</h3>
+      <p>Dengan restu kedua orang tua, kami memantapkan hati untuk saling melengkapi seumur hidup. Terima kasih telah menjadi bagian dari cerita bahagia kami.</p>
+    </div>
+  </section>
+
+
+  <section class="sec muncul" id="galeri">
+    <div class="kepala"><span class="garis"></span><h2>Galeri</h2><span class="garis"></span></div>
+  <div class="galeri-grid">
+    <img class="galeri-item" src="/tema-deluxe/images/Foto1.jpg" alt="Galeri 1" loading="lazy">
+    <img class="galeri-item" src="/tema-deluxe/images/Foto2.jpg" alt="Galeri 2" loading="lazy">
+    <img class="galeri-item" src="/tema-deluxe/images/Foto3.jpg" alt="Galeri 3" loading="lazy">
+    <img class="galeri-item" src="/tema-deluxe/images/Foto4.jpg" alt="Galeri 4" loading="lazy">
+    <img class="galeri-item" src="/tema-deluxe/images/Foto5.jpg" alt="Galeri 5" loading="lazy">
+    <img class="galeri-item" src="/tema-deluxe/images/Foto6.jpg" alt="Galeri 6" loading="lazy">
+    <img class="galeri-item" src="/tema-deluxe/images/Foto7.jpg" alt="Galeri 7" loading="lazy">
+    <img class="galeri-item" src="/tema-deluxe/images/Foto8.jpg" alt="Galeri 8" loading="lazy">
+  </div>
+
+  </section>
+
+  <section class="sec muncul" id="amplop">
+    <div class="kepala"><span class="garis"></span><h2>Amplop Digital</h2><span class="garis"></span></div>
+    <p class="sub">Doa restu Anda dalam bentuk apa pun sangat berarti bagi kami. Terima kasih.</p>
+    <div class="kartu-rek">
+      <h3>BCA</h3>
+      <p class="no-rek">1234567890</p>
+      <p class="an">a.n. <b>Bagas Pratama</b></p>
+      <button class="btn-salin" data-copy="1234567890" type="button">SALIN NOMOR</button>
+    </div>
+    <div class="kartu-rek">
+      <h3>Mandiri</h3>
+      <p class="no-rek">0987654321</p>
+      <p class="an">a.n. <b>Dewi Amelia</b></p>
+      <button class="btn-salin" data-copy="0987654321" type="button">SALIN NOMOR</button>
+    </div>
+    <div class="kartu-kado">
+      <h3>Kirim Kado</h3>
+      <p>Bagas / Dewi</p>
+      <p>+6281234567890</p>
+      <p>Jl. Contoh Alamat No. 123, Sleman, Yogyakarta</p>
+    </div>
+  </section>
+
+  <section class="sec muncul" id="penutup">
+    <p class="sub">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+    <p class="sub">Wassalamu'alaikum Warahmatullahi Wabarakatuh.</p>
+    <p class="ttd">Kami yang berbahagia,</p>
+    <p class="nama-ttd">Bagas &amp; Dewi</p>
+    <p class="sub sekaligus">Beserta Keluarga Besar</p>
+    <div data-bernaung-rsvp></div>
+  </section>
+
+
+</main>
+
+<footer class="py-10 text-center bg-black border-t border-white/10">
+  <div class="flex justify-center items-center gap-6 mb-6">
+    <a href="https://www.instagram.com/bernaung.inv/" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+    <div class="w-16 h-16 rounded-full bg-cover border border-white/20 mx-2 shadow-lg" style="background-image:url('/assets.bernaung.id/loading-bernaung.jpeg')"></div>
+    <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-whatsapp"></i></a>
+  </div>
+  <a href="https://api.whatsapp.com/send/?phone=6282324137816&text=Halo" class="text-sm text-white font-main font-bold tracking-widest hover:text-gray-300 transition-colors block mb-4">HUBUNGI KAMI</a>
+  <p class="text-[10px] font-main text-gray-500">&copy; 2026 Bernaung Invitation.</p>
+</footer>
+
+<script src="/assets.bernaung.id/guest.js"></script>
+<script src="/assets.bernaung.id/rsvp.js"></script>
+<script>
+(function () {
+  /* --- buka undangan --- */
+  var cover = document.getElementById('cover');
+  var song = document.getElementById('song');
+  var btn = document.getElementById('bukaBtn');
+  var musikBtn = document.getElementById('musikBtn');
+  function buka() {
+    var amp = document.getElementById('amplopCover');
+    if (amp) amp.classList.add('buka');
+    setTimeout(function(){ document.body.classList.add('terbuka'); if (cover) cover.classList.add('tertutup'); }, 900);
+    if (cover) cover.classList.add('tertutup');
+    if (song && song.paused) { var p = song.play(); if (p && p.catch) p.catch(function(){}); }
+    if (musikBtn) musikBtn.classList.remove('sembunyi');
+  }
+  if (btn) btn.addEventListener('click', buka);
+  if (musikBtn) musikBtn.addEventListener('click', function () {
+    if (song.paused) { var p = song.play(); if (p && p.catch) p.catch(function(){}); musikBtn.classList.add('putar'); }
+    else { song.pause(); musikBtn.classList.remove('putar'); }
+  });
+
+  /* --- hitung mundur dari data-countdown (tanggal bahasa Indonesia) --- */
+  var cd = document.querySelector('[data-countdown]');
+  if (cd) {
+    var BULAN = { januari:0, februari:1, maret:2, april:3, mei:4, juni:5, juli:6,
+      agustus:7, september:8, oktober:9, november:10, desember:11,
+      jan:0, feb:1, mar:2, apr:3, jun:5, jul:6, agu:7, sep:8, okt:9, nov:10, des:11 };
+    function parseID(t) {
+      var m = String(t).match(/(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/);
+      if (!m) return null;
+      var mo = BULAN[m[2].toLowerCase()];
+      if (mo == null) return null;
+      return new Date(+m[3], mo, +m[1], 8, 0, 0);
+    }
+    var target = parseID(cd.getAttribute('data-countdown'));
+    var box = document.getElementById('countdown');
+    if (target && box) {
+      function tick() {
+        var diff = target - new Date();
+        if (diff < 0) diff = 0;
+        var d = Math.floor(diff / 864e5), h = Math.floor(diff % 864e5 / 36e5),
+            m = Math.floor(diff % 36e5 / 6e4), s = Math.floor(diff % 6e4 / 1e3);
+        function set(id, v) { var e = document.getElementById(id); if (e) e.textContent = (v < 10 ? '0' : '') + v; }
+        set('cd-hari', d); set('cd-jam', h); set('cd-menit', m); set('cd-detik', s);
+      }
+      tick(); setInterval(tick, 1000);
+    }
+  }
+
+  /* --- salin nomor rekening --- */
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-copy');
+      function done() { b.textContent = 'BERHASIL DISALIN'; setTimeout(function () { b.textContent = 'SALIN NOMOR'; }, 2200); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t).then(done).catch(function () { done(); });
+      } else {
+        var i = document.createElement('input'); i.value = t; document.body.appendChild(i);
+        i.select(); try { document.execCommand('copy'); } catch (e) {} i.remove(); done();
+      }
+    });
+  });
+
+  /* --- muncul saat digulir --- */
+  var io = new IntersectionObserver(function (en) {
+    en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('tampak'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.muncul').forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>

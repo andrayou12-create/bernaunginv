@@ -137,6 +137,50 @@
       "note": "Dengan foto, desain vintage",
       "foto": true,
       "path": "tema-vintage/index.html"
+    },
+    {
+      "id": "tema-luxury02",
+      "name": "Tema Luxury Gold 2",
+      "classification": "Premium",
+      "price": 100000,
+      "order": 13,
+      "visible": true,
+      "note": "Dengan foto, nuansa emerald-gold",
+      "foto": true,
+      "path": "tema-luxury02/index.html"
+    },
+    {
+      "id": "tema-motion01",
+      "name": "Tema 3D Motion Rose",
+      "classification": "Tema Baru",
+      "price": 90000,
+      "order": 14,
+      "visible": true,
+      "note": "Dengan foto, kelopak 3D & parallax",
+      "foto": true,
+      "path": "tema-motion01/index.html"
+    },
+    {
+      "id": "tema-interaktif01",
+      "name": "Tema Interaktif Amplop",
+      "classification": "Tema Baru",
+      "price": 90000,
+      "order": 15,
+      "visible": true,
+      "note": "Dengan foto, amplop interaktif",
+      "foto": true,
+      "path": "tema-interaktif01/index.html"
+    },
+    {
+      "id": "tema-nofoto01",
+      "name": "Tema Elegan Tanpa Foto",
+      "classification": "Minimalis",
+      "price": 70000,
+      "order": 16,
+      "visible": true,
+      "note": "Tanpa foto, monogram elegan",
+      "foto": false,
+      "path": "tema-nofoto01/index.html"
     }
   ],
   "customers": [

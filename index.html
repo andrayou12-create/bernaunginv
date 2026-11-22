@@ -167,7 +167,16 @@
         transition: .25s;
     }
     .btn-katalog:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.35); }
+    .btn-katalog { border: none; cursor: pointer; font-family: inherit; font-size: 1em; }
     .link-admin { color: #5d7285 !important; font-size: .75em; }
+
+    /* ---- Katalog inline (muncul di bawah tombol, pola "kirim hadiah") ---- */
+    #katalog-inline { max-width: 1080px; margin: 0 auto 30px; padding: 0 16px; }
+    .kif-inner { background: #223042; border: 1px solid #3e556b; border-radius: 18px; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+    .kif-inner iframe { width: 100%; height: min(82vh, 1200px); border: 0; border-radius: 12px; background: #1a2532; display: block; }
+    .kif-more { text-align: center; margin-top: 12px; }
+    .kif-more a { color: #8aa2ce; font-size: .85em; }
+    .kif-more a:hover { color: #e8c687; }
     </style>
     <link rel="stylesheet" href="/_cdn/the.invisimple.id/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css">
 </head>
@@ -190,8 +199,17 @@
         <div class="cls">
             <span>Adat Jawa</span><span>Premium</span><span>Musik</span><span>Minimalis</span><span>Tema Baru</span>
         </div>
-        <a class="btn-katalog" href="katalog.html">LIHAT KATALOG</a>
+        <button class="btn-katalog" id="btnKatalog" type="button">LIHAT KATALOG</button>
     </div>
+
+    <!-- Katalog yang dibuka di halaman yang sama: tersembunyi dulu,
+         muncul di bawah tombol setelah ditekan (pola "kirim hadiah") -->
+    <section id="katalog-inline" hidden>
+        <div class="kif-inner">
+            <iframe id="katalogFrame" title="Katalog Undangan" src="about:blank" loading="lazy"></iframe>
+        </div>
+        <p class="kif-more"><a href="katalog.html" target="_blank" rel="noopener">Buka katalog dalam halaman penuh &rarr;</a></p>
+    </section>
 
     <footer>
         <a href="https://www.instagram.com/bernaung.inv/" target="_blank" style="color: white; font-size: 24px;"><i class="fab fa-instagram"></i></a>
@@ -211,4 +229,30 @@
     </footer>
 
 </body>
+
+<script>
+/* Katalog inline: tersembunyi dulu, muncul di bawah tombol setelah
+   "LIHAT KATALOG" ditekan. Iframe katalog hanya dimuat saat tombol
+   ditekan — musik pratinjau aman karena katalog.html sendiri
+   membisukan semua media di kartu pratinjaunya. */
+(function () {
+    var btn = document.getElementById('btnKatalog');
+    var sec = document.getElementById('katalog-inline');
+    var fr = document.getElementById('katalogFrame');
+    if (!btn || !sec || !fr) return;
+    var loaded = false;
+    btn.addEventListener('click', function () {
+        if (sec.hidden) {
+            sec.hidden = false;
+            if (!loaded) { fr.src = '/katalog.html?embed=1'; loaded = true; }
+            btn.textContent = 'TUTUP KATALOG';
+            setTimeout(function () { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
+        } else {
+            sec.hidden = true;
+            btn.textContent = 'LIHAT KATALOG';
+        }
+    });
+})();
+</script>
+
 </html>
