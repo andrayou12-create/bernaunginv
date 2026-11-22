@@ -1055,7 +1055,7 @@ p {
 				<div class="elementor-widget-container">
 									<p>Ucapan Sesuatu</p>								</div>
 				</div>
-				<div class="idb-reveal idb-ef zoom-up elementor-element elementor-element-3c15b82a elementor-widget elementor-widget-niku-rsvp" data-reveal-offset="10" data-reveal-duration="2000" data-reveal-delay="0" style="transition-duration: 2000ms;" data-id="3c15b82a" data-element_type="widget" data-e-type="widget" data-widget_type="niku-rsvp.default">
+				<div class="idb-reveal idb-ef zoom-up elementor-element elementor-element-3c15b82a elementor-widget elementor-widget-niku-rsvp" data-bernaung-rsvp="1" data-reveal-offset="10" data-reveal-duration="2000" data-reveal-delay="0" style="transition-duration: 2000ms;" data-id="3c15b82a" data-element_type="widget" data-e-type="widget" data-widget_type="niku-rsvp.default">
 				<div class="elementor-widget-container">
 					        <div class="rsvp-card"
              data-post-id="21160"
@@ -1317,10 +1317,7 @@ p {
 		<div class="elementor-element elementor-element-78a51aa6 e-flex e-con-boxed e-con e-parent" data-id="78a51aa6" data-element_type="container" data-e-type="container">
 					<div class="e-con-inner">
 		<div class="elementor-element elementor-element-4a850997 e-con-full e-flex e-con e-child" data-id="4a850997" data-element_type="container" data-e-type="container" data-settings="{&quot;background_background&quot;:&quot;gradient&quot;}">
-				<div class="elementor-element elementor-element-1e34cdce elementor-widget elementor-widget-text-editor" data-id="1e34cdce" data-element_type="widget" data-e-type="widget" data-widget_type="text-editor.default">
-				<div class="elementor-widget-container">
-																	</div>
-				</div>
+				
 				
 				<div class="elementor-element elementor-element-6a59c536 elementor-widget elementor-widget-bisdev_musik" data-id="6a59c536" data-element_type="widget" data-e-type="widget" data-settings="{&quot;sticky&quot;:&quot;bottom&quot;,&quot;sticky_offset&quot;:50,&quot;sticky_on&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;sticky_effects_offset&quot;:0,&quot;sticky_anchor_link_offset&quot;:0}" data-widget_type="bisdev_musik.default">
 				<div class="elementor-widget-container">
@@ -1356,13 +1353,7 @@ p {
 
     				</div>
 				</div>
-				<div class="elementor-element elementor-element-19fff041 elementor-widget elementor-widget-spacer" data-id="19fff041" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
-				<div class="elementor-widget-container">
-							<div class="elementor-spacer">
-			<div class="elementor-spacer-inner"></div>
-		</div>
-						</div>
-				</div>
+				
 				<div class="elementor-element elementor-element-60cad31 elementor-widget elementor-widget-html" data-id="60cad31" data-element_type="widget" data-e-type="widget" id="h" data-widget_type="html.default">
 				<div class="elementor-widget-container">
 					<script>
@@ -1606,12 +1597,7 @@ var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false
 <script id="bisdev-copy-rekening-widget-js" src="wp-content/plugins/bisdev-pro/assets/dist/js/copy-rekening.bc3b177b.js"></script>
 <script id="bisdev-kirim-hadiah-widget-js" src="wp-content/plugins/bisdev-pro/assets/dist/js/kirim-hadiah.a62d3579.js"></script>
 <script id="bisdev-konfirmasi-transfer-widget-js" src="wp-content/plugins/bisdev-pro/assets/dist/js/konfirmasi-transfer.7a907b8e.js"></script>
-<script id="niku-rsvp-js-extra">
-var NIKU_RSVP = {"ajax_url":"wp-admin/admin-ajax.php","nonce":"ab9222b1c0"};
-var NIKU_RSVP = {"ajax_url":"wp-admin/admin-ajax.php","nonce":"ab9222b1c0"};
-//# sourceURL=niku-rsvp-js-extra
-</script>
-<script id="niku-rsvp-js" src="wp-content/plugins/bisdev-pro/assets/dist/js/rsvp.010206f8.js"></script>
+
 <script id="e-sticky-js" src="wp-content/plugins/elementor-pro/assets/lib/sticky/jquery.sticky.min.js"></script>
 <script id="idb-footer-cleanup-js-before">
 document.body.dataset.idbHideParentMap={"wanita":0,"pria":0};
@@ -1803,7 +1789,14 @@ body[style*="position:fixed"] #kolom{
 	display : none!important;
 	}
 </style>
-	<link rel="stylesheet" href="/assets.bernaung.id/footer.css">
+	<style>
+/* BERNAUNG FIX: bekas footer lama -> hapus ruang kosong, kontainer tetap memuat player musik & script */
+.elementor-element-78a51aa6{padding-top:0!important;padding-bottom:0!important;min-height:0!important;}
+.elementor-element-78a51aa6 .e-con-inner{min-height:0!important;}
+.elementor-element-4a850997{background:none!important;min-height:0!important;padding-top:0!important;padding-bottom:0!important;}
+.elementor-element-1f044571{display:none!important;}
+</style>
+<link rel="stylesheet" href="/assets.bernaung.id/footer.css">
 <!-- FOOTER BERNAUNG -->
 <footer class="py-10 text-center bg-black border-t border-white/10">
     <div class="flex justify-center items-center gap-6 mb-6">
