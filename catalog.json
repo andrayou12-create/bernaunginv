@@ -174,7 +174,7 @@
     {
       "id": "tema-pmotion01",
       "name": "Tema Motion 1",
-      "classification": "Baru",
+      "classification": "Tema Baru",
       "price": 130000,
       "path": "tema-pmotion01/index.html",
       "order": 16,
@@ -184,7 +184,7 @@
     {
       "id": "tema-pmotion04",
       "name": "Tema Motion 2",
-      "classification": "Baru",
+      "classification": "Tema Baru",
       "price": 130000,
       "path": "tema-pmotion04/index.html",
       "order": 17,
@@ -194,7 +194,7 @@
     {
       "id": "tema-pmotion07",
       "name": "Tema Motion 3",
-      "classification": "Baru",
+      "classification": "Tema Baru",
       "price": 130000,
       "path": "tema-pmotion07/index.html",
       "order": 18,
