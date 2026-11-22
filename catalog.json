@@ -8,7 +8,7 @@
   "themes": [
     {
       "id": "tema-jawa",
-      "name": "Tema Jawa",
+      "name": "Tema Jawa 01",
       "classification": "Adat Jawa",
       "price": 100000,
       "order": 1,
@@ -19,8 +19,8 @@
     },
     {
       "id": "tema-jawa2",
-      "name": "Tema Premium Motion 09",
-      "classification": "Premium",
+      "name": "Tema Jawa 02",
+      "classification": "Adat Jawa",
       "price": 100000,
       "order": 2,
       "visible": true,
@@ -155,7 +155,7 @@
       "classification": "Tema Baru",
       "price": 90000,
       "order": 14,
-      "visible": true,
+      "visible": false,
       "note": "Gaya art pastel ala invisimple, lottie burung & ornamen melayang",
       "foto": true,
       "path": "tema-art01/index.html"
@@ -166,43 +166,10 @@
       "classification": "Tema Baru",
       "price": 90000,
       "order": 15,
-      "visible": true,
+      "visible": false,
       "note": "Video motion latar + kelopak bunga, gaya invisimple",
       "foto": true,
       "path": "tema-motion02/index.html"
-    },
-    {
-      "id": "tema-pmotion01",
-      "name": "Tema Premium Motion 01",
-      "classification": "Premium",
-      "price": 100000,
-      "order": 16,
-      "visible": true,
-      "note": "Video motion latar, gaya botanical",
-      "foto": true,
-      "path": "tema-pmotion01/index.html"
-    },
-    {
-      "id": "tema-pmotion04",
-      "name": "Tema Premium Motion 04",
-      "classification": "Premium",
-      "price": 100000,
-      "order": 17,
-      "visible": true,
-      "note": "Video motion latar, gaya vintage mewah",
-      "foto": true,
-      "path": "tema-pmotion04/index.html"
-    },
-    {
-      "id": "tema-pmotion07",
-      "name": "Tema Premium Motion 07",
-      "classification": "Premium",
-      "price": 100000,
-      "order": 18,
-      "visible": true,
-      "note": "Video motion latar, gaya klasik hijau",
-      "foto": true,
-      "path": "tema-pmotion07/index.html"
     }
   ],
   "customers": [
