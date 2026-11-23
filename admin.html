@@ -148,18 +148,13 @@
         </div>
         <p class="hint" id="catalogInfo"></p>
       </div>
-      <div class="card">
-        <h2>DAFTAR CUSTOMER (RINGKAS)</h2>
-        <p class="desc">Ringkasan customer &mdash; kelola lengkap di tab <b>Daftar Customer</b>.</p>
-        <div id="custMini"></div>
-      </div>
     </section>
 
     <!-- ============ TAB CUSTOMER BARU ============ -->
     <section id="tab-baru" class="hidden">
       <div class="card">
         <h2>BUAT UNDANGAN CUSTOMER BARU</h2>
-        <p class="desc">Pilih tema, isi detail acara, lalu klik <b>Buat Undangan</b>. Form kini berbentuk langkah yang bisa dilipat — wajib diisi hanya <b>1&#8211;4</b>; bagian lain (foto, amplop, RSVP, musik, dsb.) opsional dan tinggal dibuka saat perlu. Sistem akan menyalin tema, mengganti seluruh data demo dengan data customer, menautkan RSVP, dan mencatatnya ke daftar customer dalam <b>satu commit</b>.</p>
+        <p class="desc">Pilih tema, isi detail acara, lalu klik <b>Buat Undangan</b>. Form kini berbentuk langkah yang bisa dilipat — wajib diisi hanya <b>1&#8211;4</b>; bagian lain (foto, amplop, love story, musik, dsb.) opsional dan tinggal dibuka saat perlu. Sistem akan menyalin tema, mengganti seluruh data demo dengan data customer, menautkan RSVP pusat otomatis (tanpa isi URL per customer), dan mencatatnya ke daftar customer dalam <b>satu commit</b>.</p>
 
         <details class="acc" open>
           <summary><span class="no">1</span><span class="ttl">IDENTITAS UNDANGAN</span><span class="tag">wajib</span><span class="chev">&#9654;</span></summary>
@@ -190,12 +185,10 @@
             <div><label class="f">Nama Lengkap</label><input class="f" id="c_brideFull" placeholder="Sari Amelia Putri"></div>
           </div>
           <div class="grid2" style="margin-top:10px">
-            <div><label class="f">Putri dari (orang tua — teks utuh)</label><input class="f" id="c_brideParents" placeholder="Putri dari Bapak Budi dan Ibu Sari"></div>
-            <div class="grid2" style="gap:10px">
-              <div><label class="f">Ayah (tema terpisah)</label><input class="f" id="c_brideFather" placeholder="Bapak Budi"></div>
-              <div><label class="f">Ibu (tema terpisah)</label><input class="f" id="c_brideMother" placeholder="Ibu Sari"></div>
-            </div>
+            <div><label class="f">Nama Ayah</label><input class="f" id="c_brideFather" placeholder="Bapak Budi"></div>
+            <div><label class="f">Nama Ibu</label><input class="f" id="c_brideMother" placeholder="Ibu Sari"></div>
           </div>
+          <div class="hint" style="margin-top:6px">Cukup diisi sekali — teks &ldquo;Putri dari Bapak ... dan Ibu ...&rdquo; untuk semua jenis tema disusun otomatis dari nama ayah &amp; ibu di atas.</div>
           <div style="margin-top:10px">
             <div><label class="f">Instagram (tanpa @)</label><input class="f" id="c_brideIg" placeholder="instagram_wanita"></div>
           </div>
@@ -210,12 +203,10 @@
             <div><label class="f">Nama Lengkap</label><input class="f" id="c_groomFull" placeholder="Budi Santoso"></div>
           </div>
           <div class="grid2" style="margin-top:10px">
-            <div><label class="f">Putra dari (orang tua — teks utuh)</label><input class="f" id="c_groomParents" placeholder="Putra dari Bapak Andi dan Ibu Rina"></div>
-            <div class="grid2" style="gap:10px">
-              <div><label class="f">Ayah (tema terpisah)</label><input class="f" id="c_groomFather" placeholder="Bapak Andi"></div>
-              <div><label class="f">Ibu (tema terpisah)</label><input class="f" id="c_groomMother" placeholder="Ibu Rina"></div>
-            </div>
+            <div><label class="f">Nama Ayah</label><input class="f" id="c_groomFather" placeholder="Bapak Andi"></div>
+            <div><label class="f">Nama Ibu</label><input class="f" id="c_groomMother" placeholder="Ibu Rina"></div>
           </div>
+          <div class="hint" style="margin-top:6px">Cukup diisi sekali — teks &ldquo;Putra dari Bapak ... dan Ibu ...&rdquo; untuk semua jenis tema disusun otomatis dari nama ayah &amp; ibu di atas.</div>
           <div style="margin-top:10px">
             <div><label class="f">Instagram (tanpa @)</label><input class="f" id="c_groomIg" placeholder="instagram_pria"></div>
           </div>
@@ -308,27 +299,7 @@
         </details>
 
         <details class="acc">
-          <summary><span class="no">7</span><span class="ttl">RSVP (GOOGLE SPREADSHEET)</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
-          <div class="acc-body">
-          <div class="grid2">
-            <div><label class="f">Metode RSVP</label>
-              <select class="f" id="c_rsvpMode">
-                <option value="sheet" selected>Google Spreadsheet (Apps Script)</option>
-                <option value="demo">Tanpa RSVP (pratinjau saja)</option>
-              </select>
-            </div>
-            <div><label class="f">Link Google Spreadsheet (catatan admin)</label><input class="f" id="c_sheet" placeholder="https://docs.google.com/spreadsheets/..."></div>
-          </div>
-          <div id="sheetFields" style="margin-top:10px">
-            <label class="f">URL Apps Script (berakhiran /exec)</label>
-            <input class="f" id="c_appscript" placeholder="https://script.google.com/macros/s/AKfyc.../exec">
-            <div class="hint">Ikuti panduan di tab Pengaturan. Jika tema sudah memiliki form RSVP sendiri yang berfungsi, URL ini menggantikan endpoint lamanya.</div>
-          </div>
-          </div>
-        </details>
-
-        <details class="acc">
-          <summary><span class="no">8</span><span class="ttl">LOVE STORY (DINAMIS)</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
+          <summary><span class="no">7</span><span class="ttl">LOVE STORY (DINAMIS)</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
           <div class="acc-body">
           <p class="desc">Tambahkan cerita perjalanan cinta — jumlah bebas. Isi <b>Teks di tema</b> (kalimat demo yang mau diganti, bisa disalin dari pratinjau tema) dan <b>Cerita baru</b> sebagai penggantinya.</p>
           <div id="loveStoryList"></div>
@@ -338,20 +309,16 @@
         </details>
 
         <details class="acc">
-          <summary><span class="no">9</span><span class="ttl">MUSIK UNDANGAN</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
+          <summary><span class="no">8</span><span class="ttl">MUSIK UNDANGAN</span><span class="tag">opsional</span><span class="chev">&#9654;</span></summary>
           <div class="acc-body">
-          <div class="grid2">
-            <div><label class="f">Unggah Musik (mp3)</label><input type="file" id="c_musicFile" accept="audio/*" class="f" style="padding:7px"><div class="hint">Dengan Token: tersimpan ke <code>customer/&lt;slug&gt;/music.mp3</code>. Tanpa token: disematkan langsung ke halaman (maks 4 MB).</div></div>
-            <div><label class="f">atau URL Musik</label><input class="f" id="c_musicUrl" placeholder="https://.../lagu.mp3 (kosongkan jika upload)"></div>
+          <label class="f">Pilih Lagu Tersedia (tanpa upload — hemat memori)</label>
+          <select class="f" id="c_musicPick"></select>
+          <div class="hint">Daftar lagu yang sudah ada di server. Dipakai langsung sebagai musik undangan tanpa perlu unggah file.</div>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">atau Unggah Musik (mp3)</label><input type="file" id="c_musicFile" accept="audio/*" class="f" style="padding:7px"><div class="hint">Prioritas tertinggi. Dengan Token: tersimpan ke <code>customer/&lt;slug&gt;/music.mp3</code>. Tanpa token: disematkan langsung ke halaman (maks 4 MB).</div></div>
+            <div><label class="f">atau URL Musik</label><input class="f" id="c_musicUrl" placeholder="https://.../lagu.mp3"></div>
           </div>
-          </div>
-        </details>
-
-        <details class="acc">
-          <summary><span class="no">10</span><span class="ttl">PENGGANTIAN TAMBAHAN</span><span class="tag">opsional — teks lain</span><span class="chev">&#9654;</span></summary>
-          <div class="acc-body">
-          <label class="f">Satu per baris, format: <b>teks demo lama | teks baru</b></label>
-          <textarea class="f" id="c_extra" placeholder="Keluarga Besar Bapak Mohamad Rasul | Keluarga Besar Bapak Ahmad&#10;Episode 1: Pertemuan | Bab 1: Awal Mula"></textarea>
+          <div class="hint">Urutan prioritas: <b>Unggah</b> &gt; <b>URL</b> &gt; <b>Pilihan lagu tersedia</b>.</div>
           </div>
         </details>
 
@@ -375,7 +342,13 @@
     <section id="tab-daftar" class="hidden">
       <div class="card">
         <h2>DAFTAR CUSTOMER</h2>
-        <p class="desc">Tandai <b>Terbayar</b> untuk otomatis membuat halaman <b>Generator Link Tamu</b> (<code>tamu.html</code>) di folder customer. Gunakan <b>Edit</b> untuk mengubah data lalu membuat ulang file undangan. Klik <b>RSVP</b> untuk melihat daftar ucapan customer, mengunduhnya sebagai Excel, atau membackupnya ke repo.</p>
+        <p class="desc">Tandai <b>Terbayar</b> untuk otomatis membuat halaman <b>Generator Link Tamu</b> (<code>tamu.html</code>) di folder customer. Gunakan <b>Edit</b> untuk mengubah data lalu membuat ulang file undangan. Klik <b>RSVP</b> untuk melihat daftar ucapan customer, mengunduhnya sebagai Excel, atau membackupnya ke repo. Customer terbaru selalu berada di atas.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:12px">
+          <div><label class="f">Filter Nama</label><input class="f" id="f_nama" placeholder="nama pasangan / slug..."></div>
+          <div><label class="f">Filter Tanggal Acara</label><input class="f" id="f_tanggal" placeholder="mis. Desember 2026"></div>
+          <div><label class="f">Filter Tema</label><select class="f" id="f_tema"></select></div>
+          <div><label class="f">Filter Status</label><select class="f" id="f_status"><option value="">Semua Status</option><option value="paid">Terbayar</option><option value="unpaid">Belum Bayar</option></select></div>
+        </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
           <button class="btn btn-gold btn-sm" id="btnRsvpAll">UNDUH SEMUA RSVP (1 FILE EXCEL, 1 SHEET PER CUSTOMER)</button>
         </div>
@@ -399,9 +372,11 @@
         </div>
         <div style="margin-top:10px"><label class="f">GitHub Token (PAT)</label><input class="f" id="s_token" type="password" placeholder="github_pat_... (kosongkan untuk mode unduh manual)"></div>
         <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-line" id="btnEditSettings">UBAH PENGATURAN</button>
           <button class="btn btn-gold" id="saveSettings">SIMPAN PENGATURAN</button>
           <button class="btn btn-line" id="testToken">TES KONEKSI</button>
         </div>
+        <p class="hint">Kolom pengaturan <b>terkunci</b> agar tidak berubah saat salah pencet. Klik <b>UBAH PENGATURAN</b> untuk membuka, lalu <b>SIMPAN PENGATURAN</b> untuk menyimpan sekaligus mengunci kembali.</p>
         <p class="hint">Tanpa token: panel tetap bisa dipakai &mdash; hasil perubahan/undangan akan <b>diunduh sebagai file</b> untuk Anda unggah manual ke GitHub (Add file &rarr; Upload files).</p>
       </div>
 
@@ -422,11 +397,14 @@
           1. Buat Spreadsheet baru di sheets.google.com &rarr; Extensions &rarr; Apps Script.<br>
           2. Hapus kode bawaan, tempel isi file <code>assets.bernaung.id/Code.gs</code> (versi pusat, tersedia juga di panel ini), Save.<br>
           3. Deploy &rarr; New deployment &rarr; Web app &rarr; Execute as: <b>Me</b>, Who has access: <b>Anyone</b> &rarr; Deploy &rarr; Allow.<br>
-          4. Salin URL berakhiran <b>/exec</b> &rarr; tempel di kolom <b>URL Apps Script</b> form Customer Baru &amp; Edit (URL yang sama untuk semua customer), dan simpan juga di kolom di bawah ini agar tombol <b>Lihat RSVP</b> / <b>Unduh Excel</b> bisa memakainya sebagai cadangan.<br>
-          5. Selesai &mdash; RSVP semua customer terkumpul di satu spreadsheet, terpisah per tab customer.
+          4. Salin URL berakhiran <b>/exec</b> &rarr; tempel di kolom <b>URL Apps Script</b> di bawah, dan tempel juga alamat spreadsheetnya di kolom <b>Link Google Spreadsheet</b>.<br>
+          5. Simpan Pengaturan &rarr; URL ini otomatis dipakai <b>semua customer</b> (baru maupun saat diedit ulang) — tidak perlu mengisi lagi di form Customer Baru.<br>
+          6. Selesai &mdash; RSVP semua customer terkumpul di satu spreadsheet, terpisah per tab customer.
         </p>
-        <label class="f">URL Apps Script RSVP Pusat (cadangan tombol Lihat/Unduh RSVP di panel)</label>
-        <input class="f" id="s_rsvpCenter" placeholder="https://script.google.com/macros/s/AKfyc.../exec">
+        <div class="grid2">
+          <div><label class="f">URL Apps Script RSVP Pusat (berakhiran /exec)</label><input class="f" id="s_rsvpCenter" placeholder="https://script.google.com/macros/s/AKfyc.../exec"></div>
+          <div><label class="f">Link Google Spreadsheet RSVP Pusat (untuk tombol Lihat RSVP)</label><input class="f" id="s_rsvpSheet" placeholder="https://docs.google.com/spreadsheets/..."></div>
+        </div>
         <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
           <button class="btn btn-line" id="dlCode">UNDUH Code.gs</button>
         </div>
@@ -471,6 +449,6 @@
 
 <script src="/assets.bernaung.id/admin-auth.js"></script>
 <script src="/assets.bernaung.id/bng-xlsx.js"></script>
-<script src="/assets.bernaung.id/admin.js?v=6"></script>
+<script src="/assets.bernaung.id/admin.js?v=7"></script>
 </body>
 </html>

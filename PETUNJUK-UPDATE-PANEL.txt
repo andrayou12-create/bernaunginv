@@ -1,0 +1,82 @@
+============================================================
+UPDATE PANEL ADMIN — BERNAUNG INVITATION
+============================================================
+
+ISI PAKET (unggah ke repo dengan struktur folder yang sama):
+  admin.html                    -> ganti file di ROOT repo
+  assets.bernaung.id/admin.js   -> ganti file di folder assets.bernaung.id/
+  assets.bernaung.id/Code.gs    -> tidak berubah (untuk deploy RSVP pusat, baca di bawah)
+
+Setelah unggah, GitHub Pages otomatis memperbarui situs (tunggu 1-3 menit),
+lalu MUAT ULANG (refresh) panel admin dengan menekan Ctrl+Shift+R.
+
+
+============================================================
+A. PERBAIKAN "FAILED TO FETCH"
+============================================================
+1. Panel sekarang TETAP TERBUKA walau GitHub API tidak terjangkau:
+   data cadangan dimuat dari file situs sendiri, dengan catatan
+   di layar. Error apa pun kini muncul sebagai notifikasi (toast)
+   sehingga mudah dilaporkan, tidak lagi mati diam-diam.
+2. Penyebab error RSVP "Failed to fetch" saat menekan tombol LIHAT RSVP:
+   URL Apps Script yang lama (nasirin-mila) sudah MATI (403).
+   Ikuti langkah RSVP Pusat di bawah untuk memperbaikinya permanen.
+
+
+============================================================
+B. RSVP PUSAT — SATU SPREADSHEET UNTUK SEMUA CUSTOMER
+   (sekali setup, tidak perlu lagi isi URL per customer)
+============================================================
+1. Buat Spreadsheet baru di sheets.google.com
+   (mis. beri nama "RSVP BERNAUNG").
+2. Menu Extensions -> Apps Script -> hapus kode bawaan ->
+   tempel isi file assets.bernaung.id/Code.gs (bisa juga diunduh
+   dari panel: tab Pengaturan -> UNDUH Code.gs). Save.
+3. Deploy -> New deployment -> Web app ->
+   Execute as: Me  |  Who has access: Anyone -> Deploy -> Allow.
+4. Salin URL berakhiran /exec.
+5. Buka panel -> tab PENGATURAN:
+   - UBAH PENGATURAN (untuk membuka kunci)
+   - isi kolom "URL Apps Script RSVP Pusat" dengan URL /exec tadi
+   - isi kolom "Link Google Spreadsheet RSVP Pusat" dengan alamat
+     spreadsheetnya (dipakai tombol Lihat RSVP)
+   - SIMPAN PENGATURAN (tersimpan sekaligus TERKUNCI lagi).
+6. Selesai. RSVP semua customer masuk ke SATU spreadsheet,
+   dipisah tab per customer (tab dibuat otomatis saat RSVP
+   pertama customer itu masuk). Customer lama yang akan dipindah
+   ke URL pusat: buka tab Daftar Customer -> EDIT -> langsung
+   BUAT UNDANGAN (semua data sudah terisi, tidak perlu ketik ulang).
+
+
+============================================================
+C. REVISI PANEL ADMIN (sesuai permintaan)
+============================================================
+1. Kolom input RSVP di form Customer Baru DIHAPUS.
+   Gantinya: kolom "URL Apps Script RSVP Pusat" + "Link Google
+   Spreadsheet" di tab Pengaturan, otomatis dipakai semua customer.
+   Pengaturan TERKUNCI agar tidak berubah saat salah pencet:
+   klik UBAH PENGATURAN untuk mengubah, SIMPAN PENGATURAN untuk
+   menyimpan sekaligus mengunci kembali.
+2. Nama orang tua pengantin cukup diinput SEKALI saja
+   (kolom Ayah + Ibu). Teks "Putri dari Bapak ... dan Ibu ..."
+   dan "Putra dari Bapak ... dan Ibu ..." disusun otomatis
+   untuk semua jenis tema.
+3. Bagian "PENGGANTIAN TAMBAHAN" dihapus dari form.
+4. Musik: ada pilihan "PILIH LAGU TERSEDIA" (Glory, Bermuara,
+   Kusuma Wijaya, Howl's Moving Castle, A Whole New World, dll)
+   — tinggal pilih tanpa upload, hemat memori. Upload file dan
+   URL tetap tersedia (prioritas: Upload > URL > Pilihan lagu).
+5. Daftar Customer: ada FILTER (nama/slug, tanggal acara, tema,
+   status bayar) dan customer TERBARI selalu di urutan atas.
+6. "DAFTAR CUSTOMER (RINGKAS)" di tab Katalog dihapus
+   (kelola cukup lewat tab Daftar Customer).
+
+
+============================================================
+D. CATATAN
+============================================================
+- Data RSVP lama nasirin-mila yang sudah masuk ke spreadsheet lama
+  tidak otomatis pindah; jika perlu, salin manual ke tab baru.
+- Jika nanti ada lagu baru di repo, daftar pilihan lagu di panel
+  bisa ditambahkan dengan mengedit bagian BNG_SONGS pada
+  assets.bernaung.id/admin.js.

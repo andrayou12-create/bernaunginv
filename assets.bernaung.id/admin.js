@@ -19,6 +19,7 @@ window.__ADMIN_JS_V2 = true;
     catalog: null,          // {brand, themes, customers}
     themeMap: null,         // theme-map.json
     settings: loadSettings(),
+    settingsLocked: true,   // pengaturan terkunci sampai tombol UBAH ditekan
     editingCustomer: null   // slug yang sedang diedit
   };
 
@@ -248,7 +249,6 @@ window.__ADMIN_JS_V2 = true;
       b.classList.toggle('active', b.getAttribute('data-tab') === name);
     });
     if (name === 'daftar') renderCustomers();
-    if (name === 'katalog') renderCustMini();
   }
 
   /* ================= LOAD DATA ================= */
@@ -319,14 +319,7 @@ window.__ADMIN_JS_V2 = true;
     toast('Tema ditambahkan — simpan katalog, lalu unggah folder temanya (salinan tema).', true);
   });
 
-  function renderCustMini() {
-    var box = $('custMini');
-    if (!S.catalog.customers.length) { box.innerHTML = '<p class="desc">Belum ada customer.</p>'; return; }
-    box.innerHTML = S.catalog.customers.map(function (c) {
-      return '<p class="desc">' + esc(c.slug) + ' — ' + esc(c.name) + ' — <b>' +
-        (c.status === 'paid' ? 'TERBAYAR' : 'BELUM BAYAR') + '</b></p>';
-    }).join('');
-  }
+  function renderCustMini() { /* dihapus — ringkasan customer di tab Katalog sudah tidak dipakai */ }
 
   /* ================= TAB CUSTOMER BARU ================= */
   function fillThemeSelect() {
@@ -423,13 +416,9 @@ window.__ADMIN_JS_V2 = true;
     $(id).addEventListener('input', function () { this._manual = true; });
   });
 
-  /* toggle tampilan form RSVP sesuai metode (hanya Spreadsheet / tanpa RSVP) */
-  function updateRsvpFields() {
-    var m = $('c_rsvpMode').value;
-    $('sheetFields').style.display = (m === 'sheet') ? '' : 'none';
-  }
-  $('c_rsvpMode').addEventListener('change', updateRsvpFields);
-  updateRsvpFields();
+  /* RSVP tidak lagi diisi per customer di form ini.
+     Satu URL Apps Script + satu Spreadsheet pusat diisi di tab Pengaturan,
+     lalu otomatis dipakai SEMUA customer (RSVP masuk per tab slug customer). */
 
   /* ================= LOVE STORY DINAMIS ================= */
   function addStoryRow(findVal, repVal) {
@@ -462,6 +451,32 @@ window.__ADMIN_JS_V2 = true;
   addStoryRow('', ''); /* satu baris awal */
 
   /* ================= MUSIK ================= */
+  /* Lagu bawaan repo — admin cukup memilih tanpa upload (hemat memori).
+     Urutan prioritas saat generate: Upload > URL > Pilihan di bawah. */
+  var BNG_SONGS = [
+    { n: '— Pilih dari lagu tersedia (opsional) —', u: '' },
+    { n: 'Glory — Worship', u: '/assets.bernaung.id/Glory.mp3' },
+    { n: 'Bernaung — Instrumental Bawaan', u: '/assets.bernaung.id/music.mp3' },
+    { n: 'Rizky Febian & Mahalini — Bermuara', u: '/_cdn/inv.punakawandigital.id/wp-content/uploads/2026/06/Rizky-Febian-Feat.-Mahalini-Bermuara-Official-Lyric-Video-1-1.mp3' },
+    { n: 'Kusuma Wijaya — Instrumental Jawa', u: '/_cdn/inv.rumahundangan.in/wp-content/uploads/2025/10/KUSUMA-WIJAYA.mp3' },
+    { n: 'Backsound Jawa — Happy', u: '/_cdn/inv.rumahundangan.in/wp-content/uploads/2026/07/Free-Backsound-Jawa-Happy-Javanese-Backsound-1.mp3' },
+    { n: "Howl's Moving Castle — Piano", u: '/_cdn/inv.rumahundangan.in/wp-content/uploads/2026/07/Howl-s-Moving-FULL-CUT.mp3' },
+    { n: 'I Will Spend My Whole Life Loving You', u: '/_cdn/inv.rumahundangan.in/wp-content/uploads/2026/07/i-will-spend-my-whole-life-loving-you-1710382944-29bb2fc20444b1120cb1484d-mp3cut.net_.mp3' },
+    { n: 'Resepsi Nurhana — Instrumental', u: '/_cdn/the.invisimple.id/wp-content/uploads/2024/10/Resepsi-Nurhana.mp3' },
+    { n: 'A Whole New World — Violin Cello Piano', u: '/_cdn/the.invisimple.id/wp-content/uploads/2024/11/A-Whole-New-World-ViolinCelloPiano-Cover.mp3' },
+    { n: 'Beyond The Sea — Kina Grannis', u: '/tema-deluxe/Beyond-The-Sea-Kina-Grannis.mp3' },
+    { n: 'Nuca Masaini', u: '/tema-deluxe/nuca-masaini.mp3' },
+    { n: 'Jawa Instrument', u: '/tema-jawanopict/javainstrument.mp3' }
+  ];
+  function fillMusicPick() {
+    var sel = $('c_musicPick');
+    if (!sel) return;
+    var cur = sel.value;
+    sel.innerHTML = BNG_SONGS.map(function (s) {
+      return '<option value="' + esc(s.u) + '">' + esc(s.n) + '</option>';
+    }).join('');
+    if (cur) Array.prototype.forEach.call(sel.options, function (o) { if (o.value === cur) sel.value = cur; });
+  }
   function musicExtOf(name) {
     var m = String(name || '').toLowerCase().match(/\.(mp3|ogg|m4a|wav)$/);
     return m ? m[1] : 'mp3';
@@ -500,7 +515,7 @@ window.__ADMIN_JS_V2 = true;
     if (!data.values.title) data.values.title = data.values.heroNames;
     /* musik dari file yang dipilih (tanpa unggah) */
     var mfile = $('c_musicFile').files && $('c_musicFile').files[0];
-    var musicVal = $('c_musicUrl').value.trim();
+    var musicVal = $('c_musicUrl').value.trim() || (function () { var s = $('c_musicPick'); return s ? s.value : ''; })();
     if (mfile && !hasToken() && mfile.size <= 4 * 1024 * 1024) musicVal = await readAsDataURL(mfile);
     var res = applyReplacements(raw, themeCfg, data);
     var html = remapPaths(res.html, data.theme);
@@ -769,15 +784,31 @@ window.__ADMIN_JS_V2 = true;
       gift1Logo: v('c_gift1Logo'), gift2Logo: v('c_gift2Logo'), gift3Logo: v('c_gift3Logo'),
       gift2Number: v('c_gift2Number'), gift2Name: v('c_gift2Name'), gift3Number: v('c_gift3Number'),
       kadoName: v('c_kadoName'), kadoPhone: v('c_kadoPhone'), kadoAddress: v('c_kadoAddress'),
-      rsvpUrl: v('c_appscript'),
       fotoCover: v('c_fotoCover'), fotoCouple: v('c_fotoCouple'),
       fotoGroom: v('c_fotoGroom'), fotoBride: v('c_fotoBride')
     };
     /* metode RSVP WhatsApp sudah dihapus — data.wa tidak lagi dipakai */
 
-    /* komposisi otomatis "Putra/Putri dari ..." bila kolom orang tua terisi
-       tetapi frasa gabungan tema kosong — supaya bagian detail pengantin
-       selalu sesuai tema */
+    /* RSVP pusat: URL diambil dari tab Pengaturan (satu untuk semua customer).
+       Customer lama yang masih punya URL Apps Script sendiri tetap memakainya
+       bila URL pusat belum diisi — supaya RSVP lama tidak mati. */
+    var centralAp = String(S.settings.rsvpCenter || '').trim();
+    var ec = null;
+    if (S.editingCustomer && S.catalog && S.catalog.customers) {
+      ec = S.catalog.customers.find(function (c) { return c.slug === S.editingCustomer; }) || null;
+    }
+    var oldAp = ec && ec.rsvp && ec.rsvp.appscript;
+    if (!(oldAp && /^https:\/\/script\.google\.com\/macros\/s\//.test(oldAp) && oldAp.indexOf('DISABLED') === -1)) oldAp = '';
+    var rsvpUrl = centralAp || oldAp;
+    vals.rsvpUrl = rsvpUrl;
+
+    /* komposisi otomatis "Putra/Putri dari ..." dari nama ayah & ibu —
+       cukup diinput SEKALI di form (kolom teks utuh sudah dihapus).
+       Customer lama dengan teks utuh lama diurai balik ke ayah/ibu. */
+    function parseParentsUtuh(utuh) {
+      var mp = String(utuh || '').match(/^(?:putra|putri)\s+dari\s+(.+?)\s+dan\s+(.+)$/i);
+      return mp ? { a: mp[1].trim(), b: mp[2].trim() } : null;
+    }
     if (!vals.groomParents && (vals.groomFather || vals.groomMother)) {
       vals.groomParents = 'Putra dari ' + [vals.groomFather, vals.groomMother]
         .filter(function (x) { return x; }).join(' dan ');
@@ -785,6 +816,14 @@ window.__ADMIN_JS_V2 = true;
     if (!vals.brideParents && (vals.brideFather || vals.brideMother)) {
       vals.brideParents = 'Putri dari ' + [vals.brideFather, vals.brideMother]
         .filter(function (x) { return x; }).join(' dan ');
+    }
+    if (!vals.groomFather && !vals.groomMother) {
+      var pgm = parseParentsUtuh(vals.groomParents);
+      if (pgm) { vals.groomFather = pgm.a; vals.groomMother = pgm.b; }
+    }
+    if (!vals.brideFather && !vals.brideMother) {
+      var pbr = parseParentsUtuh(vals.brideParents);
+      if (pbr) { vals.brideFather = pbr.a; vals.brideMother = pbr.b; }
     }
 
     /* turunan tanggal untuk slot hero/countdown tema:
@@ -887,11 +926,11 @@ window.__ADMIN_JS_V2 = true;
       name: v('c_heroNames') || (v('c_groomNick') + ' & ' + v('c_brideNick')),
       values: vals,
       fotoGallery: v('c_fotoGallery'),
-      sheet: v('c_sheet'),
-      rsvpMode: $('c_rsvpMode').value,
+      sheet: String(S.settings.rsvpSheet || '').trim(),
+      rsvpMode: rsvpUrl ? 'sheet' : 'demo',
       wa: '',
-      extra: v('c_extra'),
       musicUrl: v('c_musicUrl'),
+      musicPick: (function () { var s = $('c_musicPick'); return s ? s.value : ''; })(),
       loveStories: collectLoveStories()
     };
   }
@@ -1185,7 +1224,7 @@ window.__ADMIN_JS_V2 = true;
       }
     });
     /* Bank khusus (teks) — bila tema punya frasa bank terpisah, admin
-       dapat memakai Penggantian Tambahan. */
+       dapat mengetiknya di kolom Bank (teks khusus) Rekening 1. */
     return { html: html, report: report };
   }
 
@@ -1249,13 +1288,9 @@ window.__ADMIN_JS_V2 = true;
     var exists = S.catalog.customers.some(function (c) { return c.slug === data.slug; });
     if (exists && !S.editingCustomer) { toast('Slug sudah dipakai customer lain.'); return; }
     if (!data.values.groomNick && !data.values.brideNick) { toast('Isi minimal nama mempelai.'); return; }
-    /* validasi RSVP (metode WhatsApp sudah dihapus — hanya Spreadsheet / demo) */
-    if (data.rsvpMode === 'sheet') {
-      if (!data.values.rsvpUrl) {
-        if (!confirm('URL Apps Script kosong — RSVP customer akan NONAKTIF. Lanjutkan?')) return;
-        data.values.rsvpUrl = 'https://script.google.com/macros/s/DISABLED/exec';
-      }
-    } else {
+    /* validasi RSVP: URL pusat dari Pengaturan — bila kosong, RSVP nonaktif */
+    if (!data.values.rsvpUrl) {
+      if (!confirm('URL Apps Script RSVP pusat belum diisi di tab Pengaturan — RSVP undangan ini NONAKTIF. Lanjutkan?')) return;
       data.values.rsvpUrl = 'https://script.google.com/macros/s/DISABLED/exec';
     }
 
@@ -1309,7 +1344,7 @@ window.__ADMIN_JS_V2 = true;
       /* --- musik (file picker / URL) --- */
       var musicUpload = null;
       var mFile = $('c_musicFile').files && $('c_musicFile').files[0];
-      var musicVal = data.musicUrl || data.values.musicUrl || '';
+      var musicVal = data.musicUrl || data.values.musicUrl || data.musicPick || '';
       if (mFile) {
         busy(true, 'MENGUNGGAH MUSIK ' + mFile.name.toUpperCase() + '...');
         var rm = await resolveMusic(mFile, data.slug);
@@ -1360,11 +1395,11 @@ window.__ADMIN_JS_V2 = true;
           override + '\n<script src="/' + data.theme + '/js/main.js">');
       }
 
-      /* susun file */
+      /* susun file — Code.gs tidak lagi disalin per customer:
+         RSVP memakai SATU Apps Script pusat (lihat tab Pengaturan). */
       var files = [
         { path: 'customer/' + data.slug + '/index.html', content: html },
-        { path: 'customer/' + data.slug + '/data.js', content: buildDataJS(data) },
-        { path: 'customer/' + data.slug + '/Code.gs', content: await fetchThemeFile('assets.bernaung.id/Code.gs') }
+        { path: 'customer/' + data.slug + '/data.js', content: buildDataJS(data) }
       ];
       /* foto terunggah disertakan dulu agar link foto valid saat halaman dibuka */
       photoUploads.forEach(function (u) { files.unshift(u); });
@@ -1386,7 +1421,7 @@ window.__ADMIN_JS_V2 = true;
         title: data.values.title, status: 'unpaid', createdAt: new Date().toISOString(),
         eventDate: data.values.akadDayDate || data.values.resDayDate || '',
         rsvp: { mode: data.rsvpMode || 'demo', wa: '', appscript: data.values.rsvpUrl, sheet: data.sheet },
-        values: storedValues, fotoGallery: storedGallery, extra: data.extra,
+        values: storedValues, fotoGallery: storedGallery,
         loveStories: data.loveStories,
         music: (musicVal && String(musicVal).indexOf('data:') !== 0) ? musicVal : undefined
       };
@@ -1404,7 +1439,7 @@ window.__ADMIN_JS_V2 = true;
       busy(false);
       showReport(res.report);
       var url = location.origin + '/customer/' + data.slug + '/index.html';
-      var rsvpInfo = data.rsvpMode === 'sheet' ? 'RSVP: Google Spreadsheet' : 'RSVP: demo';
+      var rsvpInfo = data.rsvpMode === 'sheet' ? 'RSVP: Google Spreadsheet pusat (tab ' + data.slug + ')' : 'RSVP: demo (URL pusat belum diisi di Pengaturan)';
       $('genReport').innerHTML += '<p class="hint">URL undangan: <a href="' + url + '" target="_blank">' + url + '</a><br>' +
         rsvpInfo + '<br>Status: <b>BELUM BAYAR</b> — tandai Terbayar di tab Daftar Customer untuk membuat Generator Link Tamu.</p>';
       S.editingCustomer = data.slug;
@@ -1424,19 +1459,61 @@ window.__ADMIN_JS_V2 = true;
       '<p class="desc"><b style="color:var(--green)">Berhasil diganti:</b> ' + rep.ok.length + ' frasa.</p>' +
       (okHtml ? '<ul class="hint">' + okHtml + '</ul>' : '') +
       (missHtml ? '<p class="desc" style="margin-top:10px"><b style="color:var(--red)">Tidak ditemukan (data tema masih demo):</b></p><ul class="hint">' + missHtml + '</ul>' +
-        '<p class="hint">Isi bagian <b>Penggantian Tambahan</b> di form dengan format <code>teks demo | teks baru</code> lalu buat ulang undangan.</p>' : '') +
+        '<p class="hint">Teks yang tidak terganti biasanya karena kalimat demo berbeda dengan tema aslinya. Cocokkan dengan pratinjau tema, atau gunakan bagian <b>Love Story</b> untuk teks cerita.</p>' : '') +
       '</div>';
   }
 
   /* ================= TAB DAFTAR CUSTOMER ================= */
+  /* Filter daftar customer: nama/slug, tanggal acara, tema, status bayar.
+     Customer terbaru selalu diurutkan paling atas. */
+  function fillCustomerThemeFilter() {
+    var sel = $('f_tema');
+    if (!sel || !S.catalog) return;
+    var cur = sel.value;
+    var used = {};
+    (S.catalog.customers || []).forEach(function (c) { if (c.theme) used[c.theme] = 1; });
+    var opts = ['<option value="">Semua Tema</option>'];
+    S.catalog.themes.forEach(function (t) { opts.push('<option value="' + esc(t.id) + '">' + esc(t.name) + '</option>'); });
+    Object.keys(used).forEach(function (id) {
+      if (!S.catalog.themes.some(function (t) { return t.id === id; }))
+        opts.push('<option value="' + esc(id) + '">' + esc(themeName(id)) + '</option>');
+    });
+    sel.innerHTML = opts.join('');
+    Array.prototype.forEach.call(sel.options, function (o) { if (o.value === cur) sel.value = cur; });
+  }
   function renderCustomers() {
     var tb = $('custTable').querySelector('tbody');
     tb.innerHTML = '';
-    if (!S.catalog.customers.length) {
+    var custs = S.catalog.customers || [];
+    if (!custs.length) {
       tb.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Belum ada customer. Buat di tab <b>Customer Baru</b>.</td></tr>';
       return;
     }
-    S.catalog.customers.forEach(function (c, i) {
+    /* urutkan terbaru di atas (createdAt), lalu terapkan filter */
+    var rows = custs.map(function (c, i) { return { c: c, i: i }; });
+    rows.sort(function (a, b) {
+      var ka = Date.parse(a.c.createdAt || '') || 0;
+      var kb = Date.parse(b.c.createdAt || '') || 0;
+      return kb - ka;
+    });
+    var fn = String(($('f_nama') && $('f_nama').value) || '').trim().toLowerCase();
+    var ft = String(($('f_tanggal') && $('f_tanggal').value) || '').trim().toLowerCase();
+    var fm = ($('f_tema') && $('f_tema').value) || '';
+    var fs = ($('f_status') && $('f_status').value) || '';
+    rows = rows.filter(function (r) {
+      var c = r.c;
+      if (fn && String(c.name || '').toLowerCase().indexOf(fn) === -1 && String(c.slug || '').toLowerCase().indexOf(fn) === -1) return false;
+      if (ft && String(c.eventDate || '').toLowerCase().indexOf(ft) === -1) return false;
+      if (fm && c.theme !== fm) return false;
+      if (fs && (c.status || 'unpaid') !== fs) return false;
+      return true;
+    });
+    if (!rows.length) {
+      tb.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Tidak ada customer yang cocok dengan filter.</td></tr>';
+      return;
+    }
+    rows.forEach(function (r) {
+      var c = r.c, i = r.i;
       var tr = document.createElement('tr');
       var guestLink = c.status === 'paid' ? '<a href="/customer/' + esc(c.slug) + '/tamu.html" target="_blank">Generator Tamu</a>' : '—';
       tr.innerHTML =
@@ -1456,6 +1533,8 @@ window.__ADMIN_JS_V2 = true;
         '</td>';
       tb.appendChild(tr);
     });
+    ['f_nama', 'f_tanggal'].forEach(function (id) { var el = $(id); if (el) el.addEventListener('input', renderCustomers); });
+    ['f_tema', 'f_status'].forEach(function (id) { var el = $(id); if (el) el.addEventListener('change', renderCustomers); });
     tb.querySelectorAll('button[data-rsvp]').forEach(function (b) {
       b.addEventListener('click', function () { openRsvpModal(+b.getAttribute('data-rsvp')); });
     });
@@ -1747,13 +1826,15 @@ window.__ADMIN_JS_V2 = true;
     $('c_fotoBride').value = v.fotoBride || '';
     $('c_fotoGallery').value = (c && c.fotoGallery) || '';
     ['c_fotoCoverFile', 'c_fotoCoupleFile', 'c_fotoGroomFile', 'c_fotoBrideFile', 'c_fotoGalleryFiles'].forEach(function (id) { if ($(id)) $(id).value = ''; });
-    $('c_appscript').value = (c && c.rsvpAppscript) || '';
-    $('c_sheet').value = (c && c.rsvpSheet) || '';
-    updateRsvpFields();
-    $('c_extra').value = (c && c.extra) || '';
-    fillLoveStories(c && c.loveStories && c.loveStories.length ? c.loveStories : [{ find: '', rep: '' }]);
+    /* RSVP pusat: URL diatur di tab Pengaturan — tidak ada kolom di form customer */
+    fillMusicPick();
+    if (c && c.musicPick) {
+      var mp = $('c_musicPick');
+      Array.prototype.forEach.call(mp.options, function (o) { if (o.value === c.musicPick) mp.value = c.musicPick; });
+    }
     $('c_musicUrl').value = (c && c.musicUrl) || '';
     if ($('c_musicFile')) $('c_musicFile').value = '';
+    fillLoveStories(c && c.loveStories && c.loveStories.length ? c.loveStories : [{ find: '', rep: '' }]);
     $('c_slug')._manual = true;
     $('c_heroNames')._manual = true;
   }
@@ -1773,20 +1854,13 @@ window.__ADMIN_JS_V2 = true;
     sel.value = c.theme;
     updateGalleryHint();
     var v = c.values || {};
-    var rsvpMode = (c.rsvp && c.rsvp.mode) || 'demo';
-    if (rsvpMode === 'wa') rsvpMode = 'sheet'; /* metode WhatsApp sudah dihapus */
     var hasValues = v && (v.groomNick || v.brideNick || v.akadDayDate || v.resDayDate || v.heroNames);
     fillCustomerForm(v, {
       fotoGallery: c.fotoGallery,
-      rsvpAppscript: (c.rsvp && c.rsvp.appscript && c.rsvp.appscript.indexOf('DISABLED') === -1 && c.rsvp.appscript.indexOf('__BERNAUNG_WA__') === -1) ? c.rsvp.appscript : '',
-      rsvpSheet: (c.rsvp && c.rsvp.sheet) || '',
-      rsvpMode: rsvpMode,
-      extra: c.extra,
+      musicPick: (c.music && String(c.music).indexOf('/') === 0 && String(c.music).indexOf('customer/') === -1) ? c.music : '',
       loveStories: c.loveStories,
       musicUrl: (c.music && String(c.music).indexOf('data:') !== 0) ? c.music : ''
     });
-    $('c_rsvpMode').value = rsvpMode;
-    updateRsvpFields();
     if (hasValues) {
       toast('Mengedit "' + c.slug + '" — data sudah dimuat. Ubah bagian yang salah, lalu klik BUAT UNDANGAN.', true);
     } else {
@@ -1794,17 +1868,11 @@ window.__ADMIN_JS_V2 = true;
       if (!v.heroNames && c.name) $('c_heroNames').value = c.name;
       backfillFromHtml(c, function (vals, gallery, rsvpUrl, sheet, musicUrl) {
         v = Object.assign({}, v, vals);
-        var ctx = {
+        fillCustomerForm(v, {
           fotoGallery: gallery || c.fotoGallery,
-          rsvpAppscript: rsvpUrl || '',
-          rsvpSheet: sheet || (c.rsvp && c.rsvp.sheet) || '',
-          extra: c.extra,
           loveStories: c.loveStories,
           musicUrl: musicUrl || ''
-        };
-        fillCustomerForm(v, ctx);
-        $('c_rsvpMode').value = rsvpMode;
-        updateRsvpFields();
+        });
       });
     }
   }
@@ -1815,7 +1883,7 @@ window.__ADMIN_JS_V2 = true;
     S.catalog.customers.splice(i, 1);
     try {
       await commitFiles([{ path: 'catalog.json', content: JSON.stringify(S.catalog, null, 2) }], 'Hapus customer dari katalog:');
-      renderCustomers(); renderCustMini();
+      renderCustomers();
     } catch (e) { toast(e.message, true); }
   }
 
@@ -1886,7 +1954,7 @@ window.__ADMIN_JS_V2 = true;
     RSVP_CURRENT = null;
     if (!api) {
       $('rsvpTable').querySelector('tbody').innerHTML = '<tr><td colspan="4" style="color:var(--red)">' +
-        'URL Apps Script belum ada. Isi URL RSVP pusat di tab Pengaturan, atau URL Apps Script pada form customer.</td></tr>';
+        'URL Apps Script RSVP pusat belum terisi. Isi di tab <b>Pengaturan</b> (kolom URL Apps Script RSVP Pusat), lalu klik MUAT ULANG.</td></tr>';
       return;
     }
     fetchRsvpList(api, c.slug).then(function (list) {
@@ -1942,15 +2010,45 @@ window.__ADMIN_JS_V2 = true;
     b.disabled = false;
   });
 
-  /* ================= TAB PENGATURAN ================= */
+  /* ================= TAB PENGATURAN (TERKUNCI) =================
+     Kolom pengaturan TERKUNCI secara default agar tidak berubah bila
+     salah pencet. Tekan UBAH PENGATURAN untuk membuka, SIMPAN PENGATURAN
+     untuk menyimpan sekaligus mengunci kembali. */
+  var SETTINGS_IDS = ['s_repo', 's_branch', 's_token', 's_rsvpCenter', 's_rsvpSheet'];
+  function renderSettingsLock() {
+    var locked = S.settingsLocked !== false;
+    SETTINGS_IDS.forEach(function (id) { var el = $(id); if (el) el.disabled = locked; });
+    var b = $('btnEditSettings');
+    if (b) b.textContent = locked ? 'UBAH PENGATURAN' : 'BATALKAN — KUNCI TANPA SIMPAN';
+  }
+  $('btnEditSettings').addEventListener('click', function () {
+    if (S.settingsLocked === false) {
+      /* kunci kembali tanpa menyimpan — nilai dikembalikan ke yang tersimpan */
+      $('s_repo').value = S.settings.repo || 'andrayou12-create/bernaunginv';
+      $('s_branch').value = S.settings.branch || 'main';
+      $('s_token').value = S.settings.token || '';
+      $('s_rsvpCenter').value = S.settings.rsvpCenter || '';
+      $('s_rsvpSheet').value = S.settings.rsvpSheet || '';
+      S.settingsLocked = true;
+      renderSettingsLock();
+      toast('Pengaturan terkunci kembali (tanpa menyimpan).');
+    } else {
+      S.settingsLocked = false;
+      renderSettingsLock();
+      toast('Pengaturan terbuka untuk diedit — jangan lupa SIMPAN PENGATURAN.');
+    }
+  });
   $('saveSettings').addEventListener('click', function () {
     S.settings.repo = $('s_repo').value.trim().replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '');
     S.settings.branch = $('s_branch').value.trim() || 'main';
     S.settings.token = $('s_token').value.trim();
     S.settings.rsvpCenter = $('s_rsvpCenter').value.trim();
+    S.settings.rsvpSheet = $('s_rsvpSheet').value.trim();
     saveSettingsLocal();
+    S.settingsLocked = true;
+    renderSettingsLock();
     renderModeBadge();
-    toast('Pengaturan disimpan di browser ini.');
+    toast('Pengaturan disimpan & terkunci ✓ — URL RSVP pusat otomatis dipakai semua customer.');
   });
   $('testToken').addEventListener('click', async function () {
     if (!S.settings.token || !S.settings.repo) { toast('Isi repo dan token dulu.'); return; }
@@ -1988,26 +2086,50 @@ window.__ADMIN_JS_V2 = true;
     $('s_branch').value = S.settings.branch || 'main';
     $('s_token').value = S.settings.token || '';
     $('s_rsvpCenter').value = S.settings.rsvpCenter || '';
+    $('s_rsvpSheet').value = S.settings.rsvpSheet || '';
+    S.settingsLocked = (S.settingsLocked !== false); /* selalu terkunci saat panel dibuka */
+    renderSettingsLock();
     renderModeBadge();
 
     busy(true, 'MEMUAT DATA...');
+    var catErr = null;
     try {
+      /* 1) coba GitHub bila token terpasang; 2) fallback: file situs sendiri.
+         Dulu kegagalan jaringan ke api.github.com membuat panel mati total
+         ("Failed to fetch") — sekarang panel tetap terbuka. */
       if (hasToken()) {
-        S.catalog = await loadCatalogFromGitHub();
-      } else {
-        S.catalog = await fetchLocal('/catalog.json');
+        try { S.catalog = await loadCatalogFromGitHub(); }
+        catch (e1) { catErr = e1; S.catalog = null; }
       }
-      S.themeMap = await fetchLocal('/assets.bernaung.id/theme-map.json?v=' + Date.now()); /* anti-cache */
+      if (!S.catalog) {
+        try { S.catalog = await fetchLocal('/catalog.json'); }
+        catch (e2) {
+          try { S.catalog = await fetchLocal('/catalog.json?v=' + Date.now()); }
+          catch (e3) { throw (catErr || e2); }
+        }
+      }
+      if (!S.catalog.themes) S.catalog.themes = [];
+      if (!S.catalog.customers) S.catalog.customers = [];
+      try {
+        S.themeMap = await fetchLocal('/assets.bernaung.id/theme-map.json?v=' + Date.now()); /* anti-cache */
+      } catch (e4) {
+        S.themeMap = await fetchLocal('/assets.bernaung.id/theme-map.json');
+      }
       busy(false);
       renderThemes();
       fillThemeSelect();
+      fillCustomerThemeFilter();
+      fillMusicPick();
       renderCustomers();
-      renderCustMini();
       fillBankLogoDatalist();
-      toast('Panel siap ✓');
+      if (catErr) {
+        toast('Panel siap ✓ (catatan: GitHub API tidak terjangkau — data dimuat dari file situs: ' + catErr.message + ')', true);
+      } else {
+        toast('Panel siap ✓');
+      }
     } catch (e) {
       busy(false);
-      toast('Gagal memuat data: ' + e.message, true);
+      toast('Gagal memuat data: ' + e.message + ' — periksa koneksi internet, lalu muat ulang halaman (refresh).', true);
     }
   }
 
@@ -2023,6 +2145,16 @@ window.__ADMIN_JS_V2 = true;
   });
   $('closeManual').addEventListener('click', function () {
     $('manualModal').classList.add('hidden');
+  });
+
+  /* Tampilkan error JS yang tak tertangani sebagai toast — memudahkan
+     melaporkan masalah (mis. "Failed to fetch") tanpa membuka console. */
+  window.addEventListener('error', function (ev) {
+    if (ev && ev.message && String(ev.message).indexOf('ResizeObserver') === -1) toast('Error: ' + ev.message, true);
+  });
+  window.addEventListener('unhandledrejection', function (ev) {
+    var r = ev && ev.reason;
+    if (r && r.message) toast('Error: ' + r.message, true);
   });
 
   if (sessionStorage.getItem('bng_admin_ok') === '1') showApp();
