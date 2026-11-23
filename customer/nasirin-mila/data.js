@@ -33,14 +33,17 @@ window.BERNAUNG_DATA = {
     {
       "bank": "BRI",
       "nomor": "691501024411537",
-      "atasNama": "Muhamad Nasirin Asfar"
+      "atasNama": "Muhamad Nasirin Asfar",
+      "logo": "/assets.bernaung.id/bank/bri.svg"
     },
     {
       "nomor": "",
-      "atasNama": ""
+      "atasNama": "",
+      "logo": ""
     },
     {
-      "nomor": ""
+      "nomor": "",
+      "logo": ""
     }
   ],
   "kado": {
@@ -52,7 +55,7 @@ window.BERNAUNG_DATA = {
     "mode": "sheet",
     "wa": "",
     "appscript": "https://script.google.com/macros/s/AKfycbzm788qxF0PnwQ3DPBKSPmHlHjFrnh_sMEYwXa-ocw9HlR9r18wJug-wAi-cwe6U6UZ/exec",
-    "sheet": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8",
+    "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?gid=0#gid=0",
     "hide": false
   }
 };
