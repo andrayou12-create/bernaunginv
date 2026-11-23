@@ -15,12 +15,16 @@ window.BERNAUNG_DATA = {
     "akad": {
       "kapan": "Jum'at, 4 Desember 2026",
       "jam": "08.00",
-      "tempat": "Rumah Mempelai Pria"
+      "tempat": "Rumah Mempelai Pria",
+      "alamat": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung",
+      "gmaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8"
     },
     "resepsi": {
       "kapan": "Jum'at, 4 Desember 2026",
       "jam": "10.00 - Selesai",
-      "tempat": "Rumah Mempelai Pria"
+      "tempat": "Rumah Mempelai Pria",
+      "alamat": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung",
+      "gmaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8"
     },
     "alamat": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung",
     "gmaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8"
@@ -47,7 +51,8 @@ window.BERNAUNG_DATA = {
   "rsvp": {
     "mode": "sheet",
     "wa": "",
-    "appscript": "https://script.google.com/macros/s/AKfycbxk1kIM0IkXylhhYdXBcaqaXq-AeZr_5yVfVKbeBWiOiZJh3nUlj1iGggB1YYR_14b5lg/exec",
-    "sheet": "https://docs.google.com/spreadsheets/d/1ENmAAMTp2JNFhI059KshLin0r-Wsjz5MPVHJutJv3sY/edit?gid=0#gid=0"
+    "appscript": "https://script.google.com/macros/s/AKfycbzm788qxF0PnwQ3DPBKSPmHlHjFrnh_sMEYwXa-ocw9HlR9r18wJug-wAi-cwe6U6UZ/exec",
+    "sheet": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8",
+    "hide": false
   }
 };

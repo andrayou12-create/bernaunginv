@@ -287,13 +287,13 @@
       "name": "Nasirin & Mila",
       "title": "Nasirin & Mila",
       "status": "unpaid",
-      "createdAt": "2026-11-23T03:00:00.429Z",
+      "createdAt": "2026-11-23T06:23:26.165Z",
       "eventDate": "Jum'at, 4 Desember 2026",
       "rsvp": {
         "mode": "sheet",
         "wa": "",
-        "appscript": "https://script.google.com/macros/s/AKfycbxk1kIM0IkXylhhYdXBcaqaXq-AeZr_5yVfVKbeBWiOiZJh3nUlj1iGggB1YYR_14b5lg/exec",
-        "sheet": "https://docs.google.com/spreadsheets/d/1ENmAAMTp2JNFhI059KshLin0r-Wsjz5MPVHJutJv3sY/edit?gid=0#gid=0"
+        "appscript": "https://script.google.com/macros/s/AKfycbzm788qxF0PnwQ3DPBKSPmHlHjFrnh_sMEYwXa-ocw9HlR9r18wJug-wAi-cwe6U6UZ/exec",
+        "sheet": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8"
       },
       "values": {
         "title": "Nasirin & Mila",
@@ -316,6 +316,10 @@
         "resDayDate": "Jum'at, 4 Desember 2026",
         "resTime": "10.00 - Selesai",
         "resPlace": "Rumah Mempelai Pria",
+        "akadAddress": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung",
+        "resAddress": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung",
+        "akadMaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8",
+        "resMaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8",
         "address": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung",
         "gmaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8",
         "countdownDate": "4 Desember 2026",
@@ -328,7 +332,7 @@
         "kadoName": "Nasirin",
         "kadoPhone": "085336622433",
         "kadoAddress": "RT 10 Gedangan,Bansari, Kec. Bulu, Kab. Temanggung 56253",
-        "rsvpUrl": "https://script.google.com/macros/s/AKfycbxk1kIM0IkXylhhYdXBcaqaXq-AeZr_5yVfVKbeBWiOiZJh3nUlj1iGggB1YYR_14b5lg/exec",
+        "rsvpUrl": "https://script.google.com/macros/s/AKfycbzm788qxF0PnwQ3DPBKSPmHlHjFrnh_sMEYwXa-ocw9HlR9r18wJug-wAi-cwe6U6UZ/exec",
         "fotoCover": "",
         "fotoCouple": "",
         "fotoGroom": "",
@@ -336,11 +340,26 @@
         "heroDateLong": "Jum'at, 4 Desember 2026",
         "heroDateShort": "04 . 12 . 2026",
         "heroDateShort2": "04 . 12 . 26",
+        "tanggalPendek": "4 Desember 2026",
+        "akadDayName": "Jum'at",
+        "akadDayNum": "4",
+        "akadMonthName": "Desember",
+        "akadYearNum": "2026",
+        "akadMonthYear": "Desember 2026",
+        "resDayName": "Jum'at",
+        "resDayNum": "4",
+        "resMonthName": "Desember",
+        "resYearNum": "2026",
+        "resMonthYear": "Desember 2026",
+        "countdownUnix": "1796346000",
+        "countdownMs": "1796346000000",
+        "countdownIso": "2026-12-04T08:00:00+07:00",
         "countdownText": "4 Desember 2026"
       },
       "fotoGallery": "",
       "extra": "",
-      "loveStories": []
+      "loveStories": [],
+      "music": "/customer/nasirin-mila/music.mp3"
     }
   ]
 }
