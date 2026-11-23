@@ -59,6 +59,40 @@ window.__ADMIN_JS_V2 = true;
   }
   function hasToken() { return !!(S.settings.token && S.settings.repo); }
 
+  /* ================= LOGO BANK =================
+     File logo tersedia di assets.bernaung.id/bank/<slug>.svg
+     (badge warna brand; bisa diganti logo resmi dengan nama file sama).
+     Admin mengetik nama bank (datalist) atau URL logo khusus. */
+  var BANK_LOGOS = {
+    bca: 'BCA', bri: 'BRI', mandiri: 'MANDIRI', bni: 'BNI', bsi: 'BSI',
+    seabank: 'SeaBank', jenius: 'Jenius', jago: 'Bank Jago', gopay: 'GoPay',
+    ovo: 'OVO', dana: 'DANA', shopeepay: 'ShopeePay', linkaja: 'LinkAja',
+    qris: 'QRIS', cimb: 'CIMB Niaga', danamon: 'Danamon', permata: 'Permata',
+    maybank: 'Maybank', uob: 'UOB', panin: 'Panin', bjb: 'Bank BJB', sinarmas: 'Bank Sinarmas'
+  };
+  function resolveBankLogo(v) {
+    v = String(v || '').trim();
+    if (!v) return { logo: '', name: '' };
+    if (/^https?:\/\//i.test(v)) return { logo: v, name: '' };
+    var slug = slugify(v);
+    if (!slug) return { logo: '', name: '' };
+    var label = BANK_LOGOS[slug];
+    if (!label) {
+      /* cocokkan sebagian: "Bank SeaBank Indonesia" -> seabank */
+      for (var s in BANK_LOGOS) {
+        if (slug.indexOf(s) !== -1) { label = BANK_LOGOS[s]; slug = s; break; }
+      }
+    }
+    return { logo: '/assets.bernaung.id/bank/' + slug + '.svg', name: label || '' };
+  }
+  function fillBankLogoDatalist() {
+    var dl = $('bankLogoList');
+    if (!dl) return;
+    dl.innerHTML = Object.keys(BANK_LOGOS).map(function (s) {
+      return '<option value="' + BANK_LOGOS[s] + '">';
+    }).join('');
+  }
+
   async function sha256Hex(text) {
     var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
     return Array.from(new Uint8Array(buf)).map(function (b) {
@@ -732,6 +766,7 @@ window.__ADMIN_JS_V2 = true;
       akadMaps: v('c_akadMaps'), resMaps: v('c_resMaps'),
       address: v('c_address'), gmaps: v('c_gmaps'), countdownDate: v('c_countdown'),
       gift1Number: v('c_gift1Number'), gift1Name: v('c_gift1Name'), gift1Bank: v('c_gift1Bank'),
+      gift1Logo: v('c_gift1Logo'), gift2Logo: v('c_gift2Logo'), gift3Logo: v('c_gift3Logo'),
       gift2Number: v('c_gift2Number'), gift2Name: v('c_gift2Name'), gift3Number: v('c_gift3Number'),
       kadoName: v('c_kadoName'), kadoPhone: v('c_kadoPhone'), kadoAddress: v('c_kadoAddress'),
       rsvpUrl: v('c_appscript'),
@@ -829,6 +864,15 @@ window.__ADMIN_JS_V2 = true;
     if (!vals.resAddress) vals.resAddress = vals.address;
     if (!vals.akadMaps) vals.akadMaps = vals.gmaps;
     if (!vals.resMaps) vals.resMaps = vals.gmaps;
+
+    /* --- logo rekening: "BCA" -> /assets.bernaung.id/bank/bca.svg ---
+       Bila kolom Bank (teks khusus) kosong, isi otomatis dari pilihan logo. */
+    [['gift1Logo', 'gift1Bank'], ['gift2Logo', null], ['gift3Logo', null]].forEach(function (pair) {
+      var lk = pair[0], bk = pair[1];
+      var r = resolveBankLogo(vals[lk]);
+      vals[lk] = r.logo;
+      if (bk && !vals[bk] && r.name) vals[bk] = r.name;
+    });
 
     /* judul & nama hero otomatis bila kosong */
     if (!vals.heroNames) vals.heroNames = ((vals.brideNick || '') + ' & ' + (vals.groomNick || '')).trim();
@@ -1180,9 +1224,9 @@ window.__ADMIN_JS_V2 = true;
         alamat: vals.address, gmaps: vals.gmaps
       },
       gift: [
-        { bank: vals.gift1Bank || '', nomor: vals.gift1Number, atasNama: vals.gift1Name },
-        { nomor: vals.gift2Number, atasNama: vals.gift2Name },
-        { nomor: vals.gift3Number }
+        { bank: vals.gift1Bank || '', nomor: vals.gift1Number, atasNama: vals.gift1Name, logo: vals.gift1Logo || '' },
+        { nomor: vals.gift2Number, atasNama: vals.gift2Name, logo: vals.gift2Logo || '' },
+        { nomor: vals.gift3Number, logo: vals.gift3Logo || '' }
       ],
       kado: { nama: vals.kadoName, hp: vals.kadoPhone, alamat: vals.kadoAddress },
       rsvp: { mode: mode, wa: '', appscript: vals.rsvpUrl, sheet: data.sheet, hide: mode !== 'sheet' }
@@ -1279,6 +1323,14 @@ window.__ADMIN_JS_V2 = true;
         html = html.replace(rsvpTag, dataTag + '\n' + rsvpTag);
       } else {
         html = html.replace('</body>', dataTag + '\n</body>');
+      }
+      /* gift.js: logo rekening + nama bank customer di SEMUA tema */
+      var giftTag = '<script src="/assets.bernaung.id/gift.js"><\/script>';
+      var rsvpFull = '<script src="/assets.bernaung.id/rsvp.js"></script>';
+      if (html.indexOf(rsvpFull) !== -1) {
+        html = html.replace(rsvpFull, rsvpFull + '\n' + giftTag);
+      } else {
+        html = html.replace('</body>', giftTag + '\n</body>');
       }
       /* tema modern (config-driven): override CONFIG */
       if (themeCfg.configOverride) {
@@ -1497,6 +1549,7 @@ window.__ADMIN_JS_V2 = true;
     if (/^foto/.test(k)) return /^(https?:|\/|data:)/.test(s) || /\.(jpe?g|png|webp|gif)$/i.test(s);
     if (k === 'kadoName') return s.length <= 80 && !/akad|resepsi/i.test(s);
     if (/^gift\dName$/.test(k)) return s.length <= 60;
+    if (/^gift\dLogo$/.test(k)) return /^(https?:\/\/|\/assets\.|\/[a-z0-9-]+\/)/i.test(s) || BANK_LOGOS[slugify(s)] != null || s.length <= 80;
     return s.length <= 300;
   }
   function stripCtx(text, a, b) {
@@ -1568,9 +1621,9 @@ window.__ADMIN_JS_V2 = true;
           if (!vals.akadMaps) vals.akadMaps = vals.gmaps;
           if (!vals.resMaps) vals.resMaps = vals.gmaps;
           var G = D.gift || [];
-          if (G[0]) { vals.gift1Bank = G[0].bank || ''; vals.gift1Number = G[0].nomor || ''; vals.gift1Name = G[0].atasNama || ''; }
-          if (G[1]) { vals.gift2Number = G[1].nomor || ''; vals.gift2Name = G[1].atasNama || ''; }
-          if (G[2]) { vals.gift3Number = G[2].nomor || ''; }
+          if (G[0]) { vals.gift1Bank = G[0].bank || ''; vals.gift1Number = G[0].nomor || ''; vals.gift1Name = G[0].atasNama || ''; vals.gift1Logo = G[0].logo || ''; }
+          if (G[1]) { vals.gift2Number = G[1].nomor || ''; vals.gift2Name = G[1].atasNama || ''; vals.gift2Logo = G[1].logo || ''; }
+          if (G[2]) { vals.gift3Number = G[2].nomor || ''; vals.gift3Logo = G[2].logo || ''; }
           if (D.kado) { vals.kadoName = D.kado.nama || ''; vals.kadoPhone = D.kado.hp || ''; vals.kadoAddress = D.kado.alamat || ''; }
           if (D.rsvp) {
             var ap = String(D.rsvp.appscript || '');
@@ -1682,6 +1735,7 @@ window.__ADMIN_JS_V2 = true;
       c_akadAddress: 'akadAddress', c_resAddress: 'resAddress', c_akadMaps: 'akadMaps', c_resMaps: 'resMaps',
       c_address: 'address', c_gmaps: 'gmaps',
       c_gift1Number: 'gift1Number', c_gift1Name: 'gift1Name', c_gift1Bank: 'gift1Bank',
+      c_gift1Logo: 'gift1Logo', c_gift2Logo: 'gift2Logo', c_gift3Logo: 'gift3Logo',
       c_gift2Number: 'gift2Number', c_gift2Name: 'gift2Name', c_gift3Number: 'gift3Number',
       c_kadoName: 'kadoName', c_kadoPhone: 'kadoPhone', c_kadoAddress: 'kadoAddress' };
     Object.keys(map).forEach(function (id) { if ($(id)) $(id).value = v[map[id]] || ''; });
@@ -1947,6 +2001,7 @@ window.__ADMIN_JS_V2 = true;
       fillThemeSelect();
       renderCustomers();
       renderCustMini();
+      fillBankLogoDatalist();
       toast('Panel siap ✓');
     } catch (e) {
       busy(false);

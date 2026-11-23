@@ -73,3 +73,17 @@ footer .font-bold { font-weight: 700; }
 footer .tracking-widest { letter-spacing: .1em; }
 
 footer a { text-decoration: none; }
+
+/* --- FOOTER MENGIKUTI WARNA TEMA ---
+   rsvp.js mengukur warna bagian tema di atas footer lalu:
+   - mengisi backgroundColor footer dengan warna tema tersebut (inline), dan
+   - menambah kelas bng-footer-light bila tema terang (teks gelap).
+   Tema gelap tetap memakai gaya bawaan (teks putih). */
+footer.bng-footer-light { color: #3d3730; }
+footer.bng-footer-light .text-white { color: #3d3730; }
+footer.bng-footer-light .hover\:text-white:hover { color: #111; }
+footer.bng-footer-light .hover\:text-gray-300:hover { color: #6b6257; }
+footer.bng-footer-light .text-gray-500 { color: #8a8175; }
+footer.bng-footer-light .text-gray-400 { color: #8a8175; }
+footer.bng-footer-light .border-white\/20 { border-color: rgba(0,0,0,.22); }
+footer.bng-footer-light .border-white\/10 { border-color: rgba(0,0,0,.08); }

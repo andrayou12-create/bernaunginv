@@ -448,6 +448,30 @@
           "f": "https://maps.app.goo.gl/ResMapsDemo22"
         },
         {
+          "k": "gift1Logo",
+          "f": "/tema-deluxe/permata.png"
+        },
+        {
+          "k": "gift2Logo",
+          "f": "/tema-deluxe/mandiri.png"
+        },
+        {
+          "k": "gift3Logo",
+          "f": "/tema-deluxe/mandiri.png"
+        },
+        {
+          "k": "gift1Name",
+          "f": "Nur Bagas"
+        },
+        {
+          "k": "gift2Name",
+          "f": "Dewi Nahdia Lu'lu Annawwie"
+        },
+        {
+          "k": "gift3Name",
+          "f": "Dewi Nahdia Lu'lu Annawwie"
+        },
+        {
           "k": "gift1Number",
           "f": "1234567890"
         },
@@ -552,6 +576,24 @@
           ],
           "sec": [
             "[data-jnp=\"res-maps\"]"
+          ]
+        },
+        {
+          "k": [
+            "gift2Number",
+            "gift2Logo"
+          ],
+          "sec": [
+            "[data-id=\"6291dc0\"]"
+          ]
+        },
+        {
+          "k": [
+            "gift3Number",
+            "gift3Logo"
+          ],
+          "sec": [
+            "[data-id=\"50e4668\"]"
           ]
         }
       ]

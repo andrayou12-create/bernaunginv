@@ -35,43 +35,44 @@
      Deployment lama per-customer mengabaikan parameter ini — aman. */
   var SLUG = String((window.BERNAUNG_DATA && window.BERNAUNG_DATA.slug) || '').trim();
 
-  /* ---------------- CSS ---------------- */
+  /* ---------------- CSS ----------------
+     Warna widget memakai CSS variables yang DIISI sesuai warna tema
+     di sekitar posisi widget (terang/gelap) — lihat applyWidgetTheme(). */
   var css = document.createElement('style');
   css.textContent = [
     '.bng-rsvp{max-width:560px;margin:36px auto;padding:26px 22px;border-radius:16px;',
-    'background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);',
-    'backdrop-filter:blur(6px);color:#fff;font-family:inherit;box-sizing:border-box;}',
+    'background:var(--bng-w-bg,rgba(255,255,255,.08));border:1px solid var(--bng-w-border,rgba(255,255,255,.25));',
+    'backdrop-filter:blur(6px);color:var(--bng-w-text,#fff);font-family:inherit;box-sizing:border-box;}',
     '.bng-rsvp *,.bng-rsvp *::before,.bng-rsvp *::after{box-sizing:border-box;}',
-    '.bng-rsvp h3{margin:0 0 4px;font-size:22px;letter-spacing:1px;text-align:center;color:#fff;}',
-    '.bng-rsvp .bng-sub{margin:0 0 18px;font-size:12.5px;text-align:center;opacity:.85;}',
+    '.bng-rsvp h3{margin:0 0 4px;font-size:22px;letter-spacing:1px;text-align:center;color:var(--bng-w-text,#fff);}',
+    '.bng-rsvp .bng-sub{margin:0 0 18px;font-size:12.5px;text-align:center;color:var(--bng-w-muted,rgba(255,255,255,.85));}',
     '.bng-rsvp label{display:block;font-size:12px;letter-spacing:1px;opacity:.9;margin:12px 0 5px;}',
     '.bng-rsvp input[type=text],.bng-rsvp textarea{width:100%;padding:11px 13px;border-radius:10px;',
-    'border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;',
+    'border:1px solid var(--bng-w-input-border,rgba(255,255,255,.35));background:var(--bng-w-input-bg,rgba(255,255,255,.1));color:var(--bng-w-input-text,#fff);',
     'font-family:inherit;font-size:14px;outline:none;}',
-    '.bng-rsvp input::placeholder,.bng-rsvp textarea::placeholder{color:rgba(255,255,255,.55);}',
+    '.bng-rsvp input::placeholder,.bng-rsvp textarea::placeholder{color:var(--bng-w-placeholder,rgba(255,255,255,.55));}',
     '.bng-rsvp textarea{min-height:84px;resize:vertical;}',
     '.bng-rsvp .bng-radio{display:flex;gap:10px;flex-wrap:wrap;}',
     '.bng-rsvp .bng-radio label{flex:1;min-width:140px;margin:0;cursor:pointer;}',
     '.bng-rsvp .bng-radio input{display:none;}',
     '.bng-rsvp .bng-radio span{display:block;text-align:center;padding:10px 8px;border-radius:10px;',
-    'border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);font-size:13.5px;}',
-    '.bng-rsvp .bng-radio input:checked+span{background:#fff;color:#111;border-color:#fff;font-weight:600;}',
+    'border:1px solid var(--bng-w-input-border,rgba(255,255,255,.35));background:var(--bng-w-input-bg,rgba(255,255,255,.08));font-size:13.5px;}',
+    '.bng-rsvp .bng-radio input:checked+span{background:var(--bng-w-checked-bg,#fff);color:var(--bng-w-checked-text,#111);border-color:var(--bng-w-checked-bg,#fff);font-weight:600;}',
     '.bng-rsvp button.bng-send{width:100%;margin-top:18px;padding:13px;border:0;border-radius:10px;',
-    'background:#fff;color:#111;font-family:inherit;font-weight:700;font-size:14px;',
+    'background:var(--bng-w-btn-bg,#fff);color:var(--bng-w-btn-text,#111);font-family:inherit;font-weight:700;font-size:14px;',
     'letter-spacing:1.5px;cursor:pointer;transition:transform .15s ease,opacity .15s;}',
     '.bng-rsvp button.bng-send:hover{transform:translateY(-1px);}',
     '.bng-rsvp button.bng-send:disabled{opacity:.55;cursor:wait;transform:none;}',
-    '.bng-rsvp .bng-note{margin-top:10px;font-size:12px;text-align:center;opacity:.85;min-height:15px;}',
+    '.bng-rsvp .bng-note{margin-top:10px;font-size:12px;text-align:center;color:var(--bng-w-muted,rgba(255,255,255,.85));min-height:15px;}',
     '.bng-rsvp .bng-list{margin-top:22px;max-height:340px;overflow-y:auto;scrollbar-width:thin;}',
-    '.bng-rsvp .bng-card{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);',
+    '.bng-rsvp .bng-card{border:1px solid var(--bng-w-card-border,rgba(255,255,255,.18));background:var(--bng-w-card-bg,rgba(255,255,255,.06));',
     'border-radius:12px;padding:12px 14px;margin-bottom:10px;}',
     '.bng-rsvp .bng-card .bng-head{display:flex;justify-content:space-between;gap:8px;align-items:center;}',
     '.bng-rsvp .bng-card .bng-nm{font-weight:700;font-size:14px;}',
     '.bng-rsvp .bng-card .bng-badge{font-size:10px;padding:2px 8px;border-radius:999px;',
-    'border:1px solid rgba(255,255,255,.4);opacity:.9;white-space:nowrap;}',
+    'border:1px solid var(--bng-w-badge-border,rgba(255,255,255,.4));opacity:.9;white-space:nowrap;}',
     '.bng-rsvp .bng-card .bng-msg{font-size:13px;opacity:.92;margin-top:6px;line-height:1.5;word-wrap:break-word;}',
-    '.bng-rsvp .bng-empty{text-align:center;font-size:13px;opacity:.75;padding:14px 0;}',
-    '[data-theme=light] .bng-rsvp,.bng-rsvp.bng-light{background:rgba(0,0,0,.55);}'
+    '.bng-rsvp .bng-empty{text-align:center;font-size:13px;opacity:.75;padding:14px 0;}'
   ].join('');
   document.head.appendChild(css);
 
@@ -213,17 +214,122 @@
   }
 
   /* ---------------- Penempatan ---------------- */
-  function isLightBg() {
+  /* ---------------- WARNA MENGIKUTI TEMA ----------------
+     Ukur warna latar efektif di sekitar posisi (section di atas footer /
+     widget terdekat / body), lalu pilih varian terang / gelap supaya
+     kolom input, daftar ucapan, dan footer menyatu dengan tema
+     (beberapa tema berlatar hitam, beberapa terang/krem). */
+  function parseRgb(bg) {
+    var m = String(bg || '').match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\)/);
+    if (!m) return null;
+    var a = m[4] == null ? 1 : parseFloat(m[4]);
+    if (a === 0) return null; /* transparan penuh — lanjut ke leluhur */
+    return { r: +m[1], g: +m[2], b: +m[3], a: a };
+  }
+  function luminanceOf(bg) {
+    var c = parseRgb(bg);
+    if (!c) return 255;
+    /* alpha < 1: campur dengan putih (kasus umum overlay tema terang) */
+    var mix = function (v) { return Math.round(v * c.a + 255 * (1 - c.a)); };
+    return 0.299 * mix(c.r) + 0.587 * mix(c.g) + 0.114 * mix(c.b);
+  }
+  function effectiveBg(el) {
+    var n = el, guard = 0;
+    while (n && n !== document.documentElement && guard++ < 12) {
+      if (!/^(SCRIPT|STYLE|LINK|TEMPLATE)$/i.test(n.tagName)) {
+        var bg = '';
+        try { bg = getComputedStyle(n).backgroundColor || ''; } catch (e) {}
+        if (parseRgb(bg)) return bg;
+      }
+      n = n.parentElement;
+    }
+    return '';
+  }
+  function findFooterBg(footer) {
+    var el = footer.previousElementSibling, guard = 0;
+    while (el && guard++ < 10) {
+      if (!/^(SCRIPT|STYLE|LINK|TEMPLATE)$/i.test(el.tagName)) {
+        var bg = effectiveBg(el);
+        if (bg) return bg;
+      }
+      el = el.previousElementSibling;
+    }
+    return effectiveBg(document.body) || 'rgb(255,255,255)';
+  }
+  function adaptFooter() {
+    /* Footer Bernaung (footer.py-10) mengikuti warna bagian tema di atasnya:
+       hitam hanya pada tema gelap; tema terang dapat footer terang. */
     try {
-      var bg = getComputedStyle(document.body).backgroundColor || '';
-      var m = bg.match(/(\d+),\s*(\d+),\s*(\d+)/);
-      if (!m) return false;
-      var lum = 0.299 * (+m[1]) + 0.587 * (+m[2]) + 0.114 * (+m[3]);
-      return lum > 140;
-    } catch (e) { return false; }
+      var footers = document.querySelectorAll('footer.py-10');
+      Array.prototype.forEach.call(footers, function (f) {
+        if (f.getAttribute('data-bng-adapted')) return;
+        f.setAttribute('data-bng-adapted', '1');
+        var bg = findFooterBg(f);
+        if (bg) f.style.backgroundColor = bg;
+        f.classList.toggle('bng-footer-light', luminanceOf(bg) > 140);
+      });
+    } catch (e) {}
+  }
+  function applyWidgetTheme(root, bg) {
+    var light = luminanceOf(bg) > 140;
+    var v;
+    if (light) {
+      v = {
+        '--bng-w-bg': 'rgba(255,255,255,.6)',
+        '--bng-w-border': 'rgba(61,55,48,.30)',
+        '--bng-w-text': '#3d3730',
+        '--bng-w-muted': 'rgba(61,55,48,.72)',
+        '--bng-w-input-bg': 'rgba(255,255,255,.78)',
+        '--bng-w-input-border': 'rgba(61,55,48,.32)',
+        '--bng-w-input-text': '#3d3730',
+        '--bng-w-placeholder': 'rgba(61,55,48,.45)',
+        '--bng-w-checked-bg': '#3d3730',
+        '--bng-w-checked-text': '#fff',
+        '--bng-w-btn-bg': '#3d3730',
+        '--bng-w-btn-text': '#fff',
+        '--bng-w-card-bg': 'rgba(255,255,255,.62)',
+        '--bng-w-card-border': 'rgba(61,55,48,.22)',
+        '--bng-w-badge-border': 'rgba(61,55,48,.45)'
+      };
+    } else {
+      v = {
+        '--bng-w-bg': 'rgba(255,255,255,.08)',
+        '--bng-w-border': 'rgba(255,255,255,.25)',
+        '--bng-w-text': '#fff',
+        '--bng-w-muted': 'rgba(255,255,255,.85)',
+        '--bng-w-input-bg': 'rgba(255,255,255,.1)',
+        '--bng-w-input-border': 'rgba(255,255,255,.35)',
+        '--bng-w-input-text': '#fff',
+        '--bng-w-placeholder': 'rgba(255,255,255,.55)',
+        '--bng-w-checked-bg': '#fff',
+        '--bng-w-checked-text': '#111',
+        '--bng-w-btn-bg': '#fff',
+        '--bng-w-btn-text': '#111',
+        '--bng-w-card-bg': 'rgba(255,255,255,.06)',
+        '--bng-w-card-border': 'rgba(255,255,255,.18)',
+        '--bng-w-badge-border': 'rgba(255,255,255,.4)'
+      };
+    }
+    for (var k in v) root.style.setProperty(k, v[k]);
+    root.setAttribute('data-bng-scheme', light ? 'light' : 'dark');
+  }
+  function contextBgFor(root) {
+    /* latar di sekitar posisi widget: section/slot terdekat di atas & bawah */
+    var cands = [root.parentElement, root.previousElementSibling, root.nextElementSibling];
+    for (var i = 0; i < cands.length; i++) {
+      var el2 = cands[i];
+      if (!el2 || el2 === root || el2 === document.body) continue;
+      if (/^(SCRIPT|STYLE|LINK|TEMPLATE)$/i.test(el2.tagName)) continue;
+      var bg = effectiveBg(el2);
+      if (bg) return bg;
+    }
+    return effectiveBg(document.body) || 'rgb(255,255,255)';
   }
 
   function place() {
+    /* Footer selalu diadaptasi dulu (jadi acuan warna konteks widget) */
+    adaptFooter();
+
     /* Mode tanpa RSVP (data.js rsvp.hide=true): sembunyikan widget RSVP vendor
        dan jangan tampilkan form apa pun — bagian RSVP hilang dari undangan. */
     if (CFG.hide) {
@@ -235,11 +341,10 @@
     }
 
     var root = buildForm();
-    if (isLightBg()) root.classList.add('bng-light');
 
     /* 1) slot eksplisit */
     var slot = document.querySelector('[data-bernaung-rsvp]');
-    if (slot) { slot.innerHTML = ''; slot.appendChild(root); return; }
+    if (slot) { slot.innerHTML = ''; slot.appendChild(root); applyWidgetTheme(root, contextBgFor(root)); return; }
 
     /* 2) widget vendor Elementor/Bisdev yang rusak (wds_rsvp, rsvp-comments-wrap) */
     var vendor = document.querySelector('.wds_rsvp, [data-widget_type*="wds_rsvp"], .rsvp-comments-wrap');
@@ -267,6 +372,7 @@
           }
         }
       } catch (e) {}
+      applyWidgetTheme(root, contextBgFor(root));
       return;
     }
 
@@ -277,6 +383,7 @@
     wrap.appendChild(root);
     if (footer) footer.parentNode.insertBefore(wrap, footer);
     else document.body.appendChild(wrap);
+    applyWidgetTheme(root, contextBgFor(root));
   }
 
   if (document.readyState === 'loading') {
