@@ -141,12 +141,40 @@
           "f": "/tema-jawa/images/Foto 13.jpeg"
         },
         {
+          "k": "tanggalPendek",
+          "f": "ditanggal 09 juni 2026 ini"
+        },
+        {
           "k": "akadDayDate",
-          "f": "Selasa 09 Juni 2026"
+          "f": "Selasa, 09 Juni 2026"
+        },
+        {
+          "k": "akadDayName",
+          "f": "Selasa"
+        },
+        {
+          "k": "akadDayNum",
+          "f": "09"
+        },
+        {
+          "k": "akadMonthYear",
+          "f": "Juni 2026"
         },
         {
           "k": "resDayDate",
-          "f": "Selasa 09 Juni 2026"
+          "f": "Selasa, 09 Juni 2026"
+        },
+        {
+          "k": "resDayName",
+          "f": "Selasa"
+        },
+        {
+          "k": "resDayNum",
+          "f": "09"
+        },
+        {
+          "k": "resMonthYear",
+          "f": "Juni 2026"
         },
         {
           "k": "countdownUnix",
@@ -1898,12 +1926,30 @@
           "f": "Putri dari Bapak Budi Ibu Sari"
         },
         {
-          "k": "akadDayDate",
-          "f": "Senin 0 Desember 2026"
+          "k": "akadDayName",
+          "f": "Senin"
         },
         {
-          "k": "resDayDate",
-          "f": "Senin 0 Desember 2026"
+          "k": "akadDayNum",
+          "f": "28",
+          "attr": "data-end"
+        },
+        {
+          "k": "akadMonthYear",
+          "f": "Desember 2026"
+        },
+        {
+          "k": "resDayName",
+          "f": "Senin"
+        },
+        {
+          "k": "resDayNum",
+          "f": "28",
+          "attr": "data-end"
+        },
+        {
+          "k": "resMonthYear",
+          "f": "Desember 2026"
         },
         {
           "k": "akadTime",

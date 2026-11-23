@@ -369,7 +369,10 @@
     <section id="tab-daftar" class="hidden">
       <div class="card">
         <h2>DAFTAR CUSTOMER</h2>
-        <p class="desc">Tandai <b>Terbayar</b> untuk otomatis membuat halaman <b>Generator Link Tamu</b> (<code>tamu.html</code>) di folder customer. Gunakan <b>Edit</b> untuk mengubah data lalu membuat ulang file undangan.</p>
+        <p class="desc">Tandai <b>Terbayar</b> untuk otomatis membuat halaman <b>Generator Link Tamu</b> (<code>tamu.html</code>) di folder customer. Gunakan <b>Edit</b> untuk mengubah data lalu membuat ulang file undangan. Klik <b>RSVP</b> untuk melihat daftar ucapan customer, mengunduhnya sebagai Excel, atau membackupnya ke repo.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+          <button class="btn btn-gold btn-sm" id="btnRsvpAll">UNDUH SEMUA RSVP (1 FILE EXCEL, 1 SHEET PER CUSTOMER)</button>
+        </div>
         <div style="overflow-x:auto">
           <table id="custTable">
             <thead><tr><th>Customer</th><th>Tema</th><th>Acara</th><th>RSVP</th><th>Status</th><th>Aksi</th></tr></thead>
@@ -407,18 +410,44 @@
       </div>
 
       <div class="card">
-        <h2>PANDUAN RSVP (SPREADSHEET + APPS SCRIPT)</h2>
+        <h2>RSVP PUSAT (SATU SPREADSHEET UNTUK SEMUA CUSTOMER)</h2>
+        <p class="desc">Sekarang <b>tidak perlu setup Google per customer</b>. Cukup <b>satu</b> Spreadsheet + <b>satu</b> Apps Script untuk semua undangan: RSVP tiap customer otomatis masuk ke <b>tab terpisah</b> bernama slug customer (mis. <code>nasirin-mila</code>), dibuat otomatis saat RSVP pertama masuk.</p>
         <p class="desc">
           1. Buat Spreadsheet baru di sheets.google.com &rarr; Extensions &rarr; Apps Script.<br>
-          2. Hapus kode bawaan, tempel isi file <code>assets.bernaung.id/Code.gs</code> (tersedia juga di panel ini), Save.<br>
+          2. Hapus kode bawaan, tempel isi file <code>assets.bernaung.id/Code.gs</code> (versi pusat, tersedia juga di panel ini), Save.<br>
           3. Deploy &rarr; New deployment &rarr; Web app &rarr; Execute as: <b>Me</b>, Who has access: <b>Anyone</b> &rarr; Deploy &rarr; Allow.<br>
-          4. Salin URL berakhiran <b>/exec</b> &rarr; tempel di form Customer Baru (bagian RSVP).<br>
-          5. Selesai &mdash; RSVP undangan customer tersimpan otomatis ke spreadsheet Anda.
+          4. Salin URL berakhiran <b>/exec</b> &rarr; tempel di kolom <b>URL Apps Script</b> form Customer Baru &amp; Edit (URL yang sama untuk semua customer), dan simpan juga di kolom di bawah ini agar tombol <b>Lihat RSVP</b> / <b>Unduh Excel</b> bisa memakainya sebagai cadangan.<br>
+          5. Selesai &mdash; RSVP semua customer terkumpul di satu spreadsheet, terpisah per tab customer.
         </p>
-        <button class="btn btn-line" id="dlCode">UNDUH Code.gs</button>
+        <label class="f">URL Apps Script RSVP Pusat (cadangan tombol Lihat/Unduh RSVP di panel)</label>
+        <input class="f" id="s_rsvpCenter" placeholder="https://script.google.com/macros/s/AKfyc.../exec">
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-line" id="dlCode">UNDUH Code.gs</button>
+        </div>
+        <p class="hint">Data RSVP lama yang masuk tanpa slug tetap terkumpul di tab <code>RSVP</code>. Deploy ulang akan terjadi otomatis di tab-tab berikutnya jika URL di atas berubah.</p>
       </div>
     </section>
   </main>
+
+  <!-- Modal RSVP customer -->
+  <div id="rsvpModal" class="hidden" style="position:fixed;inset:0;background:rgba(8,12,18,.8);z-index:89;display:flex;align-items:center;justify-content:center;padding:20px">
+    <div class="card" style="max-width:880px;width:100%;max-height:85vh;overflow:auto">
+      <h2>RSVP &mdash; <span id="rsvpTitle"></span></h2>
+      <p class="desc" id="rsvpMeta"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+        <button class="btn btn-gold btn-sm" id="rsvpExcel">UNDUH EXCEL (.xlsx)</button>
+        <button class="btn btn-line btn-sm" id="rsvpBackup">BACKUP KE REPO (rsvp/&lt;slug&gt;.json)</button>
+        <button class="btn btn-line btn-sm" id="rsvpRefresh">MUAT ULANG</button>
+        <button class="btn btn-red btn-sm" id="rsvpClose">TUTUP</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table id="rsvpTable">
+          <thead><tr><th>Waktu</th><th>Nama</th><th>Kehadiran</th><th>Ucapan</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal unduhan manual -->
   <div id="manualModal" class="hidden" style="position:fixed;inset:0;background:rgba(8,12,18,.8);z-index:90;display:flex;align-items:center;justify-content:center;padding:20px">
@@ -435,6 +464,7 @@
 <div id="toast"></div>
 
 <script src="/assets.bernaung.id/admin-auth.js"></script>
-<script src="/assets.bernaung.id/admin.js?v=5"></script>
+<script src="/assets.bernaung.id/bng-xlsx.js"></script>
+<script src="/assets.bernaung.id/admin.js?v=6"></script>
 </body>
 </html>

@@ -538,6 +538,7 @@ window.__ADMIN_JS_V2 = true;
         return;
       }
       if (n.nodeType !== 1) return;
+      if (SKIP_RE.test(n.tagName)) return; /* kode program bukan teks tampilan */
       if (n.tagName === 'BR' || n.tagName === 'HR') {
         if (!lastWasSpace) { emit(' ', n, -1, n); lastWasSpace = true; }
         return;
@@ -633,6 +634,12 @@ window.__ADMIN_JS_V2 = true;
   /* Ganti frasa di seluruh dokumen — teks saja, markup aman.
      maxTake: batas jumlah kemunculan yang diganti (untuk pembagian slot
      yang memakai frasa demo sama, mis. tanggal akad vs resepsi). */
+  /* /i penting: <style> di dalam <svg> ber-tagName huruf kecil ("style").
+     Elemen kode program & teks non-tampilan (script/style dsb.) tidak boleh
+     terganti data customer — teks demo di dalamnya (string i18n "a11y...",
+     koordinat SVG, angka JS) sering mengandung frasa demo secara kebetulan. */
+  var SKIP_RE = /^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE|PRE|CODE|TEXTAREA)$/i;
+
   function domReplacePhrase(dom, find, value, maxTake) {
     var findNorm = htmlUnescape(String(find)).replace(/\s+/g, ' ').trim().toLowerCase();
     if (!findNorm || value == null || String(value).length === 0) return 0;
@@ -642,6 +649,7 @@ window.__ADMIN_JS_V2 = true;
     var all = Array.prototype.slice.call(dom.querySelectorAll('*'));
     var byDepth = {};
     all.forEach(function (el) {
+      if (SKIP_RE.test(el.tagName)) return;
       var d = 0, n = el;
       while (n.parentElement) { d++; n = n.parentElement; }
       (byDepth[d] = byDepth[d] || []).push(el);
@@ -671,21 +679,15 @@ window.__ADMIN_JS_V2 = true;
         var a = attrs[j];
         if (a.nodeValue && a.nodeValue.indexOf(findStr) !== -1) {
           if (isDigit) {
-            /* batas digit: jangan ganti di tengah deretan angka lain atau
-               bilangan desimal (mis. "11" dalam "11.21049") */
-            var pos = a.nodeValue.indexOf(findStr), valid = false;
-            while (pos !== -1) {
-              var bch = pos > 0 ? a.nodeValue.charAt(pos - 1) : '';
-              var ach = a.nodeValue.charAt(pos + findStr.length) || '';
-              if (/\d/.test(bch) || /\d/.test(ach)) { pos = a.nodeValue.indexOf(findStr, pos + 1); continue; }
-              if ((ach === '.' || ach === ',') && /\d/.test(a.nodeValue.charAt(pos + findStr.length + 1) || '')) { pos = a.nodeValue.indexOf(findStr, pos + 1); continue; }
-              if ((bch === '.' || bch === ',') && /\d/.test(a.nodeValue.charAt(pos - 2) || '')) { pos = a.nodeValue.indexOf(findStr, pos + 1); continue; }
-              valid = true; break;
-            }
-            if (!valid) continue;
+            /* angka: hanya nilai atribut yang PERSIS sama (mis. data-end="28")
+               — menjaga nama class/URL/ID yang kebetulan memuat digit demo */
+            if (a.nodeValue !== findStr) continue;
+            a.nodeValue = String(value);
+            count++;
+          } else {
+            a.nodeValue = a.nodeValue.split(findStr).join(String(value));
+            count++;
           }
-          a.nodeValue = a.nodeValue.split(findStr).join(String(value));
-          count++;
         }
       }
     }
@@ -774,6 +776,9 @@ window.__ADMIN_JS_V2 = true;
     if (pd) {
       vals.heroDateShort = pad(pd.d) + ' . ' + pad(pd.m) + ' . ' + pd.y;
       vals.heroDateShort2 = pad(pd.d) + ' . ' + pad(pd.m) + ' . ' + String(pd.y).slice(-2);
+      /* tanggal tanpa nama hari (teks naratif, mis. kalimat cerita:
+         "ditanggal 09 juni 2026 ini") */
+      vals.tanggalPendek = String(pd.d) + ' ' + BULAN_NAMA[pd.m - 1] + ' ' + pd.y;
     }
 
     /* --- pecahan tanggal per elemen (tema dgn slot hari/tanggal/bulan terpisah) --- */
@@ -904,7 +909,8 @@ window.__ADMIN_JS_V2 = true;
         var norm = htmlUnescape(String(phrase)).replace(/\s+/g, ' ').trim().toLowerCase();
         if (!norm) return;
         var best = null, bestLen = 1e9;
-        var all = dom.querySelectorAll('h1,h2,h3,h4,p,span,div,li,button,a');
+        var all = Array.prototype.slice.call(dom.querySelectorAll('h1,h2,h3,h4,p,span,div,li,button,a'));
+        all = all.filter(function (e) { return !SKIP_RE.test(e.tagName); });
         for (var i = 0; i < all.length; i++) {
           var t = normText(all[i].textContent);
           if (t && t.indexOf(norm) !== -1 && t.length < bestLen) {
@@ -927,6 +933,7 @@ window.__ADMIN_JS_V2 = true;
       var val = data.values[m.k];
       if (val == null) val = '';
       if (m.k === 'rsvpUrl') return; /* regex khusus, di bawah */
+      if (m.attr) return; /* aturan atribut terarah — PASS 1.2 */
       if (/^foto/.test(m.k)) {
         /* foto: penggantian path/URL persis (bukan regex) */
         photoRules.push({ find: m.f, val: String(val).trim(), k: m.k });
@@ -979,6 +986,34 @@ window.__ADMIN_JS_V2 = true;
       (textByFind[key] = textByFind[key] || []).push(r);
     });
 
+    /* --- PASS 0: varian URL-encoded (URL kalender, og:image, dsb.) —
+           berjalan di string MENTAH SEBELUM parse DOM supaya penggantian
+           teks berikutnya (mis. "Selasa" -> "Jum'at") tidak merusak frasa
+           encoded di dalam URL kalender.
+           HANYA untuk frasa yang benar-benar BERUBAH saat di-encode; frasa
+           polos (enc == find) tetap lewat pass akhir agar pembagian
+           kemunculan antar-aturan (akad vs resepsi) tidak rusak. --- */
+    var pass0Hits = {};
+    textRules.concat(photoRules).forEach(function (r) {
+      var val = data.values[r.k];
+      if (!val) return;
+      /* frasa murni angka: encodeURIComponent() tidak mengubahnya, dan
+         replace global di sini dapat menyentuh nomor kado/rekening lain
+         yang mengandung digit demo di tengah — lewati (tidak butuh encoded). */
+      if (/^\d+$/.test(String(r.find))) return;
+      var enc = encodeURIComponent(r.find);
+      if (enc === String(r.find)) return; /* frasa polos — pass akhir */
+      if (html.indexOf(enc) !== -1 && r.k !== '_extra' && !/^_story/.test(r.k)) {
+        var m = (map || []).find(function (x) { return x.k === r.k && x.f === r.find; });
+        var rep = encodeURIComponent((m && m.p ? m.p : '') + val);
+        var n0 = html.split(enc).length - 1;
+        if (n0) {
+          html = html.split(enc).join(rep);
+          pass0Hits[r.k + '|' + r.find] = (pass0Hits[r.k + '|' + r.find] || 0) + n0;
+        }
+      }
+    });
+
     /* --- PASS 1: teks berbasis DOM — frasa hanya diganti pada TEKS,
            tag/struktur markup tidak pernah ikut terhapus --- */
     var dom = new DOMParser().parseFromString(html, 'text/html');
@@ -988,8 +1023,37 @@ window.__ADMIN_JS_V2 = true;
         var maxTake = (rs.length > 1 && i < rs.length - 1) ? 1 : Infinity;
         var n = domReplacePhrase(dom, r.find, r.val, maxTake) +
                 domReplaceAttrs(dom, r.find, r.val, maxTake);
-        if (n) report.ok.push({ k: r.k, find: r.find, n: n });
-        else report.miss.push({ k: r.k, find: r.find });
+        var n0 = pass0Hits[r.k + '|' + r.find] || 0;
+        if (n || n0) {
+          if (n0) report.ok.push({ k: r.k, find: r.find + ' (URL)', n: n0 });
+          if (n) report.ok.push({ k: r.k, find: r.find, n: n });
+        } else report.miss.push({ k: r.k, find: r.find });
+      });
+    });
+    /* --- PASS 1.2: aturan atribut terarah { k, f, attr } ---
+       Untuk nilai yang TIDAK berupa teks tampilan, mis. counter hari tema
+       pmotion07 (data-end="28"): nilai atribut yang PERSIS sama dengan f
+       diganti nilai form. Kemunculan dibagi rata seperti aturan teks
+       (aturan awal ambil kemunculan awal, aturan terakhir ambil sisanya). */
+    var attrRules = {};
+    map.forEach(function (m) {
+      if (!m.attr || !m.f) return;
+      var val = data.values[m.k];
+      if (val == null || String(val).trim() === '') return;
+      var key = m.attr + '===' + m.f;
+      (attrRules[key] = attrRules[key] || []).push({ k: m.k, val: String(val) });
+    });
+    Object.keys(attrRules).forEach(function (key) {
+      var rs = attrRules[key];
+      var sep = key.indexOf('===');
+      var attrName = key.slice(0, sep), fval = key.slice(sep + 3);
+      var els = Array.prototype.filter.call(
+        dom.querySelectorAll('[' + attrName + ']'),
+        function (e2) { return e2.getAttribute(attrName) === fval; });
+      els.forEach(function (e2, ei) {
+        var r = (ei < els.length - 1 && rs.length > 1) ? rs[0] : rs[rs.length - 1];
+        e2.setAttribute(attrName, r.val);
+        report.ok.push({ k: r.k, find: fval + ' @' + attrName, n: 1 });
       });
     });
     /* --- PASS 1.5: sembunyikan bagian opsional yang tidak diisi --- */
@@ -1023,20 +1087,7 @@ window.__ADMIN_JS_V2 = true;
     });
 
     /* --- aturan khusus --- */
-    /* URL-encoded variant per rule (untuk calendar URL, og:image, dsb.) */
-    textRules.concat(photoRules).forEach(function (r) {
-      var val = data.values[r.k];
-      if (!val) return;
-      /* frasa murni angka: encodeURIComponent() tidak mengubahnya, dan
-         replace global di sini dapat menyentuh nomor kado/rekening lain
-         yang mengandung digit demo di tengah — lewati (tidak butuh encoded). */
-      if (/^\d+$/.test(String(r.find))) return;
-      var enc = encodeURIComponent(r.find);
-      if (html.indexOf(enc) !== -1 && r.k !== '_extra' && !/^_story/.test(r.k)) {
-        var m = (map || []).find(function (x) { return x.k === r.k && x.f === r.find; });
-        html = html.split(enc).join(encodeURIComponent((m && m.p ? m.p : '') + val));
-      }
-    });
+    /* URL-encoded variant per rule dipindah ke PASS 0 (sebelum DOM). */
 
     /* RSVP URL (semua tema; no-op bila tidak ada) */
     if (data.values.rsvpUrl && /^https:\/\/script\.google\.com\/macros\/s\//.test(data.values.rsvpUrl)) {
@@ -1044,8 +1095,15 @@ window.__ADMIN_JS_V2 = true;
     }
     /* Google Maps (termasuk varian /_cdn/ hasil konversi tema) */
     if (data.values.gmaps && /^https:\/\//.test(data.values.gmaps)) {
-      html = html.replace(/https:\/\/maps\.app\.goo\.gl\/[A-Za-z0-9_-]+(\?g_st=[a-z]+)?/g, data.values.gmaps);
-      html = html.replace(/\/_cdn\/maps\.app\.goo\.gl\/[A-Za-z0-9_-]+(\?g_st=[a-z]+)?/g, data.values.gmaps);
+      /* URL Maps per-acara (akad/resepsi) yang sudah terganti di PASS teks
+         tidak boleh ditimpa URL umum — biarkan apa adanya. */
+      var keepMaps = [data.values.akadMaps, data.values.resMaps];
+      html = html.replace(/https:\/\/maps\.app\.goo\.gl\/[A-Za-z0-9_-]+(\?g_st=[a-z]+)?/g, function (m0) {
+        return keepMaps.indexOf(m0) !== -1 ? m0 : data.values.gmaps;
+      });
+      html = html.replace(/\/_cdn\/maps\.app\.goo\.gl\/[A-Za-z0-9_-]+(\?g_st=[a-z]+)?/g, function (m0) {
+        return keepMaps.indexOf(m0.replace(/^\/_cdn\//, 'https://')) !== -1 ? m0 : data.values.gmaps;
+      });
       html = html.replace(/https:\/\/www\.google\.com\/maps\/\?hl=[A-Za-z]+/g, data.values.gmaps);
     }
     /* Simpan tanggal kalender */
@@ -1333,7 +1391,8 @@ window.__ADMIN_JS_V2 = true;
         '<td>' + esc(themeName(c.theme)) + '</td>' +
         '<td>' + esc(c.eventDate || '') + '</td>' +
         '<td>' + (c.rsvp && c.rsvp.sheet ? '<a href="' + esc(c.rsvp.sheet) + '" target="_blank">Spreadsheet</a>' : '—') +
-          (c.rsvp && c.rsvp.appscript ? '<br><span style="font-size:10.5px;color:var(--muted)">AppScript OK</span>' : '') + '</td>' +
+          (c.rsvp && c.rsvp.appscript ? '<br><span style="font-size:10.5px;color:var(--muted)">AppScript OK</span>' : '') +
+          '<br><button class="btn btn-line btn-sm" data-rsvp="' + i + '" style="margin-top:5px">LIHAT RSVP</button></td>' +
         '<td><span class="status ' + (c.status === 'paid' ? 'st-paid' : 'st-unpaid') + '">' +
           (c.status === 'paid' ? 'TERBAYAR' : 'BELUM BAYAR') + '</span><br>' + guestLink + '</td>' +
         '<td style="white-space:nowrap">' +
@@ -1342,6 +1401,9 @@ window.__ADMIN_JS_V2 = true;
           '<button class="btn btn-red btn-sm" data-del="' + i + '">HAPUS</button>' +
         '</td>';
       tb.appendChild(tr);
+    });
+    tb.querySelectorAll('button[data-rsvp]').forEach(function (b) {
+      b.addEventListener('click', function () { openRsvpModal(+b.getAttribute('data-rsvp')); });
     });
     tb.querySelectorAll('button[data-pay]').forEach(function (b) {
       b.addEventListener('click', function () { markPaid(+b.getAttribute('data-pay')); });
@@ -1701,11 +1763,135 @@ window.__ADMIN_JS_V2 = true;
     } catch (e) { toast(e.message, true); }
   }
 
+  /* ================= RSVP MANAGER =================
+     RSVP tersimpan di Google Spreadsheet (pusat: 1 tab per customer,
+     dibuat otomatis oleh Code.gs versi pusat). Panel dapat:
+     - melihat daftar RSVP per customer (Lihat RSVP)
+     - mengunduh Excel per customer / semua customer (BNG_XLSX)
+     - membackup JSON ke repo: rsvp/<slug>.json (token admin). */
+  function rsvpApiOf(c) {
+    var ap = String((c && c.rsvp && c.rsvp.appscript) || '');
+    if (/^https:\/\/script\.google\.com\/macros\/s\//.test(ap) && ap.indexOf('DISABLED') === -1) return ap;
+    return String(S.settings.rsvpCenter || '').trim();
+  }
+  async function fetchRsvpList(api, slug) {
+    var url = api + (api.indexOf('?') === -1 ? '?' : '&') + 'action=list' +
+      (slug ? '&slug=' + encodeURIComponent(slug) : '');
+    var r = await fetch(url);
+    var txt = await r.text();
+    var j = null;
+    try { j = JSON.parse(txt); } catch (e) {}
+    if (!j) throw new Error('Respons bukan JSON — Apps Script masih versi lama, deploy ulang Code.gs versi pusat');
+    if (j.status !== 'success') throw new Error(j.message || 'Apps Script error');
+    return j.data || [];
+  }
+  function rsvpWaktu(t) {
+    if (!t) return '—';
+    try {
+      var d = new Date(t);
+      if (isNaN(d.getTime())) return String(t);
+      return d.toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return String(t); }
+  }
+  function rsvpToRows(list) {
+    var rows = [['Waktu', 'Nama', 'Kehadiran', 'Ucapan']];
+    (list || []).forEach(function (it) {
+      rows.push([rsvpWaktu(it.waktu), it.nama || '', it.kehadiran || '', it.ucapan || '']);
+    });
+    return rows;
+  }
+  var RSVP_CURRENT = null; /* { customer, list } yang tampil di modal */
+  var RSVP_LAST_IDX = -1;  /* customer terakhir dibuka (untuk MUAT ULANG walau gagal) */
+
+  function renderRsvpRows(list) {
+    var tb = $('rsvpTable').querySelector('tbody');
+    if (!list || !list.length) {
+      tb.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">Belum ada RSVP masuk.</td></tr>';
+      return;
+    }
+    var hadir = 0;
+    tb.innerHTML = list.map(function (it) {
+      if (it.kehadiran === 'Hadir') hadir++;
+      return '<tr><td style="white-space:nowrap">' + esc(rsvpWaktu(it.waktu)) + '</td><td><b>' + esc(it.nama) + '</b></td><td>' +
+        esc(it.kehadiran) + '</td><td>' + esc(it.ucapan).replace(/\n/g, '<br>') + '</td></tr>';
+    }).join('');
+    $('rsvpMeta').textContent = list.length + ' RSVP (' + hadir + ' hadir, ' + (list.length - hadir) + ' tidak hadir).';
+  }
+
+  function openRsvpModal(i) {
+    var c = S.catalog.customers[i];
+    if (!c) return;
+    RSVP_LAST_IDX = i;
+    var api = rsvpApiOf(c);
+    $('rsvpTitle').textContent = (c.name || c.slug) + ' (' + c.slug + ')';
+    $('rsvpMeta').textContent = api ? 'Sumber: spreadsheet RSVP (slug ' + c.slug + ')' : 'URL Apps Script belum terpasang.';
+    $('rsvpTable').querySelector('tbody').innerHTML = '<tr><td colspan="4" style="color:var(--muted)">Memuat daftar RSVP...</td></tr>';
+    $('rsvpModal').classList.remove('hidden');
+    RSVP_CURRENT = null;
+    if (!api) {
+      $('rsvpTable').querySelector('tbody').innerHTML = '<tr><td colspan="4" style="color:var(--red)">' +
+        'URL Apps Script belum ada. Isi URL RSVP pusat di tab Pengaturan, atau URL Apps Script pada form customer.</td></tr>';
+      return;
+    }
+    fetchRsvpList(api, c.slug).then(function (list) {
+      RSVP_CURRENT = { customer: c, list: list };
+      renderRsvpRows(list);
+    }).catch(function (e) {
+      $('rsvpTable').querySelector('tbody').innerHTML = '<tr><td colspan="4" style="color:var(--red)">' + esc(e.message) + '</td></tr>';
+    });
+  }
+
+  $('rsvpClose').addEventListener('click', function () { $('rsvpModal').classList.add('hidden'); });
+  $('rsvpRefresh').addEventListener('click', function () {
+    if (RSVP_LAST_IDX === -1) return;
+    var idx = S.catalog.customers.indexOf(S.catalog.customers[RSVP_LAST_IDX]);
+    if (idx === -1) { $('rsvpModal').classList.add('hidden'); return; }
+    openRsvpModal(idx);
+  });
+  $('rsvpExcel').addEventListener('click', function () {
+    if (!RSVP_CURRENT || !window.BNG_XLSX) return;
+    var c = RSVP_CURRENT.customer;
+    BNG_XLSX.download('rsvp-' + c.slug + '.xlsx', [{ name: c.slug, rows: rsvpToRows(RSVP_CURRENT.list) }]);
+  });
+  $('rsvpBackup').addEventListener('click', async function () {
+    if (!RSVP_CURRENT) return;
+    var c = RSVP_CURRENT.customer, list = RSVP_CURRENT.list || [];
+    var content = JSON.stringify({ slug: c.slug, customer: c.name || c.slug,
+      dibackup: new Date().toISOString(), jumlah: list.length, data: list }, null, 2);
+    try {
+      var mode = await commitFiles([{ path: 'rsvp/' + c.slug + '.json', content: content }], 'Backup RSVP ' + c.slug + ':');
+      if (mode === 'manual') toast('Unduh rsvp/' + c.slug + '.json lalu unggah ke repo (folder rsvp/).', true);
+    } catch (e) { toast(e.message, true); }
+  });
+  $('btnRsvpAll').addEventListener('click', async function () {
+    var b = $('btnRsvpAll'); b.disabled = true;
+    try {
+      if (!window.BNG_XLSX) { toast('Pustaka Excel belum termuat.'); return; }
+      var custs = S.catalog.customers.filter(function (c) { return rsvpApiOf(c); });
+      if (!custs.length) { toast('Tidak ada customer dengan URL Apps Script terpasang.'); return; }
+      var sheets = [], gagal = [];
+      for (var i = 0; i < custs.length; i++) {
+        var c = custs[i];
+        busy(true, 'MENGAMBIL RSVP ' + (i + 1) + '/' + custs.length + ': ' + String(c.slug).toUpperCase() + '...');
+        try {
+          var list = await fetchRsvpList(rsvpApiOf(c), c.slug);
+          sheets.push({ name: c.slug, rows: rsvpToRows(list) });
+        } catch (e) { gagal.push(c.slug + ' (' + e.message + ')'); }
+      }
+      busy(false);
+      if (sheets.length) BNG_XLSX.download('rsvp-semua-customer.xlsx', sheets);
+      if (gagal.length) toast('Selesai — gagal: ' + gagal.join('; '), true);
+      else toast('Excel RSVP ' + sheets.length + ' customer diunduh ✓');
+    } catch (e) { busy(false); toast(e.message, true); }
+    b.disabled = false;
+  });
+
   /* ================= TAB PENGATURAN ================= */
   $('saveSettings').addEventListener('click', function () {
     S.settings.repo = $('s_repo').value.trim().replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '');
     S.settings.branch = $('s_branch').value.trim() || 'main';
     S.settings.token = $('s_token').value.trim();
+    S.settings.rsvpCenter = $('s_rsvpCenter').value.trim();
     saveSettingsLocal();
     renderModeBadge();
     toast('Pengaturan disimpan di browser ini.');
@@ -1745,6 +1931,7 @@ window.__ADMIN_JS_V2 = true;
     $('s_repo').value = S.settings.repo || 'andrayou12-create/bernaunginv';
     $('s_branch').value = S.settings.branch || 'main';
     $('s_token').value = S.settings.token || '';
+    $('s_rsvpCenter').value = S.settings.rsvpCenter || '';
     renderModeBadge();
 
     busy(true, 'MEMUAT DATA...');

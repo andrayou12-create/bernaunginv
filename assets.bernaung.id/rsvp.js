@@ -31,6 +31,9 @@
   var MODE = (CFG.mode === 'wa' && /^\d{8,16}$/.test(String(CFG.wa || ''))) ? 'wa'
            : (LIVE ? 'sheet' : 'demo');
   var WA = String(CFG.wa || '');
+  /* Slug customer (dari data.js): pemisah tab RSVP pada spreadsheet pusat.
+     Deployment lama per-customer mengabaikan parameter ini — aman. */
+  var SLUG = String((window.BERNAUNG_DATA && window.BERNAUNG_DATA.slug) || '').trim();
 
   /* ---------------- CSS ---------------- */
   var css = document.createElement('style');
@@ -132,7 +135,7 @@
         list.innerHTML = ''; list.appendChild(demo);
         return;
       }
-      fetch(API + '?action=list').then(function (r) { return r.text(); }).then(function (txt) {
+      fetch(API + '?action=list' + (SLUG ? '&slug=' + encodeURIComponent(SLUG) : '')).then(function (r) { return r.text(); }).then(function (txt) {
         var j = null;
         try { j = JSON.parse(txt); } catch (e) { /* script lama balas teks biasa */ }
         if (!j || j.status !== 'success' || !j.data || !j.data.length) {
@@ -183,6 +186,7 @@
       params.append('author', nama);
       params.append('attendance', hadir);
       params.append('comment', ucapan);
+      if (SLUG) params.append('slug', SLUG);
       fetch(API, {
         method: 'POST',
         body: params
