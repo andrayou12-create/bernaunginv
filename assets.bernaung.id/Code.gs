@@ -36,15 +36,34 @@ function getSheet_() {
   return sheet;
 }
 
-/** POST { nama, kehadiran, ucapan } */
+/** POST { nama, kehadiran, ucapan } — JSON atau parameter form (kompatibel dua format) */
 function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
     lock.waitLock(20000);
-    var data = JSON.parse(e.postData.contents);
-    var nama = String(data.nama || '').trim().substring(0, 60);
-    var kehadiran = String(data.kehadiran || '').trim() === 'Hadir' ? 'Hadir' : 'Tidak Hadir';
-    var ucapan = String(data.ucapan || '').trim().substring(0, 500);
+    var nama = '', kehadiran = '', ucapan = '';
+    /* format 1: body JSON  { nama, kehadiran, ucapan } */
+    try {
+      if (e && e.postData && e.postData.contents) {
+        var data = JSON.parse(e.postData.contents);
+        if (data && typeof data === 'object') {
+          nama = data.nama || data.author || '';
+          kehadiran = data.kehadiran || data.attendance || '';
+          ucapan = data.ucapan || data.comment || '';
+        }
+      }
+    } catch (ignored) { /* bukan JSON — lanjut ke parameter form */ }
+    /* format 2: parameter form (URLSearchParams) — nama/kehadiran/ucapan
+       atau alias vendor author/attendance/comment */
+    if (!nama && e && e.parameter) {
+      nama = e.parameter.nama || e.parameter.author || '';
+      kehadiran = e.parameter.kehadiran || e.parameter.attendance || '';
+      ucapan = e.parameter.ucapan || e.parameter.comment || '';
+    }
+    nama = String(nama).trim().substring(0, 60);
+    var h = String(kehadiran).trim();
+    kehadiran = /tidak/i.test(h) ? 'Tidak Hadir' : (/hadir/i.test(h) ? 'Hadir' : 'Tidak Hadir');
+    ucapan = String(ucapan).trim().substring(0, 500);
     if (!nama || !ucapan) {
       return json_({ status: 'error', message: 'Nama dan ucapan wajib diisi.' });
     }

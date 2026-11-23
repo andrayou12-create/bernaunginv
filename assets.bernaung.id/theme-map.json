@@ -141,36 +141,12 @@
           "f": "/tema-jawa/images/Foto 13.jpeg"
         },
         {
-          "k": "akadDayName",
-          "f": "Selasa"
-        },
-        {
-          "k": "akadDayNum",
-          "f": "09"
-        },
-        {
-          "k": "akadMonthYear",
-          "f": "Juni 2026"
-        },
-        {
-          "k": "resDayName",
-          "f": "Selasa"
-        },
-        {
-          "k": "resDayNum",
-          "f": "09"
-        },
-        {
-          "k": "resMonthYear",
-          "f": "Juni 2026"
-        },
-        {
           "k": "akadDayDate",
-          "f": "Selasa, 09 Juni 2026"
+          "f": "Selasa 09 Juni 2026"
         },
         {
           "k": "resDayDate",
-          "f": "Selasa, 09 Juni 2026"
+          "f": "Selasa 09 Juni 2026"
         },
         {
           "k": "countdownUnix",
@@ -258,7 +234,7 @@
         },
         {
           "k": "resTime",
-          "f": "10:00 WIB"
+          "f": "10.00 WIB – Selesai"
         },
         {
           "k": "akadPlace",
@@ -380,10 +356,6 @@
           "f": "Dewi Nahdia Lu'lu Annawawie"
         },
         {
-          "k": "brideFull",
-          "f": "Dewi Nahdia Lu'lu Annawwie"
-        },
-        {
           "k": "groomParents",
           "f": "Putra Ketiga dari"
         },
@@ -392,24 +364,60 @@
           "f": "Putri Pertama dari Bapak Budi dan Ibu Sari"
         },
         {
-          "k": "akadTime",
-          "f": "08:00 WIB"
+          "k": "akadDayName",
+          "f": "Sabtu"
         },
         {
-          "k": "resTime",
-          "f": "10:00 WIB"
+          "k": "akadDayNum",
+          "f": "11"
+        },
+        {
+          "k": "akadMonthYear",
+          "f": "Juli 2026"
+        },
+        {
+          "k": "akadTime",
+          "f": "08:00 WIB"
         },
         {
           "k": "akadPlace",
           "f": "Kediaman Mempelai Pria"
         },
         {
-          "k": "resPlace",
-          "f": "Kediaman Mempelai Pria"
+          "k": "akadAddress",
+          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
         },
         {
-          "k": "address",
-          "f": "Jl. Contoh Alamat No. 123, Sleman, Yogyakarta"
+          "k": "akadMaps",
+          "f": "https://maps.app.goo.gl/AkadMapsDemo11"
+        },
+        {
+          "k": "resDayName",
+          "f": "Sabtu"
+        },
+        {
+          "k": "resDayNum",
+          "f": "11"
+        },
+        {
+          "k": "resMonthYear",
+          "f": "Juli 2026"
+        },
+        {
+          "k": "resTime",
+          "f": "10:00 WIB"
+        },
+        {
+          "k": "resPlace",
+          "f": "Kediaman Mempelai Wanita"
+        },
+        {
+          "k": "resAddress",
+          "f": "Jl. Contoh Alamat No. 45, Bantul, Yogyakarta"
+        },
+        {
+          "k": "resMaps",
+          "f": "https://maps.app.goo.gl/ResMapsDemo22"
         },
         {
           "k": "gift1Number",
@@ -438,38 +446,6 @@
         {
           "k": "kadoAddress",
           "f": "Ngadimulyo, Ngadiprono Kedu, Temanggung"
-        },
-        {
-          "k": "akadDayName",
-          "f": "Sabtu"
-        },
-        {
-          "k": "akadDayNum",
-          "f": "11"
-        },
-        {
-          "k": "akadMonthName",
-          "f": "Juli"
-        },
-        {
-          "k": "akadYearNum",
-          "f": "2026"
-        },
-        {
-          "k": "resDayName",
-          "f": "Sabtu"
-        },
-        {
-          "k": "resDayNum",
-          "f": "11"
-        },
-        {
-          "k": "resMonthName",
-          "f": "Juli"
-        },
-        {
-          "k": "resYearNum",
-          "f": "2026"
         }
       ],
       "hide": [
@@ -479,8 +455,13 @@
             "gift2Number",
             "gift3Number"
           ],
-          "f": [
-            "Wedding Gift"
+          "sec": [
+            "[data-id=\"5866f93\"]",
+            "[data-id=\"4679a99\"]",
+            "[data-id=\"63c1939\"]",
+            "[data-id=\"e88ce79\"]",
+            "[data-id=\"4d69cc0\"]",
+            "[data-id=\"45e23ce\"]"
           ]
         },
         {
@@ -489,8 +470,8 @@
             "kadoPhone",
             "kadoAddress"
           ],
-          "f": [
-            "Kado"
+          "sec": [
+            "[data-id=\"efceae5\"]"
           ]
         },
         {
@@ -499,8 +480,8 @@
             "akadTime",
             "akadPlace"
           ],
-          "f": [
-            "Akad Nikah"
+          "sec": [
+            "[data-jnp=\"card-akad\"]"
           ]
         },
         {
@@ -509,8 +490,40 @@
             "resTime",
             "resPlace"
           ],
-          "f": [
-            "Resepsi"
+          "sec": [
+            "[data-jnp=\"card-resepsi\"]"
+          ]
+        },
+        {
+          "k": [
+            "akadAddress"
+          ],
+          "sec": [
+            "[data-jnp=\"akad-addr\"]"
+          ]
+        },
+        {
+          "k": [
+            "resAddress"
+          ],
+          "sec": [
+            "[data-jnp=\"res-addr\"]"
+          ]
+        },
+        {
+          "k": [
+            "akadMaps"
+          ],
+          "sec": [
+            "[data-jnp=\"akad-maps\"]"
+          ]
+        },
+        {
+          "k": [
+            "resMaps"
+          ],
+          "sec": [
+            "[data-jnp=\"res-maps\"]"
           ]
         }
       ]
@@ -1606,7 +1619,7 @@
         },
         {
           "k": "resTime",
-          "f": "10:00 WIB"
+          "f": "10.00 WIB – Selesai"
         },
         {
           "k": "akadPlace",
@@ -1748,7 +1761,7 @@
         },
         {
           "k": "resTime",
-          "f": "10:00 WIB"
+          "f": "10.00 WIB – Selesai"
         },
         {
           "k": "akadPlace",
@@ -1886,11 +1899,11 @@
         },
         {
           "k": "akadDayDate",
-          "f": "Sabtu, 11 September 2027"
+          "f": "Senin 0 Desember 2026"
         },
         {
           "k": "resDayDate",
-          "f": "Sabtu, 11 September 2027"
+          "f": "Senin 0 Desember 2026"
         },
         {
           "k": "akadTime",

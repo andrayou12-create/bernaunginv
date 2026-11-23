@@ -792,7 +792,8 @@
             checkBrowser()
         </script>
         <script>
-                const scriptURL = 'PASTE_URL_WEB_APP_APPS_SCRIPTR8iQ9kY/exec';
+                /* URL Web App RSVP customer dari data.js panel admin (window.BERNAUNG_DATA) */
+const scriptURL = (window.BERNAUNG_DATA && window.BERNAUNG_DATA.rsvp && window.BERNAUNG_DATA.rsvp.appscript) || '';
                 const form = document.querySelector('#rsvpForm');
                 const btnKirim = document.querySelector('#btnKirim');
                 const list = document.getElementById('ucapanList');

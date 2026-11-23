@@ -2810,7 +2810,8 @@ function uc_uc_compact_image_theme_elementor_1f0c24c_start(){
 
 	<script>
 // 1. Pastikan URL Web App sudah benar (hasil Deploy dari Google Sheets)
-const scriptURL = 'PASTE_URL_WEB_APP_APPS_SCRIPT'; 
+/* URL Web App RSVP customer dari data.js panel admin (window.BERNAUNG_DATA) */
+const scriptURL = (window.BERNAUNG_DATA && window.BERNAUNG_DATA.rsvp && window.BERNAUNG_DATA.rsvp.appscript) || '';
 
 document.addEventListener('DOMContentLoaded', function() {
     const btnKirim = document.getElementById('btn-kirim-firebase');

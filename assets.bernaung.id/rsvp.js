@@ -132,7 +132,9 @@
         list.innerHTML = ''; list.appendChild(demo);
         return;
       }
-      fetch(API + '?action=list').then(function (r) { return r.json(); }).then(function (j) {
+      fetch(API + '?action=list').then(function (r) { return r.text(); }).then(function (txt) {
+        var j = null;
+        try { j = JSON.parse(txt); } catch (e) { /* script lama balas teks biasa */ }
         if (!j || j.status !== 'success' || !j.data || !j.data.length) {
           list.innerHTML = '<div class="bng-empty">Belum ada ucapan. Jadilah yang pertama!</div>';
           return;
@@ -171,13 +173,24 @@
       }
       btn.disabled = true;
       note.textContent = 'Mengirim...';
+      /* Kirim sebagai parameter form (bukan JSON) supaya kompatibel dengan
+         SEMUA versi Apps Script: yang baru membaca parameter, yang lama
+         (format vendor: author/attendance/comment) juga mendapat nilai. */
+      var params = new URLSearchParams();
+      params.append('nama', nama);
+      params.append('kehadiran', hadir);
+      params.append('ucapan', ucapan);
+      params.append('author', nama);
+      params.append('attendance', hadir);
+      params.append('comment', ucapan);
       fetch(API, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ nama: nama, kehadiran: hadir, ucapan: ucapan })
-      }).then(function (r) { return r.json(); }).then(function (j) {
+        body: params
+      }).then(function (r) { return r.text(); }).then(function (txt) {
+        var j = null;
+        try { j = JSON.parse(txt); } catch (e) { /* script lama balas teks biasa — anggap sukses */ }
         btn.disabled = false;
-        if (j && j.status === 'success') {
+        if (!j || j.status !== 'error') {
           note.textContent = 'Terima kasih! Ucapan Anda sudah terkirim.';
           root.querySelector('#bng-nama').value = '';
           root.querySelector('#bng-ucapan').value = '';
@@ -231,6 +244,25 @@
       vendor.innerHTML = '';
       vendor.style.cssText += ';padding:10px 0;';
       vendor.appendChild(root);
+      /* Tema biasanya sudah punya judul & subjudul bagian RSVP di atas widget
+         (mis. "Ucapan & RSVP" / "Wishes" + "Berikan doa dan ucapan...").
+         Bila ada, buang judul bawaan form supaya tidak tampil dua kali. */
+      try {
+        var host = vendor.closest('section.elementor-section, section, .elementor-widget-wrap') || vendor.parentElement;
+        if (host) {
+          var hasHeading = Array.prototype.some.call(host.querySelectorAll('h1,h2,h3'), function (h) {
+            return !vendor.contains(h) && /ucapan|rsvp|wishes|doa/i.test(h.textContent || '');
+          });
+          if (hasHeading) {
+            var bh = root.querySelector('h3');
+            if (bh) bh.parentElement.removeChild(bh);
+            var bsub = root.querySelector('.bng-sub');
+            if (bsub && Array.prototype.some.call(host.querySelectorAll('p'), function (p) {
+              return !vendor.contains(p) && /doa dan ucapan/i.test(p.textContent || '');
+            })) bsub.parentElement.removeChild(bsub);
+          }
+        }
+      } catch (e) {}
       return;
     }
 

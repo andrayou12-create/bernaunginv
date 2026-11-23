@@ -726,6 +726,8 @@ window.__ADMIN_JS_V2 = true;
       brideIg: v('c_brideIg'),
       akadDayDate: v('c_akadDayDate'), akadTime: v('c_akadTime'), akadPlace: v('c_akadPlace'),
       resDayDate: v('c_resDayDate'), resTime: v('c_resTime'), resPlace: v('c_resPlace'),
+      akadAddress: v('c_akadAddress'), resAddress: v('c_resAddress'),
+      akadMaps: v('c_akadMaps'), resMaps: v('c_resMaps'),
       address: v('c_address'), gmaps: v('c_gmaps'), countdownDate: v('c_countdown'),
       gift1Number: v('c_gift1Number'), gift1Name: v('c_gift1Name'), gift1Bank: v('c_gift1Bank'),
       gift2Number: v('c_gift2Number'), gift2Name: v('c_gift2Name'), gift3Number: v('c_gift3Number'),
@@ -815,6 +817,14 @@ window.__ADMIN_JS_V2 = true;
       vals.countdownText = tanggalCD;
       vals.countdownDate = tanggalCD; /* tema berteks (mis. tema-jawa) selalu dapat teks Indonesia */
     }
+    /* --- alamat & link Google Maps per acara ---
+       Bila kolom per acara kosong, otomatis memakai Alamat/Google Maps umum
+       supaya undangan tetap lengkap tanpa mengisi dua kali. */
+    if (!vals.akadAddress) vals.akadAddress = vals.address;
+    if (!vals.resAddress) vals.resAddress = vals.address;
+    if (!vals.akadMaps) vals.akadMaps = vals.gmaps;
+    if (!vals.resMaps) vals.resMaps = vals.gmaps;
+
     /* judul & nama hero otomatis bila kosong */
     if (!vals.heroNames) vals.heroNames = ((vals.brideNick || '') + ' & ' + (vals.groomNick || '')).trim();
     /* judul situs (tab browser) otomatis = nama customer */
@@ -1032,9 +1042,10 @@ window.__ADMIN_JS_V2 = true;
     if (data.values.rsvpUrl && /^https:\/\/script\.google\.com\/macros\/s\//.test(data.values.rsvpUrl)) {
       html = html.replace(/https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+/g, data.values.rsvpUrl);
     }
-    /* Google Maps */
+    /* Google Maps (termasuk varian /_cdn/ hasil konversi tema) */
     if (data.values.gmaps && /^https:\/\//.test(data.values.gmaps)) {
       html = html.replace(/https:\/\/maps\.app\.goo\.gl\/[A-Za-z0-9_-]+(\?g_st=[a-z]+)?/g, data.values.gmaps);
+      html = html.replace(/\/_cdn\/maps\.app\.goo\.gl\/[A-Za-z0-9_-]+(\?g_st=[a-z]+)?/g, data.values.gmaps);
       html = html.replace(/https:\/\/www\.google\.com\/maps\/\?hl=[A-Za-z]+/g, data.values.gmaps);
     }
     /* Simpan tanggal kalender */
@@ -1104,8 +1115,10 @@ window.__ADMIN_JS_V2 = true;
         bride: { nick: vals.brideNick, full: vals.brideFull }
       },
       acara: {
-        akad: { kapan: vals.akadDayDate, jam: vals.akadTime, tempat: vals.akadPlace },
-        resepsi: { kapan: vals.resDayDate, jam: vals.resTime, tempat: vals.resPlace },
+        akad: { kapan: vals.akadDayDate, jam: vals.akadTime, tempat: vals.akadPlace,
+                alamat: vals.akadAddress || '', gmaps: vals.akadMaps || '' },
+        resepsi: { kapan: vals.resDayDate, jam: vals.resTime, tempat: vals.resPlace,
+                   alamat: vals.resAddress || '', gmaps: vals.resMaps || '' },
         alamat: vals.address, gmaps: vals.gmaps
       },
       gift: [
@@ -1192,7 +1205,7 @@ window.__ADMIN_JS_V2 = true;
       /* --- musik (file picker / URL) --- */
       var musicUpload = null;
       var mFile = $('c_musicFile').files && $('c_musicFile').files[0];
-      var musicVal = data.values.musicUrl || '';
+      var musicVal = data.musicUrl || data.values.musicUrl || '';
       if (mFile) {
         busy(true, 'MENGUNGGAH MUSIK ' + mFile.name.toUpperCase() + '...');
         var rm = await resolveMusic(mFile, data.slug);
@@ -1412,10 +1425,11 @@ window.__ADMIN_JS_V2 = true;
       var digits = s.replace(/^no\. ?hp :?/i, '').replace(/\D/g, '');
       return digits.length >= 8 && digits.length <= 16;
     }
-    if (k === 'address' || k === 'kadoAddress' || k === 'akadPlace' || k === 'resPlace') {
+    if (k === 'address' || k === 'kadoAddress' || k === 'akadPlace' || k === 'resPlace' ||
+        k === 'akadAddress' || k === 'resAddress') {
       return s.length <= 220 && !/akad nikah|resepsi|pukul|google maps/i.test(s);
     }
-    if (k === 'gmaps') return /^https?:\/\//.test(s);
+    if (k === 'gmaps' || k === 'akadMaps' || k === 'resMaps') return /^https?:\/\//.test(s);
     if (k === 'heroNames') return s.length <= 80 && s.split(' ').length <= 6;
     if (k === 'groomIg' || k === 'brideIg') return s.length <= 40 && !/http/i.test(s);
     if (/^foto/.test(k)) return /^(https?:|\/|data:)/.test(s) || /\.(jpe?g|png|webp|gif)$/i.test(s);
@@ -1481,9 +1495,16 @@ window.__ADMIN_JS_V2 = true;
           var P = D.pasangan || {}, A = D.acara || {};
           if (P.groom) { vals.groomNick = P.groom.nick || ''; vals.groomFull = P.groom.full || ''; }
           if (P.bride) { vals.brideNick = P.bride.nick || ''; vals.brideFull = P.bride.full || ''; }
-          if (A.akad) { vals.akadDayDate = A.akad.kapan || ''; vals.akadTime = A.akad.jam || ''; vals.akadPlace = A.akad.tempat || ''; }
-          if (A.resepsi) { vals.resDayDate = A.resepsi.kapan || ''; vals.resTime = A.resepsi.jam || ''; vals.resPlace = A.resepsi.tempat || ''; }
+          if (A.akad) { vals.akadDayDate = A.akad.kapan || ''; vals.akadTime = A.akad.jam || ''; vals.akadPlace = A.akad.tempat || '';
+            vals.akadAddress = A.akad.alamat || ''; vals.akadMaps = A.akad.gmaps || ''; }
+          if (A.resepsi) { vals.resDayDate = A.resepsi.kapan || ''; vals.resTime = A.resepsi.jam || ''; vals.resPlace = A.resepsi.tempat || '';
+            vals.resAddress = A.resepsi.alamat || ''; vals.resMaps = A.resepsi.gmaps || ''; }
           vals.address = A.alamat || ''; vals.gmaps = A.gmaps || '';
+          /* fallback data lama: alamat/maps umum dipakai bila per acara kosong */
+          if (!vals.akadAddress) vals.akadAddress = vals.address;
+          if (!vals.resAddress) vals.resAddress = vals.address;
+          if (!vals.akadMaps) vals.akadMaps = vals.gmaps;
+          if (!vals.resMaps) vals.resMaps = vals.gmaps;
           var G = D.gift || [];
           if (G[0]) { vals.gift1Bank = G[0].bank || ''; vals.gift1Number = G[0].nomor || ''; vals.gift1Name = G[0].atasNama || ''; }
           if (G[1]) { vals.gift2Number = G[1].nomor || ''; vals.gift2Name = G[1].atasNama || ''; }
@@ -1595,7 +1616,9 @@ window.__ADMIN_JS_V2 = true;
       c_brideNick: 'brideNick', c_brideFull: 'brideFull', c_brideFather: 'brideFather',
       c_brideMother: 'brideMother', c_brideParents: 'brideParents', c_brideIg: 'brideIg',
       c_akadDayDate: 'akadDayDate', c_akadTime: 'akadTime', c_akadPlace: 'akadPlace', c_resDayDate: 'resDayDate',
-      c_resTime: 'resTime', c_resPlace: 'resPlace', c_address: 'address', c_gmaps: 'gmaps',
+      c_resTime: 'resTime', c_resPlace: 'resPlace',
+      c_akadAddress: 'akadAddress', c_resAddress: 'resAddress', c_akadMaps: 'akadMaps', c_resMaps: 'resMaps',
+      c_address: 'address', c_gmaps: 'gmaps',
       c_gift1Number: 'gift1Number', c_gift1Name: 'gift1Name', c_gift1Bank: 'gift1Bank',
       c_gift2Number: 'gift2Number', c_gift2Name: 'gift2Name', c_gift3Number: 'gift3Number',
       c_kadoName: 'kadoName', c_kadoPhone: 'kadoPhone', c_kadoAddress: 'kadoAddress' };
