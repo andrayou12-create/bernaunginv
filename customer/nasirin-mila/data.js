@@ -48,6 +48,7 @@ window.BERNAUNG_DATA = {
     "mode": "sheet",
     "wa": "",
     "appscript": "https://script.google.com/macros/s/AKfycbxk1kIM0IkXylhhYdXBcaqaXq-AeZr_5yVfVKbeBWiOiZJh3nUlj1iGggB1YYR_14b5lg/exec",
-    "sheet": "https://docs.google.com/spreadsheets/d/1ENmAAMTp2JNFhI059KshLin0r-Wsjz5MPVHJutJv3sY/edit?gid=0#gid=0"
+    "sheet": "https://docs.google.com/spreadsheets/d/1ENmAAMTp2JNFhI059KshLin0r-Wsjz5MPVHJutJv3sY/edit?gid=0#gid=0",
+    "hide": false
   }
 };
