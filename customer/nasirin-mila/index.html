@@ -349,7 +349,7 @@ margin-right: 15px;
                                 </div>
                                 <div data-dce-title-color="#333333" class="elementor-element elementor-element-2cb4373 animated-slow elementor-invisible elementor-widget elementor-widget-heading" data-id="2cb4373" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:1400}" data-widget_type="heading.default">
                                 <div class="elementor-widget-container">
-                                        <h2 class="elementor-heading-title elementor-size-default">Tamu Undangan</h2>                           </div>
+                                        <h2 id="nama-tamu" class="elementor-heading-title elementor-size-default">Tamu Undangan</h2>                           </div>
                                 </div>
                                 <div data-dce-title-color="#333333" class="elementor-element elementor-element-e754120 animated-slow elementor-invisible elementor-widget elementor-widget-heading" data-id="e754120" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;_animation_delay&quot;:1800}" data-widget_type="heading.default">
                                 <div class="elementor-widget-container">
@@ -2196,6 +2196,24 @@ var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/envitto.invisimple.id\/wp
 <style id="bng-jnp-fix">/* hapus ruang kosong di bawah footer */
 .elementor-element-bc6bba3{display:none!important;}
 </style>
+
+<script>
+/* ==== TAMU PERSONAL: tampilkan nama tamu dari parameter ?to=Nama ==== */
+(function () {
+  function pasangNamaTamu() {
+    var params = new URLSearchParams(window.location.search);
+    var nama = params.get('to') || params.get('nama') || params.get('tamu');
+    if (!nama) return;
+    try { nama = decodeURIComponent(nama); } catch (e) {}
+    nama = nama.replace(/\+/g, ' ').trim();
+    if (!nama) return;
+    var slot = document.getElementById('nama-tamu');
+    if (slot) slot.innerText = nama;
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', pasangNamaTamu);
+  else pasangNamaTamu();
+})();
+</script>
 
 
 
