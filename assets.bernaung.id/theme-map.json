@@ -360,12 +360,28 @@
           "f": "Wedding - Bagas & Dewi"
         },
         {
+          "k": "heroNames",
+          "f": "Bagas & Dewi"
+        },
+        {
+          "k": "heroDateShort",
+          "f": "11 . 07 . 2026"
+        },
+        {
+          "k": "countdownUnix",
+          "f": "1820624400"
+        },
+        {
           "k": "groomFull",
           "f": "Nur Bagas"
         },
         {
           "k": "brideFull",
           "f": "Dewi Nahdia Lu'lu Annawawie"
+        },
+        {
+          "k": "brideFull",
+          "f": "Dewi Nahdia Lu'lu Annawwie"
         },
         {
           "k": "groomParents",
@@ -376,8 +392,16 @@
           "f": "Putri Pertama dari Bapak Budi dan Ibu Sari"
         },
         {
+          "k": "akadTime",
+          "f": "08:00 WIB"
+        },
+        {
           "k": "resTime",
           "f": "10:00 WIB"
+        },
+        {
+          "k": "akadPlace",
+          "f": "Kediaman Mempelai Pria"
         },
         {
           "k": "resPlace",
@@ -401,7 +425,7 @@
         },
         {
           "k": "kadoName",
-          "f": "Bagas"
+          "f": "Bagas Prasetyo"
         },
         {
           "k": "kadoPhone",
@@ -412,9 +436,24 @@
           "f": "Dusun Ngadiprono, Desa Ngadimulyo Kec. Kedu, Kab. Temanggung"
         },
         {
-          "k": "heroNames",
-          "f": "Bagas & Dewi",
-          "p": ""
+          "k": "kadoAddress",
+          "f": "Ngadimulyo, Ngadiprono Kedu, Temanggung"
+        },
+        {
+          "k": "akadDayName",
+          "f": "Sabtu"
+        },
+        {
+          "k": "akadDayNum",
+          "f": "11"
+        },
+        {
+          "k": "akadMonthName",
+          "f": "Juli"
+        },
+        {
+          "k": "akadYearNum",
+          "f": "2026"
         },
         {
           "k": "resDayName",
@@ -425,20 +464,12 @@
           "f": "11"
         },
         {
-          "k": "resMonthYear",
-          "f": "Juli 2026"
+          "k": "resMonthName",
+          "f": "Juli"
         },
         {
-          "k": "heroDateShort",
-          "f": "11 . 07 . 2026"
-        },
-        {
-          "k": "countdownUnix",
-          "f": "1820624400"
-        },
-        {
-          "k": "brideFull",
-          "f": "Dewi Nahdia Lu'lu Annawwie"
+          "k": "resYearNum",
+          "f": "2026"
         }
       ],
       "hide": [
@@ -460,6 +491,26 @@
           ],
           "f": [
             "Kado"
+          ]
+        },
+        {
+          "k": [
+            "akadDayDate",
+            "akadTime",
+            "akadPlace"
+          ],
+          "f": [
+            "Akad Nikah"
+          ]
+        },
+        {
+          "k": [
+            "resDayDate",
+            "resTime",
+            "resPlace"
+          ],
+          "f": [
+            "Resepsi"
           ]
         }
       ]
@@ -594,6 +645,10 @@
         {
           "k": "fotoGallery10",
           "f": "/tema-deluxe/images/Foto10.jpg"
+        },
+        {
+          "k": "countdownIso",
+          "f": "Jun 28, 2026 10:00:00"
         }
       ],
       "hide": [
@@ -692,6 +747,25 @@
         {
           "k": "fotoCover",
           "f": "/assets.bernaung.id/images/invitation/Cover.jpeg"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "gift2Number"
+          ],
+          "f": [
+            "Kado Digital"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Our Love Story"
+          ]
         }
       ]
     },
@@ -901,6 +975,25 @@
           "k": "gift2Number",
           "f": "0987654321"
         }
+      ],
+      "hide": [
+        {
+          "k": [
+            "gift1Number",
+            "gift2Number"
+          ],
+          "f": [
+            "Wedding Gift"
+          ]
+        },
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "OUR LOVE STORY"
+          ]
+        }
       ]
     },
     "tema-special03": {
@@ -1005,6 +1098,10 @@
         {
           "k": "resYearNum",
           "f": "2027"
+        },
+        {
+          "k": "countdownUnix",
+          "f": "1829955600"
         }
       ],
       "hide": [
@@ -1103,6 +1200,16 @@
         {
           "k": "fotoGallery1",
           "f": "/assets.bernaung.id/images/galleries/confirm.jpeg"
+        }
+      ],
+      "hide": [
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Our Love Story"
+          ]
         }
       ]
     },

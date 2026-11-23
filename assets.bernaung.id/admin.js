@@ -614,11 +614,15 @@ window.__ADMIN_JS_V2 = true;
       if (at === -1) return 0;
       /* frasa murni angka: tolak kecocokan di tengah deretan digit lain
          (mis. "12345678" di dalam "081234567890") supaya nomor kado/rekening
-         tidak saling merusak. */
+         tidak saling merusak. Juga tolak bagian bilangan desimal
+         (mis. "11" di dalam "11.21049" — radius ikon SVG tidak boleh
+         ikut terganti oleh nomor hari/bulan). */
       if (/^\d+$/.test(findNorm)) {
         var bch = at > 0 ? lower.charAt(at - 1) : '';
         var ach = lower.charAt(at + findNorm.length) || '';
         if (/\d/.test(bch) || /\d/.test(ach)) return 0;
+        if ((ach === '.' || ach === ',') && /\d/.test(lower.charAt(at + findNorm.length + 1) || '')) return 0;
+        if ((bch === '.' || bch === ',') && /\d/.test(lower.charAt(at - 2) || '')) return 0;
       }
       if (whole) { setElementText(el, value); return 1; }
       if (spliceSpanApply(mm, at, findNorm.length, value)) return 1;
@@ -667,13 +671,16 @@ window.__ADMIN_JS_V2 = true;
         var a = attrs[j];
         if (a.nodeValue && a.nodeValue.indexOf(findStr) !== -1) {
           if (isDigit) {
-            /* batas digit: jangan ganti di tengah deretan angka lain */
+            /* batas digit: jangan ganti di tengah deretan angka lain atau
+               bilangan desimal (mis. "11" dalam "11.21049") */
             var pos = a.nodeValue.indexOf(findStr), valid = false;
             while (pos !== -1) {
               var bch = pos > 0 ? a.nodeValue.charAt(pos - 1) : '';
               var ach = a.nodeValue.charAt(pos + findStr.length) || '';
-              if (!/\d/.test(bch) && !/\d/.test(ach)) { valid = true; break; }
-              pos = a.nodeValue.indexOf(findStr, pos + 1);
+              if (/\d/.test(bch) || /\d/.test(ach)) { pos = a.nodeValue.indexOf(findStr, pos + 1); continue; }
+              if ((ach === '.' || ach === ',') && /\d/.test(a.nodeValue.charAt(pos + findStr.length + 1) || '')) { pos = a.nodeValue.indexOf(findStr, pos + 1); continue; }
+              if ((bch === '.' || bch === ',') && /\d/.test(a.nodeValue.charAt(pos - 2) || '')) { pos = a.nodeValue.indexOf(findStr, pos + 1); continue; }
+              valid = true; break;
             }
             if (!valid) continue;
           }
@@ -840,7 +847,9 @@ window.__ADMIN_JS_V2 = true;
     var cls = function (e) { return ' ' + ((e && e.className) || '').toString() + ' '; };
     var s = el, guard = 0;
     while (s && s !== dom.body && guard++ < 12) {
-      if (s.tagName === 'SECTION' || /elementor-section|e-parent/.test(cls(s))) break;
+      /* satumomen_slide/container-mobile = 1 slide utuh tema satumomen
+         (netflix, spotify, simple2) — setara 1 section elementor */
+      if (s.tagName === 'SECTION' || /elementor-section|e-parent|satumomen_slide|container-mobile/.test(cls(s))) break;
       s = s.parentElement;
     }
     if (!s || s === dom.body) { el.style.display = 'none'; return; }
@@ -849,7 +858,7 @@ window.__ADMIN_JS_V2 = true;
     while (up++ < 8) {
       var p = s.parentElement, found = null;
       while (p && p !== dom.body) {
-        if (p.tagName === 'SECTION' || /elementor-section|e-parent/.test(cls(p))) { found = p; break; }
+        if (p.tagName === 'SECTION' || /elementor-section|e-parent|satumomen_slide|container-mobile/.test(cls(p))) { found = p; break; }
         p = p.parentElement;
       }
       if (!found) break;
