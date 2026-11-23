@@ -3,31 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generator Link Tamu — Nasirin &amp; Mila</title>
+<title>Generator Pesan &amp; Link Tamu — Nasirin &amp; Mila</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Poppins', 'Segoe UI', sans-serif; background: #16202c; color: #f1f5f9; min-height: 100vh; display: flex; justify-content: center; padding: 30px 16px; }
-  .wrap { width: 100%; max-width: 760px; }
+  .wrap { width: 100%; max-width: 820px; }
   header { text-align: center; margin-bottom: 22px; }
   .logo { width: 64px; height: 64px; border-radius: 50%; background-size: cover; border: 3px solid #fff; margin: 0 auto 12px; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
   h1 { font-size: 20px; letter-spacing: 1px; }
-  .sub { color: #94a3b8; font-size: 13px; margin-top: 6px; }
+  .sub { color: #94a3b8; font-size: 13px; margin-top: 6px; line-height: 1.5; }
   .card { background: #1f2c3b; border: 1px solid #33475e; border-radius: 14px; padding: 20px; margin-bottom: 16px; }
   label { display: block; font-size: 12px; letter-spacing: 1px; color: #cbd5e1; margin-bottom: 6px; }
-  textarea { width: 100%; min-height: 120px; background: #16202c; color: #f1f5f9; border: 1px solid #3b5067; border-radius: 10px; padding: 12px; font-family: inherit; font-size: 14px; resize: vertical; }
+  textarea { width: 100%; min-height: 130px; background: #16202c; color: #f1f5f9; border: 1px solid #3b5067; border-radius: 10px; padding: 12px; font-family: inherit; font-size: 14px; resize: vertical; }
   textarea:focus { outline: none; border-color: #6ea8fe; }
+  .row-btn { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
   button { cursor: pointer; border: 0; border-radius: 10px; font-family: inherit; font-weight: 700; letter-spacing: 1px; transition: transform .15s, opacity .15s; }
   button:hover { transform: translateY(-1px); }
-  .btn-main { width: 100%; margin-top: 12px; padding: 13px; background: #e8c687; color: #16202c; font-size: 14px; }
-  .btn-copy { padding: 8px 14px; background: #33475e; color: #e8c687; font-size: 12px; margin-top: 10px; }
+  .btn-main { flex: 1; padding: 13px; background: #e8c687; color: #16202c; font-size: 14px; }
+  .btn-secondary { padding: 13px 18px; background: #33475e; color: #e8c687; font-size: 13px; }
   .list { margin-top: 8px; }
-  .item { display: flex; gap: 10px; align-items: center; background: #16202c; border: 1px solid #2c3e53; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
-  .item .nm { font-weight: 600; font-size: 13.5px; min-width: 130px; }
-  .item a { color: #8ab4f8; font-size: 12px; word-break: break-all; flex: 1; text-decoration: none; }
-  .item a:hover { text-decoration: underline; }
+  .item { background: #16202c; border: 1px solid #2c3e53; border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+  .item-head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .item .nm { font-weight: 600; font-size: 14px; color: #e8c687; }
+  .item .ph { font-size: 11px; color: #94a3b8; }
+  .item .msg { background: #0f1720; border: 1px solid #2c3e53; border-radius: 8px; padding: 10px; font-size: 12px; line-height: 1.55; color: #cbd5e1; white-space: pre-wrap; margin-bottom: 8px; max-height: 220px; overflow: auto; }
+  .item .link { font-size: 11px; color: #8ab4f8; word-break: break-all; margin-bottom: 8px; }
+  .item .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-wa { padding: 9px 14px; background: #25d366; color: #073b1a; font-size: 12px; text-decoration: none; display: inline-block; }
+  .btn-copy { padding: 9px 14px; background: #33475e; color: #e8c687; font-size: 12px; }
+  .btn-link { padding: 9px 14px; background: #1e3a5f; color: #8ab4f8; font-size: 12px; }
   .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #0f1720; color: #e8c687; border: 1px solid #e8c687; padding: 10px 18px; border-radius: 999px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .25s; }
   .toast.show { opacity: 1; }
   .hint { font-size: 12px; color: #94a3b8; margin-top: 8px; line-height: 1.6; }
+  .hint b { color: #cbd5e1; }
   footer { text-align: center; color: #64748b; font-size: 11px; margin-top: 18px; }
   footer a { color: #94a3b8; }
 </style>
@@ -36,47 +44,83 @@
 <div class="wrap">
   <header>
     <div class="logo" style="background-image:url('/assets.bernaung.id/loading-bernaung.jpeg')"></div>
-    <h1>GENERATOR LINK TAMU</h1>
-    <div class="sub">Nasirin &amp; Mila &mdash; tulis nama tamu (satu nama per baris), lalu buat link undangan pribadi.</div>
+    <h1>GENERATOR PESAN &amp; LINK TAMU</h1>
+    <div class="sub">Nasirin &amp; Mila &mdash; tulis nama tamu (satu per baris). Pesan WhatsApp beserta link undangan dibuat otomatis, tinggal kirim.</div>
   </header>
 
   <div class="card">
-    <label>DAFTAR NAMA TAMU</label>
-    <textarea id="nama" placeholder="Keluarga Bpk. Ahmad&#10;Budi &amp; Keluarga&#10;Alumni SMA 1 Yogyakarta"></textarea>
-    <button class="btn-main" id="buat">BUAT LINK</button>
-    <div class="hint">
-      &bull; Link dibuat otomatis dengan format <b>?to=Nama%20Tamu</b> &mdash; nama tamu tampil di undangan.<br>
-      &bull; Salin link lalu kirim lewat WhatsApp ke masing-masing tamu.
+    <label>DAFTAR NAMA TAMU (boleh disertai nomor WA)</label>
+    <textarea id="nama" placeholder="Keluarga Bpk. Ahmad&#10;Budi &amp; Keluarga | 6281234567890&#10;Alumni SMA 1 Yogyakarta"></textarea>
+    <div class="row-btn">
+      <button class="btn-main" id="buat">BUAT PESAN &amp; LINK</button>
+      <button class="btn-secondary" id="salinSemua">SALIN SEMUA PESAN</button>
     </div>
-    <button class="btn-copy" id="salinSemua">SALIN SEMUA LINK</button>
+    <div class="hint">
+      &bull; Format per baris: <b>Nama Tamu</b> &mdash; atau <b>Nama Tamu | 62xxxxxxxxxxx</b> (nomor WA opsional, format awalan 62 tanpa tanda +).<br>
+      &bull; Tombol <b>KIRIM WA</b> langsung membuka WhatsApp Web/aplikasi WA dengan pesan &amp; link sudah terisi &mdash; tidak perlu ketik manual.<br>
+      &bull; Kalau nomor WA diisi, pesan langsung ditujukan ke nomor itu. Kalau dikosongkan, Anda bisa pilih kontak sendiri di WA.<br>
+      &bull; Tombol <b>SALIN SEMUA PESAN</b> menggabungkan semua pesan+link sekaligus untuk disalin ke catatan/Notes.
+    </div>
   </div>
 
   <div class="card">
-    <label>HASIL LINK TAMU</label>
-    <div class="list" id="hasil"><div class="hint">Belum ada link. Isi daftar nama lalu klik BUAT LINK.</div></div>
+    <label>HASIL &mdash; PESAN &amp; LINK TAMU</label>
+    <div class="list" id="hasil"><div class="hint">Belum ada pesan. Isi daftar nama lalu klik <b>BUAT PESAN &amp; LINK</b>.</div></div>
   </div>
 
-  <footer>
-    &copy; 2026 <a href="/">Bernaung Invitation</a>
-  </footer>
+  <footer>&copy; 2026 <a href="/">Bernaung Invitation</a></footer>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 (function () {
   var BASE = 'https://bernaunginv.my.id/customer/nasirin-mila/index.html';
+
+  /* ==== Template pesan WhatsApp ====
+     Boleh diedit sesuai selera. {NAMA} & {LINK} akan diganti otomatis.
+     Tanda *...* di WA akan tampil sebagai tebal (bold). */
+  var TEMPLATE = [
+    '*Bapak/Ibu/Saudara/i {NAMA}*',
+    '',
+    'Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan acara pernikahan:',
+    '',
+    '*Nasirin & Mila*',
+    '',
+    'Waktu & Tempat:',
+    'Jum\'at, 4 Desember 2026',
+    'Akad: 08.00 WIB',
+    'Resepsi: 10.00 - Selesai',
+    'Rumah Mempelai Pria - Gedangan, Bansari, Kec. Bulu, Kab. Temanggung',
+    '',
+    'Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir memberikan doa restu.',
+    '',
+    'Silakan buka undangan digital kami:',
+    '{LINK}'
+  ].join('\n');
+
   var hasil = document.getElementById('hasil');
   var semua = [];
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
     });
   }
   function toast(msg) {
     var t = document.getElementById('toast');
     t.textContent = msg; t.classList.add('show');
     setTimeout(function () { t.classList.remove('show'); }, 1800);
+  }
+  function buatPesan(nama, link) {
+    return TEMPLATE.replace(/\{NAMA\}/g, nama).replace(/\{LINK\}/g, link);
+  }
+  function parseBaris(baris) {
+    /* Pisahkan "Nama | 62xxx" atau "Nama|62xxx" */
+    var parts = baris.split('|').map(function (s) { return s.trim(); });
+    var nama = parts[0] || '';
+    var telp = parts[1] || '';
+    telp = telp.replace(/[^\d]/g, '');     /* buang + spasi dll */
+    return { nama: nama, telp: telp };
   }
 
   document.getElementById('buat').addEventListener('click', function () {
@@ -85,25 +129,48 @@
     if (!baris.length) { toast('Tulis dulu daftar nama tamu.'); return; }
     semua = [];
     hasil.innerHTML = '';
-    baris.forEach(function (nm) {
-      var link = BASE + '?to=' + encodeURIComponent(nm);
-      semua.push(nm + ' -> ' + link);
+    baris.forEach(function (b) {
+      var p = parseBaris(b);
+      if (!p.nama) return;
+      var link = BASE + '?to=' + encodeURIComponent(p.nama);
+      var pesan = buatPesan(p.nama, link);
+      semua.push(pesan);
+
+      var waUrl = p.telp
+        ? 'https://wa.me/' + p.telp + '?text=' + encodeURIComponent(pesan)
+        : 'https://wa.me/?text=' + encodeURIComponent(pesan);
+
       var row = document.createElement('div');
       row.className = 'item';
-      row.innerHTML = '<span class="nm">' + esc(nm) + '</span>' +
-        '<a href="' + esc(link) + '" target="_blank" rel="noopener">' + esc(link) + '</a>' +
-        '<button class="btn-copy" style="margin-top:0">SALIN</button>';
-      row.querySelector('button').addEventListener('click', function () {
-        navigator.clipboard.writeText(link).then(function () { toast('Link ' + nm + ' disalin.'); });
+      row.innerHTML =
+        '<div class="item-head">' +
+          '<span class="nm">' + esc(p.nama) + '</span>' +
+          (p.telp ? '<span class="ph">WA: ' + esc(p.telp) + '</span>' : '') +
+        '</div>' +
+        '<div class="msg">' + esc(pesan) + '</div>' +
+        '<div class="link">' + esc(link) + '</div>' +
+        '<div class="actions">' +
+          '<a class="btn-wa" href="' + esc(waUrl) + '" target="_blank" rel="noopener">KIRIM WA</a>' +
+          '<button class="btn-copy" data-act="pesan">SALIN PESAN</button>' +
+          '<button class="btn-link" data-act="link">SALIN LINK</button>' +
+        '</div>';
+
+      row.querySelector('[data-act="pesan"]').addEventListener('click', function () {
+        navigator.clipboard.writeText(pesan).then(function () { toast('Pesan untuk ' + p.nama + ' disalin.'); });
+      });
+      row.querySelector('[data-act="link"]').addEventListener('click', function () {
+        navigator.clipboard.writeText(link).then(function () { toast('Link ' + p.nama + ' disalin.'); });
       });
       hasil.appendChild(row);
     });
-    toast(baris.length + ' link dibuat.');
+    toast(baris.length + ' pesan & link dibuat.');
   });
 
   document.getElementById('salinSemua').addEventListener('click', function () {
-    if (!semua.length) { toast('Belum ada link.'); return; }
-    navigator.clipboard.writeText(semua.join('\n')).then(function () { toast('Semua link disalin.'); });
+    if (!semua.length) { toast('Belum ada pesan.'); return; }
+    navigator.clipboard.writeText(semua.join('\n\n----------------------------------------\n\n')).then(function () {
+      toast('Semua pesan disalin.');
+    });
   });
 })();
 </script>
