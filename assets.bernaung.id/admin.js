@@ -869,7 +869,9 @@ window.__ADMIN_JS_V2 = true;
        Bila kolom Bank (teks khusus) kosong, isi otomatis dari pilihan logo. */
     [['gift1Logo', 'gift1Bank'], ['gift2Logo', null], ['gift3Logo', null]].forEach(function (pair) {
       var lk = pair[0], bk = pair[1];
-      var r = resolveBankLogo(vals[lk]);
+      /* bila kolom Logo kosong tapi kolom Bank terisi (mis. "BRI"),
+         logo diambil otomatis dari nama bank */
+      var r = resolveBankLogo(vals[lk] || vals[bk] || '');
       vals[lk] = r.logo;
       if (bk && !vals[bk] && r.name) vals[bk] = r.name;
     });
@@ -1995,7 +1997,7 @@ window.__ADMIN_JS_V2 = true;
       } else {
         S.catalog = await fetchLocal('/catalog.json');
       }
-      S.themeMap = await fetchLocal('/assets.bernaung.id/theme-map.json');
+      S.themeMap = await fetchLocal('/assets.bernaung.id/theme-map.json?v=' + Date.now()); /* anti-cache */
       busy(false);
       renderThemes();
       fillThemeSelect();
