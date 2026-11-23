@@ -21,7 +21,8 @@
   var gifts = (D.gift || []).filter(function (g) {
     return g && g.nomor && (g.logo || g.bank);
   });
-  if (!gifts.length) return;
+  /* TANPA early-return: bila tidak ada logo untuk diinjeksi pun,
+     self-heal (sembunyikan kartu kosong) tetap harus berjalan. */
 
   /* label nama bank dari nama file logo (rekening 2/3 tak punya kolom bank) */
   var BANK_LABELS = { bca: 'BCA', bri: 'BRI', mandiri: 'MANDIRI', bni: 'BNI', bsi: 'BSI',
@@ -143,6 +144,128 @@
     }
   }
 
+  /* ================= SELF-HEAL PER SECTION =================
+     Menyembunyikan kartu rekening / kado yang datanya KOSONG di panel,
+     di SEMUA tema, tanpa perlu generate ulang:
+       1. Nomor rekening di halaman yang tidak ada di BERNAUNG_DATA.gift
+          dianggap sisa data demo -> kartunya disembunyikan.
+       2. Kado kosong semua (nama/hp/alamat) -> blok kado disembunyikan.
+       3. Semua rekening DAN kado kosong -> seluruh area gift disembunyikan.
+     Tanpa BERNAUNG_DATA.gift (array) script tidak menyentuh halaman. */
+  function clsOf(e) { return ' ' + ((e && e.className) || '') + ' '; }
+  /* teks ternormalisasi (spasi/newline ganda dirapatkan) — ukuran blok
+     dihitung dari teks NYATA, bukan whitespace HTML Elementor */
+  function normText(s) { return String(s || '').replace(/\s+/g, ' ').trim(); }
+
+  function hideBlock(el) {
+    var s = el, guard = 0;
+    while (s && s !== document.body && guard++ < 12) {
+      if (s.tagName === 'SECTION' || /elementor-section|e-parent|satumomen_slide|container-mobile/.test(clsOf(s))) break;
+      s = s.parentElement;
+    }
+    if (!s || s === document.body) { el.style.display = 'none'; return; }
+    var up = 0;
+    while (up++ < 8) {
+      var p = s.parentElement, found = null;
+      while (p && p !== document.body) {
+        if (p.tagName === 'SECTION' || /elementor-section|e-parent|satumomen_slide|container-mobile/.test(clsOf(p))) { found = p; break; }
+        p = p.parentElement;
+      }
+      if (!found) break;
+      var inner = found.querySelectorAll('.elementor-section, section');
+      if (inner.length === 1 && normText(found.textContent).length < 500) s = found; else break;
+    }
+    s.style.display = 'none';
+  }
+
+  function blockOf(el) {
+    /* blok kecil yang membungkus elemen (untuk uji konteks kartu) */
+    var s = el, up = 0;
+    while (up++ < 5 && s.parentElement && s.parentElement !== document.body) {
+      if (normText(s.parentElement.textContent).length > 220) break;
+      s = s.parentElement;
+    }
+    return s;
+  }
+
+  function healRekening() {
+    if (!Array.isArray(D.gift)) return; /* tak ada data gift -> jangan sentuh halaman */
+    var valid = [];
+    D.gift.forEach(function (g) {
+      var d = digits(g && g.nomor);
+      if (d.length >= 5) valid.push(d);
+    });
+    var all = document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,div,li,td,th,b,strong,a,small,button');
+    var hidden = [];
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (isSkipped(el)) continue;
+      if (el.children.length > 3) continue;
+      var t = (el.textContent || '').trim();
+      if (!t || t.length > 140) continue;
+      var runs = String(t).match(/\d[\d .\-\u2013\u2014]{7,}\d/g) || [];
+      for (var j = 0; j < runs.length; j++) {
+        /* buang run berpola tanggal: ada grup 1-2 digit di antara pemisah
+           (mis. "04 . 12 . 2026" -> 04122026) */
+        var parts = runs[j].trim().split(/[\s.\-\u2013\u2014]+/);
+        var dateLike = parts.length > 1 && parts.some(function (p) {
+          return p.length > 0 && p.length < 3;
+        });
+        if (dateLike) continue;
+        var d = digits(runs[j]);
+        if (d.length < 8) continue;
+        if (valid.indexOf(d) !== -1) break;            /* nomor sah -> biarkan */
+        var blk = blockOf(el);
+        var bt = normText(blk.textContent);
+        if (bt.length > 700) break;                    /* terlalu besar, bukan kartu */
+        if (!/rekening|atas\s*nama/i.test(bt)) break;  /* bukan kartu rekening */
+        if (/penerima/i.test(bt)) break;               /* kartu kado, jangan sentuh */
+        if (hidden.indexOf(blk) === -1) { hidden.push(blk); hideBlock(blk); }
+        break;
+      }
+    }
+    return valid.length;
+  }
+
+  function kadoEmpty() {
+    var kd = D.kado;
+    if (!kd || typeof kd !== 'object') return null;
+    return !String(kd.nama || '').trim() && !String(kd.hp || '').trim() &&
+           !String(kd.alamat || '').trim();
+  }
+
+  function healKado() {
+    if (kadoEmpty() !== true) return;
+    var all = document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,div');
+    for (var i = 0; i < all.length; i++) {
+      if (isSkipped(all[i])) continue;
+      var t = (all[i].textContent || '').trim().toLowerCase();
+      if (t === 'kado' || t === 'kado digital' || t === 'kirim hadiah' ||
+          t === 'pengiriman hadiah' || t === 'alamat penerima') {
+        hideBlock(all[i]);
+        return;
+      }
+    }
+  }
+
+  function healAll() {
+    var nValid = -1;
+    try { nValid = healRekening(); } catch (e) {}
+    try { healKado(); } catch (e) {}
+    /* semua kosong: sembunyikan seluruh area gift (judul, tombol, kartu) */
+    if (Array.isArray(D.gift) && nValid === 0 && kadoEmpty() === true) {
+      var all = document.querySelectorAll('h1,h2,h3,h4,h5,h6,p');
+      for (var i = 0; i < all.length; i++) {
+        if (isSkipped(all[i])) continue;
+        var t = (all[i].textContent || '').trim().toLowerCase();
+        if (t === 'wedding gift' || t === 'amplop digital' || t === 'kado digital') {
+          hideBlock(all[i]);
+          break;
+        }
+      }
+    }
+  }
+
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
     else document.addEventListener('DOMContentLoaded', fn);
@@ -150,7 +273,8 @@
 
   ready(function () {
     /* tunggu sejenak: beberapa tema merender bagian gift lewat JS */
-    setTimeout(function () { gifts.forEach(inject); }, 600);
-    setTimeout(function () { gifts.forEach(inject); }, 1800);
+    setTimeout(function () { gifts.forEach(inject); healAll(); }, 600);
+    setTimeout(function () { gifts.forEach(inject); healAll(); }, 1800);
+    setTimeout(function () { gifts.forEach(inject); healAll(); }, 3200);
   });
 })();

@@ -185,7 +185,10 @@
         {
           "k": [
             "gift1Number",
-            "gift2Number"
+            "gift2Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "f": [
             "Wedding Gift"
@@ -340,7 +343,12 @@
       "hide": [
         {
           "k": [
-            "gift1Number"
+            "gift1Number",
+            "gift2Number",
+            "gift3Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "f": [
             "Amplop Digital"
@@ -505,7 +513,10 @@
           "k": [
             "gift1Number",
             "gift2Number",
-            "gift3Number"
+            "gift3Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "sec": [
             "[data-id=\"5866f93\"]",
@@ -584,7 +595,7 @@
             "gift2Logo"
           ],
           "sec": [
-            "[data-id=\"6291dc0\"]"
+            "[data-id=\"4506cb1\"]"
           ]
         },
         {
@@ -593,7 +604,17 @@
             "gift3Logo"
           ],
           "sec": [
-            "[data-id=\"50e4668\"]"
+            "[data-id=\"1abf2d7\"]"
+          ]
+        },
+        {
+          "k": [
+            "gift1Number",
+            "gift1Logo",
+            "gift1Name"
+          ],
+          "sec": [
+            "[data-id=\"4c12931\"]"
           ]
         }
       ]
@@ -738,7 +759,10 @@
         {
           "k": [
             "gift1Number",
-            "gift2Number"
+            "gift2Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "f": [
             "Wedding Gift"
@@ -836,7 +860,10 @@
         {
           "k": [
             "gift1Number",
-            "gift2Number"
+            "gift2Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "f": [
             "Kado Digital"
@@ -930,7 +957,12 @@
       "hide": [
         {
           "k": [
-            "gift1Number"
+            "gift1Number",
+            "gift2Number",
+            "gift3Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "f": [
             "Amplop Digital"
@@ -1063,7 +1095,10 @@
         {
           "k": [
             "gift1Number",
-            "gift2Number"
+            "gift2Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "f": [
             "Wedding Gift"
@@ -1191,7 +1226,10 @@
         {
           "k": [
             "gift1Number",
-            "gift2Number"
+            "gift2Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "f": [
             "Wedding Gift"
@@ -1348,10 +1386,17 @@
       "hide": [
         {
           "k": [
+            "gift1Number"
+          ],
+          "f": [
+            "Amplop Digital"
+          ]
+        },
+        {
+          "k": [
             "kadoPhone"
           ],
           "f": [
-            "Amplop Digital",
             "Kirim Hadiah"
           ]
         }
@@ -1448,7 +1493,12 @@
       "hide": [
         {
           "k": [
-            "gift1Number"
+            "gift1Number",
+            "gift2Number",
+            "gift3Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "f": [
             "Amplop Digital"
@@ -1611,7 +1661,10 @@
         {
           "k": [
             "gift1Number",
-            "gift2Number"
+            "gift2Number",
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
           ],
           "f": [
             "Amplop Digital"
@@ -1759,12 +1812,18 @@
       "hide": [
         {
           "k": [
-            "gift1Number",
+            "gift1Number"
+          ],
+          "f": [
+            "Amplop Digital"
+          ]
+        },
+        {
+          "k": [
             "kadoPhone",
             "kadoAddress"
           ],
           "f": [
-            "Amplop Digital",
             "Kirim Hadiah"
           ]
         },
@@ -1909,12 +1968,18 @@
       "hide": [
         {
           "k": [
-            "gift1Number",
+            "gift1Number"
+          ],
+          "f": [
+            "Amplop Digital"
+          ]
+        },
+        {
+          "k": [
             "kadoPhone",
             "kadoAddress"
           ],
           "f": [
-            "Amplop Digital",
             "Kirim Hadiah"
           ]
         },
@@ -2093,12 +2158,18 @@
       "hide": [
         {
           "k": [
-            "gift1Number",
+            "gift1Number"
+          ],
+          "f": [
+            "Amplop Digital"
+          ]
+        },
+        {
+          "k": [
             "kadoPhone",
             "kadoAddress"
           ],
           "f": [
-            "Amplop Digital",
             "Kirim Hadiah"
           ]
         }
