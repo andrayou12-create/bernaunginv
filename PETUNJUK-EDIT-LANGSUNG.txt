@@ -1,0 +1,234 @@
+============================================================
+PANEL ADMIN — MODE "EDIT LANGSUNG" (Canva/WordPress-style)
+Update bernaunginv — November 2026
+============================================================
+
+ISI PAKET
+--------
+1. admin.html                         (ROOT repo)  — ganti file lama
+2. assets.bernaung.id/admin.js        (folder assets) — ganti file lama
+3. assets.bernaung.id/edit-overrides.js  (folder assets) — FILE BARU
+4. PETUNJUK-EDIT-LANGSUNG.txt         (ROOT repo)  — file ini (boleh dihapus setelah dibaca)
+
+
+============================================================
+A. CARA INSTALL VIA GITHUB DESKTOP
+============================================================
+
+1. Ekstrak ZIP ini. Anda akan melihat struktur:
+   admin.html
+   PETUNJUK-EDIT-LANGSUNG.txt
+   assets.bernaung.id/
+     admin.js
+     edit-overrides.js
+
+2. Salin semua file & folder di atas ke dalam folder lokal repo
+   bernaunginv Anda (folder hasil git clone):
+   - admin.html -> timpa file lama
+   - assets.bernaung.id/admin.js -> timpa file lama
+   - assets.bernaung.id/edit-overrides.js -> file baru
+   - PETUNJUK-EDIT-LANGSUNG.txt -> file baru
+
+3. Buka GitHub Desktop. Anda akan melihat perubahan:
+   - Modified: admin.html, assets.bernaung.id/admin.js
+   - New: assets.bernaung.id/edit-overrides.js, PETUNJUK-EDIT-LANGSUNG.txt
+
+4. Tulis commit message, mis.:
+   "Tambah Mode Edit Langsung di Panel Admin"
+
+5. Commit to main -> Push origin.
+
+6. Tunggu GitHub Pages 1-3 menit untuk rebuild.
+
+7. Buka panel admin di browser (https://bernaung.inv/admin.html
+   atau URL panel Anda). Tekan Ctrl+Shift+R untuk memaksa
+   reload (cache browser). Anda akan melihat tab baru
+   "Edit Langsung" di sebelah "Daftar Customer".
+
+
+============================================================
+B. APA YANG DITAMBAHKAN
+============================================================
+
+Tab "Edit Langsung" di panel admin. Workflow baru:
+
+1. Klik tab "Edit Langsung".
+2. Pilih customer dari dropdown.
+3. Halaman undangan customer dimuat di iframe pratinjau.
+4. Klik elemen apa pun di pratinjau -> toolbar muncul:
+   - "Edit Teks" -> klik, ketik teks baru, klik di luar untuk simpan
+   - "Ganti Foto" -> pilih file dari komputer -> foto diunggah
+   - "Sembunyikan Bagian" -> section terdekat dihilangkan
+   - "X" -> tutup toolbar (atau tekan ESC)
+5. Tombol bulat "Ganti Musik" di pojok kanan bawah -> ganti lagu.
+6. Klik "SIMPAN PERUBAHAN" -> simpan ke customer/<slug>/overrides.json.
+
+Yang disimpan HANYA file overrides.json (+ file foto/musik yang
+diunggah). File index.html customer TIDAK DIUBAH SAMA SEKALI.
+
+
+============================================================
+C. BATASAN PENTING (BACA SEBELUM PAKAI)
+============================================================
+
+1. FILE INI TIDAK TERSENTUH:
+   - customer/nasirin-mila/*                (sedang deadline)
+   - Wedding/*                              (file terpisah)
+   - tema-jawanopict/* di katalog           (jangan tambah error)
+   - tema-jawa/*, tema-deluxe/*, dst.       (folder tema)
+   - catalog.json                           (struktur tetap)
+   - theme-map.json                         (struktur tetap)
+
+2. OVERRIDE HANYA TERLIHAT OLEH TAMU UNTUK CUSTOMER BARU.
+   Saat Anda klik "BUAT UNDANGAN" untuk customer baru, generator
+   sekarang otomatis menyisipkan:
+     <script src="/assets.bernaung.id/edit-overrides.js"></script>
+   di file index.html customer baru. Jadi setiap override yang
+   Anda buat lewat tab Edit Langsung langsung terlihat oleh tamu.
+
+3. UNTUK CUSTOMER LAMA (termasuk nasirin-mila):
+   - Tab Edit Langsung tetap BISA dipakai untuk pratinjau edit.
+   - Override yang Anda simpan tersimpan di overrides.json.
+   - TAPI tamu yang membuka undangan TIDAK melihat override karena
+     file index.html customer lama tidak punya tag script
+     edit-overrides.js (file HTML mereka tidak diubah).
+   - Solusi kapan pun Anda siap: klik "Edit" di tab Daftar Customer
+     -> generate ulang. File HTML baru akan punya tag scriptnya.
+     JANGAN lakukan ini pada nasirin-mila sampai deadline selesai.
+
+4. ESC = tutup toolbar. Klik elemen lain = buka toolbar baru.
+
+5. Edit teks HANYA mengubah teks, bukan styling/animasi.
+
+
+============================================================
+D. OVERRIDE JSON — STRUKTUR FILE
+============================================================
+
+Setiap customer yang diedit akan punya file:
+  customer/<slug>/overrides.json
+
+Isi:
+{
+  "version": 1,
+  "slug": "ahmad-sari",
+  "textEdits": [
+    { "sel": "[data-id='f864b3a'] .elementor-heading-title",
+      "val": "Ahmad & Sari" }
+  ],
+  "imageEdits": [
+    { "sel": "[data-id='8211d57'] img",
+      "val": "/customer/ahmad-sari/foto/edit-1700000000000.jpg" }
+  ],
+  "hiddenSections": [
+    "[data-id='bd19d27']"
+  ],
+  "music": "/customer/ahmad-sari/music.mp3",
+  "updatedAt": "2026-11-25T..."
+}
+
+Cara undo: hapus baris dari file ini (atau hapus seluruh file).
+Cara reset total: hapus overrides.json -> halaman kembali ke
+data dari index.html.
+
+
+============================================================
+E. TIPS & TRIK
+============================================================
+
+- Selector otomatis: script memakai [data-id="..."] (Elementor)
+  bila ada, kalau tidak ada fallback ke CSS path lengkap. Selector
+  stabil meski urutan DOM berubah (selama data-id sama).
+
+- Foto yang diunggah: otomatis ke folder customer/<slug>/foto/
+  dengan Token GitHub terpasang. Tanpa token: disematkan sebagai
+  data URL langsung di overrides.json (bisa membesar, jadi
+  disarankan pasang Token di tab Pengaturan).
+
+- Bisa edit satu customer beberapa kali: perubahan ditumpuk di
+  overrides.json. Edit terbaru menimpa edit lama untuk selector
+  yang sama.
+
+- Bagian "BAGIAN TERSEMBUNYI" di kiri bawah panel menampilkan
+  daftar section yang di-hide. Klik "TAMPILKAN" untuk mengembalikan.
+
+- "BUKA TAB BARU" untuk melihat undangan seperti tamu lihat
+  (override diterapkan kalau customer baru / sudah punya script).
+
+- Untuk tema dengan animasi berat (motion, parallax): tunggu
+  animasi selesai dulu sebelum klik elemen, supaya DOM stabil.
+
+
+============================================================
+F. TIDAK BERFUNGSI?
+============================================================
+
+- "Edit Langsung tab tidak muncul": Ctrl+Shift+R untuk hard reload.
+  Kalau masih tidak muncul, cek file assets.bernaung.id/admin.js
+  sudah ter-update di repo (lihat tag <script src="...?v=8"> di
+  admin.html).
+
+- "Toolbar tidak muncul saat klik": kemungkinan animasi tema masih
+  jalan. Tunggu 2-3 detik, coba lagi. Atau klik tombol "MUAT ULANG".
+
+- "Foto tidak terganti di pratinjau": tema mungkin pakai CSS
+  background-image (bukan <img>). Klik elemen pembungkus gambar,
+  bukan gambar itu sendiri.
+
+- "Musik tidak terganti": tema mungkin pakai <audio> dengan <source>
+  bertipe khusus, atau animasi tema sudah mulai main sebelum
+  override diterapkan. Refresh iframe -> klik "MUAT ULANG".
+
+- "SIMPAN gagal": pastikan Token GitHub terpasang di tab
+  Pengaturan. Tanpa token, Anda akan dapat file unduhan manual.
+
+
+============================================================
+G. YANG BELUM DIBUAT ( Roadmap berikutnya)
+============================================================
+
+- Editor warna/font per tema (perlu anotasi CSS variabel per tema).
+- Drag-reorder section (effort lebih besar).
+- Editor theme-map.json visual (nambah tema jadi 2 langkah, bukan 3).
+- Deteksi otomatis section opsional (Amplop/Kado/Love Story).
+
+Minta saja kalau mau salah satu dibuat berikutnya.
+
+
+============================================================
+H. RINGKASAN TEKNIS (untuk developer)
+============================================================
+
+3 perubahan kode utama:
+
+1. admin.html
+   - Tab baru: <button data-tab="edit">Edit Langsung</button>
+   - Section baru: #tab-edit dengan iframe #edit_frame + 2 file
+     picker tersembunyi (#edit_imgPicker, #edit_musicPicker)
+   - Bump cache: admin.js?v=7 -> admin.js?v=8
+
+2. admin.js (di /assets.bernaung.id/)
+   - State: S.editState ditambahkan
+   - switchTab: dukung tab 'edit'
+   - Tab Edit Langsung: renderEditCustomers, loadEditCustomer,
+     activateBridge, handleEditMessage, renderEditHiddenList,
+     markEditDirty/Clean, handler image picker, handler music
+     picker, handler SIMPAN/RESET.
+   - Generator (btnGenerate): inject
+     <script src="/assets.bernaung.id/edit-overrides.js"></script>
+     ke setiap customer baru.
+
+3. edit-overrides.js (FILE BARU di /assets.bernaung.id/)
+   - Part 1: Audio monkey-patch (lacak semua new Audio()).
+   - Part 2: applyOverrides(json) -> apply text/image/hide/music.
+   - Part 3: getSlug() dari URL -> fetch overrides.json -> apply.
+   - Part 4: enableEditMode() -> klik handler + toolbar +
+     floating music button.
+   - Part 5: postMessage protocol BNG_ENABLE/BNG_DISABLE/
+     BNG_LOAD_OVERRIDES/BNG_IMG_RESPONSE/BNG_MUSIC_RESPONSE/
+     BNG_HIDE_APPLY/BNG_SHOW_APPLY (dari parent) dan BNG_READY/
+     BNG_TEXT_EDIT/BNG_IMG_REQUEST/BNG_MUSIC_REQUEST/BNG_HIDE/
+     BNG_SHOW (dari iframe ke parent).
+
+Total LOC baru: ~470 (edit-overrides.js ~420 + admin.js tambahan ~250).
+Tidak ada perubahan ke data customer/tema yang sudah ada.
