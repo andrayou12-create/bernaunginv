@@ -1,0 +1,48 @@
+============================================================
+HOTFIX v5 — Musik Backfill + PLAY + Buka Undangan Unlock
+============================================================
+
+PERBAIKAN DI v5 (di atas v4):
+
+1. MUSIK TIDAK MUNCUL SAAT EDIT CUSTOMER
+   PENYEBAB: Saat customer dibuat dengan upload musik TANPA Token,
+   musik disematkan sebagai dataURL atau path di HTML, TIDAK
+   tersimpan di catalog.json. Saat editCustomer, fillCustomerForm
+   hanya ambil dari c.music — kalau kosong, field URL kosong.
+   FIX: editCustomer sekarang async backfill musik dari HTML
+   customer. Cari <audio src>, <source src>, atau new Audio('...')
+   di file customer/<slug>/index.html, lalu isi field URL otomatis.
+   Hint "Musik saat ini: ..." muncul di bawah field.
+
+2. TOMBOL PLAY / STOP UNTUK PREVIEW MUSIK
+   Tombol baru "▶ PLAY" di sebelah field URL Musik. Klik = putar
+   musik dari sumber mana pun (file upload, URL, atau pilihan lagu).
+   Klik lagi = stop. Useful untuk verifikasi musik sebelum generate.
+
+3. "BUKA UNDANGAN" MENGUNCI SCROLL SAAT EDIT LANGSUNG
+   PENYEBAB: Tema wedding pakai cover "Buka Undangan" yang lock
+   body scroll sampai user klik tombolnya. Saat Edit Langsung,
+   admin tidak bisa scroll ke bawah.
+   FIX: edit-overrides.js sekarang auto-dismiss cover saat mode
+   edit diaktifkan:
+   - Auto-klik tombol "Buka Undangan"/"Buka"/"Mulai"/"Open"
+   - Force body+html overflow:auto, position:static
+   - Sembunyikan overlay fullscreen position:fixed yang masih
+     menutupi viewport (dengan coba klik tombol di dalam dulu)
+   - Coba ulang 1.5 detik kemudian (kalau animasi opening lambat)
+
+============================================================
+CARA UPDATE DARI v4
+============================================================
+
+Overwrite 3 file di folder repo lokal Anda:
+- admin.html                       (cache bust v11 -> v12)
+- assets.bernaung.id/admin.js      (backfill musik, PLAY button)
+- assets.bernaung.id/edit-overrides.js  (dismissInvitationCover)
+
+Commit + Push ke GitHub. Buka panel admin, Ctrl+Shift+R.
+
+Tidak menyentuh: customer/nasirin-mila/*, Wedding/*,
+tema-jawanopict/*, catalog.json, theme-map.json, semua file tema.
+
+============================================================

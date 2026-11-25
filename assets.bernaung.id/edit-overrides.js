@@ -395,7 +395,76 @@ function enableEditMode() {
      chip hide cepat di panel admin */
   scanOptionalSections();
 
+  /* === DISMISS "BUKA UNDANGAN" COVER + UNLOCK SCROLL ===
+     Banyak tema wedding memakai pola "Buka Undangan" — sebuah
+     overlay fullscreen yang mengunci scroll body sampai user klik
+     tombol "Buka". Saat mode edit, kita auto-dismiss cover itu
+     supaya admin bisa scroll & edit seluruh halaman. */
+  dismissInvitationCover();
+
   toParent({ type: 'BNG_READY' });
+}
+
+/* ---------- DISMISS INVITATION COVER ----------
+   Cari elemen yang terlihat seperti cover "Buka Undangan" lalu
+   klik tombolnya (atau sembunyikan kalau tidak ada tombol). Force
+   unlock scroll body di apa pun kondisinya. */
+function dismissInvitationCover() {
+  /* 1. Coba klik tombol "Buka Undangan" / "Buka" / "Mulai" / "Open" */
+  var candidates = document.querySelectorAll('a, button, .elementor-button, .elementor-button-link, [role="button"], .btn');
+  var clickables = ['buka undangan', 'buka', 'mulai', 'open invitation', 'open', 'buka sekarang'];
+  var clicked = false;
+  for (var i = 0; i < candidates.length && !clicked; i++) {
+    var t = (candidates[i].textContent || '').trim().toLowerCase();
+    if (t.length > 30) continue; /* skip tombol dgn teks panjang */
+    for (var j = 0; j < clickables.length; j++) {
+      if (t === clickables[j] || t.indexOf(clickables[j]) !== -1) {
+        try { candidates[i].click(); clicked = true; break; } catch (e) {}
+      }
+    }
+  }
+
+  /* 2. Force unlock scroll pada html + body */
+  try {
+    document.documentElement.style.cssText += ';overflow:auto !important;height:auto !important;position:static !important;';
+    document.body.style.cssText += ';overflow:auto !important;height:auto !important;position:static !important;max-height:none !important;';
+  } catch (e) {}
+
+  /* 3. Cari overlay fullscreen (position:fixed yang menutupi viewport)
+     yang masih ada setelah klik. Sembunyikan kalau bukan toolbar kita. */
+  setTimeout(function () {
+    var allFixed = document.querySelectorAll('div, section, .elementor-section, .satumomen_slide, .container-mobile');
+    allFixed.forEach(function (el) {
+      if (el.id === 'bng-music-btn' || el.classList.contains('bng-edit-toolbar')) return;
+      var cs = null;
+      try { cs = getComputedStyle(el); } catch (e) { return; }
+      if (cs.display === 'none' || cs.visibility === 'hidden') return;
+      if (cs.position !== 'fixed') return;
+      var r = el.getBoundingClientRect();
+      /* hanya sembunyikan kalau cover mayoritas viewport */
+      if (r.width > window.innerWidth * 0.6 && r.height > window.innerHeight * 0.6) {
+        var txt = (el.textContent || '').toLowerCase();
+        /* jangan sembunyikan kalau tidak ada tanda cover invitation */
+        if (/buka|mulai|open|undangan|cover|welcome/i.test(txt) || r.top <= 0) {
+          /* coba klik tombol di dalam dulu (lebih sopan) */
+          var inner = el.querySelector('a, button, .elementor-button, [role="button"]');
+          if (inner && !clicked) {
+            try { inner.click(); return; } catch (e) {}
+          }
+          el.style.display = 'none';
+        }
+      }
+    });
+  }, 600);
+
+  /* 4. Coba lagi setelah animasi tema selesai (1.5s) — beberapa tema
+     delay cover removal sampai animasi opening selesai */
+  setTimeout(function () {
+    try {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    } catch (e) {}
+  }, 1500);
 }
 
 /* ---------- SCAN OPTIONAL SECTIONS ----------

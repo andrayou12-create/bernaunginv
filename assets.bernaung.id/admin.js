@@ -1747,6 +1747,90 @@ window.__ADMIN_JS_V2 = true;
     $('c_heroNames')._manual = true;
   }
 
+  /* ---------- BACKFILL MUSIC URL DARI HTML CUSTOMER ----------
+     Dipakai saat editCustomer tapi c.music kosong (mis. customer
+     dibuat dengan upload musik tanpa Token -> musik jadi dataURL
+     atau path /customer/slug/music.mp3 di HTML, tapi tidak tersimpan
+     di catalog.json). Cari <audio src> / <source src> di HTML,
+     kembalikan URL-nya ke callback. */
+  async function backfillMusicFromHtml(c, cb) {
+    if (!c || !c.slug) { cb(''); return; }
+    try {
+      var raw = await fetchThemeFile('customer/' + c.slug + '/index.html');
+      /* cek beberapa pola: <audio src>, <source src>, new Audio('...') */
+      var am = raw.match(/<audio[^>]*\ssrc="([^"]+)"/i)
+            || raw.match(/<source[^>]*\ssrc="([^"]*(?:\.mp3|\.ogg|\.m4a|\.wav)[^"]*)"/i)
+            || raw.match(/new\s+Audio\(\s*['"]([^'"]*(?:\.mp3|\.ogg|\.m4a|\.wav)[^'"]*)['"]/i);
+      var url = '';
+      if (am && am[1]) {
+        var u = am[1];
+        if (u.indexOf('data:') === 0) { cb(''); return; }
+        if (u.indexOf('http') === 0) url = u;
+        else if (u.charAt(0) === '/') url = u;
+        else url = '/' + u;
+      }
+      cb(url);
+    } catch (e) { cb(''); }
+  }
+
+  /* ---------- MUSIC INFO HINT + PLAY/STOP PREVIEW ---------- */
+  function updateMusicInfoHint() {
+    var info = $('c_musicInfo');
+    if (!info) return;
+    var url = $('c_musicUrl').value.trim();
+    var file = $('c_musicFile').files && $('c_musicFile').files[0];
+    var pick = $('c_musicPick').value;
+    var src = file ? ('(file: ' + file.name + ')') : (url || (pick ? '(pilihan lagu)' : ''));
+    info.textContent = src ? ('Musik saat ini: ' + src) : '';
+  }
+
+  var musicPreviewAudio = null;
+  function toggleMusicPreview() {
+    var btn = $('c_musicPlay');
+    if (!btn) return;
+    if (musicPreviewAudio) {
+      musicPreviewAudio.pause();
+      try { musicPreviewAudio.currentTime = 0; } catch (e) {}
+      musicPreviewAudio = null;
+      btn.textContent = '▶ PLAY';
+      return;
+    }
+    var file = $('c_musicFile').files && $('c_musicFile').files[0];
+    var url = $('c_musicUrl').value.trim();
+    var pick = $('c_musicPick').value;
+    var src = '';
+    if (file) src = URL.createObjectURL(file);
+    else if (url) src = url;
+    else if (pick) src = pick;
+    if (!src) { toast('Pilih / isi musik dulu.'); return; }
+    btn.textContent = '⏸ STOP';
+    musicPreviewAudio = new Audio(src);
+    musicPreviewAudio.addEventListener('ended', function () {
+      musicPreviewAudio = null;
+      btn.textContent = '▶ PLAY';
+    });
+    musicPreviewAudio.addEventListener('error', function () {
+      musicPreviewAudio = null;
+      btn.textContent = '▶ PLAY';
+      toast('Gagal memutar musik (URL tidak valid atau CORS).', true);
+    });
+    musicPreviewAudio.play().catch(function (e) {
+      musicPreviewAudio = null;
+      btn.textContent = '▶ PLAY';
+      toast('Gagal play: ' + e.message, true);
+    });
+  }
+  /* bind PLAY button + update hint on input */
+  setTimeout(function () {
+    var btn = $('c_musicPlay');
+    if (btn) btn.addEventListener('click', toggleMusicPreview);
+    ['c_musicUrl', 'c_musicPick', 'c_musicFile'].forEach(function (id) {
+      var el = $(id);
+      if (el) el.addEventListener('change', updateMusicInfoHint);
+      if (el) el.addEventListener('input', updateMusicInfoHint);
+    });
+  }, 0);
+
   function editCustomer(i) {
     var c = S.catalog.customers[i];
     S.editingCustomer = c.slug;
@@ -1776,6 +1860,19 @@ window.__ADMIN_JS_V2 = true;
     });
     $('c_rsvpMode').value = rsvpMode;
     updateRsvpFields();
+    updateMusicInfoHint();
+    /* Kalau music URL masih kosong (mis. customer di-upload tanpa token
+       sehingga musik jadi dataURL di HTML, tidak tersimpan di catalog.json),
+       ambil dari HTML customer secara async. */
+    if (!$('c_musicUrl').value) {
+      backfillMusicFromHtml(c, function (musicUrl) {
+        if (musicUrl && $('c_musicUrl') && !$('c_musicUrl').value) {
+          $('c_musicUrl').value = musicUrl;
+          updateMusicInfoHint();
+          toast('Musik terdeteksi di halaman: ' + musicUrl);
+        }
+      });
+    }
     if (hasValues) {
       toast('Mengedit "' + c.slug + '" — data sudah dimuat. Ubah bagian yang salah, lalu klik BUAT UNDANGAN.', true);
     } else {
