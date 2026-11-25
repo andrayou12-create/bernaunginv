@@ -255,7 +255,22 @@ window.__ADMIN_JS_V2 = true;
     });
     if (name === 'daftar') renderCustomers();
     if (name === 'katalog') renderCustMini();
-    if (name === 'edit') renderEditCustomers();
+    if (name === 'edit') { renderEditCustomers(); enterEditMode(); }
+    else { exitEditMode(); }
+  }
+
+  /* === FULLSCREEN EDIT MODE === */
+  function enterEditMode() {
+    document.body.classList.add('edit-active');
+    var te = $('tab-edit');
+    if (te) te.classList.add('edit-full');
+  }
+  function exitEditMode() {
+    document.body.classList.remove('edit-active');
+    document.body.classList.remove('edit-top-hidden');
+    document.body.classList.remove('edit-panel-hidden');
+    var te = $('tab-edit');
+    if (te) te.classList.remove('edit-full');
   }
 
   /* ================= LOAD DATA ================= */
@@ -2097,8 +2112,8 @@ window.__ADMIN_JS_V2 = true;
 
   function resetEditUI() {
     $('edit_hiddenList').innerHTML = 'Belum ada.';
-    $('edit_status').textContent = 'BERSIH';
-    $('edit_status').className = 'status st-unpaid';
+    var st = $('edit_status'); if (st) { st.textContent = 'BERSIH'; st.className = 'status st-unpaid'; }
+    var st2 = $('edit_status2'); if (st2) { st2.textContent = 'BERSIH'; st2.className = 'status st-unpaid'; }
     var sb = $('edit_sectionsBox'); if (sb) sb.classList.add('hidden');
     var sl = $('edit_sectionsList'); if (sl) sl.innerHTML = '';
     updateEditInfo();
@@ -2119,11 +2134,11 @@ window.__ADMIN_JS_V2 = true;
   function updateEditInfo() {
     if (!S.editState) return;
     var ov = S.editState.overrides || {};
-    var m = $('edit_infoMusic'); if (m) m.textContent = ov.music || '(default tema)';
-    var t = $('edit_infoText'); if (t) t.textContent = String((ov.textEdits || []).length);
-    var s = $('edit_infoStyle'); if (s) s.textContent = String((ov.styleEdits || []).length);
-    var f = $('edit_infoFoto'); if (f) f.textContent = String((ov.imageEdits || []).length);
-    var h = $('edit_infoHide'); if (h) h.textContent = String((ov.hiddenSections || []).length);
+    var m = ov.music || '—';
+    if (m.length > 20) m = m.slice(-20);
+    var txt = 'M:' + m + ' T:' + (ov.textEdits || []).length + ' S:' + (ov.styleEdits || []).length + ' F:' + (ov.imageEdits || []).length + ' H:' + (ov.hiddenSections || []).length;
+    var el = $('edit_infoCompact');
+    if (el) el.textContent = txt;
   }
 
   /* ---------- LEFT PANEL: SELECTED ELEMENT ---------- */
@@ -2352,6 +2367,23 @@ window.__ADMIN_JS_V2 = true;
       $('edit_musicPicker').value = '';
       $('edit_musicPicker').click();
     });
+    /* Toggle topbar (MS Word ribbon style) */
+    bind('edit_toggleTop', 'click', function () {
+      document.body.classList.add('edit-top-hidden');
+    });
+    bind('edit_showTop', 'click', function () {
+      document.body.classList.remove('edit-top-hidden');
+    });
+    /* Toggle left panel */
+    bind('edit_togglePanel', 'click', function () {
+      document.body.classList.toggle('edit-panel-hidden');
+      var btn = $('edit_togglePanel');
+      if (btn) btn.innerHTML = document.body.classList.contains('edit-panel-hidden') ? '&#9654; PANEL' : '&#9664; PANEL';
+    });
+    /* Exit fullscreen → back to customer list */
+    bind('edit_exit', 'click', function () {
+      switchTab('daftar');
+    });
   }, 0);
 
   function pushHistorySnapshot() {
@@ -2450,15 +2482,15 @@ window.__ADMIN_JS_V2 = true;
   function markEditDirty() {
     if (!S.editState) return;
     S.editState.dirty = true;
-    $('edit_status').textContent = 'BELUM DISIMPAN';
-    $('edit_status').className = 'status st-unpaid';
+    var st = $('edit_status'); if (st) { st.textContent = 'BELUM DISIMPAN'; st.className = 'status st-unpaid'; }
+    var st2 = $('edit_status2'); if (st2) { st2.textContent = 'BELUM DISIMPAN'; st2.className = 'status st-unpaid'; }
   }
 
   function markEditClean() {
     if (!S.editState) return;
     S.editState.dirty = false;
-    $('edit_status').textContent = 'TERSIMPAN';
-    $('edit_status').className = 'status st-paid';
+    var st = $('edit_status'); if (st) { st.textContent = 'TERSIMPAN'; st.className = 'status st-paid'; }
+    var st2 = $('edit_status2'); if (st2) { st2.textContent = 'TERSIMPAN'; st2.className = 'status st-paid'; }
   }
 
   function renderEditHiddenList() {
@@ -2528,10 +2560,12 @@ window.__ADMIN_JS_V2 = true;
       hideEditLoading();
       var st = $('edit_status');
       if (st) { st.textContent = 'SIAP DIEDIT'; st.className = 'status st-paid'; }
+      var st2 = $('edit_status2');
+      if (st2) { st2.textContent = 'SIAP DIEDIT'; st2.className = 'status st-paid'; }
       setTimeout(function () {
         if (S.editState && !S.editState.dirty) {
-          var st2 = $('edit_status');
-          if (st2) { st2.textContent = 'BERSIH'; st2.className = 'status st-unpaid'; }
+          var st3 = $('edit_status'); if (st3) { st3.textContent = 'BERSIH'; st3.className = 'status st-unpaid'; }
+          var st4 = $('edit_status2'); if (st4) { st4.textContent = 'BERSIH'; st4.className = 'status st-unpaid'; }
         }
       }, 1800);
       updateEditInfo();

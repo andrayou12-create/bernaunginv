@@ -98,6 +98,101 @@
   .dl-list code { color:var(--blue); word-break:break-all; }
   .warn { color:var(--red); font-size:12px; margin-top:8px; }
   .iframe-prev { width:100%; height:420px; border:1px solid var(--line); border-radius:12px; background:#0f1620; }
+
+  /* ===== EDIT LANGSUNG FULLSCREEN (Canva-style) ===== */
+  /* Saat tab Edit aktif, #tab-edit menjadi fixed full-viewport.
+     Header, nav, main utama tertutup. Hanya topbar compact + panel kiri
+     + iframe preview yang terlihat — seperti Canva. */
+  body.edit-active { overflow: hidden; } /* lock scroll page */
+  body.edit-active header.top,
+  body.edit-active nav.tabs { display: none !important; }
+  /* main TIDAK di-hide karena #tab-edit ada di dalamnya — display:none
+     parent akan hide anak walau position:fixed. #tab-edit fixed z-index:200
+     akan menutupi main kokoh. */
+  body.edit-active main { padding: 0; max-width: none; margin: 0; }
+  #tab-edit.edit-full {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--bg);
+    display: flex !important;
+    flex-direction: column;
+  }
+  /* Topbar compact (toggleable) */
+  #edit_topbar {
+    flex: 0 0 auto;
+    padding: 7px 12px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+  body.edit-top-hidden #edit_topbar { display: none; }
+  body.edit-top-hidden #edit_topbarHidden { display: flex !important; }
+  #edit_topbarHidden {
+    display: none;
+    flex: 0 0 auto;
+    padding: 4px 10px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+    gap: 8px;
+  }
+  #edit_main {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    overflow: hidden;
+  }
+  #edit_leftPanel {
+    flex: 0 0 320px;
+    max-width: 360px;
+    min-width: 260px;
+    overflow-y: auto;
+    background: var(--card);
+    border-right: 1px solid var(--line);
+    padding: 12px;
+  }
+  body.edit-panel-hidden #edit_leftPanel { display: none; }
+  #edit_previewWrap {
+    flex: 1;
+    position: relative;
+    min-width: 0;
+    background: #0f1620;
+    overflow: hidden;
+  }
+  #edit_frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #0f1620;
+    display: block;
+  }
+  .edit-icon-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 4px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .edit-icon-btn:hover { color: var(--gold); border-color: var(--gold); }
+  .edit-divider { width: 1px; height: 22px; background: var(--line); margin: 0 3px; }
+  .edit-label { font-size: 11px; color: var(--muted); letter-spacing: .5px; }
+  .edit-info-compact {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: monospace;
+    background: var(--bg);
+    padding: 4px 8px;
+    border-radius: 5px;
+    border: 1px solid var(--line);
+  }
 </style>
 </head>
 <body>
@@ -369,183 +464,175 @@
       </div>
     </section>
 
-    <!-- ============ TAB EDIT LANGSUNG ============ -->
+    <!-- ============ TAB EDIT LANGSUNG (FULLSCREEN CANVA-STYLE) ============ -->
     <section id="tab-edit" class="hidden">
-      <div class="card">
-        <h2>EDIT LANGSUNG UNDANGAN CUSTOMER</h2>
-        <p class="desc">Pilih customer, lalu klik elemen apa pun di pratinjau untuk <b>mengedit teks</b>, <b>mengganti foto</b>, <b>menyembunyikan bagian</b>, atau <b>mengganti musik</b>. Perubahan disimpan sebagai <code>overrides.json</code> di folder customer &mdash; <b>tidak mengubah file <code>index.html</code> asli</b>, jadi aman, bisa di-undo, dan tidak mengganggu customer yang sedang Anda deadline-kan (file HTML mereka tidak tersentuh).</p>
-        <div class="grid2" style="margin-bottom:14px">
-          <div><label class="f">Pilih Customer</label><select class="f" id="edit_custSelect"><option value="">&mdash; Pilih customer &mdash;</option></select></div>
-          <div style="display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-line btn-sm" id="edit_reload">MUAT ULANG</button>
-            <button class="btn btn-line btn-sm" id="edit_open">BUKA TAB BARU</button>
+      <!-- Topbar compact (toggleable like MS Word ribbon) -->
+      <div id="edit_topbar">
+        <button type="button" class="edit-icon-btn" id="edit_toggleTop" title="Sembunyikan toolbar">&ndash;</button>
+        <button type="button" class="btn btn-line btn-sm" id="edit_exit" title="Keluar ke daftar customer">&larr; EXIT</button>
+        <div class="edit-divider"></div>
+        <span class="edit-label">Customer:</span>
+        <select class="f" id="edit_custSelect" style="font-size:12px;padding:5px 8px;max-width:200px"><option value="">&mdash; pilih &mdash;</option></select>
+        <button type="button" class="btn btn-line btn-sm" id="edit_reload">MUAT ULANG</button>
+        <button type="button" class="btn btn-line btn-sm" id="edit_open">BUKA TAB</button>
+        <div class="edit-divider"></div>
+        <button type="button" class="btn btn-gold btn-sm" id="edit_save">SIMPAN</button>
+        <button type="button" class="btn btn-line btn-sm" id="edit_undo">UNDO</button>
+        <button type="button" class="btn btn-red btn-sm" id="edit_reset">RESET</button>
+        <div class="edit-divider"></div>
+        <button type="button" class="edit-icon-btn" id="edit_togglePanel" title="Sembunyikan/tampilkan panel kiri">&#9664; PANEL</button>
+        <span class="edit-info-compact" id="edit_infoCompact">M:&mdash; T:0 S:0 F:0 H:0</span>
+        <span id="edit_status" class="status st-unpaid" style="font-size:11px">BERSIH</span>
+      </div>
+      <!-- Thin bar shown when topbar is hidden (so user can show it again) -->
+      <div id="edit_topbarHidden">
+        <button type="button" class="edit-icon-btn" id="edit_showTop" title="Tampilkan toolbar">&#9650;</button>
+        <span class="edit-label">Toolbar tersembunyi &mdash; klik &uarr; untuk tampilkan</span>
+        <span id="edit_status2" class="status st-unpaid" style="font-size:11px;margin-left:auto">BERSIH</span>
+      </div>
+
+      <!-- Main: left panel + iframe preview -->
+      <div id="edit_main">
+        <!-- LEFT PANEL: properties, scrollable -->
+        <div id="edit_leftPanel">
+          <div id="edit_noSelection" style="text-align:center;padding:30px 10px;color:var(--muted);font-size:12px;line-height:1.7">
+            <div style="font-size:28px;margin-bottom:10px">&#9656;</div>
+            Klik elemen apa pun di pratinjau (kanan) untuk mulai mengedit.<br><br>
+            <span style="font-size:11px">Tip: tekan ESC untuk deselect.</span>
           </div>
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
-          <button class="btn btn-gold" id="edit_save">SIMPAN PERUBAHAN</button>
-          <button class="btn btn-line btn-sm" id="edit_undo">UNDO</button>
-          <button class="btn btn-red btn-sm" id="edit_reset">BUANG PERUBAHAN BELUM DISIMPAN</button>
-          <span id="edit_status" class="status st-unpaid" style="font-size:11px">BERSIH</span>
-        </div>
-        <div id="edit_infoBox" style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;font-size:11.5px;color:var(--muted);background:rgba(20,29,40,.45);border:1px solid var(--line);border-radius:10px;padding:10px 12px">
-          <span>Musik: <code id="edit_infoMusic" style="color:var(--blue)">—</code></span>
-          <span>Teks: <code id="edit_infoText" style="color:var(--blue)">0</code></span>
-          <span>Style: <code id="edit_infoStyle" style="color:var(--blue)">0</code></span>
-          <span>Foto: <code id="edit_infoFoto" style="color:var(--blue)">0</code></span>
-          <span>Hide: <code id="edit_infoHide" style="color:var(--blue)">0</code></span>
-        </div>
+          <div id="edit_propsPanel" class="hidden">
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:6px">ELEMEN TERPILIH</div>
+            <code id="edit_selInfo" style="font-size:10px;color:var(--blue);word-break:break-all;display:block;margin-bottom:10px;font-family:monospace"></code>
+            <div id="edit_tagInfo" style="font-size:11px;color:var(--muted);margin-bottom:10px"></div>
 
-        <!-- ============ TWO-COLUMN LAYOUT: panel kiri (1/4) + iframe kanan (3/4) ============ -->
-        <div style="display:flex;gap:14px;align-items:stretch;min-height:640px">
-          <!-- LEFT PANEL: 25% width, scrollable -->
-          <div id="edit_leftPanel" style="flex:0 0 28%;max-width:360px;min-width:280px;background:rgba(20,29,40,.55);border:1px solid var(--line);border-radius:12px;padding:12px;overflow-y:auto;max-height:calc(100vh - 240px)">
-            <!-- Placeholder saat belum ada elemen terpilih -->
-            <div id="edit_noSelection" style="text-align:center;padding:30px 10px;color:var(--muted);font-size:12px;line-height:1.7">
-              <div style="font-size:28px;margin-bottom:10px">&#9656;</div>
-              Klik elemen apa pun di pratinjau (kanan) untuk mulai mengedit.<br><br>
-              <span style="font-size:11px">Tip: tekan ESC untuk deselect.</span>
-            </div>
+            <fieldset id="edit_textSection">
+              <legend>TEKS</legend>
+              <label class="f">Isi Teks</label>
+              <textarea id="edit_propText" class="f" rows="2" style="font-size:12px"></textarea>
+              <label class="f" style="margin-top:8px">Font Family</label>
+              <select id="edit_propFont" class="f" style="font-size:12px">
+                <option value="">&mdash; default tema &mdash;</option>
+                <optgroup label="Serif (klasik)">
+                  <option value="'Playfair Display', serif">Playfair Display</option>
+                  <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+                  <option value="'EB Garamond', serif">EB Garamond</option>
+                  <option value="Georgia, serif">Georgia</option>
+                  <option value="'Times New Roman', serif">Times New Roman</option>
+                  <option value="Lora, serif">Lora</option>
+                  <option value="Merriweather, serif">Merriweather</option>
+                </optgroup>
+                <optgroup label="Sans (modern)">
+                  <option value="Poppins, sans-serif">Poppins</option>
+                  <option value="Montserrat, sans-serif">Montserrat</option>
+                  <option value="'Open Sans', sans-serif">Open Sans</option>
+                  <option value="Roboto, sans-serif">Roboto</option>
+                  <option value="Lato, sans-serif">Lato</option>
+                  <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                  <option value="Arial, sans-serif">Arial</option>
+                </optgroup>
+                <optgroup label="Script (kaligrafi)">
+                  <option value="'Playball', cursive">Playball</option>
+                  <option value="'Great Vibes', cursive">Great Vibes</option>
+                  <option value="'Dancing Script', cursive">Dancing Script</option>
+                  <option value="Sacramento, cursive">Sacramento</option>
+                  <option value="Pacifico, cursive">Pacifico</option>
+                  <option value="Allura, cursive">Allura</option>
+                  <option value="Cookie, cursive">Cookie</option>
+                </optgroup>
+                <optgroup label="Display">
+                  <option value="'Aston Script', cursive">Aston Script</option>
+                  <option value="'Cinzel', serif">Cinzel</option>
+                </optgroup>
+              </select>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
+                <div><label class="f">Font Size (px)</label><input id="edit_propFontSize" class="f" type="number" min="6" max="200" placeholder="auto"></div>
+                <div><label class="f">Line Height</label><input id="edit_propLineHeight" class="f" type="number" step="0.1" min="0.5" max="5" placeholder="auto"></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
+                <div><label class="f">Warna Teks</label><input id="edit_propColor" type="color" style="width:100%;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg)"></div>
+                <div><label class="f">Align</label><select id="edit_propAlign" class="f"><option value="">&mdash;</option><option value="left">Kiri</option><option value="center">Tengah</option><option value="right">Kanan</option><option value="justify">Rata Kanan-Kiri</option></select></div>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:8px;font-size:12px">
+                <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="edit_propBold"> Bold</label>
+                <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="edit_propItalic"> Italic</label>
+                <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="edit_propUnderline"> Underline</label>
+              </div>
+              <label class="f" style="margin-top:6px">Transform</label>
+              <select id="edit_propTransform" class="f" style="font-size:12px">
+                <option value="">&mdash;</option>
+                <option value="uppercase">UPPERCASE</option>
+                <option value="lowercase">lowercase</option>
+                <option value="capitalize">Capitalize Each Word</option>
+              </select>
+            </fieldset>
 
-            <!-- Properties Panel (muncul saat elemen terpilih) -->
-            <div id="edit_propsPanel" class="hidden">
-              <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:6px">ELEMEN TERPILIH</div>
-              <code id="edit_selInfo" style="font-size:10px;color:var(--blue);word-break:break-all;display:block;margin-bottom:10px;font-family:monospace"></code>
-              <div id="edit_tagInfo" style="font-size:11px;color:var(--muted);margin-bottom:10px"></div>
+            <fieldset style="margin-top:10px">
+              <legend>BACKGROUND</legend>
+              <label class="f">Warna Background</label>
+              <input id="edit_propBg" type="color" style="width:100%;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg)">
+              <label class="f" style="margin-top:8px">Opasitas Background: <span id="edit_opVal" style="color:var(--gold)">1.00</span></label>
+              <input id="edit_propOpacity" type="range" min="0" max="1" step="0.05" value="1" style="width:100%;accent-color:var(--gold)">
+              <div class="hint" style="font-size:11px;margin-top:4px">0 = transparan, 1 = penuh. Geser ke 0 untuk bikin textbox transparan.</div>
+            </fieldset>
 
-              <!-- TEXT -->
-              <fieldset id="edit_textSection">
-                <legend>TEKS</legend>
-                <label class="f">Isi Teks</label>
-                <textarea id="edit_propText" class="f" rows="2" style="font-size:12px"></textarea>
-                <label class="f" style="margin-top:8px">Font Family</label>
-                <select id="edit_propFont" class="f" style="font-size:12px">
-                  <option value="">— default tema —</option>
-                  <optgroup label="Serif (klasik)">
-                    <option value="'Playfair Display', serif">Playfair Display</option>
-                    <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
-                    <option value="'EB Garamond', serif">EB Garamond</option>
-                    <option value="Georgia, serif">Georgia</option>
-                    <option value="'Times New Roman', serif">Times New Roman</option>
-                    <option value="Lora, serif">Lora</option>
-                    <option value="Merriweather, serif">Merriweather</option>
-                  </optgroup>
-                  <optgroup label="Sans (modern)">
-                    <option value="Poppins, sans-serif">Poppins</option>
-                    <option value="Montserrat, sans-serif">Montserrat</option>
-                    <option value="'Open Sans', sans-serif">Open Sans</option>
-                    <option value="Roboto, sans-serif">Roboto</option>
-                    <option value="Lato, sans-serif">Lato</option>
-                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
-                    <option value="Arial, sans-serif">Arial</option>
-                  </optgroup>
-                  <optgroup label="Script (kaligrafi)">
-                    <option value="'Playball', cursive">Playball</option>
-                    <option value="'Great Vibes', cursive">Great Vibes</option>
-                    <option value="'Dancing Script', cursive">Dancing Script</option>
-                    <option value="Sacramento, cursive">Sacramento</option>
-                    <option value="Pacifico, cursive">Pacifico</option>
-                    <option value="Allura, cursive">Allura</option>
-                    <option value="Cookie, cursive">Cookie</option>
-                  </optgroup>
-                  <optgroup label="Display">
-                    <option value="'Aston Script', cursive">Aston Script</option>
-                    <option value="'Cinzel', serif">Cinzel</option>
-                  </optgroup>
-                </select>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
-                  <div><label class="f">Font Size (px)</label><input id="edit_propFontSize" class="f" type="number" min="6" max="200" placeholder="auto"></div>
-                  <div><label class="f">Line Height</label><input id="edit_propLineHeight" class="f" type="number" step="0.1" min="0.5" max="5" placeholder="auto"></div>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
-                  <div><label class="f">Warna Teks</label><input id="edit_propColor" type="color" style="width:100%;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg)"></div>
-                  <div><label class="f">Align</label><select id="edit_propAlign" class="f"><option value="">—</option><option value="left">Kiri</option><option value="center">Tengah</option><option value="right">Kanan</option><option value="justify">Rata Kanan-Kiri</option></select></div>
-                </div>
-                <div style="display:flex;gap:10px;margin-top:8px;font-size:12px">
-                  <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="edit_propBold"> Bold</label>
-                  <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="edit_propItalic"> Italic</label>
-                  <label style="display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="edit_propUnderline"> Underline</label>
-                </div>
-                <label class="f" style="margin-top:6px">Transform</label>
-                <select id="edit_propTransform" class="f" style="font-size:12px">
-                  <option value="">—</option>
-                  <option value="uppercase">UPPERCASE</option>
-                  <option value="lowercase">lowercase</option>
-                  <option value="capitalize">Capitalize Each Word</option>
-                </select>
-              </fieldset>
+            <fieldset style="margin-top:10px">
+              <legend>BORDER</legend>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                <div><label class="f">Warna</label><input id="edit_propBorder" type="color" style="width:100%;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg)"></div>
+                <div><label class="f">Lebar (px)</label><input id="edit_propBorderWidth" type="number" min="0" max="20" value="0" class="f"></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
+                <div><label class="f">Style</label><select id="edit_propBorderStyle" class="f"><option value="none">none</option><option value="solid">solid</option><option value="dashed">dashed</option><option value="dotted">dotted</option><option value="double">double</option></select></div>
+                <div><label class="f">Radius (px)</label><input id="edit_propRadius" type="number" min="0" max="100" value="0" class="f"></div>
+              </div>
+            </fieldset>
 
-              <!-- BACKGROUND -->
-              <fieldset style="margin-top:10px">
-                <legend>BACKGROUND</legend>
-                <label class="f">Warna Background</label>
-                <input id="edit_propBg" type="color" style="width:100%;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg)">
-                <label class="f" style="margin-top:8px">Opasitas Background: <span id="edit_opVal" style="color:var(--gold)">1.00</span></label>
-                <input id="edit_propOpacity" type="range" min="0" max="1" step="0.05" value="1" style="width:100%;accent-color:var(--gold)">
-                <div class="hint" style="font-size:11px;margin-top:4px">0 = transparan, 1 = penuh. Geser ke 0 untuk bikin textbox transparan.</div>
-              </fieldset>
+            <fieldset style="margin-top:10px">
+              <legend>SPACING</legend>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                <div><label class="f">Padding (px)</label><input id="edit_propPadding" type="number" min="0" max="100" class="f" placeholder="0"></div>
+                <div><label class="f">Margin (px)</label><input id="edit_propMargin" type="number" min="-50" max="100" class="f" placeholder="0"></div>
+              </div>
+            </fieldset>
 
-              <!-- BORDER -->
-              <fieldset style="margin-top:10px">
-                <legend>BORDER</legend>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-                  <div><label class="f">Warna</label><input id="edit_propBorder" type="color" style="width:100%;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--bg)"></div>
-                  <div><label class="f">Lebar (px)</label><input id="edit_propBorderWidth" type="number" min="0" max="20" value="0" class="f"></div>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
-                  <div><label class="f">Style</label><select id="edit_propBorderStyle" class="f"><option value="none">none</option><option value="solid">solid</option><option value="dashed">dashed</option><option value="dotted">dotted</option><option value="double">double</option></select></div>
-                  <div><label class="f">Radius (px)</label><input id="edit_propRadius" type="number" min="0" max="100" value="0" class="f"></div>
-                </div>
-              </fieldset>
-
-              <!-- SPACING -->
-              <fieldset style="margin-top:10px">
-                <legend>SPACING</legend>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-                  <div><label class="f">Padding (px)</label><input id="edit_propPadding" type="number" min="0" max="100" class="f" placeholder="0"></div>
-                  <div><label class="f">Margin (px)</label><input id="edit_propMargin" type="number" min="-50" max="100" class="f" placeholder="0"></div>
-                </div>
-              </fieldset>
-
-              <!-- AKSI -->
-              <fieldset style="margin-top:10px">
-                <legend>AKSI</legend>
-                <div style="display:flex;flex-direction:column;gap:6px">
-                  <button type="button" id="edit_propImgBtn" class="btn btn-line btn-sm" style="display:none">GANTI FOTO</button>
-                  <button type="button" id="edit_propHideBtn" class="btn btn-red btn-sm">SEMBUNYIKAN BAGIAN INI</button>
-                  <button type="button" id="edit_propDeselect" class="btn btn-line btn-sm">DESELECT (ESC)</button>
-                </div>
-              </fieldset>
-            </div>
-
-            <!-- Hidden sections list -->
-            <fieldset style="margin-top:12px">
-              <legend>BAGIAN TERSEMBUNYI</legend>
-              <div id="edit_hiddenList" style="font-size:11px;color:var(--muted)">Belum ada.</div>
+            <fieldset style="margin-top:10px">
+              <legend>AKSI</legend>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <button type="button" id="edit_propImgBtn" class="btn btn-line btn-sm" style="display:none">GANTI FOTO</button>
+                <button type="button" id="edit_propHideBtn" class="btn btn-red btn-sm">SEMBUNYIKAN BAGIAN INI</button>
+                <button type="button" id="edit_propDeselect" class="btn btn-line btn-sm">DESELECT (ESC)</button>
+              </div>
             </fieldset>
           </div>
 
-          <!-- RIGHT PANEL: 75% width, iframe preview -->
-          <div style="flex:1;position:relative;min-width:0">
-            <iframe id="edit_frame" class="iframe-prev" style="width:100%;height:calc(100vh - 240px);min-height:640px;border:1px solid var(--line);border-radius:12px;background:#0f1620"></iframe>
-            <div id="edit_loading" class="hidden" style="position:absolute;inset:0;background:rgba(20,29,40,.88);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:13px;letter-spacing:1px;z-index:50;border-radius:12px;pointer-events:none">
-              <div style="display:flex;align-items:center;gap:12px">
-                <div class="spin" style="width:26px;height:26px;border-width:3px"></div>
-                <span id="edit_loadingText">MEMUAT...</span>
-              </div>
-            </div>
-            <!-- Floating music button -->
-            <div id="edit_musicFloat" style="position:absolute;bottom:14px;right:14px;background:rgba(110,168,254,.95);color:#fff;font-size:12px;padding:9px 16px;border-radius:999px;cursor:pointer;font-family:Poppins,sans-serif;font-weight:700;z-index:40;box-shadow:0 4px 14px rgba(0,0,0,.5);letter-spacing:.5px">Ganti Musik</div>
+          <!-- Bagian tersembunyi (di left panel) -->
+          <fieldset style="margin-top:12px">
+            <legend>BAGIAN TERSEMBUNYI</legend>
+            <div id="edit_hiddenList" style="font-size:11px;color:var(--muted)">Belum ada.</div>
+          </fieldset>
+
+          <!-- Bagian opsional terdeteksi (di left panel) -->
+          <div id="edit_sectionsBox" class="hidden" style="margin-top:12px;background:rgba(110,168,254,.08);border:1px solid var(--line);border-radius:10px;padding:10px">
+            <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:6px">BAGIAN OPSIONAL <span style="color:var(--blue)">(klik = sembunyikan)</span></div>
+            <div id="edit_sectionsList" style="display:flex;gap:6px;flex-wrap:wrap"></div>
           </div>
         </div>
 
-        <div id="edit_sectionsBox" class="hidden" style="background:rgba(110,168,254,.08);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:12px">
-          <div style="font-size:11.5px;color:var(--muted);letter-spacing:1px;margin-bottom:8px">BAGIAN OPSIONAL TERDETEKSI <span style="color:var(--blue)">(klik untuk sembunyikan cepat)</span></div>
-          <div id="edit_sectionsList" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+        <!-- RIGHT PANEL: iframe preview, fills remaining space -->
+        <div id="edit_previewWrap">
+          <iframe id="edit_frame"></iframe>
+          <div id="edit_loading" class="hidden" style="position:absolute;inset:0;background:rgba(20,29,40,.88);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:13px;letter-spacing:1px;z-index:50;pointer-events:none">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div class="spin" style="width:26px;height:26px;border-width:3px"></div>
+              <span id="edit_loadingText">MEMUAT...</span>
+            </div>
+          </div>
+          <div id="edit_musicFloat" style="position:absolute;bottom:14px;right:14px;background:rgba(110,168,254,.95);color:#fff;font-size:12px;padding:9px 16px;border-radius:999px;cursor:pointer;font-family:Poppins,sans-serif;font-weight:700;z-index:40;box-shadow:0 4px 14px rgba(0,0,0,.5);letter-spacing:.5px">Ganti Musik</div>
         </div>
-        <p class="hint" id="edit_hint" style="margin-top:10px"><b>Cara pakai:</b> klik elemen apa pun di pratinjau (kanan) &rarr; panel kiri menampilkan properti elemen itu. Ubah teks, font, warna, opasitas, dll. di panel kiri &mdash; perubahan langsung terlihat di pratinjau. Klik <b>GANTI FOTO</b> di panel kiri (muncul kalau elemen punya gambar) untuk ganti foto. Klik tombol bulat <b>Ganti Musik</b> di pojok kanan bawah pratinjau untuk ganti lagu. Tekan <b>ESC</b> untuk deselect. Klik <b>SIMPAN PERUBAHAN</b> di atas setelah selesai.</p>
-        <input type="file" id="edit_imgPicker" accept="image/*" class="hidden">
-        <input type="file" id="edit_musicPicker" accept="audio/*" class="hidden">
       </div>
+
+      <input type="file" id="edit_imgPicker" accept="image/*" class="hidden">
+      <input type="file" id="edit_musicPicker" accept="audio/*" class="hidden">
     </section>
 
     <!-- ============ TAB PENGATURAN ============ -->
@@ -672,6 +759,6 @@
 
 <script src="/assets.bernaung.id/admin-auth.js"></script>
 <script src="/assets.bernaung.id/bng-xlsx.js"></script>
-<script src="/assets.bernaung.id/admin.js?v=13"></script>
+<script src="/assets.bernaung.id/admin.js?v=14"></script>
 </body>
 </html>

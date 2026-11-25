@@ -1,0 +1,64 @@
+============================================================
+HOTFIX v7 — FULLSCREEN CANVA-STYLE LAYOUT
+============================================================
+
+PERUBAHAN UTAMA v7 (di atas v6):
+
+1. FULLSCREEN EDIT MODE (seperti Canva)
+   - Saat tab Edit Langsung dibuka, #tab-edit jadi position:fixed
+     inset:0 z-index:200 — menutupi header, nav, main utama.
+   - Yang terlihat HANYA: topbar compact + panel kiri + iframe.
+   - body overflow:hidden — TIDAK ADA page scroll.
+   - Iframe SCROLL INTERNAL — admin bisa scroll pratinjau
+     sampai bawah tanpa scroll halaman utama.
+
+2. TOPBAR COMPACT TOGGLEABLE (seperti ribbon MS Word)
+   - 1 baris berisi: EXIT | Customer | MUAT ULANG | BUKA |
+     SIMPAN | UNDO | RESET | PANEL | info compact | status
+   - Tombol "–" di kiri = sembunyikan topbar
+   - Saat topbar hidden, bar tipis muncul dengan tombol "▲"
+     untuk tampilkan lagi
+   - Toolbar bisa di-hide kalau sudah paham apa yg mau diedit
+
+3. PANEL KIRI TOGGLEABLE
+   - Tombol "◀ PANEL" = sembunyikan panel kiri
+   - Saat panel hidden, iframe jadi FULL WIDTH (seluruh layar)
+     seperti Canva canvas mode
+   - Klik tombol lagi (▶ PANEL) untuk tampilkan panel
+
+4. INFO COMPACT di topbar
+   - Single line: "M:<musik> T:<teks> S:<style> F:<foto> H:<hide>"
+   - Mis. "M:usic.mp3 T:2 S:1 F:0 H:1"
+
+5. EXIT BUTTON
+   - Tombol "← EXIT" di topbar = keluar fullscreen, kembali
+     ke tab Daftar Customer
+   - Body classes di-reset (edit-active, edit-top-hidden,
+     edit-panel-hidden semua dihapus)
+
+============================================================
+CARA UPDATE DARI v6
+============================================================
+
+Overwrite 3 file di folder repo lokal Anda:
+- admin.html                       (cache bust v13 -> v14)
+- assets.bernaung.id/admin.js      (switchTab + toggle + exit)
+- assets.bernaung.id/edit-overrides.js  (tidak berubah dari v6)
+
+Commit + Push ke GitHub. Buka panel admin, Ctrl+Shift+R.
+
+Tidak menyentuh: customer/nasirin-mila/*, Wedding/*,
+tema-jawanopict/*, catalog.json, theme-map.json, semua file tema.
+
+============================================================
+TEST RESULT (headless browser, viewport 1440x900):
+- Login OK
+- Fullscreen: header+nav hidden, body overflow:hidden
+- #tab-edit height = 900px (fills viewport)
+- iframe height = 857px (fills below topbar)
+- iframe internal scroll: scrollTo(500) -> scrollY=500 ✓
+- Toggle topbar: hidden, thin bar shown
+- Toggle panel: hidden, iframe width 1440px (full)
+- EXIT: back to daftar customer
+- ZERO page errors
+============================================================
