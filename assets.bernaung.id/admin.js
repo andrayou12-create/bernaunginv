@@ -2004,6 +2004,52 @@ window.__ADMIN_JS_V2 = true;
     $('edit_status').className = 'status st-unpaid';
     var sb = $('edit_sectionsBox'); if (sb) sb.classList.add('hidden');
     var sl = $('edit_sectionsList'); if (sl) sl.innerHTML = '';
+    updateEditInfo();
+  }
+
+  function showEditLoading(text) {
+    var el = $('edit_loading');
+    if (!el) return;
+    var t = $('edit_loadingText');
+    if (t) t.textContent = text || 'MEMUAT...';
+    el.classList.remove('hidden');
+  }
+  function hideEditLoading() {
+    var el = $('edit_loading');
+    if (el) el.classList.add('hidden');
+  }
+
+  function updateEditInfo() {
+    if (!S.editState) return;
+    var ov = S.editState.overrides || {};
+    var m = $('edit_infoMusic'); if (m) m.textContent = ov.music || '(default tema)';
+    var t = $('edit_infoText'); if (t) t.textContent = String((ov.textEdits || []).length);
+    var f = $('edit_infoFoto'); if (f) f.textContent = String((ov.imageEdits || []).length);
+    var h = $('edit_infoHide'); if (h) h.textContent = String((ov.hiddenSections || []).length);
+  }
+
+  function pushHistorySnapshot() {
+    if (!S.editState) return;
+    if (!S.editState.history) S.editState.history = [];
+    S.editState.history.push(JSON.parse(JSON.stringify(S.editState.overrides)));
+    if (S.editState.history.length > 50) S.editState.history.shift();
+  }
+
+  function editUndo() {
+    if (!S.editState || !S.editState.history || !S.editState.history.length) {
+      toast('Tidak ada perubahan untuk di-undo.');
+      return;
+    }
+    var prev = S.editState.history.pop();
+    S.editState.overrides = prev;
+    /* reload iframe agar DOM kembali ke tema asli, lalu re-apply
+       overrides yang tersisa. Mencegah teks/foto tertinggal di state
+       yang sudah di-edit. */
+    reloadEditIframe();
+    renderEditHiddenList();
+    renderEditSectionsList();
+    markEditDirty();
+    toast('Undo perubahan terakhir (' + S.editState.history.length + ' tersisa di riwayat).');
   }
 
   function loadEditCustomer(slug) {
@@ -2012,51 +2058,64 @@ window.__ADMIN_JS_V2 = true;
       slug: slug,
       dirty: false,
       pendingImgSel: null,
+      pendingImgType: 'src',
       pendingUploads: [],
+      history: [],
       overrides: { version: 1, slug: slug, textEdits: [], imageEdits: [], hiddenSections: [], music: null }
     };
     resetEditUI();
+    showEditLoading('MEMUAT DATA CUSTOMER...');
 
-    /* ambil overrides.json yang sudah ada (kalau ada) */
     fetch('/customer/' + encodeURIComponent(slug) + '/overrides.json', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (ov) {
         if (ov && S.editState && S.editState.slug === slug) {
           S.editState.overrides = ov;
           renderEditHiddenList();
+          updateEditInfo();
         }
+        reloadEditIframe();
       })
-      .catch(function () {});
+      .catch(function () { reloadEditIframe(); });
+  }
 
+  function reloadEditIframe() {
+    if (!S.editState || !S.editState.slug) return;
     var fr = $('edit_frame');
-    fr.src = '/customer/' + encodeURIComponent(slug) + '/index.html';
+    var slug = S.editState.slug;
+    showEditLoading('MEMUAT HALAMAN UNDANGAN...');
     fr.onload = function () {
+      showEditLoading('MENGAKTIFKAN MODE EDIT...');
       try {
         var doc = fr.contentDocument;
-        if (!doc) { toast('iframe tidak bisa diakses (cross-origin?).', true); return; }
-        /* inject edit-overrides.js bila belum ada di halaman customer lama */
+        if (!doc) { hideEditLoading(); toast('iframe tidak bisa diakses (cross-origin?).', true); return; }
         if (!doc.querySelector('script[src*="edit-overrides.js"]')) {
           var s = doc.createElement('script');
-          s.src = '/assets.bernaung.id/edit-overrides.js?v=2';
+          s.src = '/assets.bernaung.id/edit-overrides.js?v=3';
           s.onload = function () { activateBridge(fr); };
-          s.onerror = function () { toast('Gagal memuat edit-overrides.js', true); };
+          s.onerror = function () { hideEditLoading(); toast('Gagal memuat edit-overrides.js', true); };
           (doc.body || doc.documentElement).appendChild(s);
         } else {
           activateBridge(fr);
         }
       } catch (e) {
+        hideEditLoading();
         toast('Gagal mengaktifkan mode edit: ' + e.message, true);
       }
     };
+    fr.src = '/customer/' + encodeURIComponent(slug) + '/index.html';
   }
 
   function activateBridge(fr) {
-    /* tunggu DOM stabil dulu (animasi tema sering ubah DOM 200-500ms) */
+    showEditLoading('MEMBERSIHKAN DOM TEMA...');
     setTimeout(function () {
       try {
         fr.contentWindow.postMessage({ type: 'BNG_ENABLE' }, '*');
         fr.contentWindow.postMessage({ type: 'BNG_LOAD_OVERRIDES', overrides: S.editState.overrides }, '*');
-      } catch (e) {}
+        /* BNG_READY akan datang dari bridge -> hideEditLoading() di handleEditMessage */
+      } catch (e) {
+        hideEditLoading();
+      }
     }, 250);
   }
 
@@ -2137,35 +2196,56 @@ window.__ADMIN_JS_V2 = true;
     if (!S.editState) return;
     var fr = $('edit_frame');
 
-    if (msg.type === 'BNG_READY') return;
+    if (msg.type === 'BNG_READY') {
+      hideEditLoading();
+      var st = $('edit_status');
+      if (st) { st.textContent = 'SIAP DIEDIT'; st.className = 'status st-paid'; }
+      setTimeout(function () {
+        if (S.editState && !S.editState.dirty) {
+          var st2 = $('edit_status');
+          if (st2) { st2.textContent = 'BERSIH'; st2.className = 'status st-unpaid'; }
+        }
+      }, 1800);
+      updateEditInfo();
+      return;
+    }
     if (msg.type === 'BNG_TEXT_EDIT') {
+      pushHistorySnapshot();
       var arr = S.editState.overrides.textEdits;
       var ex = null;
       for (var i = 0; i < arr.length; i++) if (arr[i].sel === msg.sel) { ex = arr[i]; break; }
       if (ex) ex.val = msg.val; else arr.push({ sel: msg.sel, val: msg.val });
       markEditDirty();
+      updateEditInfo();
     } else if (msg.type === 'BNG_IMG_REQUEST') {
+      pushHistorySnapshot();
       S.editState.pendingImgSel = msg.sel;
+      S.editState.pendingImgType = msg.imgType || 'src';
       $('edit_imgPicker').value = '';
       $('edit_imgPicker').click();
     } else if (msg.type === 'BNG_MUSIC_REQUEST') {
+      pushHistorySnapshot();
       $('edit_musicPicker').value = '';
       $('edit_musicPicker').click();
     } else if (msg.type === 'BNG_HIDE') {
       if (S.editState.overrides.hiddenSections.indexOf(msg.sel) === -1) {
+        pushHistorySnapshot();
         S.editState.overrides.hiddenSections.push(msg.sel);
         renderEditHiddenList();
         renderEditSectionsList();
         markEditDirty();
+        updateEditInfo();
       }
       try { fr.contentWindow.postMessage({ type: 'BNG_HIDE_APPLY', sel: msg.sel }, '*'); } catch (e2) {}
     } else if (msg.type === 'BNG_SHOW') {
       var idx = S.editState.overrides.hiddenSections.indexOf(msg.sel);
       if (idx !== -1) {
+        pushHistorySnapshot();
         S.editState.overrides.hiddenSections.splice(idx, 1);
         renderEditHiddenList();
         renderEditSectionsList();
         markEditDirty();
+        updateEditInfo();
       }
       try { fr.contentWindow.postMessage({ type: 'BNG_SHOW_APPLY', sel: msg.sel }, '*'); } catch (e2) {}
     } else if (msg.type === 'BNG_SECTIONS_LIST') {
@@ -2179,6 +2259,7 @@ window.__ADMIN_JS_V2 = true;
     var file = this.files[0];
     var slug = S.editState.slug;
     var sel = S.editState.pendingImgSel;
+    var imgType = S.editState.pendingImgType || 'src';
     if (!sel) return;
     busy(true, 'MENGUNGGAH FOTO ' + file.name.toUpperCase() + '...');
     try {
@@ -2187,10 +2268,12 @@ window.__ADMIN_JS_V2 = true;
       var arr = S.editState.overrides.imageEdits;
       var ex = null;
       for (var i = 0; i < arr.length; i++) if (arr[i].sel === sel) { ex = arr[i]; break; }
-      if (ex) ex.val = r.value; else arr.push({ sel: sel, val: r.value });
+      if (ex) { ex.val = r.value; ex.attr = imgType; }
+      else arr.push({ sel: sel, val: r.value, attr: imgType });
       if (r.upload) S.editState.pendingUploads.push(r.upload);
-      try { $('edit_frame').contentWindow.postMessage({ type: 'BNG_IMG_RESPONSE', sel: sel, val: r.value }, '*'); } catch (e) {}
+      try { $('edit_frame').contentWindow.postMessage({ type: 'BNG_IMG_RESPONSE', sel: sel, val: r.value, imgType: imgType }, '*'); } catch (e) {}
       markEditDirty();
+      updateEditInfo();
       busy(false);
       toast('Foto ditambahkan — klik SIMPAN PERUBAHAN untuk permanen.');
     } catch (e2) {
@@ -2211,6 +2294,7 @@ window.__ADMIN_JS_V2 = true;
       if (r.upload) S.editState.pendingUploads.push(r.upload);
       try { $('edit_frame').contentWindow.postMessage({ type: 'BNG_MUSIC_RESPONSE', val: r.value }, '*'); } catch (e) {}
       markEditDirty();
+      updateEditInfo();
       busy(false);
       toast('Musik ditambahkan — klik SIMPAN PERUBAHAN untuk permanen.');
     } catch (e2) {
@@ -2228,6 +2312,7 @@ window.__ADMIN_JS_V2 = true;
   $('edit_open').addEventListener('click', function () {
     if (S.editState && S.editState.slug) window.open('/customer/' + encodeURIComponent(S.editState.slug) + '/index.html', '_blank');
   });
+  $('edit_undo').addEventListener('click', editUndo);
   $('edit_save').addEventListener('click', async function () {
     if (!S.editState || !S.editState.slug) { toast('Pilih customer dulu.'); return; }
     var slug = S.editState.slug;

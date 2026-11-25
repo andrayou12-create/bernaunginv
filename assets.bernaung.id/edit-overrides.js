@@ -117,26 +117,21 @@ function applyOverrides(ov) {
     try {
       var el = document.querySelector(e.sel);
       if (!el) return;
-      if (el.tagName === 'IMG') {
-        el.src = e.val;
-      } else {
-        /* bg-image di Elementor sering ada di descendant div dengan
-           background-image inline atau class spesifik */
-        var img = el.querySelector('img');
-        if (img) {
-          img.src = e.val;
-        } else if (el.style && el.style.backgroundImage) {
-          el.style.backgroundImage = 'url("' + e.val + '")';
-        } else {
-          /* turun ke elemen dengan background-image */
-          var bg = el.querySelector('[style*="background-image"], [data-bg]');
-          if (bg) {
-            if (bg.dataset && bg.dataset.bg) bg.dataset.bg = e.val;
-            bg.style.backgroundImage = 'url("' + e.val + '")';
-          } else {
-            el.style.backgroundImage = 'url("' + e.val + '")';
-          }
+      if (e.attr === 'bg') {
+        /* eksplisit background-image (dipilih saat klik elemen bg) */
+        el.style.backgroundImage = 'url("' + e.val + '")';
+      } else if (e.attr === 'src' || el.tagName === 'IMG') {
+        if (el.tagName === 'IMG') el.src = e.val;
+        else {
+          var inner = el.querySelector('img');
+          if (inner) inner.src = e.val;
+          else el.style.backgroundImage = 'url("' + e.val + '")';
         }
+      } else {
+        /* auto-detect: coba <img> dulu, lalu bg-image */
+        var img = el.querySelector('img');
+        if (img) img.src = e.val;
+        else el.style.backgroundImage = 'url("' + e.val + '")';
       }
     } catch (err) {}
   });
@@ -210,13 +205,60 @@ function showToolbarFor(el, x, y) {
   removeToolbar();
   var tb = document.createElement('div');
   tb.className = 'bng-edit-toolbar';
-  tb.style.left = Math.min(x + 6, window.innerWidth - 240) + 'px';
+  tb.style.left = Math.min(x + 6, window.innerWidth - 260) + 'px';
   tb.style.top = (y + 6) + 'px';
 
   var sel = buildSelector(el);
-  var isImg = el.tagName === 'IMG';
-  var isText = /^(H[1-6]|P|SPAN|A|BUTTON|LI|TD|DIV|LABEL|EM|STRONG|B|I|U)$/.test(el.tagName) &&
-    !el.querySelector('img, video, iframe');
+
+  /* === DETEKSI GAMBAR ===
+     Cari elemen gambar: bisa <img> itu sendiri, <img> di dalam
+     elemen yang diklik, atau elemen dengan background-image
+     (inline style atau computed). Background-image sering dipakai
+     Elementor untuk foto cover/gallery di div pembungkus. */
+  var imgEl = null;
+  var bgEl = null;
+  if (el.tagName === 'IMG') {
+    imgEl = el;
+  } else {
+    var inner = el.querySelector('img');
+    if (inner) imgEl = inner;
+  }
+  if (!imgEl) {
+    var testEl = el;
+    var guard = 0;
+    while (testEl && testEl !== document.body && guard++ < 5) {
+      var bg = null;
+      try {
+        bg = (testEl.style && testEl.style.backgroundImage) || '';
+        if (!bg || bg === 'none') {
+          var cs = getComputedStyle(testEl);
+          bg = cs && cs.backgroundImage;
+        }
+      } catch (e) {}
+      if (bg && bg !== 'none' && bg.indexOf('url(') !== -1) {
+        bgEl = testEl;
+        break;
+      }
+      testEl = testEl.parentElement;
+    }
+  }
+  var isImg = !!(imgEl || bgEl);
+
+  /* === DETEKSI TEKS ===
+     Hanya elemen heading/paragraf/span/dsb yang punya teks langsung
+     (direct text node) dan TIDAK punya <img>/<video>/<iframe> anak. */
+  var isText = !isImg && /^(H[1-6]|P|SPAN|A|BUTTON|LI|TD|LABEL|EM|STRONG|B|I|U|DIV)$/.test(el.tagName);
+  if (isText) {
+    if (el.querySelector('img, video, iframe')) { isText = false; }
+    else if (el.tagName === 'DIV') {
+      /* DIV hanya dianggap teks kalau punya direct text content */
+      var hasDirectText = false;
+      Array.prototype.forEach.call(el.childNodes, function (n) {
+        if (n.nodeType === 3 && n.nodeValue.trim()) hasDirectText = true;
+      });
+      if (!hasDirectText) isText = false;
+    }
+  }
   var section = getSection(el);
 
   if (isText) {
@@ -261,8 +303,11 @@ function showToolbarFor(el, x, y) {
   if (isImg) {
     var bImg = document.createElement('button');
     bImg.textContent = 'Ganti Foto';
+    var imgTarget = imgEl || bgEl;
+    var imgSelector = buildSelector(imgTarget);
+    var imgType = imgEl ? 'src' : 'bg';
     bImg.onclick = function () {
-      toParent({ type: 'BNG_IMG_REQUEST', sel: sel });
+      toParent({ type: 'BNG_IMG_REQUEST', sel: imgSelector, imgType: imgType });
       removeToolbar();
     };
     tb.appendChild(bImg);
@@ -418,11 +463,13 @@ window.addEventListener('message', function (e) {
       try {
         var el = document.querySelector(msg.sel);
         if (el) {
-          if (el.tagName === 'IMG') el.src = msg.val;
-          else {
+          if (msg.imgType === 'bg') {
+            el.style.backgroundImage = 'url("' + msg.val + '")';
+          } else if (el.tagName === 'IMG') {
+            el.src = msg.val;
+          } else {
             var inner = el.querySelector('img');
             if (inner) inner.src = msg.val;
-            else if (el.style.backgroundImage) el.style.backgroundImage = 'url("' + msg.val + '")';
             else el.style.backgroundImage = 'url("' + msg.val + '")';
           }
         }

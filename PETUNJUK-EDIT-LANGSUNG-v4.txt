@@ -1,0 +1,75 @@
+============================================================
+HOTFIX v4 — Edit Foto, Undo, Loading, Info Musik
+============================================================
+
+PERBAIKAN DI v4 (di atas v3):
+
+1. FOTO TIDAK TERDETEKSI -> "Edit Teks" muncul padahal klik gambar
+   PENYEBAB: Deteksi hanya cek el.tagName === 'IMG'. Elementor
+   sering pakai background-image di div pembungkus, bukan <img>.
+   FIX: Deteksi sekarang cek 3 hal:
+   - elemen itu sendiri <img>
+   - elemen punya <img> anak
+   - elemen (atau ancestor-nya) punya background-image (inline
+     atau computed CSS)
+   Toolbar yang muncul untuk gambar: "Ganti Foto" (bukan "Edit Teks").
+   Untuk <img>: ganti src. Untuk bg-image: ganti background-image.
+   Tersimpan di overrides.json sebagai:
+     { sel: "...", val: "/path.jpg", attr: "src" }  atau
+     { sel: "...", val: "/path.jpg", attr: "bg" }
+
+2. UNDO BUTTON
+   Tombol baru "UNDO" di sebelah SIMPAN PERUBAHAN.
+   - Setiap aksi edit (teks/foto/musik/hide) push snapshot ke
+     history stack (maks 50).
+   - Klik UNDO = pop snapshot terakhir, restore overrides, reload
+     iframe agar DOM kembali ke tema asli lalu re-apply overrides
+     yang tersisa.
+   - Toast menunjukkan sisa riwayat.
+
+3. LOADING INDICATOR
+   Saat pilih customer di Edit Langsung, overlay muncul di atas
+   iframe dengan spinner + teks status:
+   - "MEMUAT DATA CUSTOMER..."
+   - "MEMUAT HALAMAN UNDANGAN..."
+   - "MENGAKTIFKAN MODE EDIT..."
+   - "MEMBERSIHKAN DOM TEMA..."
+   Overlay hilang saat bridge kirim BNG_READY. Status badge
+   berubah dari "BERSIH" -> "SIAP DIEDIT" (hijau) -> balik ke
+   "BERSIH" setelah 1.8 detik kalau tidak ada perubahan.
+
+4. INFO BOX (musik & jumlah edit)
+   Baris info di atas iframe menampilkan:
+   - Musik: <url musik saat ini atau "(default tema)">
+   - Teks diedit: <jumlah>
+   - Foto diganti: <jumlah>
+   - Bagian tersembunyi: <jumlah>
+   Update otomatis setiap kali overrides berubah.
+
+5. MUSIC URL di Customer Baru form
+   Saat klik Edit di Daftar Customer, form Customer Baru sekarang
+   mengisi field "atau URL Musik" dengan path musik tersimpan
+   (mis. /customer/slug/music.mp3). Sebelumnya hanya terisi kalau
+   musik di-upload dengan Token; sekarang juga tampil path-nya.
+
+============================================================
+CARA UPDATE DARI v3
+============================================================
+
+Cukup overwrite 3 file di folder repo lokal Anda:
+- admin.html                       (cache bust v10 -> v11)
+- assets.bernaung.id/admin.js      (perubahan utama)
+- assets.bernaung.id/edit-overrides.js  (perubahan deteksi foto)
+
+Commit + Push ke GitHub. Buka panel admin, Ctrl+Shift+R.
+
+Tidak menyentuh:
+- customer/nasirin-mila/*
+- Wedding/*
+- tema-jawanopict/*
+- catalog.json, theme-map.json, semua file tema katalog
+
+Total perubahan dari v3:
+- admin.js: +~110 baris (undo, loading, info, imgType handling)
+- edit-overrides.js: +~50 baris (deteksi bg-image, imgType dispatch)
+- admin.html: +~15 baris (undo button, loading overlay, info box)
