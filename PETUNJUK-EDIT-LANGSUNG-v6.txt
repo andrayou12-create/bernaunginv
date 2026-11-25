@@ -1,0 +1,72 @@
+============================================================
+HOTFIX v6 — REDESIGN EDIT LANGSUNG (Canva-style 2-kolom)
+============================================================
+
+PERUBAHAN UTAMA v6 (di atas v5):
+
+1. LAYOUT 2 KOLOM (CANVA-STYLE)
+   - Kiri 28% (maks 360px): panel kontrol scrollable (font, warna,
+     opacity, border, padding, dll) — tidak mengunci scroll
+   - Kanan 72%: iframe preview (kalau landscape, layar penuh)
+   - Klik elemen di preview kanan -> panel kiri menampilkan
+     properti elemen itu (tag, teks, warna, font, opacity, dll)
+   - Tidak ada popup toolbar lagi — semua kontrol ada di panel kiri
+
+2. FONT SELECTOR
+   - Dropdown font family dengan 4 grup:
+     * Serif: Playfair Display, Cormorant Garamond, EB Garamond,
+              Georgia, Times New Roman, Lora, Merriweather
+     * Sans: Poppins, Montserrat, Open Sans, Roboto, Lato, Segoe UI, Arial
+     * Script: Playball, Great Vibes, Dancing Script, Sacramento,
+               Pacifico, Allura, Cookie
+     * Display: Aston Script, Cinzel
+   - Font size (px) input + line height input
+
+3. COLOR PICKER (TEKS + BACKGROUND + BORDER)
+   - Warna teks (color picker)
+   - Warna background + opacity slider (0 = transparan, 1 = penuh)
+     Geser opacity ke 0 untuk bikin textbox transparan.
+   - Border: warna + lebar + style (solid/dashed/dotted/double) + radius
+
+4. TEXT ALIGN + STYLE
+   - Align: kiri/tengah/kanan/justify
+   - Bold / Italic / Underline checkboxes
+   - Transform: UPPERCASE / lowercase / Capitalize Each Word
+
+5. SPACING
+   - Padding + Margin (px)
+
+6. AKSI PANEL KIRI
+   - GANTI FOTO (muncul kalau elemen punya gambar/bg-image)
+   - SEMBUNYIKAN BAGIAN INI / TAMPILKAN BAGIAN INI
+   - DESELECT (ESC)
+
+7. SCROLLABLE LEFT PANEL
+   - max-height: calc(100vh - 240px)
+   - overflow-y: auto
+   - Tidak mengunci halaman utama, semua field bisa di-scroll
+
+8. UNDO + INFO BOX (dari v4/v5)
+   - UNDO button (history stack 50 snapshot)
+   - Info box: Musik | Teks | Style | Foto | Hide counts
+
+9. PROTOCOL BARU (styleEdits)
+   - Override format ditambah styleEdits: [{ sel, styles: {...} }]
+   - Saat klik SIMPAN, styleEdits ikut disimpan ke overrides.json
+   - Bridge applyStyleToElement handle bgAlpha sebagai rgba alpha channel
+
+============================================================
+CARA UPDATE DARI v5
+============================================================
+
+Overwrite 3 file di folder repo lokal Anda:
+- admin.html                       (cache bust v12 -> v13)
+- assets.bernaung.id/admin.js      (panel kiri, styleEdits, bindings)
+- assets.bernaung.id/edit-overrides.js  (selectElement, BNG_APPLY_STYLE)
+
+Commit + Push ke GitHub. Buka panel admin, Ctrl+Shift+R.
+
+Tidak menyentuh: customer/nasirin-mila/*, Wedding/*,
+tema-jawanopict/*, catalog.json, theme-map.json, semua file tema.
+
+============================================================

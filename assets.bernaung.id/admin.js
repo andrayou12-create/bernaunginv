@@ -2121,9 +2121,238 @@ window.__ADMIN_JS_V2 = true;
     var ov = S.editState.overrides || {};
     var m = $('edit_infoMusic'); if (m) m.textContent = ov.music || '(default tema)';
     var t = $('edit_infoText'); if (t) t.textContent = String((ov.textEdits || []).length);
+    var s = $('edit_infoStyle'); if (s) s.textContent = String((ov.styleEdits || []).length);
     var f = $('edit_infoFoto'); if (f) f.textContent = String((ov.imageEdits || []).length);
     var h = $('edit_infoHide'); if (h) h.textContent = String((ov.hiddenSections || []).length);
   }
+
+  /* ---------- LEFT PANEL: SELECTED ELEMENT ---------- */
+  function showLeftPanelForSelection(info) {
+    if (!S.editState) return;
+    S.editState.selectedElement = info;
+    var noSel = $('edit_noSelection');
+    var props = $('edit_propsPanel');
+    if (noSel) noSel.classList.add('hidden');
+    if (props) props.classList.remove('hidden');
+
+    var selInfo = $('edit_selInfo');
+    if (selInfo) selInfo.textContent = info.sel;
+    var tagInfo = $('edit_tagInfo');
+    if (tagInfo) {
+      var parts = [];
+      parts.push('<b>' + esc(info.tagName) + '</b>');
+      if (info.isImg) parts.push('<span style="color:var(--gold)">[gambar]</span>');
+      if (info.isBg) parts.push('<span style="color:var(--gold)">[bg-image]</span>');
+      if (info.isText) parts.push('<span style="color:var(--green)">[teks]</span>');
+      if (info.sectionHidden) parts.push('<span style="color:var(--red)">[bagian tersembunyi]</span>');
+      tagInfo.innerHTML = parts.join(' ');
+    }
+    var st = info.styles || {};
+    var setText = function (id, val) { var el = $(id); if (el) el.value = val || ''; };
+    var setCheck = function (id, val) { var el = $(id); if (el) el.checked = !!val; };
+    setText('edit_propText', info.text);
+    setText('edit_propFont', st.fontFamily || '');
+    /* font-size seperti "24px" -> ambil angka */
+    var fsNum = parseFloat(st.fontSize) || '';
+    setText('edit_propFontSize', isNaN(fsNum) ? '' : fsNum);
+    var lhNum = parseFloat(st.lineHeight) || '';
+    setText('edit_propLineHeight', isNaN(lhNum) ? '' : lhNum);
+    setText('edit_propColor', st.color || '#000000');
+    setText('edit_propAlign', st.textAlign === 'start' ? '' : (st.textAlign || ''));
+    setCheck('edit_propBold', st.fontWeight === 'bold' || parseInt(st.fontWeight, 10) >= 600);
+    setCheck('edit_propItalic', st.fontStyle === 'italic');
+    setCheck('edit_propUnderline', /underline/.test(st.textDecoration || ''));
+    setText('edit_propTransform', st.textTransform === 'none' ? '' : (st.textTransform || ''));
+    setText('edit_propBg', st.backgroundColor || '#ffffff');
+    var opEl = $('edit_propOpacity');
+    if (opEl) opEl.value = st.bgAlpha != null ? st.bgAlpha : 1;
+    var opVal = $('edit_opVal');
+    if (opVal) opVal.textContent = (st.bgAlpha != null ? st.bgAlpha : 1).toFixed(2);
+    setText('edit_propBorder', st.borderTopColor || '#000000');
+    setText('edit_propBorderWidth', st.borderTopWidth || 0);
+    setText('edit_propBorderStyle', st.borderTopStyle === 'none' ? 'none' : (st.borderTopStyle || 'none'));
+    var brNum = parseFloat(st.borderRadius) || 0;
+    setText('edit_propRadius', brNum);
+    setText('edit_propPadding', st.paddingTop || 0);
+    setText('edit_propMargin', st.marginTop || 0);
+
+    /* toggle GANTI FOTO button visibility */
+    var imgBtn = $('edit_propImgBtn');
+    if (imgBtn) imgBtn.style.display = (info.isImg && info.imgSelector) ? '' : 'none';
+    /* toggle SEMBUNYIKAN BAGIAN button */
+    var hideBtn = $('edit_propHideBtn');
+    if (hideBtn) {
+      hideBtn.style.display = info.sectionSel ? '' : 'none';
+      hideBtn.textContent = info.sectionHidden ? 'TAMPILKAN BAGIAN INI' : 'SEMBUNYIKAN BAGIAN INI';
+    }
+    /* toggle TEKS section visibility */
+    var textSec = $('edit_textSection');
+    if (textSec) textSec.style.display = info.isText ? '' : 'none';
+  }
+
+  function clearLeftPanel() {
+    if (S.editState) S.editState.selectedElement = null;
+    var noSel = $('edit_noSelection');
+    var props = $('edit_propsPanel');
+    if (noSel) noSel.classList.remove('hidden');
+    if (props) props.classList.add('hidden');
+  }
+
+  /* Apply live style to selected element in iframe + store in overrides */
+  function applyStyleToSelected(prop, val) {
+    if (!S.editState || !S.editState.selectedElement) return;
+    var sel = S.editState.selectedElement.sel;
+    var fr = $('edit_frame');
+    /* kirim ke iframe untuk apply live */
+    var styles = {};
+    styles[prop] = val;
+    try { fr.contentWindow.postMessage({ type: 'BNG_APPLY_STYLE', sel: sel, styles: styles }, '*'); } catch (e) {}
+    /* simpan ke overrides.styleEdits */
+    if (!S.editState.overrides.styleEdits) S.editState.overrides.styleEdits = [];
+    var existing = null;
+    for (var i = 0; i < S.editState.overrides.styleEdits.length; i++) {
+      if (S.editState.overrides.styleEdits[i].sel === sel) { existing = S.editState.overrides.styleEdits[i]; break; }
+    }
+    if (!existing) {
+      existing = { sel: sel, styles: {} };
+      S.editState.overrides.styleEdits.push(existing);
+    }
+    existing.styles[prop] = val;
+    markEditDirty();
+    updateEditInfo();
+  }
+
+  function applyTextToSelected(val) {
+    if (!S.editState || !S.editState.selectedElement) return;
+    var sel = S.editState.selectedElement.sel;
+    var fr = $('edit_frame');
+    try { fr.contentWindow.postMessage({ type: 'BNG_APPLY_TEXT', sel: sel, val: val }, '*'); } catch (e) {}
+    /* simpan ke overrides.textEdits */
+    if (!S.editState.overrides.textEdits) S.editState.overrides.textEdits = [];
+    var existing = null;
+    for (var i = 0; i < S.editState.overrides.textEdits.length; i++) {
+      if (S.editState.overrides.textEdits[i].sel === sel) { existing = S.editState.overrides.textEdits[i]; break; }
+    }
+    if (existing) existing.val = val;
+    else S.editState.overrides.textEdits.push({ sel: sel, val: val });
+    markEditDirty();
+    updateEditInfo();
+  }
+
+  /* Apply bg color + opacity combined as rgba */
+  function applyBgWithOpacity() {
+    if (!S.editState || !S.editState.selectedElement) return;
+    var color = $('edit_propBg').value; /* #rrggbb */
+    var alpha = parseFloat($('edit_propOpacity').value) || 0;
+    var opVal = $('edit_opVal');
+    if (opVal) opVal.textContent = alpha.toFixed(2);
+    /* konversi hex ke r,g,b */
+    var m = color.match(/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+    if (!m) return;
+    var r = parseInt(m[1], 16), g = parseInt(m[2], 16), b = parseInt(m[3], 16);
+    var rgba = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+    applyStyleToSelected('backgroundColor', rgba);
+  }
+
+  /* Apply border combined: color + width + style */
+  function applyBorder() {
+    if (!S.editState || !S.editState.selectedElement) return;
+    var color = $('edit_propBorder').value;
+    var width = parseFloat($('edit_propBorderWidth').value) || 0;
+    var style = $('edit_propBorderStyle').value;
+    if (style === 'none' || width === 0) {
+      applyStyleToSelected('border', 'none');
+    } else {
+      applyStyleToSelected('border', width + 'px ' + style + ' ' + color);
+    }
+  }
+
+  /* Bind left panel form controls */
+  setTimeout(function () {
+    var bind = function (id, ev, fn) {
+      var el = $(id);
+      if (el) el.addEventListener(ev, fn);
+    };
+    bind('edit_propText', 'input', function () { applyTextToSelected(this.value); });
+    bind('edit_propFont', 'change', function () { applyStyleToSelected('fontFamily', this.value); });
+    bind('edit_propFontSize', 'input', function () {
+      var v = parseFloat(this.value);
+      applyStyleToSelected('fontSize', isNaN(v) ? '' : (v + 'px'));
+    });
+    bind('edit_propLineHeight', 'input', function () {
+      var v = parseFloat(this.value);
+      applyStyleToSelected('lineHeight', isNaN(v) ? '' : String(v));
+    });
+    bind('edit_propColor', 'input', function () { applyStyleToSelected('color', this.value); });
+    bind('edit_propAlign', 'change', function () { applyStyleToSelected('textAlign', this.value); });
+    bind('edit_propBold', 'change', function () { applyStyleToSelected('fontWeight', this.checked ? 'bold' : 'normal'); });
+    bind('edit_propItalic', 'change', function () { applyStyleToSelected('fontStyle', this.checked ? 'italic' : 'normal'); });
+    bind('edit_propUnderline', 'change', function () { applyStyleToSelected('textDecoration', this.checked ? 'underline' : 'none'); });
+    bind('edit_propTransform', 'change', function () { applyStyleToSelected('textTransform', this.value); });
+    bind('edit_propBg', 'input', applyBgWithOpacity);
+    bind('edit_propOpacity', 'input', applyBgWithOpacity);
+    bind('edit_propBorder', 'input', applyBorder);
+    bind('edit_propBorderWidth', 'input', applyBorder);
+    bind('edit_propBorderStyle', 'change', applyBorder);
+    bind('edit_propRadius', 'input', function () {
+      var v = parseFloat(this.value) || 0;
+      applyStyleToSelected('borderRadius', v + 'px');
+    });
+    bind('edit_propPadding', 'input', function () {
+      var v = parseFloat(this.value) || 0;
+      applyStyleToSelected('padding', v + 'px');
+    });
+    bind('edit_propMargin', 'input', function () {
+      var v = parseFloat(this.value) || 0;
+      applyStyleToSelected('margin', v + 'px');
+    });
+    /* AKSI buttons */
+    bind('edit_propImgBtn', 'click', function () {
+      if (!S.editState || !S.editState.selectedElement) return;
+      var info = S.editState.selectedElement;
+      if (!info.imgSelector) return;
+      pushHistorySnapshot();
+      S.editState.pendingImgSel = info.imgSelector;
+      S.editState.pendingImgType = info.imgType || 'src';
+      $('edit_imgPicker').value = '';
+      $('edit_imgPicker').click();
+    });
+    bind('edit_propHideBtn', 'click', function () {
+      if (!S.editState || !S.editState.selectedElement) return;
+      var info = S.editState.selectedElement;
+      if (!info.sectionSel) return;
+      pushHistorySnapshot();
+      if (info.sectionHidden) {
+        /* unhide */
+        var idx = S.editState.overrides.hiddenSections.indexOf(info.sectionSel);
+        if (idx !== -1) S.editState.overrides.hiddenSections.splice(idx, 1);
+        try { $('edit_frame').contentWindow.postMessage({ type: 'BNG_SHOW_APPLY', sel: info.sectionSel }, '*'); } catch (e) {}
+        toast('Bagian ditampilkan kembali.');
+      } else {
+        S.editState.overrides.hiddenSections.push(info.sectionSel);
+        try { $('edit_frame').contentWindow.postMessage({ type: 'BNG_HIDE_APPLY', sel: info.sectionSel }, '*'); } catch (e) {}
+        toast('Bagian disembunyikan.');
+      }
+      renderEditHiddenList();
+      renderEditSectionsList();
+      markEditDirty();
+      updateEditInfo();
+      /* update selected element info */
+      info.sectionHidden = !info.sectionHidden;
+      var hideBtn = $('edit_propHideBtn');
+      if (hideBtn) hideBtn.textContent = info.sectionHidden ? 'TAMPILKAN BAGIAN INI' : 'SEMBUNYIKAN BAGIAN INI';
+    });
+    bind('edit_propDeselect', 'click', function () {
+      try { $('edit_frame').contentWindow.postMessage({ type: 'BNG_DESELECT' }, '*'); } catch (e) {}
+      clearLeftPanel();
+    });
+    bind('edit_musicFloat', 'click', function () {
+      if (!S.editState) return;
+      pushHistorySnapshot();
+      $('edit_musicPicker').value = '';
+      $('edit_musicPicker').click();
+    });
+  }, 0);
 
   function pushHistorySnapshot() {
     if (!S.editState) return;
@@ -2158,9 +2387,11 @@ window.__ADMIN_JS_V2 = true;
       pendingImgType: 'src',
       pendingUploads: [],
       history: [],
-      overrides: { version: 1, slug: slug, textEdits: [], imageEdits: [], hiddenSections: [], music: null }
+      selectedElement: null,
+      overrides: { version: 1, slug: slug, textEdits: [], styleEdits: [], imageEdits: [], hiddenSections: [], music: null }
     };
     resetEditUI();
+    clearLeftPanel();
     showEditLoading('MEMUAT DATA CUSTOMER...');
 
     fetch('/customer/' + encodeURIComponent(slug) + '/overrides.json', { cache: 'no-store' })
@@ -2348,6 +2579,10 @@ window.__ADMIN_JS_V2 = true;
     } else if (msg.type === 'BNG_SECTIONS_LIST') {
       S.editState.detectedSections = msg.sections || [];
       renderEditSectionsList();
+    } else if (msg.type === 'BNG_SELECT_ELEMENT') {
+      showLeftPanelForSelection(msg);
+    } else if (msg.type === 'BNG_DESELECT') {
+      clearLeftPanel();
     }
   }
 

@@ -143,6 +143,14 @@ function applyOverrides(ov) {
     } catch (err) {}
   });
 
+  /* styleEdits: per-elemen style overrides (font, color, bg, opacity, dll) */
+  (ov.styleEdits || []).forEach(function (e) {
+    try {
+      var el = document.querySelector(e.sel);
+      if (el) applyStyleToElement(el, e.styles);
+    } catch (err) {}
+  });
+
   if (ov.music) applyMusicOverride(ov.music);
 }
 
@@ -364,14 +372,14 @@ function enableEditMode() {
     document.body.appendChild(mb);
   }
 
-  /* klik => tampilkan toolbar untuk elemen */
+  /* klik => pilih elemen, kirim info + computed styles ke parent */
   document.body.addEventListener('click', function (e) {
     if (!editMode) return;
     if (e.target.closest && e.target.closest('.bng-edit-toolbar, #bng-music-btn')) return;
     if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'STYLE') return;
     e.preventDefault();
     e.stopPropagation();
-    showToolbarFor(e.target, e.clientX, e.clientY);
+    selectElement(e.target);
   }, true);
 
   /* hover => highlight */
@@ -386,23 +394,150 @@ function enableEditMode() {
     if (e.target === hoverEl) e.target.classList.remove(EDIT_HOVER);
   }, true);
 
-  /* ESC => tutup toolbar */
+  /* ESC => deselect */
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') removeToolbar();
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.' + EDIT_SEL).forEach(function (el) { el.classList.remove(EDIT_SEL); });
+      toParent({ type: 'BNG_DESELECT' });
+    }
   }, true);
 
   /* deteksi section opsional (Amplop/Kado/Love Story/dsb) untuk
      chip hide cepat di panel admin */
   scanOptionalSections();
 
-  /* === DISMISS "BUKA UNDANGAN" COVER + UNLOCK SCROLL ===
-     Banyak tema wedding memakai pola "Buka Undangan" — sebuah
-     overlay fullscreen yang mengunci scroll body sampai user klik
-     tombol "Buka". Saat mode edit, kita auto-dismiss cover itu
-     supaya admin bisa scroll & edit seluruh halaman. */
+  /* === DISMISS "BUKA UNDANGAN" COVER + UNLOCK SCROLL === */
   dismissInvitationCover();
 
   toParent({ type: 'BNG_READY' });
+}
+
+/* ---------- SELECT ELEMENT ----------
+   Saat admin klik elemen, kirim info lengkap (selector, tagName,
+   teks, tipe elemen, computed styles) ke parent agar panel kiri
+   bisa menampilkan properti yang bisa di-edit. Tidak ada popup
+   toolbar — semua kontrol ada di panel kiri parent. */
+function selectElement(el) {
+  if (!el || el === document.body || el === document.documentElement) {
+    document.querySelectorAll('.' + EDIT_SEL).forEach(function (e) { e.classList.remove(EDIT_SEL); });
+    toParent({ type: 'BNG_DESELECT' });
+    return;
+  }
+
+  var sel = buildSelector(el);
+
+  /* deteksi image/bg-image (sama seperti sebelumnya) */
+  var imgEl = null, bgEl = null;
+  if (el.tagName === 'IMG') {
+    imgEl = el;
+  } else {
+    var inner = el.querySelector('img');
+    if (inner) imgEl = inner;
+  }
+  if (!imgEl) {
+    var testEl = el, guard = 0;
+    while (testEl && testEl !== document.body && guard++ < 5) {
+      var bg = null;
+      try {
+        bg = (testEl.style && testEl.style.backgroundImage) || '';
+        if (!bg || bg === 'none') {
+          var cs0 = getComputedStyle(testEl);
+          bg = cs0 && cs0.backgroundImage;
+        }
+      } catch (e) {}
+      if (bg && bg !== 'none' && bg.indexOf('url(') !== -1) { bgEl = testEl; break; }
+      testEl = testEl.parentElement;
+    }
+  }
+
+  /* computed styles untuk populate form parent */
+  var cs = null;
+  try { cs = getComputedStyle(el); } catch (e) {}
+
+  function parseColor(c) {
+    if (!c || c === 'transparent' || c === 'rgba(0, 0, 0, 0)') return { rgb: '', alpha: 0 };
+    var m = String(c).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+    if (m) {
+      var hex = '#' + [m[1], m[2], m[3]].map(function (n) {
+        return ('0' + parseInt(n, 10).toString(16)).slice(-2);
+      }).join('');
+      return { rgb: hex, alpha: m[4] ? parseFloat(m[4]) : 1 };
+    }
+    if (/^#[0-9a-f]{3,6}$/i.test(c)) return { rgb: c, alpha: 1 };
+    return { rgb: '', alpha: 1 };
+  }
+
+  var bgC = parseColor(cs ? cs.backgroundColor : '');
+  var txC = parseColor(cs ? cs.color : '');
+  var bdC = parseColor(cs ? cs.borderTopColor : '');
+
+  var section = getSection(el);
+
+  /* highlight selected */
+  document.querySelectorAll('.' + EDIT_SEL).forEach(function (e) { e.classList.remove(EDIT_SEL); });
+  el.classList.add(EDIT_SEL);
+
+  toParent({
+    type: 'BNG_SELECT_ELEMENT',
+    sel: sel,
+    tagName: el.tagName,
+    text: (el.textContent || '').trim().slice(0, 200),
+    isImg: !!imgEl,
+    isText: !imgEl && !bgEl && /^(H[1-6]|P|SPAN|A|BUTTON|LI|TD|LABEL|EM|STRONG|B|I|U|DIV)$/.test(el.tagName) && !el.querySelector('img, video, iframe'),
+    isBg: !!bgEl,
+    imgSelector: imgEl ? buildSelector(imgEl) : (bgEl ? buildSelector(bgEl) : null),
+    imgType: imgEl ? 'src' : (bgEl ? 'bg' : null),
+    sectionSel: section ? buildSelector(section) : null,
+    sectionHidden: section ? section.style.display === 'none' : false,
+    styles: {
+      fontFamily: cs ? cs.fontFamily : '',
+      fontSize: cs ? cs.fontSize : '',
+      color: txC.rgb,
+      colorAlpha: txC.alpha,
+      fontWeight: cs ? cs.fontWeight : '',
+      fontStyle: cs ? cs.fontStyle : '',
+      textAlign: cs ? cs.textAlign : '',
+      lineHeight: cs ? cs.lineHeight : '',
+      letterSpacing: cs ? cs.letterSpacing : '',
+      textTransform: cs ? cs.textTransform : '',
+      backgroundColor: bgC.rgb,
+      bgAlpha: bgC.alpha,
+      borderTopColor: bdC.rgb,
+      borderTopWidth: cs ? parseFloat(cs.borderTopWidth) || 0 : 0,
+      borderTopStyle: cs ? cs.borderTopStyle : 'none',
+      borderRadius: cs ? cs.borderRadius : '0px',
+      paddingTop: cs ? parseFloat(cs.paddingTop) || 0 : 0,
+      paddingBottom: cs ? parseFloat(cs.paddingBottom) || 0 : 0,
+      paddingLeft: cs ? parseFloat(cs.paddingLeft) || 0 : 0,
+      paddingRight: cs ? parseFloat(cs.paddingRight) || 0 : 0,
+      marginTop: cs ? parseFloat(cs.marginTop) || 0 : 0,
+      marginBottom: cs ? parseFloat(cs.marginBottom) || 0 : 0
+    }
+  });
+}
+
+function applyStyleToElement(el, styles) {
+  if (!el || !styles) return;
+  Object.keys(styles).forEach(function (prop) {
+    var val = styles[prop];
+    if (val == null || val === '') return;
+    if (prop === 'bgAlpha') {
+      var cur = el.style.backgroundColor || (function () {
+        try { return getComputedStyle(el).backgroundColor; } catch (e) { return ''; }
+      })();
+      var m = String(cur).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      if (m) {
+        el.style.backgroundColor = 'rgba(' + m[1] + ',' + m[2] + ',' + m[3] + ',' + val + ')';
+      } else {
+        /* tidak ada warna bg saat ini, pakai putih */
+        el.style.backgroundColor = 'rgba(255,255,255,' + val + ')';
+      }
+    } else if (prop === 'colorAlpha') {
+      /* colorAlpha diabaikan di sini — color picker parent sudah set rgba lengkap */
+    } else {
+      try { el.style[prop] = val; } catch (e) {}
+    }
+  });
 }
 
 /* ---------- DISMISS INVITATION COVER ----------
@@ -552,6 +687,28 @@ window.addEventListener('message', function (e) {
       break;
     case 'BNG_SHOW_APPLY':
       try { var el3 = document.querySelector(msg.sel); if (el3) el3.style.display = ''; } catch (err) {}
+      break;
+    case 'BNG_APPLY_STYLE':
+      try {
+        var el4 = document.querySelector(msg.sel);
+        if (el4) applyStyleToElement(el4, msg.styles);
+      } catch (err) {}
+      break;
+    case 'BNG_APPLY_TEXT':
+      try {
+        var el5 = document.querySelector(msg.sel);
+        if (el5) setTextPreservingBR(el5, msg.val);
+      } catch (err) {}
+      break;
+    case 'BNG_DESELECT':
+      document.querySelectorAll('.' + EDIT_SEL).forEach(function (el6) { el6.classList.remove(EDIT_SEL); });
+      break;
+    case 'BNG_HIGHLIGHT':
+      document.querySelectorAll('.' + EDIT_SEL).forEach(function (el7) { el7.classList.remove(EDIT_SEL); });
+      try {
+        var el8 = document.querySelector(msg.sel);
+        if (el8) el8.classList.add(EDIT_SEL);
+      } catch (err) {}
       break;
   }
 });
