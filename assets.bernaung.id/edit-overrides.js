@@ -346,7 +346,48 @@ function enableEditMode() {
     if (e.key === 'Escape') removeToolbar();
   }, true);
 
+  /* deteksi section opsional (Amplop/Kado/Love Story/dsb) untuk
+     chip hide cepat di panel admin */
+  scanOptionalSections();
+
   toParent({ type: 'BNG_READY' });
+}
+
+/* ---------- SCAN OPTIONAL SECTIONS ----------
+   Cari heading/paragraf yang memuat frasa opsional umum, lalu
+   kirim list ke parent untuk ditampilkan sebagai chip "hide cepat". */
+var OPTIONAL_PHRASES = [
+  { re: /amplop\s*digital/i, label: 'Amplop Digital', keys: ['gift1Number', 'gift2Number', 'gift3Number'] },
+  { re: /wedding\s*gift/i, label: 'Wedding Gift', keys: ['gift1Number', 'gift2Number', 'gift3Number'] },
+  { re: /kado\s*digital/i, label: 'Kado Digital', keys: ['gift1Number', 'gift2Number', 'gift3Number'] },
+  { re: /kirim\s*kado/i, label: 'Kirim Kado', keys: ['kadoName', 'kadoPhone', 'kadoAddress'] },
+  { re: /kirim\s*hadiah/i, label: 'Kirim Hadiah', keys: ['kadoName', 'kadoPhone', 'kadoAddress'] },
+  { re: /penerima\s*kado/i, label: 'Penerima Kado', keys: ['kadoName', 'kadoPhone', 'kadoAddress'] },
+  { re: /our\s*love\s*story/i, label: 'Our Love Story', keys: ['_love'] },
+  { re: /love\s*story/i, label: 'Love Story', keys: ['_love'] },
+  { re: /cerita\s*cinta/i, label: 'Cerita Cinta', keys: ['_love'] },
+  { re: /kisah\s*cinta/i, label: 'Kisah Cinta', keys: ['_love'] }
+];
+
+function scanOptionalSections() {
+  var found = [];
+  var seen = {};
+  var headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, .elementor-heading-title');
+  headings.forEach(function (el) {
+    var txt = (el.textContent || '').trim();
+    if (!txt || txt.length > 60) return; /* skip panjang */
+    OPTIONAL_PHRASES.forEach(function (opt) {
+      if (opt.re.test(txt)) {
+        var sec = getSection(el);
+        if (!sec) return;
+        var sel = buildSelector(sec);
+        if (seen[sel]) return;
+        seen[sel] = 1;
+        found.push({ sel: sel, label: opt.label, keys: opt.keys, phrase: txt });
+      }
+    });
+  });
+  if (found.length) toParent({ type: 'BNG_SECTIONS_LIST', sections: found });
 }
 
 function disableEditMode() {

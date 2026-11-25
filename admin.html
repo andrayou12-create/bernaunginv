@@ -139,7 +139,7 @@
         <p class="desc">Ubah nama, klasifikasi (pemisah katalog otomatis mengikuti kolom ini), harga, urutan, dan tampilkan/sembunyikan tema. 1 jenis undangan = 1 entri katalog. Jangan lupa klik <b>Simpan Katalog</b>.</p>
         <div style="overflow-x:auto">
           <table id="themeTable">
-            <thead><tr><th>Pratinjau</th><th>Nama Tema</th><th>Klasifikasi</th><th>Harga (Rp)</th><th>Urutan</th><th>Tampil</th><th>Path</th></tr></thead>
+            <thead><tr><th>Pratinjau</th><th>Nama Tema</th><th>Klasifikasi</th><th>Harga (Rp)</th><th>Urutan</th><th>Tampil</th><th>Path</th><th>Mapping</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
@@ -383,6 +383,10 @@
           <div style="font-size:11.5px;color:var(--muted);letter-spacing:1px;margin-bottom:8px">BAGIAN TERSEMBUNYI</div>
           <div id="edit_hiddenList" style="font-size:12px;color:var(--muted)">Belum ada.</div>
         </div>
+        <div id="edit_sectionsBox" class="hidden" style="background:rgba(110,168,254,.08);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:12px">
+          <div style="font-size:11.5px;color:var(--muted);letter-spacing:1px;margin-bottom:8px">BAGIAN OPSIONAL TERDETEKSI <span style="color:var(--blue)">(klik untuk sembunyikan cepat)</span></div>
+          <div id="edit_sectionsList" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+        </div>
         <iframe id="edit_frame" class="iframe-prev" style="height:640px"></iframe>
         <p class="hint" id="edit_hint" style="margin-top:10px"><b>Cara pakai:</b> klik elemen apa pun di pratinjau &rarr; toolbar muncul. Klik <b>Edit Teks</b> untuk ketik ulang, lalu klik di luar untuk simpan sementara. Klik <b>Ganti Foto</b> untuk pilih file dari komputer. Klik <b>Sembunyikan Bagian</b> untuk hilangkan section. Klik tombol bulat <b>Ganti Musik</b> di pojok kanan bawah. Tekan <b>ESC</b> untuk tutup toolbar. Setelah selesai, klik <b>SIMPAN PERUBAHAN</b> di atas.</p>
         <input type="file" id="edit_imgPicker" accept="image/*" class="hidden">
@@ -462,6 +466,42 @@
     </div>
   </div>
 
+  <!-- Modal edit mapping tema -->
+  <div id="mapEditorModal" class="hidden" style="position:fixed;inset:0;background:rgba(8,12,18,.85);z-index:91;display:flex;align-items:center;justify-content:center;padding:20px">
+    <div class="card" style="max-width:920px;width:100%;max-height:90vh;overflow:auto">
+      <h2>EDIT MAPPING &mdash; <span id="mapEditorTitle"></span></h2>
+      <p class="desc">Panel ini membaca file <code>&lt;tema&gt;/index.html</code>, mendeteksi frasa demo &amp; path foto, lalu memetakan ke field form admin. Hasil tersimpan ke <code>assets.bernaung.id/theme-map.json</code>. Tidak menyentuh file tema apa pun.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+        <button class="btn btn-line btn-sm" id="mapEditorRefresh">MUAT ULANG DETEKSI</button>
+        <button class="btn btn-line btn-sm" id="mapEditorRaw">UNDUH JSON MAPPING SAAT INI</button>
+      </div>
+      <div id="mapEditorStatus" class="hint" style="margin-bottom:10px"></div>
+
+      <fieldset>
+        <legend>TEKS DEMO &rarr; FIELD</legend>
+        <p class="hint" style="margin-bottom:8px">Setiap baris = frasa demo yang terdeteksi di HTML tema. Pilih field form yang akan menggantikan frasa itu saat generate customer. Prefix opsional (mis. "Pukul " untuk jam).</p>
+        <div id="mapEditorTextList" style="display:grid;gap:6px;max-height:280px;overflow:auto;padding-right:6px"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>FOTO DEMO &rarr; SLOT</legend>
+        <p class="hint" style="margin-bottom:8px">Path foto demo di HTML tema. Pilih slot (fotoCover/fotoGroom/fotoBride/fotoGalleryN) supaya upload foto customer otomatis menggantinya saat generate.</p>
+        <div id="mapEditorFotoList" style="display:grid;gap:6px;max-height:200px;overflow:auto;padding-right:6px"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>BAGIAN OPSIONAL &rarr; HIDE RULE</legend>
+        <p class="hint" style="margin-bottom:8px">Frasa seperti &ldquo;Amplop Digital&rdquo;/&ldquo;Love Story&rdquo; terdeteksi otomatis. Centang &rarr; bagian disembunyikan saat field terkait kosong. Field usulan sudah diisi, bisa diubah di theme-map.json setelahnya.</p>
+        <div id="mapEditorHideList" style="display:grid;gap:6px;max-height:200px;overflow:auto;padding-right:6px"></div>
+      </fieldset>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+        <button class="btn btn-gold" id="mapEditorSave">SIMPAN MAPPING</button>
+        <button class="btn btn-red btn-sm" id="mapEditorClose">TUTUP</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal unduhan manual -->
   <div id="manualModal" class="hidden" style="position:fixed;inset:0;background:rgba(8,12,18,.8);z-index:90;display:flex;align-items:center;justify-content:center;padding:20px">
     <div class="card" style="max-width:640px;width:100%;max-height:80vh;overflow:auto">
@@ -478,6 +518,6 @@
 
 <script src="/assets.bernaung.id/admin-auth.js"></script>
 <script src="/assets.bernaung.id/bng-xlsx.js"></script>
-<script src="/assets.bernaung.id/admin.js?v=8"></script>
+<script src="/assets.bernaung.id/admin.js?v=10"></script>
 </body>
 </html>

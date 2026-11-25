@@ -23,7 +23,46 @@ window.__ADMIN_JS_V2 = true;
     editState: null         // state mode Edit Langsung
   };
 
-  function $(id) { return document.getElementById(id); }
+  function $(id) {
+    var el = document.getElementById(id);
+    if (!el) {
+      /* Stub null-safe: mengembalikan proxy yang menyerap semua akses
+         property/method sebagai no-op. Memperbaiki error "Cannot read
+         properties of null (reading 'addEventListener')" yang mematikan
+         seluruh IIFE admin.js ketika admin.html tidak punya element
+         yang diminta (mis. c_rsvpMode yang sudah dihapus dari form
+         Customer Baru tapi binding-nya masih ada). Element hilang =
+         no-op, bukan crash. */
+      var stub = function () { return undefined; };
+      return new Proxy(stub, {
+        get: function (target, prop) {
+          if (prop === 'value' || prop === 'innerHTML' || prop === 'textContent' || prop === 'innerText') return '';
+          if (prop === 'checked' || prop === 'disabled') return false;
+          if (prop === 'files') return null;
+          if (prop === 'style') return new Proxy({}, { set: function () { return true; }, get: function () { return ''; } });
+          if (prop === 'classList') return { add: function () {}, remove: function () {}, toggle: function () {}, contains: function () { return false; } };
+          if (prop === 'dataset') return {};
+          if (prop === 'querySelector') return function () { return null; };
+          if (prop === 'querySelectorAll') return function () { return []; };
+          if (prop === 'addEventListener' || prop === 'removeEventListener') return function () {};
+          if (prop === 'appendChild' || prop === 'removeChild' || prop === 'insertBefore' || prop === 'remove' || prop === 'replaceChild') return function () { return null; };
+          if (prop === 'setAttribute' || prop === 'removeAttribute') return function () {};
+          if (prop === 'getAttribute') return function () { return null; };
+          if (prop === 'hasAttribute') return function () { return false; };
+          if (prop === 'focus' || prop === 'click' || prop === 'blur' || prop === 'select') return function () {};
+          if (prop === 'parentElement' || prop === 'firstChild' || prop === 'lastChild' || prop === 'firstElementChild' || prop === 'lastElementChild' || prop === 'nextSibling' || prop === 'previousSibling' || prop === 'nextElementSibling' || prop === 'previousElementSibling' || prop === 'body' || prop === 'head') return null;
+          if (prop === 'children' || prop === 'childNodes') return [];
+          if (prop === 'tagName' || prop === 'nodeName') return 'STUB';
+          if (prop === 'id') return id;
+          if (prop === 'length') return 0;
+          if (prop === 'then') return undefined; /* agar tidak dianggap thenable */
+          return undefined;
+        },
+        set: function () { return true; }
+      });
+    }
+    return el;
+  }
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -243,7 +282,8 @@ window.__ADMIN_JS_V2 = true;
         '<td><input data-i="' + i + '" data-k="price" type="number" min="0" step="1000" value="' + Number(t.price || 0) + '"></td>' +
         '<td><input data-i="' + i + '" data-k="order" type="number" step="1" value="' + Number(t.order || 99) + '" style="width:70px"></td>' +
         '<td style="text-align:center"><input data-i="' + i + '" data-k="visible" type="checkbox" ' + (t.visible === false ? '' : 'checked') + '></td>' +
-        '<td><code style="font-size:11px;color:var(--muted)">' + esc(t.id) + '</code></td>';
+        '<td><code style="font-size:11px;color:var(--muted)">' + esc(t.id) + '</code></td>' +
+        '<td style="text-align:center"><button class="btn btn-line btn-sm" data-map-edit="' + esc(t.id) + '">EDIT MAPPING</button></td>';
       tb.appendChild(tr);
     });
     /* kumpulkan input ke model saat berubah */
@@ -1962,6 +2002,8 @@ window.__ADMIN_JS_V2 = true;
     $('edit_hiddenList').innerHTML = 'Belum ada.';
     $('edit_status').textContent = 'BERSIH';
     $('edit_status').className = 'status st-unpaid';
+    var sb = $('edit_sectionsBox'); if (sb) sb.classList.add('hidden');
+    var sl = $('edit_sectionsList'); if (sl) sl.innerHTML = '';
   }
 
   function loadEditCustomer(slug) {
@@ -1995,7 +2037,7 @@ window.__ADMIN_JS_V2 = true;
         /* inject edit-overrides.js bila belum ada di halaman customer lama */
         if (!doc.querySelector('script[src*="edit-overrides.js"]')) {
           var s = doc.createElement('script');
-          s.src = '/assets.bernaung.id/edit-overrides.js?v=1';
+          s.src = '/assets.bernaung.id/edit-overrides.js?v=2';
           s.onload = function () { activateBridge(fr); };
           s.onerror = function () { toast('Gagal memuat edit-overrides.js', true); };
           (doc.body || doc.documentElement).appendChild(s);
@@ -2050,8 +2092,42 @@ window.__ADMIN_JS_V2 = true;
         S.editState.overrides.hiddenSections.splice(i, 1);
         try { $('edit_frame').contentWindow.postMessage({ type: 'BNG_SHOW_APPLY', sel: sel }, '*'); } catch (e) {}
         renderEditHiddenList();
+        renderEditSectionsList();
         markEditDirty();
       });
+    });
+  }
+
+  function renderEditSectionsList() {
+    var box = $('edit_sectionsBox');
+    var list = $('edit_sectionsList');
+    if (!box || !list || !S.editState) return;
+    var secs = S.editState.detectedSections || [];
+    if (!secs.length) { box.classList.add('hidden'); list.innerHTML = ''; return; }
+    box.classList.remove('hidden');
+    list.innerHTML = '';
+    secs.forEach(function (sec) {
+      var isHidden = S.editState.overrides.hiddenSections.indexOf(sec.sel) !== -1;
+      var chip = document.createElement('button');
+      chip.className = 'btn btn-sm ' + (isHidden ? 'btn-line' : 'btn-gold');
+      chip.style.fontSize = '11px';
+      chip.style.padding = '5px 10px';
+      chip.textContent = sec.label + (isHidden ? ' (tersembunyi)' : ' — sembunyikan');
+      chip.title = 'Selector: ' + sec.sel + '\nField terkait: ' + (sec.keys || []).join(', ');
+      chip.onclick = function () {
+        if (isHidden) {
+          var idx = S.editState.overrides.hiddenSections.indexOf(sec.sel);
+          if (idx !== -1) S.editState.overrides.hiddenSections.splice(idx, 1);
+          try { $('edit_frame').contentWindow.postMessage({ type: 'BNG_SHOW_APPLY', sel: sec.sel }, '*'); } catch (e) {}
+        } else {
+          S.editState.overrides.hiddenSections.push(sec.sel);
+          try { $('edit_frame').contentWindow.postMessage({ type: 'BNG_HIDE_APPLY', sel: sec.sel }, '*'); } catch (e) {}
+        }
+        renderEditHiddenList();
+        renderEditSectionsList();
+        markEditDirty();
+      };
+      list.appendChild(chip);
     });
   }
 
@@ -2079,6 +2155,7 @@ window.__ADMIN_JS_V2 = true;
       if (S.editState.overrides.hiddenSections.indexOf(msg.sel) === -1) {
         S.editState.overrides.hiddenSections.push(msg.sel);
         renderEditHiddenList();
+        renderEditSectionsList();
         markEditDirty();
       }
       try { fr.contentWindow.postMessage({ type: 'BNG_HIDE_APPLY', sel: msg.sel }, '*'); } catch (e2) {}
@@ -2087,9 +2164,13 @@ window.__ADMIN_JS_V2 = true;
       if (idx !== -1) {
         S.editState.overrides.hiddenSections.splice(idx, 1);
         renderEditHiddenList();
+        renderEditSectionsList();
         markEditDirty();
       }
       try { fr.contentWindow.postMessage({ type: 'BNG_SHOW_APPLY', sel: msg.sel }, '*'); } catch (e2) {}
+    } else if (msg.type === 'BNG_SECTIONS_LIST') {
+      S.editState.detectedSections = msg.sections || [];
+      renderEditSectionsList();
     }
   }
 
@@ -2177,6 +2258,356 @@ window.__ADMIN_JS_V2 = true;
     toast('Pratinjau dimuat ulang dari server.');
   });
   window.addEventListener('message', handleEditMessage);
+
+  /* ================= TAB KATALOG: EDIT MAPPING TEMA =================
+     Visual editor untuk theme-map.json[<temaId>].
+     - Baca /<tema>/index.html lewat fetchThemeFile
+     - Parse DOM, deteksi:
+       * frasa demo (heading/p/li/span text) -> field admin
+       * path foto lokal (img src, bg-image inline, bg-image CSS)
+       * bagian opsional (heading berisi "Amplop Digital"/dsb) -> hide rule
+     - Tampilkan modal dengan dropdown assignment per baris
+     - SIMPAN: tulis ulang assets.bernaung.id/theme-map.json dengan
+       entry tema itu diperbarui, dalam 1 commit atomik
+  ============================================================ */
+  var MAP_EDITOR_KEYS = [
+    'title', 'heroNames', 'heroDateLong', 'heroDateShort', 'heroDateShort2',
+    'groomFull', 'groomNick', 'groomParents', 'groomFather', 'groomMother', 'groomIg',
+    'brideFull', 'brideNick', 'brideParents', 'brideFather', 'brideMother', 'brideIg',
+    'akadDayDate', 'akadTime', 'akadPlace', 'akadAddress', 'akadMaps',
+    'akadDayName', 'akadDayNum', 'akadMonthName', 'akadYearNum', 'akadMonthYear',
+    'resDayDate', 'resTime', 'resPlace', 'resAddress', 'resMaps',
+    'resDayName', 'resDayNum', 'resMonthName', 'resYearNum', 'resMonthYear',
+    'address', 'gmaps', 'countdownDate', 'countdownUnix', 'countdownMs', 'countdownIso', 'countdownText', 'tanggalPendek',
+    'gift1Number', 'gift1Name', 'gift1Bank', 'gift1Logo',
+    'gift2Number', 'gift2Name', 'gift2Logo', 'gift3Number', 'gift3Logo',
+    'kadoName', 'kadoPhone', 'kadoAddress', 'rsvpUrl',
+    'heroInitial1', 'heroInitial2'
+  ];
+  var MAP_EDITOR_FOTO_KEYS = (function () {
+    var a = ['fotoCover', 'fotoGroom', 'fotoBride', 'fotoCouple'];
+    for (var i = 1; i <= 20; i++) a.push('fotoGallery' + i);
+    return a;
+  })();
+  var MAP_EDITOR_OPTIONAL = [
+    { re: /amplop\s*digital/i, label: 'Amplop Digital', suggest: ['gift1Number', 'gift2Number', 'gift3Number'] },
+    { re: /wedding\s*gift/i, label: 'Wedding Gift', suggest: ['gift1Number', 'gift2Number', 'gift3Number'] },
+    { re: /kado\s*digital/i, label: 'Kado Digital', suggest: ['gift1Number', 'gift2Number', 'gift3Number'] },
+    { re: /kirim\s*kado/i, label: 'Kirim Kado', suggest: ['kadoName', 'kadoPhone', 'kadoAddress'] },
+    { re: /kirim\s*hadiah/i, label: 'Kirim Hadiah', suggest: ['kadoName', 'kadoPhone', 'kadoAddress'] },
+    { re: /penerima\s*kado/i, label: 'Penerima Kado', suggest: ['kadoName', 'kadoPhone', 'kadoAddress'] },
+    { re: /our\s*love\s*story/i, label: 'Our Love Story', suggest: ['_love'] },
+    { re: /love\s*story/i, label: 'Love Story', suggest: ['_love'] },
+    { re: /cerita\s*cinta/i, label: 'Cerita Cinta', suggest: ['_love'] },
+    { re: /kisah\s*cinta/i, label: 'Kisah Cinta', suggest: ['_love'] }
+  ];
+  /* frasa UI umum yang BUKAN demo — diabaikan deteksi teks */
+  var MAP_EDITOR_NOISE_RE = /^(RSVP|Buka Undangan|Lihat|Kirim|Selengkapnya|Lanjutkan|Putar Musik|Matikan Musik|Buka|Tutup|Daftar Tamu|Ucapan|Doa Restu|Groom\s*&\s*Bride|The Wedding Of|Save The Date|Lokasi Acara|Akad Nikah|Resepsi|Pukul|WIB|WITA|WIT|Home|Back|Next|Prev|Menu)$/i;
+
+  var mapEditorState = null;
+
+  function openMapEditor(temaId) {
+    var tema = null;
+    for (var i = 0; i < S.catalog.themes.length; i++) if (S.catalog.themes[i].id === temaId) { tema = S.catalog.themes[i]; break; }
+    if (!tema) { toast('Tema tidak ditemukan: ' + temaId); return; }
+    mapEditorState = { temaId: temaId, tema: tema, html: null, doc: null, phrases: [], photos: [], hideCandidates: [], current: null };
+    $('mapEditorTitle').textContent = tema.name + ' (' + temaId + ')';
+    $('mapEditorModal').classList.remove('hidden');
+    $('mapEditorTextList').innerHTML = '<p class="hint">Memuat...</p>';
+    $('mapEditorFotoList').innerHTML = '<p class="hint">Memuat...</p>';
+    $('mapEditorHideList').innerHTML = '<p class="hint">Memuat...</p>';
+    $('mapEditorStatus').textContent = 'Mengambil ' + temaId + '/index.html ...';
+
+    fetchThemeFile(temaId + '/index.html').then(function (html) {
+      mapEditorState.html = html;
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      mapEditorState.doc = doc;
+      mapEditorState.phrases = detectDemoPhrases(doc);
+      mapEditorState.photos = detectPhotoPaths(doc);
+      mapEditorState.hideCandidates = detectHideCandidates(doc);
+      var cur = (S.themeMap && S.themeMap.themes && S.themeMap.themes[temaId]) || { map: [], hide: [], label: tema.name };
+      mapEditorState.current = JSON.parse(JSON.stringify(cur));
+      if (!mapEditorState.current.map) mapEditorState.current.map = [];
+      if (!mapEditorState.current.hide) mapEditorState.current.hide = [];
+      renderMapEditorText();
+      renderMapEditorFoto();
+      renderMapEditorHide();
+      $('mapEditorStatus').textContent = 'Deteksi selesai: ' + mapEditorState.phrases.length + ' frasa, ' + mapEditorState.photos.length + ' foto, ' + mapEditorState.hideCandidates.length + ' bagian opsional.';
+    }).catch(function (e) {
+      $('mapEditorStatus').textContent = 'Gagal memuat tema: ' + e.message;
+    });
+  }
+
+  function detectDemoPhrases(doc) {
+    var counts = {};
+    var nodes = doc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, li, a, button, .elementor-heading-title');
+    nodes.forEach(function (el) {
+      /* ambil hanya teks LANGSUNG (direct text), bukan gabungan anak */
+      var direct = '';
+      Array.prototype.forEach.call(el.childNodes, function (n) {
+        if (n.nodeType === 3) direct += n.nodeValue;
+      });
+      var txt = direct.trim();
+      if (!txt) txt = (el.textContent || '').trim();
+      if (!txt || txt.length < 2 || txt.length > 80) return;
+      if (/^[\d\s.,\-\/:&]+ $/.test(txt)) return;
+      if (MAP_EDITOR_NOISE_RE.test(txt)) return;
+      /* skip kalau elemen punya anak elemen blok (table, ul, dsb) */
+      if (el.querySelector('div, section, table, ul, ol, p')) return;
+      counts[txt] = (counts[txt] || 0) + 1;
+    });
+    return Object.keys(counts).map(function (t) { return { text: t, count: counts[t] }; })
+      .sort(function (a, b) { return b.count - a.count || a.text.length - b.text.length; });
+  }
+
+  function detectPhotoPaths(doc) {
+    var paths = {};
+    doc.querySelectorAll('img[src]').forEach(function (img) {
+      var s = img.getAttribute('src') || '';
+      if (!s || /^(https?:|data:|\/\/|#|javascript:|mailto:|tel:)/i.test(s)) return;
+      paths[s] = (paths[s] || 0) + 1;
+    });
+    doc.querySelectorAll('[style*="background-image"]').forEach(function (el) {
+      var m = (el.getAttribute('style') || '').match(/background-image\s*:\s*url\(["']?([^"')]+)["']?\)/i);
+      if (m && !/^(https?:|data:|\/\/|#)/i.test(m[1])) paths[m[1]] = (paths[m[1]] || 0) + 1;
+    });
+    doc.querySelectorAll('style').forEach(function (st) {
+      var re = /url\(["']?([^"')]+)["']?\)/g, m;
+      while ((m = re.exec(st.textContent || ''))) {
+        if (!/^(https?:|data:|\/\/|#)/i.test(m[1])) paths[m[1]] = (paths[m[1]] || 0) + 1;
+      }
+    });
+    return Object.keys(paths).map(function (p) { return { path: p, count: paths[p] }; })
+      .sort(function (a, b) { return b.count - a.count; });
+  }
+
+  function detectHideCandidates(doc) {
+    var found = [], seen = {};
+    var nodes = doc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, .elementor-heading-title');
+    nodes.forEach(function (el) {
+      var txt = (el.textContent || '').trim();
+      if (!txt || txt.length > 60) return;
+      MAP_EDITOR_OPTIONAL.forEach(function (opt) {
+        if (opt.re.test(txt)) {
+          var sec = el.closest ? el.closest('section, .elementor-section, .e-parent, [data-element_type="section"]') : null;
+          if (!sec) return;
+          var sel = (sec.dataset && sec.dataset.id) ? '[data-id="' + sec.dataset.id + '"]' : null;
+          if (!sel) return;
+          if (seen[opt.label]) return;
+          seen[opt.label] = 1;
+          found.push({ label: opt.label, phrase: txt, sel: sel, suggest: opt.suggest });
+        }
+      });
+    });
+    return found;
+  }
+
+  function renderMapEditorText() {
+    var box = $('mapEditorTextList');
+    if (!mapEditorState) return;
+    var cur = mapEditorState.current || {};
+    var byF = {};
+    (cur.map || []).forEach(function (m) { if (m.k && m.f && !/^foto/.test(m.k)) byF[m.f] = m; });
+
+    if (!mapEditorState.phrases.length) { box.innerHTML = '<p class="hint">Tidak ada frasa demo terdeteksi.</p>'; return; }
+    box.innerHTML = '';
+    mapEditorState.phrases.forEach(function (p) {
+      var row = document.createElement('div');
+      row.style.cssText = 'display:grid;grid-template-columns:1fr 170px 90px;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px';
+      var t = document.createElement('div');
+      t.style.cssText = 'font-size:12px;color:var(--text);word-break:break-word;min-width:0';
+      t.textContent = p.text;
+      t.title = p.text + ' (muncul ' + p.count + 'x)';
+      var sel = document.createElement('select');
+      sel.className = 'f';
+      sel.style.cssText = 'padding:6px;font-size:12px';
+      var cur2 = byF[p.text];
+      sel.innerHTML = '<option value="">— skip —</option>' + MAP_EDITOR_KEYS.map(function (k) {
+        var s = (cur2 && cur2.k === k) ? ' selected' : '';
+        return '<option value="' + k + '"' + s + '>' + k + '</option>';
+      }).join('');
+      var pre = document.createElement('input');
+      pre.className = 'f';
+      pre.style.cssText = 'padding:6px;font-size:12px';
+      pre.placeholder = 'prefix';
+      pre.value = (cur2 && cur2.p) ? cur2.p : '';
+      row.appendChild(t); row.appendChild(sel); row.appendChild(pre);
+      box.appendChild(row);
+    });
+  }
+
+  function renderMapEditorFoto() {
+    var box = $('mapEditorFotoList');
+    if (!mapEditorState) return;
+    var cur = mapEditorState.current || {};
+    var byF = {};
+    (cur.map || []).forEach(function (m) { if (m.k && m.f && /^foto/.test(m.k)) byF[m.f] = m; });
+
+    if (!mapEditorState.photos.length) { box.innerHTML = '<p class="hint">Tidak ada path foto lokal terdeteksi.</p>'; return; }
+    box.innerHTML = '';
+    mapEditorState.photos.forEach(function (p) {
+      var row = document.createElement('div');
+      row.style.cssText = 'display:grid;grid-template-columns:1fr 180px;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px';
+      var t = document.createElement('div');
+      t.style.cssText = 'font-size:11px;color:var(--blue);word-break:break-all;min-width:0';
+      t.textContent = p.path;
+      t.title = p.path + ' (muncul ' + p.count + 'x)';
+      var sel = document.createElement('select');
+      sel.className = 'f';
+      sel.style.cssText = 'padding:6px;font-size:12px';
+      var cur2 = byF[p.path];
+      sel.innerHTML = '<option value="">— skip —</option>' + MAP_EDITOR_FOTO_KEYS.map(function (k) {
+        var s = (cur2 && cur2.k === k) ? ' selected' : '';
+        return '<option value="' + k + '"' + s + '>' + k + '</option>';
+      }).join('');
+      row.appendChild(t); row.appendChild(sel);
+      box.appendChild(row);
+    });
+  }
+
+  function renderMapEditorHide() {
+    var box = $('mapEditorHideList');
+    if (!mapEditorState) return;
+    var cur = mapEditorState.current || {};
+    var byLabel = {};
+    (cur.hide || []).forEach(function (h) {
+      var fs = Array.isArray(h.f) ? h.f : (h.f ? [h.f] : []);
+      fs.forEach(function (f) { byLabel[String(f).toLowerCase()] = h; });
+    });
+
+    if (!mapEditorState.hideCandidates.length) { box.innerHTML = '<p class="hint">Tidak ada bagian opsional terdeteksi otomatis. Anda bisa edit manual di theme-map.json.</p>'; return; }
+    box.innerHTML = '';
+    mapEditorState.hideCandidates.forEach(function (h) {
+      var isOn = !!byLabel[h.label.toLowerCase()];
+      var row = document.createElement('div');
+      row.style.cssText = 'display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px';
+      var chk = document.createElement('input');
+      chk.type = 'checkbox'; chk.checked = isOn;
+      var lbl = document.createElement('div');
+      lbl.style.cssText = 'font-size:12px';
+      lbl.innerHTML = '<b>' + esc(h.label) + '</b> <span style="color:var(--muted);font-size:11px">(' + esc(h.phrase) + ')</span>';
+      var keys = document.createElement('div');
+      keys.style.cssText = 'font-size:11px;color:var(--muted)';
+      keys.textContent = h.suggest.join(', ');
+      row.appendChild(chk); row.appendChild(lbl); row.appendChild(keys);
+      row.dataset.suggest = h.suggest.join(',');
+      row.dataset.label = h.label;
+      row.dataset.phrase = h.phrase;
+      row.dataset.sel = h.sel || '';
+      box.appendChild(row);
+    });
+  }
+
+  function collectMapEditor() {
+    if (!mapEditorState) return null;
+    var map = [], hide = [];
+
+    var textRows = $('mapEditorTextList').children;
+    for (var i = 0; i < textRows.length; i++) {
+      var row = textRows[i];
+      if (row.tagName !== 'DIV') continue;
+      var sel = row.querySelector('select');
+      var pre = row.querySelector('input');
+      var txtEl = row.children[0];
+      if (!txtEl) continue;
+      var text = txtEl.textContent;
+      if (sel && sel.value) {
+        var e = { k: sel.value, f: text };
+        if (pre && pre.value) e.p = pre.value;
+        map.push(e);
+      }
+    }
+
+    var fotoRows = $('mapEditorFotoList').children;
+    for (var j = 0; j < fotoRows.length; j++) {
+      var frow = fotoRows[j];
+      if (frow.tagName !== 'DIV') continue;
+      var fselect = frow.querySelector('select');
+      var fpathEl = frow.children[0];
+      if (!fpathEl) continue;
+      var path = fpathEl.textContent;
+      if (fselect && fselect.value) map.push({ k: fselect.value, f: path });
+    }
+
+    var hideRows = $('mapEditorHideList').children;
+    for (var k = 0; k < hideRows.length; k++) {
+      var hrow = hideRows[k];
+      if (hrow.tagName !== 'DIV') continue;
+      var hchk = hrow.querySelector('input[type="checkbox"]');
+      if (!hchk || !hchk.checked) continue;
+      var keys2 = (hrow.dataset.suggest || '').split(',').filter(Boolean);
+      var label = hrow.dataset.label;
+      var sel3 = hrow.dataset.sel;
+      var rule = { k: keys2 };
+      if (sel3) rule.sec = [sel3];
+      else rule.f = [label];
+      hide.push(rule);
+    }
+
+    return {
+      label: (mapEditorState.current && mapEditorState.current.label) ? mapEditorState.current.label : mapEditorState.tema.name,
+      map: map,
+      hide: hide
+    };
+  }
+
+  async function saveMapEditor() {
+    if (!mapEditorState) return;
+    var temaId = mapEditorState.temaId;
+    var entry = collectMapEditor();
+    if (!entry) { toast('Tidak ada data.'); return; }
+    busy(true, 'MENYIMPAN MAPPING...');
+    try {
+      /* muat theme-map.json terbaru dari repo (mencegah overwrite entri lain) */
+      var tmRaw = await fetchThemeFile('assets.bernaung.id/theme-map.json');
+      var tm = JSON.parse(tmRaw);
+      if (!tm.themes) tm.themes = {};
+      /* pertahankan keys non-standar (configOverride, dll.) dari entri lama */
+      var old = tm.themes[temaId] || {};
+      Object.keys(old).forEach(function (k) {
+        if (k !== 'map' && k !== 'hide' && k !== 'label' && !(k in entry)) entry[k] = old[k];
+      });
+      tm.themes[temaId] = entry;
+      var files = [{ path: 'assets.bernaung.id/theme-map.json', content: JSON.stringify(tm, null, 2) }];
+      var mode = await commitFiles(files, 'Mapping ' + temaId + ' via editor:');
+      busy(false);
+      if (mode === 'committed') {
+        S.themeMap = tm;
+        toast('Mapping tema ' + temaId + ' tersimpan (' + entry.map.length + ' aturan, ' + entry.hide.length + ' hide).');
+        $('mapEditorModal').classList.add('hidden');
+        mapEditorState = null;
+      } else if (mode === 'manual') {
+        toast('Unduh theme-map.json lalu unggah ke folder assets.bernaung.id/.', true);
+      }
+    } catch (e) {
+      busy(false);
+      toast(e.message, true);
+    }
+  }
+
+  /* event delegation untuk tombol EDIT MAPPING di tabel katalog */
+  $('themeTable').addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('[data-map-edit]') : null;
+    if (btn) openMapEditor(btn.getAttribute('data-map-edit'));
+  });
+  $('mapEditorClose').addEventListener('click', function () {
+    $('mapEditorModal').classList.add('hidden');
+    mapEditorState = null;
+  });
+  $('mapEditorSave').addEventListener('click', saveMapEditor);
+  $('mapEditorRefresh').addEventListener('click', function () {
+    if (mapEditorState && mapEditorState.temaId) openMapEditor(mapEditorState.temaId);
+  });
+  $('mapEditorRaw').addEventListener('click', function () {
+    if (!mapEditorState || !mapEditorState.current) { toast('Belum ada mapping.'); return; }
+    var json = JSON.stringify(mapEditorState.current, null, 2);
+    var blob = new Blob([json], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = mapEditorState.temaId + '-current-mapping.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+  });
 
   /* ================= INIT ================= */
   async function initApp() {

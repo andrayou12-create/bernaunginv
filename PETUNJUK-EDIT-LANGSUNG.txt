@@ -1,5 +1,28 @@
 ============================================================
-PANEL ADMIN — MODE "EDIT LANGSUNG" (Canva/WordPress-style)
+!!! HOTFIX v3 — CRITICAL BUGFIX !!!
+============================================================
+v2 menyebabkan panel admin TIDAK BISA DIBUKA setelah upload:
+- Setelah input PIN + klik MASUK, tidak ada respons.
+- Penyebab: admin.js (baik versi lama 2224-baris MAUPUN versi
+  baru 2616-baris) punya binding ke elemen id="c_rsvpMode"
+  di line 400, tapi elemen itu sudah dihapus dari admin.html
+  (sesuai catatan PETUNJUK-UPDATE-PANEL: kolom RSVP Customer
+  Baru dihapus). Saat ?v=8/v=9 memaksa cache bust, browser
+  load admin.js yang crash di IIFE -> tombol MASUK tidak dapat
+  click listener -> tidak responsif.
+
+FIX v3: function $() di admin.js sekarang null-safe.
+Kalau elemen tidak ditemukan, return Proxy stub yang menyerap
+semua .addEventListener/.value/.style/.classList dll sebagai
+no-op. IIFE tidak crash. Login jalan. Fitur lain tetap utuh.
+
+Hanya 1 file berubah dari v2: assets.bernaung.id/admin.js
+(admin.html cache bust ke ?v=10).
+
+============================================================
+
+============================================================
+PANEL ADMIN v2 — MODE "EDIT LANGSUNG" + EDITOR MAPPING TEMA
 Update bernaunginv — November 2026
 ============================================================
 
@@ -9,6 +32,16 @@ ISI PAKET
 2. assets.bernaung.id/admin.js        (folder assets) — ganti file lama
 3. assets.bernaung.id/edit-overrides.js  (folder assets) — FILE BARU
 4. PETUNJUK-EDIT-LANGSUNG.txt         (ROOT repo)  — file ini (boleh dihapus setelah dibaca)
+
+FITUR BARU v2:
+- Tab "Edit Langsung" (Canva-style) — klik teks/foto/section/musik
+  untuk edit visual langsung di halaman customer.
+- Chip "BAGIAN OPSIONAL TERDETEKSI" di tab Edit Langsung — auto-detect
+  section "Amplop Digital"/"Love Story"/"Kirim Kado" dll. Klik chip =
+  sembunyikan cepat (tidak perlu klik elemennya satu-satu).
+- Tombol "EDIT MAPPING" di tab Katalog (per baris tema) — editor
+  visual untuk theme-map.json: deteksi frasa demo & path foto di HTML
+  tema, isi dropdown field, simpan ke theme-map.json dalam 1 commit.
 
 
 ============================================================
@@ -47,10 +80,12 @@ A. CARA INSTALL VIA GITHUB DESKTOP
 
 
 ============================================================
-B. APA YANG DITAMBAHKAN
+B. APA YANG DITAMBAHKAN (v2)
 ============================================================
 
-Tab "Edit Langsung" di panel admin. Workflow baru:
+--- FITUR 1: Tab "Edit Langsung" ---
+
+Workflow baru:
 
 1. Klik tab "Edit Langsung".
 2. Pilih customer dari dropdown.
@@ -65,6 +100,44 @@ Tab "Edit Langsung" di panel admin. Workflow baru:
 
 Yang disimpan HANYA file overrides.json (+ file foto/musik yang
 diunggah). File index.html customer TIDAK DIUBAH SAMA SEKALI.
+
+--- FITUR 2: Chip "BAGIAN OPSIONAL TERDETEKSI" ---
+
+Saat halaman customer termuat di Edit Langsung, script otomatis
+memindai DOM untuk heading yang memuat frasa:
+  - Amplop Digital / Wedding Gift / Kado Digital
+  - Kirim Kado / Kirim Hadiah / Penerima Kado
+  - Love Story / Our Love Story / Cerita Cinta / Kisah Cinta
+
+Setiap frasa yang terdeteksi muncul sebagai chip biru di bawah
+pratinjau. Klik chip = sembunyikan bagian itu (1 klik, tidak perlu
+meraba-raba sectionnya). Klik lagi = tampilkan kembali.
+
+Menghilangkan kebutuhan tulis rule "hide" manual di theme-map.json
+untuk tema baru — sekarang otomatis terdeteksi.
+
+
+--- FITUR 3: Tombol "EDIT MAPPING" per tema (di tab Katalog) ---
+
+Workflow nambah tema jadi 2 LANGKAH (sebelumnya 3):
+
+LANGKAH 1: Upload folder tema ke repo (mis. /tema-baru/index.html).
+LANGKAH 2: Panel -> tab Katalog -> klik "+ TAMBAH TEMA BARU",
+           isi nama folder -> SIMPAN KATALOG -> klik "EDIT MAPPING"
+           di baris tema itu -> modal terbuka.
+
+Di modal EDIT MAPPING:
+- Teks demo yang terdeteksi (heading/paragraf/span) -> pilih field
+  form yang menggantinya (heroNames, groomFull, akadDayDate, dll.)
+- Path foto yang terdeteksi (img src, CSS bg-image) -> pilih slot
+  (fotoCover/fotoGroom/fotoBride/fotoGallery1..N)
+- Bagian opsional yang terdeteksi (Amplop Digital, Love Story, dst.)
+  -> centang untuk auto-hide saat field terkait kosong
+- SIMPAN MAPPING -> tulis ulang assets.bernaung.id/theme-map.json
+  dengan entry tema itu diperbarui, dalam 1 commit atomik.
+
+Tidak perlu lagi edit theme-map.json manual di GitHub web editor.
+Semua lewat panel.
 
 
 ============================================================
@@ -184,36 +257,51 @@ F. TIDAK BERFUNGSI?
 
 
 ============================================================
-G. YANG BELUM DIBUAT ( Roadmap berikutnya)
+G. YANG BELUM DIBUAT (Roadmap berikutnya)
 ============================================================
 
 - Editor warna/font per tema (perlu anotasi CSS variabel per tema).
 - Drag-reorder section (effort lebih besar).
-- Editor theme-map.json visual (nambah tema jadi 2 langkah, bukan 3).
-- Deteksi otomatis section opsional (Amplop/Kado/Love Story).
+- Deteksi otomatis field khusus per tema (mis. inisial "L & E" di
+  tema-jawa) -> saat ini bisa di-mapping manual lewat EDIT MAPPING
+  dengan key "heroInitial1" / "heroInitial2".
+
+Sudah dibuat (v2):
+[x] Editor theme-map.json visual (tombol EDIT MAPPING di Katalog)
+[x] Deteksi otomatis section opsional (chip di Edit Langsung)
 
 Minta saja kalau mau salah satu dibuat berikutnya.
 
 
 ============================================================
-H. RINGKASAN TEKNIS (untuk developer)
+H. RINGKASAN TEKNIS (untuk developer) — UPDATE v2
 ============================================================
 
-3 perubahan kode utama:
+Perubahan kode utama (di atas v1):
 
 1. admin.html
    - Tab baru: <button data-tab="edit">Edit Langsung</button>
    - Section baru: #tab-edit dengan iframe #edit_frame + 2 file
-     picker tersembunyi (#edit_imgPicker, #edit_musicPicker)
-   - Bump cache: admin.js?v=7 -> admin.js?v=8
+     picker tersembunyi (#edit_imgPicker, #edit_musicPicker) +
+     #edit_sectionsBox untuk chip bagian opsional.
+   - Tabel katalog: kolom baru <th>Mapping</th> + tombol
+     "EDIT MAPPING" per baris (di-render admin.js).
+   - Modal baru: #mapEditorModal dengan 3 fieldset (Teks, Foto, Hide)
+     + tombol SIMPAN MAPPING / TUTUP / REFRESH / UNDUH JSON.
+   - Bump cache: admin.js?v=7 -> admin.js?v=9 (lewat v8).
 
 2. admin.js (di /assets.bernaung.id/)
-   - State: S.editState ditambahkan
-   - switchTab: dukung tab 'edit'
+   - State: S.editState + mapEditorState (terpisah).
+   - switchTab: dukung tab 'edit' -> renderEditCustomers().
    - Tab Edit Langsung: renderEditCustomers, loadEditCustomer,
      activateBridge, handleEditMessage, renderEditHiddenList,
-     markEditDirty/Clean, handler image picker, handler music
-     picker, handler SIMPAN/RESET.
+     renderEditSectionsList (chip bagian opsional), markEditDirty/Clean,
+     handler image picker, handler music picker, handler SIMPAN/RESET.
+   - handleEditMessage: tambah case BNG_SECTIONS_LIST.
+   - Tab Katalog EDIT MAPPING: openMapEditor, detectDemoPhrases,
+     detectPhotoPaths, detectHideCandidates, renderMapEditorText/Foto/Hide,
+     collectMapEditor, saveMapEditor (commit theme-map.json).
+   - renderThemes: tambah kolom Mapping dengan tombol data-map-edit.
    - Generator (btnGenerate): inject
      <script src="/assets.bernaung.id/edit-overrides.js"></script>
      ke setiap customer baru.
@@ -223,12 +311,15 @@ H. RINGKASAN TEKNIS (untuk developer)
    - Part 2: applyOverrides(json) -> apply text/image/hide/music.
    - Part 3: getSlug() dari URL -> fetch overrides.json -> apply.
    - Part 4: enableEditMode() -> klik handler + toolbar +
-     floating music button.
-   - Part 5: postMessage protocol BNG_ENABLE/BNG_DISABLE/
+     floating music button + scanOptionalSections().
+   - Part 5: scanOptionalSections() -> deteksi 10 frasa opsional
+     (Amplop Digital, Wedding Gift, Love Story, dst.), kirim list
+     BNG_SECTIONS_LIST ke parent.
+   - Part 6: postMessage protocol BNG_ENABLE/BNG_DISABLE/
      BNG_LOAD_OVERRIDES/BNG_IMG_RESPONSE/BNG_MUSIC_RESPONSE/
      BNG_HIDE_APPLY/BNG_SHOW_APPLY (dari parent) dan BNG_READY/
      BNG_TEXT_EDIT/BNG_IMG_REQUEST/BNG_MUSIC_REQUEST/BNG_HIDE/
-     BNG_SHOW (dari iframe ke parent).
+     BNG_SHOW/BNG_SECTIONS_LIST (dari iframe ke parent).
 
-Total LOC baru: ~470 (edit-overrides.js ~420 + admin.js tambahan ~250).
+Total LOC: admin.js ~2616, edit-overrides.js ~463, admin.html ~523.
 Tidak ada perubahan ke data customer/tema yang sudah ada.
