@@ -32,9 +32,8 @@ window.BERNAUNG_DATA = {
   "gift": [
     {
       "bank": "BCA",
-      "nomor": "1540935081",
-      "atasNama": "Mila Pedawati"
-      "hide": false
+      "nomor": "691501024411537",
+      "atasNama": "Muhamad Nasirin Asfar"
     },
     {
       "nomor": "",
@@ -50,10 +49,10 @@ window.BERNAUNG_DATA = {
     "alamat": "RT 10 Gedangan,Bansari, Kec. Bulu, Kab. Temanggung 56253"
   },
   "rsvp": {
-    "mode": "spreadsheet",
+    "mode": "demo",
     "wa": "",
     "appscript": "https://script.google.com/macros/s/DISABLED/exec",
-    "sheet": "nasirin-mila",
-    "hide": false
+    "sheet": "",
+    "hide": true
   }
 };
