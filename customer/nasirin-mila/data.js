@@ -53,7 +53,7 @@ window.BERNAUNG_DATA = {
     "mode": "demo",
     "wa": "",
     "appscript": "https://script.google.com/macros/s/DISABLED/exec",
-    "sheet": "",
+    "sheet": "nasirin-mila",
     "hide": false
   }
 };
