@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "slug": "nasirin-mila",
+  "textEdits": [
+    {
+      "sel": "[data-id=\"b6f5a5b\"] div:nth-child(1) > p:nth-child(1) > a:nth-child(1)",
+      "val": "1540935081"
+    },
+    {
+      "sel": "[data-id=\"e5f2cf5\"] div:nth-child(1) > p:nth-child(1)",
+      "val": "Mila Pedawati"
+    }
+  ],
+  "styleEdits": [
+    {
+      "sel": "[data-id=\"70a61fd\"]",
+      "styles": {
+        "backgroundColor": "rgba(255,255,255,0)"
+      }
+    }
+  ],
+  "imageEdits": [
+    {
+      "sel": "[data-id=\"5a6da4b\"] div:nth-child(1) > img:nth-child(1)",
+      "val": "/customer/nasirin-mila/foto/edit-1795697452429.png",
+      "attr": "src"
+    }
+  ],
+  "hiddenSections": [],
+  "music": null,
+  "updatedAt": "2026-11-26T12:50:57.749Z"
+}
