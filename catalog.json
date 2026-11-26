@@ -373,6 +373,73 @@
       "extra": "",
       "loveStories": [],
       "music": "/customer/nasirin-mila/music.mp3"
+    },
+    {
+      "slug": "redzlan-yani",
+      "theme": "tema-minang",
+      "name": "Redzlan & Yani",
+      "title": "Redzlan & Yani",
+      "status": "unpaid",
+      "createdAt": "2026-11-26T04:31:40.302Z",
+      "eventDate": "Selasa,19 January 2027",
+      "rsvp": {
+        "mode": "demo",
+        "wa": "",
+        "appscript": "https://script.google.com/macros/s/DISABLED/exec",
+        "sheet": ""
+      },
+      "values": {
+        "title": "Redzlan & Yani",
+        "heroNames": "Redzlan & Yani",
+        "groomNick": "Redzlan",
+        "groomFull": "Redzlan Malindo, S.T.",
+        "groomFather": "Buskamil",
+        "groomMother": "Nenni Roharti",
+        "groomParents": "Putra dari Buskamil dan Nenni Roharti",
+        "groomIg": "redzlan_malindo",
+        "brideNick": "Yani",
+        "brideFull": "Sri Handayani, S.T.",
+        "brideFather": "Suwignyo",
+        "brideMother": "Rofiah",
+        "brideParents": "Putri dari Suwignyo dan Rofiah",
+        "brideIg": "syyni_",
+        "akadDayDate": "Selasa,19 January 2027",
+        "akadTime": "08.00 WIB",
+        "akadPlace": "Rumah Mempelai Wanita",
+        "resDayDate": "Selasa,19 January 2027",
+        "resTime": "10.00 - Selesai",
+        "resPlace": "Rumah Mempelai Wanita",
+        "akadAddress": "Dusun Tempel Sari RT 01/RW 03, Desa Muntung, Kecamatan Candiroto, Kabupaten Temanggung, Jawa Tengah",
+        "resAddress": "Dusun Tempel Sari RT 01/RW 03, Desa Muntung, Kecamatan Candiroto, Kabupaten Temanggung, Jawa Tengah",
+        "akadMaps": "https://maps.app.goo.gl/7fw381oA9McZ4SLw7?g_st=ac",
+        "resMaps": "https://maps.app.goo.gl/7fw381oA9McZ4SLw7?g_st=ac",
+        "address": "Dusun Tempel Sari RT 01/RW 03, Desa Muntung, Kecamatan Candiroto, Kabupaten Temanggung, Jawa Tengah",
+        "gmaps": "https://maps.app.goo.gl/7fw381oA9McZ4SLw7?g_st=ac",
+        "countdownDate": "",
+        "gift1Number": "",
+        "gift1Name": "",
+        "gift1Bank": "",
+        "gift2Number": "",
+        "gift2Name": "",
+        "gift3Number": "",
+        "kadoName": "",
+        "kadoPhone": "",
+        "kadoAddress": "",
+        "rsvpUrl": "https://script.google.com/macros/s/DISABLED/exec",
+        "fotoCover": "",
+        "fotoCouple": "",
+        "fotoGroom": "",
+        "fotoBride": "",
+        "heroDateLong": "Selasa,19 January 2027"
+      },
+      "fotoGallery": "",
+      "extra": "",
+      "loveStories": [
+        {
+          "find": "Ini Tentang Kita",
+          "rep": "Kami tidak pernah benar-benar tahu kapan rasa itu bermula. Sebab pada awalnya, tak ada debar yang luar biasa, tak ada janji untuk saling memiliki. Kami hanya dua insan yang dipertemukan dalam percakapan sederhana, yang kemudian perlahan menemukan kesenangan dalam berbagi cerita.\n\nHingga pada suatu waktu, kami menyadari bahwa sudah saatnya rasa ini memiliki tujuan. Bukan lagi sekadar menikmati kebersamaan, melainkan membawa niat baik ini ke hadapan keluarga. Dengan segala kerendahan hati, kami memohon restu, menyatukan harapan, dan memilih untuk melangkah dalam sebuah ikatan yang lebih mulia.\n\nDan jika kelak kehidupan tak selalu berjalan sebagaimana yang kami pinta, semoga kami tetap menjadi dua insan yang tak lelah saling memilih. Sebab hari ini kami bukan hanya sedang memulai sebuah pernikahan, melainkan sedang belajar menuliskan kisah seumur hidup, dengan nama yang sama di setiap lembarannya."
+        }
+      ]
     }
   ]
 }
