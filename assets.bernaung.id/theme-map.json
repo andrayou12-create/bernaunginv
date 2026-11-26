@@ -2228,6 +2228,10 @@
           "f": "Yunita"
         },
         {
+          "k": "akadPlace",
+          "f": "Auditorium Masjid"
+        },
+        {
           "k": "akadAddress",
           "f": "Jalan Raya Bojongsari No.5, \nGunung Putri, Citeureup, Bogor, \nJawa Barat"
         },
@@ -2278,6 +2282,38 @@
         {
           "k": "groomParents",
           "f": "Bapak Sufian Jamal & Ibu Elmira"
+        },
+        {
+          "k": "fotoBride",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/2130c1eb94bf7767173970321cca0a89/2025/02/Minang-1-cpw.webp"
+        },
+        {
+          "k": "fotoGroom",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/2130c1eb94bf7767173970321cca0a89/2025/02/Minang-1-cpp.webp"
+        },
+        {
+          "k": "fotoGallery1",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/3fb3b5b3befc8ef715a2c1674bf8eaf6/2025/02/Balinese-18.webp"
+        },
+        {
+          "k": "fotoGallery2",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/3fb3b5b3befc8ef715a2c1674bf8eaf6/2025/02/Balinese-17.webp"
+        },
+        {
+          "k": "fotoGallery5",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/3fb3b5b3befc8ef715a2c1674bf8eaf6/2025/02/Balinese-13.webp"
+        },
+        {
+          "k": "fotoCouple",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/2130c1eb94bf7767173970321cca0a89/2025/02/Minang-8.webp"
+        },
+        {
+          "k": "fotoCouple",
+          "f": "assets/hi.inviee.id/wp-content/uploads/2024/08/Minang-14-fi.webp"
+        },
+        {
+          "k": "fotoCouple",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/2130c1eb94bf7767173970321cca0a89/2025/02/Minang-12.webp"
         }
       ],
       "hide": []
