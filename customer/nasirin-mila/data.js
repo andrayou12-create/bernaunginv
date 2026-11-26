@@ -53,7 +53,7 @@ window.BERNAUNG_DATA = {
     "mode": "demo",
     "wa": "",
     "appscript": "https://script.google.com/macros/s/DISABLED/exec",
-    "sheet": "",
+    "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?gid=0#gid=0"
     "hide": false
   }
 };
