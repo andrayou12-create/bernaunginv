@@ -34,6 +34,7 @@ window.BERNAUNG_DATA = {
       "bank": "BCA",
       "nomor": "691501024411537",
       "atasNama": "Muhamad Nasirin Asfar"
+      "hide": false
     },
     {
       "nomor": "",
@@ -53,6 +54,6 @@ window.BERNAUNG_DATA = {
     "wa": "",
     "appscript": "https://script.google.com/macros/s/DISABLED/exec",
     "sheet": "",
-    "hide": true
+    "hide": false
   }
 };
