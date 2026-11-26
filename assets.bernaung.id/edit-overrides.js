@@ -372,13 +372,15 @@ function enableEditMode() {
     document.body.appendChild(mb);
   }
 
-  /* klik => pilih elemen, kirim info + computed styles ke parent */
+  /* klik => pilih elemen, kirim info + computed styles ke parent.
+     PENTING: JANGAN stopPropagation — kalau di-stop, onclick handler
+     tombol tema (mis. "Kirim Hadiah" buka modal) tidak jalan.
+     preventDefault cukup untuk cegah navigasi link. */
   document.body.addEventListener('click', function (e) {
     if (!editMode) return;
     if (e.target.closest && e.target.closest('.bng-edit-toolbar, #bng-music-btn')) return;
     if (e.target.tagName === 'SCRIPT' || e.target.tagName === 'STYLE') return;
     e.preventDefault();
-    e.stopPropagation();
     selectElement(e.target);
   }, true);
 
@@ -421,6 +423,23 @@ function selectElement(el) {
   if (!el || el === document.body || el === document.documentElement) {
     document.querySelectorAll('.' + EDIT_SEL).forEach(function (e) { e.classList.remove(EDIT_SEL); });
     toParent({ type: 'BNG_DESELECT' });
+    return;
+  }
+
+  /* === AUTO-DISMISS COVER ===
+     Kalau admin klik di dalam #cover atau di tombol #btn_open / #open,
+     anggap itu mau buka undangan. Klik tombolnya + dismiss cover,
+     JANGAN select elemen itu (membingungkan). */
+  var coverAncestor = el.closest ? el.closest('#cover, #btn_open, #open') : null;
+  if (coverAncestor) {
+    var btn = (coverAncestor.id === 'btn_open' || coverAncestor.id === 'open')
+      ? coverAncestor
+      : coverAncestor.querySelector('#btn_open, #open, .elementor-button-link, .elementor-button');
+    if (btn) { try { btn.click(); } catch (e) {} }
+    dismissInvitationCover();
+    /* beri tahu parent untuk clear panel + tampilkan pesan */
+    toParent({ type: 'BNG_DESELECT' });
+    toParent({ type: 'BNG_COVER_DISMISSED' });
     return;
   }
 
@@ -545,61 +564,89 @@ function applyStyleToElement(el, styles) {
    klik tombolnya (atau sembunyikan kalau tidak ada tombol). Force
    unlock scroll body di apa pun kondisinya. */
 function dismissInvitationCover() {
-  /* 1. Coba klik tombol "Buka Undangan" / "Buka" / "Mulai" / "Open" */
-  var candidates = document.querySelectorAll('a, button, .elementor-button, .elementor-button-link, [role="button"], .btn');
-  var clickables = ['buka undangan', 'buka', 'mulai', 'open invitation', 'open', 'buka sekarang'];
-  var clicked = false;
-  for (var i = 0; i < candidates.length && !clicked; i++) {
-    var t = (candidates[i].textContent || '').trim().toLowerCase();
-    if (t.length > 30) continue; /* skip tombol dgn teks panjang */
-    for (var j = 0; j < clickables.length; j++) {
-      if (t === clickables[j] || t.indexOf(clickables[j]) !== -1) {
-        try { candidates[i].click(); clicked = true; break; } catch (e) {}
+  /* === TARGETED COVER DISMISSAL ===
+     Hanya target elemen cover spesifik. JANGAN scan fixed overlays
+     arbitrer — itu akan sembunyikan video background, modal popup,
+     Kirim Hadiah dialog, dll. */
+
+  /* 1. Klik tombol buka by ID (paling andal) */
+  var btn = document.getElementById('btn_open') || document.getElementById('open');
+  if (btn) { try { btn.click(); } catch (e) {} }
+  else {
+    /* fallback: cari by teks "Buka Undangan" / "Buka" / "Mulai" */
+    var candidates = document.querySelectorAll('a, button, .elementor-button, .elementor-button-link, [role="button"], .btn, span.elementor-button-text');
+    for (var i = 0; i < candidates.length; i++) {
+      var t = (candidates[i].textContent || '').trim().toLowerCase();
+      if (!t || t.length > 30) continue;
+      if (t === 'buka undangan' || t === 'buka' || t === 'mulai' || t === 'open' || t === 'buka sekarang') {
+        try { candidates[i].click(); break; } catch (e) {}
       }
     }
   }
 
   /* 2. Force unlock scroll pada html + body */
-  try {
-    document.documentElement.style.cssText += ';overflow:auto !important;height:auto !important;position:static !important;';
-    document.body.style.cssText += ';overflow:auto !important;height:auto !important;position:static !important;max-height:none !important;';
-  } catch (e) {}
-
-  /* 3. Cari overlay fullscreen (position:fixed yang menutupi viewport)
-     yang masih ada setelah klik. Sembunyikan kalau bukan toolbar kita. */
-  setTimeout(function () {
-    var allFixed = document.querySelectorAll('div, section, .elementor-section, .satumomen_slide, .container-mobile');
-    allFixed.forEach(function (el) {
-      if (el.id === 'bng-music-btn' || el.classList.contains('bng-edit-toolbar')) return;
-      var cs = null;
-      try { cs = getComputedStyle(el); } catch (e) { return; }
-      if (cs.display === 'none' || cs.visibility === 'hidden') return;
-      if (cs.position !== 'fixed') return;
-      var r = el.getBoundingClientRect();
-      /* hanya sembunyikan kalau cover mayoritas viewport */
-      if (r.width > window.innerWidth * 0.6 && r.height > window.innerHeight * 0.6) {
-        var txt = (el.textContent || '').toLowerCase();
-        /* jangan sembunyikan kalau tidak ada tanda cover invitation */
-        if (/buka|mulai|open|undangan|cover|welcome/i.test(txt) || r.top <= 0) {
-          /* coba klik tombol di dalam dulu (lebih sopan) */
-          var inner = el.querySelector('a, button, .elementor-button, [role="button"]');
-          if (inner && !clicked) {
-            try { inner.click(); return; } catch (e) {}
-          }
-          el.style.display = 'none';
-        }
-      }
-    });
-  }, 600);
-
-  /* 4. Coba lagi setelah animasi tema selesai (1.5s) — beberapa tema
-     delay cover removal sampai animasi opening selesai */
-  setTimeout(function () {
+  function forceUnlock() {
     try {
-      document.body.style.overflow = 'auto';
-      document.documentElement.style.overflow = 'auto';
+      document.documentElement.style.setProperty('overflow', 'auto', 'important');
+      document.body.style.setProperty('overflow', 'auto', 'important');
+      document.body.style.setProperty('position', 'static', 'important');
+      document.body.style.setProperty('height', 'auto', 'important');
+      document.body.style.setProperty('max-height', 'none', 'important');
     } catch (e) {}
-  }, 1500);
+  }
+  forceUnlock();
+
+  /* 3. Pindahkan #cover off-screen (JANGAN display:none — itu break
+     tema animation logic). Pakai position:absolute + top:-200vh +
+     pointer-events:none supaya tidak nutupi konten di bawah. */
+  function hideCover() {
+    var cover = document.getElementById('cover');
+    if (cover && cover.dataset.bngMoved !== '1') {
+      cover.dataset.bngMoved = '1';
+      cover.style.setProperty('position', 'absolute', 'important');
+      cover.style.setProperty('top', '-200vh', 'important');
+      cover.style.setProperty('left', '0', 'important');
+      cover.style.setProperty('width', '100%', 'important');
+      cover.style.setProperty('pointer-events', 'none', 'important');
+      cover.style.setProperty('z-index', '-1', 'important');
+    }
+    /* JANGAN sembunyikan elemen fixed lain — video bg, modal, popup
+       harus tetap berfungsi normal. */
+  }
+  /* Beri delay 800ms supaya tema animation sempat jalan dulu,
+     baru pindah cover kalau ternyata tidak ter-dismiss oleh klik. */
+  setTimeout(hideCover, 800);
+  setTimeout(hideCover, 2500); /* retry kalau cover di-render terlambat */
+
+  /* 4. Retry klik + unlock beberapa kali untuk tema yang lambat init */
+  var attempts = 0;
+  var interval = setInterval(function () {
+    attempts++;
+    if (attempts > 6) { clearInterval(interval); return; } /* 6 * 500ms = 3s */
+    forceUnlock();
+    if (attempts <= 3) {
+      var btn2 = document.getElementById('btn_open') || document.getElementById('open');
+      if (btn2) { try { btn2.click(); } catch (e) {} }
+    }
+  }, 500);
+
+  /* 5. MutationObserver: HANYA watch body.style.overflow re-lock.
+     Kalau tema set overflow:hidden lagi, force unlock. JANGAN hide
+     elemen apapun di observer. */
+  if (typeof MutationObserver !== 'undefined' && !window.__BNG_SCROLL_GUARD) {
+    window.__BNG_SCROLL_GUARD = true;
+    try {
+      var observer = new MutationObserver(function () {
+        var bo = document.body.style.overflow;
+        var ho = document.documentElement.style.overflow;
+        if (bo === 'hidden' || ho === 'hidden') {
+          forceUnlock();
+        }
+      });
+      observer.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'] });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style', 'class'] });
+    } catch (e) {}
+  }
 }
 
 /* ---------- SCAN OPTIONAL SECTIONS ----------

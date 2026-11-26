@@ -2451,7 +2451,7 @@ window.__ADMIN_JS_V2 = true;
         if (!doc) { hideEditLoading(); toast('iframe tidak bisa diakses (cross-origin?).', true); return; }
         if (!doc.querySelector('script[src*="edit-overrides.js"]')) {
           var s = doc.createElement('script');
-          s.src = '/assets.bernaung.id/edit-overrides.js?v=3';
+          s.src = '/assets.bernaung.id/edit-overrides.js?v=4';
           s.onload = function () { activateBridge(fr); };
           s.onerror = function () { hideEditLoading(); toast('Gagal memuat edit-overrides.js', true); };
           (doc.body || doc.documentElement).appendChild(s);
@@ -2617,6 +2617,9 @@ window.__ADMIN_JS_V2 = true;
       showLeftPanelForSelection(msg);
     } else if (msg.type === 'BNG_DESELECT') {
       clearLeftPanel();
+    } else if (msg.type === 'BNG_COVER_DISMISSED') {
+      clearLeftPanel();
+      toast('Cover "Buka Undangan" di-dismiss. Sekarang klik konten undangan di bawah untuk edit.');
     }
   }
 

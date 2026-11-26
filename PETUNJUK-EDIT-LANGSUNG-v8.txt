@@ -1,0 +1,64 @@
+============================================================
+HOTFIX v8 — Targeted Cover Dismiss + Modal/Video Fix
+============================================================
+
+MASALAH YANG DIPERBAIKI:
+
+1. COVER "BUKA UNDANGAN" TIDAK TER-DISMISS
+   PENYEBAB: dismissInvitationCover lama scan SEMUA elemen
+   position:fixed yang cover >60% viewport. Tapi cover tema-jawa
+   adalah <section id="cover"> (position:relative, bukan fixed),
+   jadi tidak ketangkap. Plus scan terlalu agresif → sembunyikan
+   video background + modal "Kirim Hadiah".
+   
+   FIX v8:
+   - Target spesifik: klik #btn_open / #open by ID (paling andal)
+   - Fallback: cari by teks "Buka Undangan" / "Buka" / "Mulai"
+   - Pindahkan #cover off-screen (position:absolute, top:-200vh,
+     pointer-events:none) — JANGAN display:none (break animation)
+   - Force body overflow:auto via setProperty('important')
+   - Retry 6x selama 3 detik (untuk tema lambat init)
+   - MutationObserver HANYA watch body.overflow re-lock
+
+2. VIDEO BACKGROUND JADI HITAM
+   PENYEBAB: dismissInvitationCover lama sembunyikan SEMUA div/section
+   position:fixed yang cover viewport — termasuk container video bg.
+   FIX v8: JANGAN scan fixed overlay arbitrer. Hanya target #cover.
+
+3. TOMBOL "KIRIM HADIAH" TIDAK BISA DIBUKA
+   PENYEBAB: click handler bridge pakai stopPropagation → blok onclick
+   handler tombol tema (mis. onclick="bukaModal()").
+   FIX v8: hapus stopPropagation. preventDefault cukup untuk cegah
+   navigasi link. onclick tombol tetap jalan → modal kebuka normal.
+
+4. KLIK DI DALAM COVER AUTO-DISMISS (bukan select)
+   Kalau admin klik area cover / tombol "Buka Undangan", bridge
+   auto-klik tombol buka + dismiss cover. Tidak select elemen itu
+   (membingungkan). Toast: "Cover di-dismiss, sekarang klik konten
+   undangan di bawah untuk edit."
+
+============================================================
+TEST RESULT (tema dengan #cover + video bg + modal Kirim Hadiah):
+- coverTop: "-200vh" (moved off-screen) ✓
+- coverPosition: "absolute" ✓
+- videoBgDisplay: "block" (NOT hidden) ✓
+- videoBgVisible: true ✓
+- kirimModalDisplay: "flex" (modal opens on click) ✓
+- bodyOverflow: "auto" (scroll unlocked) ✓
+- iframeScrollY: 300 (iframe scrolls internally) ✓
+- ZERO page errors ✓
+
+============================================================
+CARA UPDATE DARI v7
+============================================================
+
+Overwrite 3 file:
+- admin.html                       (cache bust v14 -> v15)
+- assets.bernaung.id/admin.js      (BNG_COVER_DISMISSED handler)
+- assets.bernaung.id/edit-overrides.js  (targeted dismiss + no stopProp)
+
+Commit + Push ke GitHub. Buka panel admin, Ctrl+Shift+R.
+
+Tidak menyentuh: customer/nasirin-mila/*, Wedding/*,
+tema-jawanopict/*, catalog.json, theme-map.json, semua file tema.
+============================================================
