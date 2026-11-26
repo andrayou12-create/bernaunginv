@@ -287,6 +287,7 @@ window.__ADMIN_JS_V2 = true;
 
   function renderCustMini() {
     var box = $('custMini');
+    if (!box) return; /* elemen mini-list tidak ada di admin.html — aman */
     if (!S.catalog.customers.length) { box.innerHTML = '<p class="desc">Belum ada customer.</p>'; return; }
     box.innerHTML = S.catalog.customers.map(function (c) {
       return '<p class="desc">' + esc(c.slug) + ' — ' + esc(c.name) + ' — <b>' +
@@ -389,12 +390,17 @@ window.__ADMIN_JS_V2 = true;
     $(id).addEventListener('input', function () { this._manual = true; });
   });
 
-  /* toggle tampilan form RSVP sesuai metode (hanya Spreadsheet / tanpa RSVP) */
+  /* toggle tampilan form RSVP sesuai metode (hanya Spreadsheet / tanpa RSVP).
+     Form RSVP per-customer sudah tidak ada di admin.html (RSVP kini PUSAT via
+     Pengaturan: s_rsvpCenter + s_rsvpSheet), jadi referensinya null-safe —
+     tanpa ini admin.js crash di baris addEventListener dan SELURUH panel
+     mati (inilah sebabnya link spreadsheet tidak bisa disimpan). */
   function updateRsvpFields() {
-    var m = $('c_rsvpMode').value;
-    $('sheetFields').style.display = (m === 'sheet') ? '' : 'none';
+    var modeEl = $('c_rsvpMode');
+    var m = modeEl ? modeEl.value : '';
+    if ($('sheetFields')) $('sheetFields').style.display = (m === 'sheet') ? '' : 'none';
   }
-  $('c_rsvpMode').addEventListener('change', updateRsvpFields);
+  if ($('c_rsvpMode')) $('c_rsvpMode').addEventListener('change', updateRsvpFields);
   updateRsvpFields();
 
   /* ================= LOVE STORY DINAMIS ================= */
@@ -734,7 +740,10 @@ window.__ADMIN_JS_V2 = true;
       gift1Number: v('c_gift1Number'), gift1Name: v('c_gift1Name'), gift1Bank: v('c_gift1Bank'),
       gift2Number: v('c_gift2Number'), gift2Name: v('c_gift2Name'), gift3Number: v('c_gift3Number'),
       kadoName: v('c_kadoName'), kadoPhone: v('c_kadoPhone'), kadoAddress: v('c_kadoAddress'),
-      rsvpUrl: v('c_appscript'),
+      /* RSVP pusat: URL dari Pengaturan dipakai otomatis untuk semua customer
+         (field per-customer c_appscript sudah tidak ada — tetap dibaca dulu
+         bila suatu saat formnya dikembalikan). */
+      rsvpUrl: v('c_appscript') || String(S.settings.rsvpCenter || '').trim(),
       fotoCover: v('c_fotoCover'), fotoCouple: v('c_fotoCouple'),
       fotoGroom: v('c_fotoGroom'), fotoBride: v('c_fotoBride')
     };
@@ -841,8 +850,9 @@ window.__ADMIN_JS_V2 = true;
       name: v('c_heroNames') || (v('c_groomNick') + ' & ' + v('c_brideNick')),
       values: vals,
       fotoGallery: v('c_fotoGallery'),
-      sheet: v('c_sheet'),
-      rsvpMode: $('c_rsvpMode').value,
+      sheet: v('c_sheet') || String(S.settings.rsvpSheet || '').trim(),
+      /* metode RSVP mengikuti keberadaan URL pusat di Pengaturan */
+      rsvpMode: String(S.settings.rsvpCenter || '').trim() ? 'sheet' : 'demo',
       wa: '',
       extra: v('c_extra'),
       musicUrl: v('c_musicUrl'),
@@ -1691,10 +1701,10 @@ window.__ADMIN_JS_V2 = true;
     $('c_fotoBride').value = v.fotoBride || '';
     $('c_fotoGallery').value = (c && c.fotoGallery) || '';
     ['c_fotoCoverFile', 'c_fotoCoupleFile', 'c_fotoGroomFile', 'c_fotoBrideFile', 'c_fotoGalleryFiles'].forEach(function (id) { if ($(id)) $(id).value = ''; });
-    $('c_appscript').value = (c && c.rsvpAppscript) || '';
-    $('c_sheet').value = (c && c.rsvpSheet) || '';
+    if ($('c_appscript')) $('c_appscript').value = (c && c.rsvpAppscript) || '';
+    if ($('c_sheet')) $('c_sheet').value = (c && c.rsvpSheet) || '';
     updateRsvpFields();
-    $('c_extra').value = (c && c.extra) || '';
+    if ($('c_extra')) $('c_extra').value = (c && c.extra) || '';
     fillLoveStories(c && c.loveStories && c.loveStories.length ? c.loveStories : [{ find: '', rep: '' }]);
     $('c_musicUrl').value = (c && c.musicUrl) || '';
     if ($('c_musicFile')) $('c_musicFile').value = '';
@@ -1729,7 +1739,7 @@ window.__ADMIN_JS_V2 = true;
       loveStories: c.loveStories,
       musicUrl: (c.music && String(c.music).indexOf('data:') !== 0) ? c.music : ''
     });
-    $('c_rsvpMode').value = rsvpMode;
+    if ($('c_rsvpMode')) $('c_rsvpMode').value = rsvpMode;
     updateRsvpFields();
     if (hasValues) {
       toast('Mengedit "' + c.slug + '" — data sudah dimuat. Ubah bagian yang salah, lalu klik BUAT UNDANGAN.', true);
@@ -1747,7 +1757,7 @@ window.__ADMIN_JS_V2 = true;
           musicUrl: musicUrl || ''
         };
         fillCustomerForm(v, ctx);
-        $('c_rsvpMode').value = rsvpMode;
+        if ($('c_rsvpMode')) $('c_rsvpMode').value = rsvpMode;
         updateRsvpFields();
       });
     }
@@ -1892,6 +1902,7 @@ window.__ADMIN_JS_V2 = true;
     S.settings.branch = $('s_branch').value.trim() || 'main';
     S.settings.token = $('s_token').value.trim();
     S.settings.rsvpCenter = $('s_rsvpCenter').value.trim();
+    S.settings.rsvpSheet = $('s_rsvpSheet') ? $('s_rsvpSheet').value.trim() : (S.settings.rsvpSheet || '');
     saveSettingsLocal();
     renderModeBadge();
     toast('Pengaturan disimpan di browser ini.');
@@ -1932,6 +1943,7 @@ window.__ADMIN_JS_V2 = true;
     $('s_branch').value = S.settings.branch || 'main';
     $('s_token').value = S.settings.token || '';
     $('s_rsvpCenter').value = S.settings.rsvpCenter || '';
+    if ($('s_rsvpSheet')) $('s_rsvpSheet').value = S.settings.rsvpSheet || '';
     renderModeBadge();
 
     busy(true, 'MEMUAT DATA...');

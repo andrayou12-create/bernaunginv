@@ -23,13 +23,18 @@
 
   var CFG = (window.BERNAUNG_DATA && window.BERNAUNG_DATA.rsvp) || {};
   var API = (CFG.appscript || '').trim();
-  var LIVE = /^https:\/\/script\.google\.com\/macros\/s\//.test(API);
+  /* URL placeholder .../s/DISABLED/exec dianggap belum terpasang -> mode demo,
+     bukan mode sheet yang memfetch URL mati. */
+  var LIVE = /^https:\/\/script\.google\.com\/macros\/s\//.test(API) && API.indexOf('DISABLED') === -1;
+  /* Link spreadsheet customer (data.js kolom "sheet") — sumber RSVP cadangan
+     via endpoint gviz publik bila Apps Script belum terpasang / gagal. */
+  var SHEET_URL = String(CFG.sheet || '').trim();
   /* Mode RSVP:
      - 'wa'    : INTERNAL — ucapan terkirim ke WhatsApp keluarga (tanpa spreadsheet)
-     - 'sheet' : Google Spreadsheet via Apps Script
+     - 'sheet' : Google Spreadsheet via Apps Script / gviz langsung
      - 'demo'  : pratinjau tema (tidak mengirim ke mana pun) */
   var MODE = (CFG.mode === 'wa' && /^\d{8,16}$/.test(String(CFG.wa || ''))) ? 'wa'
-           : (LIVE ? 'sheet' : 'demo');
+           : ((LIVE || SHEET_URL) ? 'sheet' : 'demo');
   var WA = String(CFG.wa || '');
   /* Slug customer (dari data.js): pemisah tab RSVP pada spreadsheet pusat.
      Deployment lama per-customer mengabaikan parameter ini — aman. */
@@ -123,6 +128,66 @@
         '<div class="bng-msg">' + esc(it.ucapan).replace(/\n/g, '<br>') + '</div>');
     }
 
+    /* ------- Sumber cadangan: baca langsung spreadsheet (gviz publik) -------
+       Urutan tab yang dicoba: tab bernama slug customer -> tab "RSVP" -> gid. */
+    function renderItems(rows) {
+      list.innerHTML = '';
+      rows.slice(0, 50).forEach(function (it) { list.appendChild(card(it)); });
+    }
+    function emptyList() {
+      list.innerHTML = '<div class="bng-empty">Belum ada ucapan. Jadilah yang pertama!</div>';
+    }
+    function gvizToItems(j) {
+      var cols = (j.table.cols || []).map(function (c) {
+        return String(c.label || c.id || '').toLowerCase();
+      });
+      function findIdx(names) {
+        for (var i = 0; i < cols.length; i++) { if (names.indexOf(cols[i]) !== -1) return i; }
+        return -1;
+      }
+      var idx = {
+        waktu: findIdx(['waktu', 'timestamp']),
+        nama: findIdx(['nama', 'author']),
+        kehadiran: findIdx(['kehadiran', 'attendance']),
+        ucapan: findIdx(['ucapan', 'pesan', 'comment'])
+      };
+      return (j.table.rows || []).map(function (r) {
+        var c = r.c || [];
+        function g(i) {
+          if (i < 0 || !c[i]) return '';
+          if (c[i].f != null) return String(c[i].f);
+          return c[i].v != null ? String(c[i].v) : '';
+        }
+        return { waktu: g(idx.waktu), nama: g(idx.nama), kehadiran: g(idx.kehadiran), ucapan: g(idx.ucapan) };
+      }).filter(function (it) { return it.nama; }).reverse();
+    }
+    function loadFromSheet() {
+      var m = SHEET_URL.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+      if (!m) { emptyList(); return; }
+      var gidMatch = SHEET_URL.match(/[#&?]gid=([0-9]+)/);
+      var tries = [];
+      if (SLUG) tries.push('sheet=' + encodeURIComponent(SLUG));
+      tries.push('sheet=' + encodeURIComponent('RSVP'));
+      if (gidMatch) tries.push('gid=' + gidMatch[1]);
+      var i = 0;
+      (function next() {
+        if (i >= tries.length) { emptyList(); return; }
+        fetch('https://docs.google.com/spreadsheets/d/' + m[1] +
+              '/gviz/tq?tqx=out:json&headers=1&' + tries[i++])
+          .then(function (r) { return r.text(); })
+          .then(function (txt) {
+            var mm = txt.match(/setResponse\(([\s\S]*)\);?\s*$/);
+            if (!mm) throw new Error('format gviz tidak dikenali');
+            var j = JSON.parse(mm[1]);
+            if (j.status === 'error') throw new Error('tab tidak ditemukan');
+            var rows = gvizToItems(j);
+            if (!rows.length) throw new Error('tab kosong');
+            renderItems(rows);
+          })
+          .catch(next);
+      })();
+    }
+
     function loadList() {
       if (MODE === 'wa') {
         list.innerHTML = '<div class="bng-empty">Ucapan Anda akan terkirim langsung<br>ke keluarga melalui WhatsApp.<br>Silakan isi form di atas ya.</div>';
@@ -135,16 +200,23 @@
         list.innerHTML = ''; list.appendChild(demo);
         return;
       }
+      if (!LIVE) {
+        /* Apps Script belum terpasang (kosong/DISABLED): tampilkan RSVP
+           langsung dari link spreadsheet di data.js */
+        loadFromSheet();
+        return;
+      }
       fetch(API + '?action=list' + (SLUG ? '&slug=' + encodeURIComponent(SLUG) : '')).then(function (r) { return r.text(); }).then(function (txt) {
         var j = null;
         try { j = JSON.parse(txt); } catch (e) { /* script lama balas teks biasa */ }
         if (!j || j.status !== 'success' || !j.data || !j.data.length) {
-          list.innerHTML = '<div class="bng-empty">Belum ada ucapan. Jadilah yang pertama!</div>';
+          if (SHEET_URL) { loadFromSheet(); return; }
+          emptyList();
           return;
         }
-        list.innerHTML = '';
-        j.data.slice(0, 50).forEach(function (it) { list.appendChild(card(it)); });
+        renderItems(j.data);
       }).catch(function () {
+        if (SHEET_URL) { loadFromSheet(); return; }
         list.innerHTML = '<div class="bng-empty">Daftar ucapan belum tersedia.</div>';
       });
     }
@@ -172,6 +244,12 @@
         note.textContent = 'Terima kasih! (Mode demo — undangan resmi customer terhubung ke WhatsApp keluarga / Spreadsheet.)';
         root.querySelector('#bng-nama').value = '';
         root.querySelector('#bng-ucapan').value = '';
+        return;
+      }
+      if (!LIVE) {
+        /* Tanpa Apps Script ucapan tidak bisa disimpan — jangan beri pesan
+           sukses palsu (dulu fetch ke '' dianggap sukses padahal tidak tersimpan). */
+        note.textContent = 'Pengiriman RSVP belum aktif: URL Apps Script belum terpasang di panel admin.';
         return;
       }
       btn.disabled = true;
