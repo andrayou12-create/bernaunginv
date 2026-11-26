@@ -334,7 +334,7 @@
        dan jangan tampilkan form apa pun — bagian RSVP hilang dari undangan. */
     if (CFG.hide) {
       try {
-        document.querySelectorAll('.wds_rsvp, [data-widget_type*="wds_rsvp"], [data-widget_type*="niku-rsvp"], .rsvp-comments-wrap')
+        document.querySelectorAll('.wds_rsvp, [data-widget_type*="wds_rsvp"], [data-widget_type*="niku-rsvp"], .rsvp-comments-wrap, [data-widget_type*="ev-rsvp"], .ev-rsvp-wrapper, #ev-rsvp-form, .ev-rsvp-sticker-modal-overlay')
           .forEach(function (el) { el.style.display = 'none'; });
       } catch (e) {}
       return;
@@ -346,8 +346,10 @@
     var slot = document.querySelector('[data-bernaung-rsvp]');
     if (slot) { slot.innerHTML = ''; slot.appendChild(root); applyWidgetTheme(root, contextBgFor(root)); return; }
 
-    /* 2) widget vendor Elementor/Bisdev yang rusak (wds_rsvp, rsvp-comments-wrap) */
-    var vendor = document.querySelector('.wds_rsvp, [data-widget_type*="wds_rsvp"], .rsvp-comments-wrap');
+    /* 2) widget vendor Elementor/Bisdev yang rusak (wds_rsvp, ev-rsvp, rsvp-comments-wrap)
+       Termasuk form eveent (ev-rsvp) dari tema WordPress yang di-migrasi.
+       Form vendor diganti dengan form bernaung yang terhubung ke spreadsheet pusat. */
+    var vendor = document.querySelector('.wds_rsvp, [data-widget_type*="wds_rsvp"], .rsvp-comments-wrap, [data-widget_type*="ev-rsvp"], .ev-rsvp-wrapper, #ev-rsvp-form');
     if (vendor) {
       /* widget Elementor: bersihkan isi widget, sisakan wrapper */
       vendor.innerHTML = '';

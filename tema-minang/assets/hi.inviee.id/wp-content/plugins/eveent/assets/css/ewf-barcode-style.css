@@ -1,0 +1,373 @@
+.ewf-barcode-trigger {
+    position: fixed;
+    z-index: 998;
+    cursor: pointer;
+    background-color: #333;
+    color: #ffffff;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, opacity 0.5s ease-out;
+}
+
+.ewf-barcode-trigger:hover {
+    transform: scale(1.1);
+}
+
+.ewf-barcode-trigger i {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.ewf-barcode-trigger.ev-hide-on-scroll.ev-is-scrolling {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.ewf-barcode-modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.ewf-barcode-modal-wrapper.is-visible {
+    opacity: 1;
+}
+
+.ewf-checkin-card {
+    width: 100%;
+    margin: auto;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ewf-barcode-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.ewf-barcode-modal-wrapper.is-visible .ewf-checkin-card {
+    opacity: 1;
+    transform: none;
+}
+
+.ewf-popup-animation-fade-in-zoom .ewf-checkin-card {
+    transform: scale(0.9);
+}
+
+.ewf-popup-animation-slide-in-bottom .ewf-checkin-card {
+    transform: translateY(80px);
+}
+
+.ewf-popup-animation-slide-in-top .ewf-checkin-card {
+    transform: translateY(-80px);
+}
+
+.ewf-popup-animation-slide-in-left .ewf-checkin-card {
+    transform: translateX(-80px);
+}
+
+.ewf-popup-animation-slide-in-right .ewf-checkin-card {
+    transform: translateX(80px);
+}
+
+.ewf-header-button {
+    display: block;
+    background-color: #f5f5f5;
+    color: #444;
+    text-align: center;
+    padding: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.ewf-main-image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ewf-image-ratio-landscape .ewf-main-image-wrapper {
+    aspect-ratio: 16 / 9;
+}
+
+.ewf-image-ratio-square .ewf-main-image-wrapper {
+    aspect-ratio: 1 / 1;
+}
+
+.ewf-main-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.ewf-image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    color: #fff;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 40%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+}
+
+.ewf-image-overlay span {
+    display: block;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.ewf-image-overlay .line1 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.ewf-image-overlay .line2 {
+    font-size: 14px;
+    margin-top: 5px;
+    line-height: 1.3;
+}
+
+.ewf-content-area {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.ewf-content-left {
+    flex-grow: 1;
+}
+
+.ewf-content-left .label {
+    font-size: 13px;
+    color: #777;
+    display: block;
+}
+
+.ewf-content-left .guest-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    display: block;
+    margin-top: 4px;
+}
+
+.ewf-content-right {
+    flex-shrink: 0;
+    margin-left: 15px;
+}
+
+.ewf-barcode-wrapper {
+    width: 120px;
+    height: 120px;
+}
+
+.ewf-footer-area {
+    padding: 15px 20px;
+    text-align: center;
+    background-color: #fafafa;
+    border-top: 1px solid #eee;
+}
+
+.ewf-footer-area .instruction {
+    margin: 0 0 15px 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.ewf-footer-logo {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.ewf-footer-logo img {
+    max-width: 120px;
+    height: auto;
+}
+
+.ewf-copyright-text {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+}
+
+.ewf-footer-area .ewf-download-button,
+.ewf-footer-area .ewf-e-invitation-button {
+    display: block;
+    width: 90%;
+    max-width: 320px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    border: 1px solid #000;
+}
+
+.ewf-footer-area .ewf-e-invitation-button {
+    margin-top: 10px;
+}
+
+.ewf-download-button {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+.ewf-e-invitation-button {
+    background-color: #fff;
+    color: #000;
+    border-color: #000;
+}
+
+.ewf-download-button:hover,
+.ewf-e-invitation-button:hover {
+    background-color: #555;
+    color: #fff;
+    border-color: #555;
+}
+
+
+.ewf-guest-details {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #ccc;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start;
+    text-align: left; 
+}
+
+
+.ewf-guest-details .detail-item {
+    width: 48%; 
+}
+
+
+.ewf-guest-details .detail-label {
+    display: block;
+    font-size: 10px;
+    font-weight: bold;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+
+.ewf-guest-details .detail-value {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #111;
+}
+
+
+.ewf-checkin-status {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+}
+
+
+.ewf-checkin-status.status-checked-in {
+    background-color: #f0fdf4; 
+    border-color: #bbf7d0;
+}
+
+
+.ewf-checkin-status.status-pending {
+    background-color: #fffbeb; 
+    border-color: #fde68a; 
+}
+
+.ewf-checkin-status .status-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.status-checked-in .status-icon {
+    background-color: #22c55e; 
+    color: white;
+}
+
+.status-pending .status-icon {
+    background-color: #f59e0b; 
+    color: white;
+}
+
+.ewf-checkin-status .status-text strong {
+    display: block;
+    font-size: 15px;
+}
+
+.status-checked-in .status-text strong {
+    color: #166534; 
+}
+
+.status-pending .status-text strong {
+    color: #854d0e;
+}
+
+.ewf-checkin-status .checkin-time {
+    display: block;
+    font-size: 11px;
+    color: #555;
+    margin-top: 1px;
+}
+
