@@ -791,7 +791,11 @@ window.__ADMIN_JS_V2 = true;
       gift1Number: v('c_gift1Number'), gift1Name: v('c_gift1Name'), gift1Bank: v('c_gift1Bank'),
       gift2Number: v('c_gift2Number'), gift2Name: v('c_gift2Name'), gift3Number: v('c_gift3Number'),
       kadoName: v('c_kadoName'), kadoPhone: v('c_kadoPhone'), kadoAddress: v('c_kadoAddress'),
-      rsvpUrl: v('c_appscript'),
+      /* RSVP pusat: URL Apps Script dari Pengaturan dipakai otomatis untuk
+         SEMUA customer (field per-customer c_appscript sudah dihapus dari
+         admin.html — v('c_appscript') selalu kosong, itulah sebabnya link
+         spreadsheet/URL Apps Script tidak pernah masuk ke data.js). */
+      rsvpUrl: v('c_appscript') || String(S.settings.rsvpCenter || '').trim(),
       fotoCover: v('c_fotoCover'), fotoCouple: v('c_fotoCouple'),
       fotoGroom: v('c_fotoGroom'), fotoBride: v('c_fotoBride')
     };
@@ -898,8 +902,10 @@ window.__ADMIN_JS_V2 = true;
       name: v('c_heroNames') || (v('c_groomNick') + ' & ' + v('c_brideNick')),
       values: vals,
       fotoGallery: v('c_fotoGallery'),
-      sheet: v('c_sheet'),
-      rsvpMode: $('c_rsvpMode').value,
+      /* link spreadsheet + metode RSVP: fallback ke Pengaturan (RSVP pusat).
+         Metode 'sheet' bila URL Apps Script pusat terpasang, selain itu demo. */
+      sheet: v('c_sheet') || String(S.settings.rsvpSheet || '').trim(),
+      rsvpMode: String(S.settings.rsvpCenter || '').trim() ? 'sheet' : 'demo',
       wa: '',
       extra: v('c_extra'),
       musicUrl: v('c_musicUrl'),
@@ -2049,6 +2055,9 @@ window.__ADMIN_JS_V2 = true;
     S.settings.branch = $('s_branch').value.trim() || 'main';
     S.settings.token = $('s_token').value.trim();
     S.settings.rsvpCenter = $('s_rsvpCenter').value.trim();
+    /* simpan juga Link Google Spreadsheet RSVP Pusat (dulu tidak pernah
+       tersimpan — hilang setelah halaman direfresh) */
+    S.settings.rsvpSheet = $('s_rsvpSheet') ? $('s_rsvpSheet').value.trim() : (S.settings.rsvpSheet || '');
     saveSettingsLocal();
     renderModeBadge();
     toast('Pengaturan disimpan di browser ini.');
@@ -3069,6 +3078,7 @@ window.__ADMIN_JS_V2 = true;
     $('s_branch').value = S.settings.branch || 'main';
     $('s_token').value = S.settings.token || '';
     $('s_rsvpCenter').value = S.settings.rsvpCenter || '';
+    if ($('s_rsvpSheet')) $('s_rsvpSheet').value = S.settings.rsvpSheet || '';
     renderModeBadge();
 
     busy(true, 'MEMUAT DATA...');
