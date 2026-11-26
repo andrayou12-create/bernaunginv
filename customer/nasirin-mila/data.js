@@ -37,8 +37,10 @@ window.BERNAUNG_DATA = {
       "hide": false
     },
     {
-      "nomor": "",
-      "atasNama": ""
+      "bank": "BCA",
+      "nomor": "1540935081",
+      "atasNama": "Mila Pedawati",
+      "hide": false
     },
     {
       "nomor": ""
