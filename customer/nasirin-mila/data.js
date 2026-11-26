@@ -31,19 +31,16 @@ window.BERNAUNG_DATA = {
   },
   "gift": [
     {
-      "bank": "BRI",
+      "bank": "BCA",
       "nomor": "691501024411537",
-      "atasNama": "Muhamad Nasirin Asfar",
-      "logo": "/assets.bernaung.id/bank/bri.svg"
+      "atasNama": "Muhamad Nasirin Asfar"
     },
     {
       "nomor": "",
-      "atasNama": "",
-      "logo": ""
+      "atasNama": ""
     },
     {
-      "nomor": "",
-      "logo": ""
+      "nomor": ""
     }
   ],
   "kado": {
@@ -52,10 +49,10 @@ window.BERNAUNG_DATA = {
     "alamat": "RT 10 Gedangan,Bansari, Kec. Bulu, Kab. Temanggung 56253"
   },
   "rsvp": {
-    "mode": "sheet",
+    "mode": "demo",
     "wa": "",
-    "appscript": "https://script.google.com/macros/s/AKfycbzm788qxF0PnwQ3DPBKSPmHlHjFrnh_sMEYwXa-ocw9HlR9r18wJug-wAi-cwe6U6UZ/exec",
-    "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?gid=0#gid=0",
-    "hide": false
+    "appscript": "https://script.google.com/macros/s/DISABLED/exec",
+    "sheet": "",
+    "hide": true
   }
 };
