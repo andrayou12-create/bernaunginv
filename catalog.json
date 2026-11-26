@@ -178,6 +178,16 @@
       "order": 18,
       "visible": true,
       "note": ""
+    },
+    {
+      "id": "tema-minang",
+      "name": "Tema Minang",
+      "classification": "Baru",
+      "price": 100000,
+      "path": "tema-minang/index.html",
+      "order": 17,
+      "visible": true,
+      "note": ""
     }
   ],
   "customers": [
