@@ -32,8 +32,9 @@ window.BERNAUNG_DATA = {
   "gift": [
     {
       "bank": "BCA",
-      "nomor": "691501024411537",
-      "atasNama": "Muhamad Nasirin Asfar"
+      "nomor": "1540935081",
+      "atasNama": "Mila Pedawati"
+      "hide": false
     },
     {
       "nomor": "",
@@ -53,6 +54,6 @@ window.BERNAUNG_DATA = {
     "wa": "",
     "appscript": "https://script.google.com/macros/s/DISABLED/exec",
     "sheet": "",
-    "hide": true
+    "hide": false
   }
 };
