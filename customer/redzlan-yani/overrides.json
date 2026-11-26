@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "slug": "redzlan-yani",
+  "textEdits": [
+    {
+      "sel": "[data-id=\"5bbacfd\"] div:nth-child(1) > h2:nth-child(1)",
+      "val": "Y"
+    },
+    {
+      "sel": "[data-id=\"906d14c\"] div:nth-child(1) > h2:nth-child(1)",
+      "val": "R"
+    },
+    {
+      "sel": "[data-id=\"0cd9632\"] div:nth-child(1) > div:nth-child(1) > i:nth-child(1)",
+      "val": ""
+    },
+    {
+      "sel": "[data-id=\"83546e9\"] div:nth-child(1) > h2:nth-child(1)",
+      "val": "19 . 01 . 2027"
+    },
+    {
+      "sel": "[data-id=\"caa6a5c\"] div:nth-child(1) > h2:nth-child(1)",
+      "val": "#yanzlan"
+    },
+    {
+      "sel": "[data-id=\"d7081b6\"] div:nth-child(1) > h2:nth-child(1)",
+      "val": "Redzlan"
+    },
+    {
+      "sel": "[data-id=\"8107afe\"] div:nth-child(1) > p:nth-child(1)",
+      "val": "Yani"
+    },
+    {
+      "sel": "[data-id=\"500e0dd\"] div:nth-child(1) > p:nth-child(1)",
+      "val": "Redzlan"
+    },
+    {
+      "sel": "[data-id=\"10542188\"] div:nth-child(1) > p:nth-child(1)",
+      "val": "Sri Handayani, S.T."
+    },
+    {
+      "sel": "[data-id=\"12442d58\"] div:nth-child(1) > p:nth-child(1)",
+      "val": "Putri dari"
+    },
+    {
+      "sel": "[data-id=\"35804be4\"] div:nth-child(1) > p:nth-child(1)",
+      "val": "Bapak Suwignyo & Ibu Rofiah"
+    },
+    {
+      "sel": "[data-id=\"782d56cb\"] div:nth-child(1) > div:nth-child(1) > a:nth-child(1) > span:nth-child(1) > span:nth-child(2)",
+      "val": "syyni_"
+    },
+    {
+      "sel": "[data-id=\"5ba833f8\"] div:nth-child(1) > p:nth-child(1)",
+      "val": "Redzlan Malindo, S.T."
+    },
+    {
+      "sel": "[data-id=\"26137c6a\"] div:nth-child(1) > p:nth-child(1)",
+      "val": "Putra dari"
+    },
+    {
+      "sel": "[data-id=\"629b79b0\"] div:nth-child(1) > p:nth-child(1)",
+      "val": "Bapak Buskamil & Ibu Nenni Roharti"
+    },
+    {
+      "sel": "[data-id=\"726cf3e6\"] div:nth-child(1) > div:nth-child(1) > a:nth-child(1) > span:nth-child(1) > span:nth-child(2)",
+      "val": "redzlan_malindo"
+    }
+  ],
+  "styleEdits": [
+    {
+      "sel": "[data-id=\"0f1bb14\"] div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > svg:nth-child(1)",
+      "styles": {
+        "backgroundColor": "rgba(255,255,255,0)"
+      }
+    },
+    {
+      "sel": "[data-id=\"1f1b57c\"] div:nth-child(1) > h2:nth-child(1)",
+      "styles": {
+        "backgroundColor": "rgba(255,255,255,0)"
+      }
+    },
+    {
+      "sel": "[data-id=\"939dce8\"] div:nth-child(1) > h2:nth-child(1)",
+      "styles": {
+        "backgroundColor": "rgba(255,255,255,0)"
+      }
+    }
+  ],
+  "imageEdits": [],
+  "hiddenSections": [
+    "[data-id=\"8e3eaa6\"]",
+    "[data-id=\"7bc476a8\"]",
+    "[data-id=\"431f80e\"]",
+    "[data-id=\"3c81c59\"]",
+    "[data-id=\"50e05d1e\"]",
+    "[data-id=\"3c81c59\"]"
+  ],
+  "music": null,
+  "updatedAt": "2026-11-26T04:44:13.720Z"
+}
