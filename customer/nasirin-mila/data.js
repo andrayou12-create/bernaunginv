@@ -33,7 +33,7 @@ window.BERNAUNG_DATA = {
     {
       "bank": "BCA",
       "nomor": "691501024411537",
-      "atasNama": "Muhamad Nasirin Asfar"
+      "atasNama": "Muhamad Nasirin Asfar",
       "hide": false
     },
     {
@@ -53,7 +53,7 @@ window.BERNAUNG_DATA = {
     "mode": "sheet",
     "wa": "",
     "appscript": "https://script.google.com/macros/s/DISABLED/exec",
-    "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?gid=0#gid=0"
+    "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?gid=0#gid=0",
     "hide": false
   }
 };

@@ -1812,71 +1812,143 @@ window.addEventListener("scroll", function() {
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const scriptURL = (window.BERNAUNG_DATA && window.BERNAUNG_DATA.rsvp && window.BERNAUNG_DATA.rsvp.appscript) || '';
-    if (!/^https:\/\/script\.google\.com\/macros\/s\//.test(scriptURL)) return; /* tanpa URL valid: biarkan rsvp.js yang menangani */
+    var CFG = (window.BERNAUNG_DATA && window.BERNAUNG_DATA.rsvp) || {};
+    var scriptURL = String(CFG.appscript || '').trim();
+    /* URL placeholder DISABLED = Apps Script belum dipasang: loader tetap
+       berjalan dan menampilkan RSVP langsung dari spreadsheet (kolom "sheet"
+       di data.js) via endpoint gviz publik. */
+    var API_OK = /^https:\/\/script\.google\.com\/macros\/s\//.test(scriptURL) && scriptURL.indexOf('DISABLED') === -1;
+    var SLUG = String((window.BERNAUNG_DATA && window.BERNAUNG_DATA.slug) || '').trim();
+    var SHEET_URL = String(CFG.sheet || '').trim();
     const rsvpForm = document.getElementById('commentform-6854');
     const submitBtn = document.getElementById('submit-6854');
 
     // ==========================================
-    // FUNGSI UNTUK MEMUAT & MERENDER UCAPAN DARI SPREADSHEET
+    // FALLBACK: BACA LANGSUNG DARI SPREADSHEET (endpoint gviz publik)
+    // Urutan percobaan: tab bernama slug customer -> tab "RSVP" -> gid di URL.
+    // ==========================================
+    function loadFromSheet(commentList) {
+        const m = SHEET_URL.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+        if (!m) {
+            renderRows(commentList, []);
+            return;
+        }
+        const gidMatch = SHEET_URL.match(/[#&?]gid=([0-9]+)/);
+        const tryTabs = [];
+        if (SLUG) tryTabs.push('sheet=' + encodeURIComponent(SLUG));
+        tryTabs.push('sheet=' + encodeURIComponent('RSVP'));
+        if (gidMatch) tryTabs.push('gid=' + gidMatch[1]);
+        let i = 0;
+        const tryNext = () => {
+            if (i >= tryTabs.length) { renderRows(commentList, []); return; }
+            const url = 'https://docs.google.com/spreadsheets/d/' + m[1] +
+                '/gviz/tq?tqx=out:json&headers=1&' + tryTabs[i++];
+            fetch(url)
+                .then(r => r.text())
+                .then(txt => {
+                    const mm = txt.match(/setResponse\(([\s\S]*)\);?\s*$/);
+                    if (!mm) throw new Error('format gviz tidak dikenali');
+                    const j = JSON.parse(mm[1]);
+                    if (j.status === 'error') throw new Error('tab tidak ditemukan');
+                    renderRows(commentList, gvizToItems(j));
+                })
+                .catch(() => tryNext());
+        };
+        tryNext();
+    }
+
+    function gvizToItems(j) {
+        const cols = (j.table.cols || []).map(c => String(c.label || c.id || '').toLowerCase());
+        const idx = {
+            waktu: cols.findIndex(c => c === 'waktu' || c === 'timestamp'),
+            nama: cols.findIndex(c => c === 'nama' || c === 'author'),
+            kehadiran: cols.findIndex(c => c === 'kehadiran' || c === 'attendance'),
+            ucapan: cols.findIndex(c => c === 'ucapan' || c === 'pesan' || c === 'comment')
+        };
+        return (j.table.rows || []).map(r => {
+            const c = r.c || [];
+            const g = i => (i >= 0 && c[i]) ? (c[i].f != null ? String(c[i].f) : (c[i].v != null ? String(c[i].v) : '')) : '';
+            return { waktu: g(idx.waktu), nama: g(idx.nama), kehadiran: g(idx.kehadiran), ucapan: g(idx.ucapan) };
+        }).filter(it => it.nama);
+    }
+
+    // ==========================================
+    // MERENDER DAFTAR UCAPAN KE CONTAINER
+    // ==========================================
+    function renderRows(commentList, data) {
+        if (data.length > 0) {
+            let html = '';
+            data.forEach(item => {
+                const nama = item['Nama'] || item['nama'] || item.nama || 'Tamu';
+                const ucapan = item['Ucapan'] || item['ucapan'] || item.ucapan || '';
+                const status = String(item['Kehadiran'] || item['kehadiran'] || item.kehadiran || '').toLowerCase();
+                const jumlah = item['Jumlah Tamu'] || item['jumlah'] || item.jumlah || item['guest'] || '';
+
+                /* "tidak hadir" harus dicek SEBELUM "hadir" karena kata
+                   "hadir" juga terkandung di dalam "tidak hadir" */
+                let statusText = 'Tidak Konfirmasi';
+                let statusIcon = '<i class="fas fa-question-circle" style="color:gray;"></i>';
+                if (status.includes('tidak') || status === 'notpresent') {
+                    statusText = 'Tidak Hadir';
+                    statusIcon = '<i class="fas fa-times-circle" style="color:red;"></i>';
+                } else if (status.includes('hadir') || status === 'present') {
+                    statusText = 'Hadir';
+                    statusIcon = '<i class="fas fa-check-circle" style="color:green;"></i>';
+                }
+
+                html += `
+                <li class="saic-comment-item" style="list-style:none; margin-bottom:15px; padding:10px; border-bottom:1px solid #eee;">
+                    <div class="saic-comment-content" style="margin-left: 0 !important;">
+                        <strong>${nama}</strong>${jumlah ? ` <span style="font-size:12px; color:#888;">(${jumlah} Orang)</span>` : ''}
+                        <span style="font-size:12px; color:#888; margin-left:5px;">${statusIcon} ${statusText}</span>
+                        <p style="margin:5px 0 0; white-space: pre-wrap;">${ucapan}</p>
+                    </div>
+                </li>`;
+            });
+            commentList.innerHTML = html;
+        } else {
+            commentList.innerHTML = '<li style="list-style:none; text-align:center; padding:10px; color:#888;">Belum ada ucapan.</li>';
+        }
+    }
+
+    // ==========================================
+    // FUNGSI MEMUAT UCAPAN: Apps Script (utama) -> gviz (cadangan)
     // ==========================================
     function loadComments(commentList) {
-        fetch(scriptURL + '?t=' + new Date().getTime())
-            .then(response => response.json())
-            .then(data => {
-                console.log("Data ucapan dari Spreadsheet:", data); // Cek di Console browser (F12)
-                if (Array.isArray(data) && data.length > 0) {
-                    let html = '';
-                    data.forEach(item => {
-                        const nama = item['Nama'] || item['nama'] || item['author'] || 'Tamu';
-                        const ucapan = item['Ucapan'] || item['ucapan'] || item['comment'] || '';
-                        const status = String(item['Kehadiran'] || item['kehadiran'] || item['attendance'] || '').toLowerCase();
-                        const jumlah = item['Jumlah Tamu'] || item['jumlah'] || item['guest'] || '1';
-                        
-                        let statusText = 'Tidak Konfirmasi';
-                        let statusIcon = '<i class="fas fa-question-circle" style="color:gray;"></i>';
-                        
-                        if (status.includes('hadir') || status === 'present') {
-                            statusText = 'Hadir';
-                            statusIcon = '<i class="fas fa-check-circle" style="color:green;"></i>';
-                        } else if (status.includes('tidak') || status === 'notpresent') {
-                            statusText = 'Tidak Hadir';
-                            statusIcon = '<i class="fas fa-times-circle" style="color:red;"></i>';
-                        }
-
-                        html += `
-                        <li class="saic-comment-item" style="list-style:none; margin-bottom:15px; padding:10px; border-bottom:1px solid #eee;">
-                            <div class="saic-comment-content" style="margin-left: 0 !important;">
-                                <strong>${nama}</strong> <span style="font-size:12px; color:#888;">(${jumlah} Orang)</span>
-                                <span style="font-size:12px; color:#888; margin-left:5px;">${statusIcon} ${statusText}</span>
-                                <p style="margin:5px 0 0; white-space: pre-wrap;">${ucapan}</p>
-                            </div>
-                        </li>`;
-                    });
-                    commentList.innerHTML = html;
-                } else {
-                    commentList.innerHTML = '<li style="list-style:none; text-align:center; padding:10px; color:#888;">Belum ada ucapan.</li>';
-                }
-            })
-            .catch(error => {
-                console.error("Error memuat ucapan:", error);
-                commentList.innerHTML = '<li style="list-style:none; text-align:center; padding:10px; color:red;">Gagal memuat ucapan. Buka Console (F12) untuk detail.</li>';
-            });
+        if (API_OK) {
+            fetch(scriptURL + '?action=list' + (SLUG ? '&slug=' + encodeURIComponent(SLUG) : '') + '&t=' + new Date().getTime())
+                .then(response => response.json())
+                .then(res => {
+                    console.log("Data ucapan dari Spreadsheet:", res);
+                    /* kompatibel dua format Apps Script:
+                       - pusat (Code.gs): { status, slug, data: [...] }
+                       - lama per-customer: array langsung */
+                    const data = Array.isArray(res) ? res : (res && Array.isArray(res.data) ? res.data : []);
+                    renderRows(commentList, data);
+                })
+                .catch(error => {
+                    console.error("Error memuat ucapan (Apps Script):", error);
+                    if (SHEET_URL) { loadFromSheet(commentList); return; }
+                    commentList.innerHTML = '<li style="list-style:none; text-align:center; padding:10px; color:red;">Gagal memuat ucapan. Buka Console (F12) untuk detail.</li>';
+                });
+        } else if (SHEET_URL) {
+            /* Apps Script belum dipasang: tampilkan RSVP langsung dari spreadsheet */
+            loadFromSheet(commentList);
+        } else {
+            renderRows(commentList, []);
+        }
     }
 
     // ==========================================
     // 1. HIJACK CONTAINER KOMENTAR BAWAAN PLUGIN
     // ==========================================
-    // Mengintai kapan plugin bawaan memunculkan container komentar di DOM
     const checkContainer = setInterval(() => {
         const commentList = document.getElementById('saic-container-comment-6854');
-        // Cari wrapper pembungkus komentar
         const commentWrapper = document.getElementById('saic-wrap-comment-6854') || commentList?.closest('.elementor-widget-container');
-        
+
         if (commentList) {
-            clearInterval(checkContainer); // Hentikan pengintaian karena container sudah ditemukan
-            
-            // Paksa container dan wrapper agar SELALU TERLIHAT (Override plugin bawaan)
+            clearInterval(checkContainer);
+
             const forceShow = () => {
                 if (commentWrapper) {
                     commentWrapper.style.display = 'block';
@@ -1889,15 +1961,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     commentList.style.display = 'block';
                 }
             };
-            
+
             forceShow();
-            // Jalankan paksa tampil setiap 500ms untuk mencegah plugin bawaan menyembunyikannya lagi
             setInterval(forceShow, 500);
 
             // Muat data dari Spreadsheet
             loadComments(commentList);
-            
-            // Simpan reference commentList untuk digunakan saat submit form nanti
+
+            // Vendor plugin kadang menimpa isi container setelahnya — muat ulang sekali lagi
+            setTimeout(() => {
+                const cur = document.getElementById('saic-container-comment-6854');
+                if (cur && !cur.querySelector('.saic-comment-item')) loadComments(cur);
+            }, 3000);
+
             window.myCommentList = commentList;
         }
     }, 300);
@@ -1923,6 +1999,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            if (!API_OK) {
+                alert('Pengiriman RSVP belum aktif: URL Apps Script belum terpasang.\nSilakan pasang URL Apps Script pada Panel Admin (Pengaturan), lalu buat ulang undangan.');
+                submitBtn.disabled = false;
+                submitBtn.value = 'Kirim';
+                return;
+            }
+
             const holder = document.querySelector('.saic-holder-6854');
             if(holder) holder.style.display = 'block';
             submitBtn.disabled = true;
@@ -1932,14 +2015,14 @@ document.addEventListener('DOMContentLoaded', function() {
             for (const [key, value] of formData.entries()) {
                 params.append(key, value);
             }
+            if (SLUG) params.append('slug', SLUG);
 
             fetch(scriptURL, {
                 method: 'POST',
-                mode: 'no-cors',
                 body: params
-            }).then(() => {
+            }).then(r => r.text()).then(() => {
                 if(holder) holder.style.display = 'none';
-                
+
                 // Muat ulang daftar ucapan dari Spreadsheet
                 if (window.myCommentList) {
                     loadComments(window.myCommentList);
