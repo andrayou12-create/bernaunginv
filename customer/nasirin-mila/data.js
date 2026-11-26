@@ -50,7 +50,7 @@ window.BERNAUNG_DATA = {
     "alamat": "RT 10 Gedangan,Bansari, Kec. Bulu, Kab. Temanggung 56253"
   },
   "rsvp": {
-    "mode": "demo",
+    "mode": "sheet",
     "wa": "",
     "appscript": "https://script.google.com/macros/s/DISABLED/exec",
     "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?gid=0#gid=0"
