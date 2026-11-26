@@ -426,22 +426,11 @@ function selectElement(el) {
     return;
   }
 
-  /* === AUTO-DISMISS COVER ===
-     Kalau admin klik di dalam #cover atau di tombol #btn_open / #open,
-     anggap itu mau buka undangan. Klik tombolnya + dismiss cover,
-     JANGAN select elemen itu (membingungkan). */
-  var coverAncestor = el.closest ? el.closest('#cover, #btn_open, #open') : null;
-  if (coverAncestor) {
-    var btn = (coverAncestor.id === 'btn_open' || coverAncestor.id === 'open')
-      ? coverAncestor
-      : coverAncestor.querySelector('#btn_open, #open, .elementor-button-link, .elementor-button');
-    if (btn) { try { btn.click(); } catch (e) {} }
-    dismissInvitationCover();
-    /* beri tahu parent untuk clear panel + tampilkan pesan */
-    toParent({ type: 'BNG_DESELECT' });
-    toParent({ type: 'BNG_COVER_DISMISSED' });
-    return;
-  }
+  /* Catatan: cover auto-dismiss di selectElement dihapus di v9 karena
+     memblok semua selection kalau cover tidak ter-dismiss sempurna.
+     Cover dismissal sekarang hanya lewat dismissInvitationCover() di
+     enableEditMode. Admin bebas klik elemen apa pun (termasuk di
+     dalam cover kalau cover masih visible) untuk select & edit. */
 
   var sel = buildSelector(el);
 

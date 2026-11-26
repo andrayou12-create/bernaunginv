@@ -1,0 +1,45 @@
+============================================================
+HOTFIX v9 — Fix "Tidak Bisa Edit Sama Sekali"
+============================================================
+
+MASALAH v8:
+Setelah v8, admin tidak bisa edit teks maupun foto sama sekali.
+Setiap klik tidak menghasilkan selection (panel kiri tetap kosong).
+
+PENYEBAB:
+Di v8, selectElement() punya check "coverAncestor":
+  var coverAncestor = el.closest('#cover, #btn_open, #open');
+  if (coverAncestor) { dismissCover(); return; }
+Check ini auto-dismiss cover kalau admin klik di dalam #cover.
+TAPI: kalau cover tidak ter-dismiss sempurna (tema JS pasang balik,
+atau cover masih visible di top:0), SEMUA klik di area visible
+ketangkap sebagai "di dalam cover" → return tanpa select →
+admin tidak bisa edit apapun.
+
+FIX v9:
+- HAPUS coverAncestor check dari selectElement()
+- Admin bebas klik elemen apa pun (termasuk di dalam cover kalau
+  cover masih visible) untuk select & edit
+- Cover dismissal tetap jalan di enableEditMode (lewat
+  dismissInvitationCover() yang targeted ke #cover + #btn_open)
+- Tidak ada lagi auto-dismiss yang blok selection
+
+TEST RESULT (tema dengan cover yang TIDAK auto-dismiss):
+- Click H1 → selected ✓ (propsVisible: true, propText: "Demo & Couple")
+- Click IMG → selected ✓ (tagInfo: "IMG [gambar]", GANTI FOTO button visible)
+- Zero page errors
+
+============================================================
+CARA UPDATE DARI v8
+============================================================
+
+Overwrite 3 file:
+- admin.html                       (cache bust v15 -> v16)
+- assets.bernaung.id/admin.js      (cache bust edit-overrides v4 -> v5)
+- assets.bernaung.id/edit-overrides.js  (hapus coverAncestor check)
+
+Commit + Push ke GitHub. Buka panel admin, Ctrl+Shift+R.
+
+Tidak menyentuh: customer/nasirin-mila/*, Wedding/*,
+tema-jawanopict/*, catalog.json, theme-map.json, semua file tema.
+============================================================
