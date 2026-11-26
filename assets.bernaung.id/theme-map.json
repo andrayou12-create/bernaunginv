@@ -2199,6 +2199,88 @@
           ]
         }
       ]
+    },
+    "tema-minang": {
+      "label": "Tema Minang",
+      "map": [
+        {
+          "k": "heroNames",
+          "f": "Yunita & Riyan"
+        },
+        {
+          "k": "heroDateLong",
+          "f": "31 Desember 2026"
+        },
+        {
+          "k": "akadDayName",
+          "f": "Kamis"
+        },
+        {
+          "k": "heroDateShort",
+          "f": "31 . 12 . 2026"
+        },
+        {
+          "k": "groomNick",
+          "f": "Riyan"
+        },
+        {
+          "k": "brideNick",
+          "f": "Yunita"
+        },
+        {
+          "k": "akadAddress",
+          "f": "Jalan Raya Bojongsari No.5, \nGunung Putri, Citeureup, Bogor, \nJawa Barat"
+        },
+        {
+          "k": "akadTime",
+          "f": "08.00 WIB"
+        },
+        {
+          "k": "gift1Number",
+          "f": "0123456789"
+        },
+        {
+          "k": "gift2Number",
+          "f": "0987654321"
+        },
+        {
+          "k": "groomFull",
+          "f": "Olga Kuswoyo"
+        },
+        {
+          "k": "brideFull",
+          "f": "Anita Safitri"
+        },
+        {
+          "k": "resTime",
+          "f": "09.00 - Selesai"
+        },
+        {
+          "k": "resDayDate",
+          "f": "15 Februari 2020"
+        },
+        {
+          "k": "groomFull",
+          "f": "Riyan Kuswoyo, S.T."
+        },
+        {
+          "k": "brideFull",
+          "f": "Yunita Safitri, S.Pd."
+        },
+        {
+          "k": "resPlace",
+          "f": "Kediaman Mempelai Pria"
+        },
+        {
+          "k": "brideParents",
+          "f": "Bapak Adi Nugroho & Ibu Gani"
+        },
+        {
+          "k": "groomParents",
+          "f": "Bapak Sufian Jamal & Ibu Elmira"
+        }
+      ],
+      "hide": []
     }
   }
 }
