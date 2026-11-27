@@ -82,6 +82,18 @@ window.__ADMIN_JS_V2 = true;
     try { return JSON.parse(localStorage.getItem('bng_admin_set') || '{}'); }
     catch (e) { return {}; }
   }
+  
+  function lockSettings() {
+    ['s_repo','s_branch','s_token','s_rsvpCenter','s_rsvpSheet'].forEach(function(id){
+      var el = $(id); if (el) el.disabled = true;
+    });
+  }
+  function unlockSettings() {
+    ['s_repo','s_branch','s_token','s_rsvpCenter','s_rsvpSheet'].forEach(function(id){
+      var el = $(id); if (el) el.disabled = false;
+    });
+  }
+
   function saveSettingsLocal() {
     localStorage.setItem('bng_admin_set', JSON.stringify(S.settings));
     renderModeBadge();
@@ -2050,6 +2062,10 @@ window.__ADMIN_JS_V2 = true;
   });
 
   /* ================= TAB PENGATURAN ================= */
+  $('btnEditSettings').addEventListener('click', function () {
+    unlockSettings();
+    toast('Pengaturan terbuka — klik SIMPAN PENGATURAN setelah selesai.');
+  });
   $('saveSettings').addEventListener('click', function () {
     S.settings.repo = $('s_repo').value.trim().replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, '');
     S.settings.branch = $('s_branch').value.trim() || 'main';
@@ -2060,7 +2076,8 @@ window.__ADMIN_JS_V2 = true;
     S.settings.rsvpSheet = $('s_rsvpSheet') ? $('s_rsvpSheet').value.trim() : (S.settings.rsvpSheet || '');
     saveSettingsLocal();
     renderModeBadge();
-    toast('Pengaturan disimpan di browser ini.');
+    lockSettings();
+    toast('Pengaturan disimpan & terkunci. Klik UBAH PENGATURAN untuk mengubah.');
   });
   $('testToken').addEventListener('click', async function () {
     if (!S.settings.token || !S.settings.repo) { toast('Isi repo dan token dulu.'); return; }
@@ -3080,6 +3097,7 @@ window.__ADMIN_JS_V2 = true;
     $('s_rsvpCenter').value = S.settings.rsvpCenter || '';
     if ($('s_rsvpSheet')) $('s_rsvpSheet').value = S.settings.rsvpSheet || '';
     renderModeBadge();
+    lockSettings(); /* kunci pengaturan saat load — klik UBAH untuk buka */
 
     busy(true, 'MEMUAT DATA...');
     try {
