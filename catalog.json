@@ -301,10 +301,10 @@
       "createdAt": "2026-11-26T13:23:59.737Z",
       "eventDate": "Jum'at, 4 Desember 2026",
       "rsvp": {
-        "mode": "sheet",
+        "mode": "demo",
         "wa": "",
-        "appscript": "https://script.google.com/macros/s/AKfycbzm788qxF0PnwQ3DPBKSPmHlHjFrnh_sMEYwXa-ocw9HlR9r18wJug-wAi-cwe6U6UZ/exec",
-        "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?gid=0#gid=0"
+        "appscript": "https://script.google.com/macros/s/DISABLED/exec",
+        "sheet": ""
       },
       "values": {
         "title": "Nasirin & Mila",
@@ -343,7 +343,7 @@
         "kadoName": "Nasirin",
         "kadoPhone": "085336622433",
         "kadoAddress": "RT 10 Gedangan,Bansari, Kec. Bulu, Kab. Temanggung 56253",
-        "rsvpUrl": "https://script.google.com/macros/s/AKfycbzm788qxF0PnwQ3DPBKSPmHlHjFrnh_sMEYwXa-ocw9HlR9r18wJug-wAi-cwe6U6UZ/exec",
+        "rsvpUrl": "https://script.google.com/macros/s/DISABLED/exec",
         "fotoCover": "",
         "fotoCouple": "",
         "fotoGroom": "",
@@ -378,13 +378,13 @@
       "name": "Yani & Redzlan",
       "title": "Yani & Redzlan",
       "status": "unpaid",
-      "createdAt": "2026-11-27T15:02:23.075Z",
+      "createdAt": "2026-11-27T15:59:21.613Z",
       "eventDate": "Selasa,19 January 2027",
       "rsvp": {
         "mode": "sheet",
         "wa": "",
-        "appscript": "https://script.google.com/macros/s/AKfycbyJX8yM8MS7uoMVJGGW5ugDjOBGgWJCFZi5fhYC0EPLW-JEb5L6jNkMvB98zLUApbsP/exec",
-        "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?gid=0#gid=0"
+        "appscript": "https://script.google.com/macros/s/AKfycby0DdNhIObcG88415m_mEGpu_tIu6uKmrwaQrm7c5VISBTpqXA1LKLrsOv_X9IsLTtD/exec",
+        "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?usp=sharing"
       },
       "values": {
         "title": "Yani & Redzlan",
@@ -423,7 +423,7 @@
         "kadoName": "",
         "kadoPhone": "",
         "kadoAddress": "",
-        "rsvpUrl": "https://script.google.com/macros/s/AKfycbyJX8yM8MS7uoMVJGGW5ugDjOBGgWJCFZi5fhYC0EPLW-JEb5L6jNkMvB98zLUApbsP/exec",
+        "rsvpUrl": "https://script.google.com/macros/s/AKfycby0DdNhIObcG88415m_mEGpu_tIu6uKmrwaQrm7c5VISBTpqXA1LKLrsOv_X9IsLTtD/exec",
         "fotoCover": "/customer/redzlan-yani/foto/cover.jpg",
         "fotoCouple": "/customer/redzlan-yani/foto/berdua.jpg",
         "fotoGroom": "/customer/redzlan-yani/foto/mempelai-pria.jpg",
