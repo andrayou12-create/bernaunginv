@@ -377,12 +377,12 @@
       "name": "Redzlan & Yani",
       "title": "Redzlan & Yani",
       "status": "unpaid",
-      "createdAt": "2026-11-26T06:47:08.568Z",
+      "createdAt": "2026-11-27T13:20:31.767Z",
       "eventDate": "Selasa,19 January 2027",
       "rsvp": {
-        "mode": "demo",
+        "mode": "sheet",
         "wa": "",
-        "appscript": "https://script.google.com/macros/s/DISABLED/exec",
+        "appscript": "https://script.google.com/macros/s/AKfycbyU3FPfTvd2Wrbaa5XaPJmlvX2UE16gcSbdS47gKlY/dev",
         "sheet": ""
       },
       "values": {
@@ -422,14 +422,14 @@
         "kadoName": "",
         "kadoPhone": "",
         "kadoAddress": "",
-        "rsvpUrl": "https://script.google.com/macros/s/DISABLED/exec",
-        "fotoCover": "",
-        "fotoCouple": "",
-        "fotoGroom": "",
-        "fotoBride": "",
+        "rsvpUrl": "https://script.google.com/macros/s/AKfycbyU3FPfTvd2Wrbaa5XaPJmlvX2UE16gcSbdS47gKlY/dev",
+        "fotoCover": "/customer/redzlan-yani/foto/cover.jpg",
+        "fotoCouple": "/customer/redzlan-yani/foto/berdua.jpg",
+        "fotoGroom": "/customer/redzlan-yani/foto/mempelai-pria.jpg",
+        "fotoBride": "/customer/redzlan-yani/foto/mempelai-wanita.jpg",
         "heroDateLong": "Selasa,19 January 2027"
       },
-      "fotoGallery": "",
+      "fotoGallery": "/customer/redzlan-yani/foto/galeri-1.jpg\n/customer/redzlan-yani/foto/galeri-2.jpg\n/customer/redzlan-yani/foto/galeri-3.jpg\n/customer/redzlan-yani/foto/galeri-4.jpg\n/customer/redzlan-yani/foto/galeri-5.jpg\n/customer/redzlan-yani/foto/galeri-6.jpg\n/customer/redzlan-yani/foto/galeri-7.jpg\n/customer/redzlan-yani/foto/galeri-8.jpg\n/customer/redzlan-yani/foto/galeri-9.jpg\n/customer/redzlan-yani/foto/galeri-10.jpg\n/customer/redzlan-yani/foto/galeri-11.jpg\n/customer/redzlan-yani/foto/galeri-12.jpg",
       "extra": "",
       "loveStories": [
         {

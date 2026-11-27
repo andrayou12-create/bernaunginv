@@ -49,10 +49,10 @@ window.BERNAUNG_DATA = {
     "alamat": ""
   },
   "rsvp": {
-    "mode": "demo",
+    "mode": "sheet",
     "wa": "",
-    "appscript": "https://script.google.com/macros/s/DISABLED/exec",
+    "appscript": "https://script.google.com/macros/s/AKfycbyU3FPfTvd2Wrbaa5XaPJmlvX2UE16gcSbdS47gKlY/dev",
     "sheet": "",
-    "hide": true
+    "hide": false
   }
 };
