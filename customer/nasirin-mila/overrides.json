@@ -17,6 +17,12 @@
       "styles": {
         "backgroundColor": "rgba(255,255,255,0)"
       }
+    },
+    {
+      "sel": "[data-id=\"412717f\"]",
+      "styles": {
+        "backgroundColor": "rgba(255,255,255,0)"
+      }
     }
   ],
   "imageEdits": [
@@ -28,5 +34,5 @@
   ],
   "hiddenSections": [],
   "music": null,
-  "updatedAt": "2026-11-26T12:50:57.749Z"
+  "updatedAt": "2026-11-27T14:53:57.389Z"
 }
