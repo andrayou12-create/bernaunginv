@@ -2,59 +2,25 @@ window.BERNAUNG_DATA = {
   "slug": "nasirin-mila",
   "tema": "tema-jawanopict",
   "pasangan": {
-    "groom": {
-      "nick": "Nasirin",
-      "full": "Muhammad Nasirin Asfar"
-    },
-    "bride": {
-      "nick": "Mila",
-      "full": "Mila Pedawati"
-    }
+    "groom": { "nick": "Nasirin", "full": "Muhammad Nasirin Asfar" },
+    "bride": { "nick": "Mila", "full": "Mila Pedawati" }
   },
   "acara": {
-    "akad": {
-      "kapan": "Jum'at, 4 Desember 2026",
-      "jam": "08.00",
-      "tempat": "Rumah Mempelai Pria",
-      "alamat": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung",
-      "gmaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8"
-    },
-    "resepsi": {
-      "kapan": "Jum'at, 4 Desember 2026",
-      "jam": "10.00 - Selesai",
-      "tempat": "Rumah Mempelai Pria",
-      "alamat": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung",
-      "gmaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8"
-    },
+    "akad": { "kapan": "Jum'at, 4 Desember 2026", "jam": "08.00", "tempat": "Rumah Mempelai Pria", "alamat": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung", "gmaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8" },
+    "resepsi": { "kapan": "Jum'at, 4 Desember 2026", "jam": "10.00 - Selesai", "tempat": "Rumah Mempelai Pria", "alamat": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung", "gmaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8" },
     "alamat": "Gedangan,Bansari, Kec. Bulu, Kab. Temanggung",
     "gmaps": "https://maps.app.goo.gl/foZvk7vnUwAvr1kV8"
   },
   "gift": [
-    {
-      "bank": "BCA",
-      "nomor": "691501024411537",
-      "atasNama": "Muhamad Nasirin Asfar",
-      "hide": false
-    },
-    {
-      "bank": "BCA",
-      "nomor": "1540935081",
-      "atasNama": "Mila Pedawati",
-      "hide": false
-    },
-    {
-      "nomor": ""
-    }
+    { "bank": "BCA", "nomor": "691501024411537", "atasNama": "Muhamad Nasirin Asfar", "hide": false },
+    { "bank": "BCA", "nomor": "1540935081", "atasNama": "Mila Pedawati", "hide": false },
+    { "nomor": "" }
   ],
-  "kado": {
-    "nama": "Nasirin",
-    "hp": "085336622433",
-    "alamat": "RT 10 Gedangan,Bansari, Kec. Bulu, Kab. Temanggung 56253"
-  },
+  "kado": { "nama": "Nasirin", "hp": "085336622433", "alamat": "RT 10 Gedangan,Bansari, Kec. Bulu, Kab. Temanggung 56253" },
   "rsvp": {
     "mode": "sheet",
     "wa": "",
-    "appscript": "https://script.google.com/macros/s/AKfycbyU3FPfTvd2Wrbaa5XaPJmlvX2UE16gcSbdS47gKlY/exec",
+    "appscript": "https://script.google.com/macros/s/AKfycby0DdNhIObcG88415m_mEGpu_tIu6uKmrwaQrm7c5VISBTpqXA1LKLrsOv_X9IsLTtD/exec",
     "sheet": "https://docs.google.com/spreadsheets/d/18tg1qPQOiV_0HrnKWHd7pvU_FLov_6v8yBDYNdtxDvw/edit?gid=0#gid=0",
     "hide": false
   }
