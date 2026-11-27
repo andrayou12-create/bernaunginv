@@ -271,7 +271,11 @@
         body: params
       }).then(function (r) { return r.text(); }).then(function (txt) {
         var j = null;
-        try { j = JSON.parse(txt); } catch (e) { /* script lama balas teks biasa — anggap sukses */ }
+        try { j = JSON.parse(txt); } catch (e) {
+          /* Response bukan JSON (kemungkinan HTML login page dari /dev endpoint).
+             Coba fallback ke spreadsheet untuk menampilkan ucapan. */
+          if (SHEET_URL) { loadFromSheet(); return; }
+        }
         btn.disabled = false;
         if (!j || j.status !== 'error') {
           note.textContent = 'Terima kasih! Ucapan Anda sudah terkirim.';
