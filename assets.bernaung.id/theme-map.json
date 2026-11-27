@@ -2204,84 +2204,104 @@
       "label": "Tema Minang",
       "map": [
         {
+          "k": "title",
+          "f": "Minang Elegance"
+        },
+        {
           "k": "heroNames",
           "f": "Yunita & Riyan"
-        },
-        {
-          "k": "heroDateLong",
-          "f": "31 Desember 2026"
-        },
-        {
-          "k": "akadDayName",
-          "f": "Kamis"
         },
         {
           "k": "heroDateShort",
           "f": "31 . 12 . 2026"
         },
         {
-          "k": "groomNick",
-          "f": "Riyan"
+          "k": "heroDateLong",
+          "f": "31 Desember 2026"
         },
         {
           "k": "brideNick",
           "f": "Yunita"
         },
         {
-          "k": "akadPlace",
-          "f": "Auditorium Masjid"
-        },
-        {
-          "k": "akadAddress",
-          "f": "Jalan Raya Bojongsari No.5, \nGunung Putri, Citeureup, Bogor, \nJawa Barat"
-        },
-        {
-          "k": "akadTime",
-          "f": "08.00 WIB"
-        },
-        {
-          "k": "gift1Number",
-          "f": "0123456789"
-        },
-        {
-          "k": "gift2Number",
-          "f": "0987654321"
-        },
-        {
-          "k": "groomFull",
-          "f": "Olga Kuswoyo"
-        },
-        {
-          "k": "brideFull",
-          "f": "Anita Safitri"
-        },
-        {
-          "k": "resTime",
-          "f": "09.00 - Selesai"
-        },
-        {
-          "k": "resDayDate",
-          "f": "15 Februari 2020"
-        },
-        {
-          "k": "groomFull",
-          "f": "Riyan Kuswoyo, S.T."
-        },
-        {
           "k": "brideFull",
           "f": "Yunita Safitri, S.Pd."
-        },
-        {
-          "k": "resPlace",
-          "f": "Kediaman Mempelai Pria"
         },
         {
           "k": "brideParents",
           "f": "Bapak Adi Nugroho & Ibu Gani"
         },
         {
+          "k": "brideIg",
+          "f": "mempelai"
+        },
+        {
+          "k": "groomNick",
+          "f": "Riyan"
+        },
+        {
+          "k": "groomFull",
+          "f": "Riyan Kuswoyo, S.T."
+        },
+        {
           "k": "groomParents",
           "f": "Bapak Sufian Jamal & Ibu Elmira"
+        },
+        {
+          "k": "groomIg",
+          "f": "mempelai"
+        },
+        {
+          "k": "akadDayName",
+          "f": "Kamis"
+        },
+        {
+          "k": "akadDayDate",
+          "f": "31 Desember 2026"
+        },
+        {
+          "k": "akadTime",
+          "f": "08.00 WIB"
+        },
+        {
+          "k": "akadPlace",
+          "f": "Auditorium Masjid"
+        },
+        {
+          "k": "resDayName",
+          "f": "Kamis"
+        },
+        {
+          "k": "resDayDate",
+          "f": "31 Desember 2026"
+        },
+        {
+          "k": "resTime",
+          "f": "09.00 - Selesai"
+        },
+        {
+          "k": "address",
+          "f": "Jalan Raya Bojongsari No.5,"
+        },
+        {
+          "k": "countdownDate",
+          "f": "Dec 31 2026 8:00:00"
+        },
+        {
+          "k": "gift1Name",
+          "f": "Anita Safitri"
+        },
+        {
+          "k": "gift1Number",
+          "f": "0123456789"
+        },
+        {
+          "k": "gift2Name",
+          "f": "Olga Kuswoyo"
+        },
+        {
+          "k": "gift2Number",
+          "f": "0987654321"
         },
         {
           "k": "fotoBride",
@@ -2292,31 +2312,115 @@
           "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/2130c1eb94bf7767173970321cca0a89/2025/02/Minang-1-cpp.webp"
         },
         {
-          "k": "fotoGallery1",
-          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/3fb3b5b3befc8ef715a2c1674bf8eaf6/2025/02/Balinese-18.webp"
-        },
-        {
-          "k": "fotoGallery2",
-          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/3fb3b5b3befc8ef715a2c1674bf8eaf6/2025/02/Balinese-17.webp"
-        },
-        {
-          "k": "fotoGallery5",
-          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/3fb3b5b3befc8ef715a2c1674bf8eaf6/2025/02/Balinese-13.webp"
-        },
-        {
           "k": "fotoCouple",
           "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/2130c1eb94bf7767173970321cca0a89/2025/02/Minang-8.webp"
         },
         {
-          "k": "fotoCouple",
+          "k": "fotoCover",
           "f": "assets/hi.inviee.id/wp-content/uploads/2024/08/Minang-14-fi.webp"
         },
         {
-          "k": "fotoCouple",
-          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/2130c1eb94bf7767173970321cca0a89/2025/02/Minang-12.webp"
+          "k": "fotoGallery1",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-1.webp"
+        },
+        {
+          "k": "fotoGallery2",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-2.webp"
+        },
+        {
+          "k": "fotoGallery3",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-3.webp"
+        },
+        {
+          "k": "fotoGallery4",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-7.webp"
+        },
+        {
+          "k": "fotoGallery5",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-8.webp"
+        },
+        {
+          "k": "fotoGallery6",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-9.webp"
+        },
+        {
+          "k": "fotoGallery7",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-10.webp"
+        },
+        {
+          "k": "fotoGallery8",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-11.webp"
+        },
+        {
+          "k": "fotoGallery9",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-12.webp"
+        },
+        {
+          "k": "fotoGallery10",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-13.webp"
+        },
+        {
+          "k": "fotoGallery11",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-14.webp"
+        },
+        {
+          "k": "fotoGallery12",
+          "f": "assets/hi.inviee.id/wp-content/uploads/jet-form-builder/84cb229c89ffc48c997467fdcc5c262d/2025/02/Balinese-17.webp"
         }
       ],
-      "hide": []
+      "hide": [
+        {
+          "k": [
+            "_love"
+          ],
+          "f": [
+            "Our Story"
+          ]
+        },
+        {
+          "k": [
+            "gift1Number",
+            "gift2Number"
+          ],
+          "f": [
+            "Wedding Gift"
+          ]
+        },
+        {
+          "k": [
+            "kadoName",
+            "kadoPhone",
+            "kadoAddress"
+          ],
+          "f": [
+            "KIRIM KADO"
+          ]
+        },
+        {
+          "k": [
+            "ngunduhMantu"
+          ],
+          "f": [
+            "Ngunduh Mantu"
+          ]
+        },
+        {
+          "k": [
+            "dressCode"
+          ],
+          "f": [
+            "Dress Code"
+          ]
+        },
+        {
+          "k": [
+            "liveStreaming"
+          ],
+          "f": [
+            "Live Streaming"
+          ]
+        }
+      ]
     }
   }
 }
